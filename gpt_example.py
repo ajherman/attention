@@ -51,7 +51,7 @@ for epoch in range(5):  # You can adjust the number of epochs
     model.train()
     total_loss = 0
 
-    for batch in tqdm(dataloader, desc=f"Epoch {epoch}"):
+    for i,batch in enumerate(tqdm(dataloader, desc=f"Epoch {epoch}")):
         optimizer.zero_grad()
         inputs = batch.to(model.device)
         outputs = model(inputs, labels=inputs)
@@ -61,7 +61,7 @@ for epoch in range(5):  # You can adjust the number of epochs
 
         total_loss += loss.item()
 
-        if len(total_loss) % 100 == 0:
+        if i % 100 == 0:
             # Print generated examples during training
             sample_output = model.generate(inputs, max_length=50, num_beams=5, temperature=0.8)
             generated_text = tokenizer.decode(sample_output[0], skip_special_tokens=True)
