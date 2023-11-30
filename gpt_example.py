@@ -67,14 +67,19 @@ for epoch in range(5):  # You can adjust the number of epochs
     model.train()
     total_loss = 0
 
-    for i,batch in enumerate(tqdm(dataloader, desc=f"Epoch {epoch}")):
+    for i, batch in enumerate(tqdm(dataloader, desc=f"Epoch {epoch}")):
         optimizer.zero_grad()
 
-        # inputs = batch.to(model.device)
+        # Extract input_ids and attention_mask from the batch
         inputs, attention_mask = batch[0].to(model.device), batch[1].to(model.device)
 
-        outputs = model(inputs, labels=inputs)
+        # Forward pass
+        outputs = model.generate(input_ids=inputs, max_length=50, num_beams=5, temperature=0.8, attention_mask=attention_mask)
+
+        # Calculate loss (you may adjust this depending on your specific use case)
         loss = outputs.loss
+
+        # Backward pass and optimization
         loss.backward()
         optimizer.step()
 
@@ -82,14 +87,36 @@ for epoch in range(5):  # You can adjust the number of epochs
 
         if i % 100 == 0:
             # Print generated examples during training
-            sample_output = model.generate(inputs, max_length=50, num_beams=5, temperature=0.8, attention_mask=attention_mask)
-            # sample_output = model.generate(inputs, max_length=50, num_beams=5, temperature=0.8)
-
-            generated_text = tokenizer.decode(sample_output[0], skip_special_tokens=True)
+            generated_text = tokenizer.decode(outputs[0], skip_special_tokens=True)
             print(f"Generated text: {generated_text}")
 
     average_loss = total_loss / len(dataloader)
     print(f"Epoch {epoch}, Average Loss: {average_loss}")
 
-# Save the trained model
-model.save_pretrained("autoregressive_model")
+#
+#     for i,batch in enumerate(tqdm(dataloader, desc=f"Epoch {epoch}")):
+#         optimizer.zero_grad()
+#
+#         # inputs = batch.to(model.device)
+#         inputs, attention_mask = batch[0].to(model.device), batch[1].to(model.device)
+#
+#         outputs = model(inputs, labels=inputs)
+#         loss = outputs.loss
+#         loss.backward()
+#         optimizer.step()
+#
+#         total_loss += loss.item()
+#
+#         if i % 100 == 0:
+#             # Print generated examples during training
+#             sample_output = model.generate(inputs, max_length=50, num_beams=5, temperature=0.8, attention_mask=attention_mask)
+#             # sample_output = model.generate(inputs, max_length=50, num_beams=5, temperature=0.8)
+#
+#             generated_text = tokenizer.decode(sample_output[0], skip_special_tokens=True)
+#             print(f"Generated text: {generated_text}")
+#
+#     average_loss = total_loss / len(dataloader)
+#     print(f"Epoch {epoch}, Average Loss: {average_loss}")
+#
+# # Save the trained model
+# model.save_pretrained("autoregressive_model")
