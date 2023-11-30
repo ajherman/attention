@@ -74,9 +74,7 @@ for epoch in range(5):  # You can adjust the number of epochs
         inputs, attention_mask = batch[0].to(model.device), batch[1].to(model.device)
 
         # Forward pass
-        outputs = model.generate(input_ids=inputs, max_length=50, num_beams=5, temperature=0.8, attention_mask=attention_mask)
-
-        # Calculate loss (you may adjust this depending on your specific use case)
+        outputs = model(inputs, attention_mask=attention_mask, labels=inputs)
         loss = outputs.loss
 
         # Backward pass and optimization
@@ -87,11 +85,45 @@ for epoch in range(5):  # You can adjust the number of epochs
 
         if i % 100 == 0:
             # Print generated examples during training
-            generated_text = tokenizer.decode(outputs[0], skip_special_tokens=True)
-            print(f"Generated text: {generated_text}")
+            with torch.no_grad():
+                # Generate text using the trained model
+                generated_ids = model.generate(inputs, max_length=50, num_beams=5, temperature=0.8)
+                generated_text = tokenizer.decode(generated_ids[0], skip_special_tokens=True)
+                print(f"Generated text: {generated_text}")
 
     average_loss = total_loss / len(dataloader)
     print(f"Epoch {epoch}, Average Loss: {average_loss}")
+
+
+# for epoch in range(5):  # You can adjust the number of epochs
+#     model.train()
+#     total_loss = 0
+#
+#     for i, batch in enumerate(tqdm(dataloader, desc=f"Epoch {epoch}")):
+#         optimizer.zero_grad()
+#
+#         # Extract input_ids and attention_mask from the batch
+#         inputs, attention_mask = batch[0].to(model.device), batch[1].to(model.device)
+#
+#         # Forward pass
+#         outputs = model.generate(input_ids=inputs, max_length=50, num_beams=5, temperature=0.8, attention_mask=attention_mask)
+#
+#         # Calculate loss (you may adjust this depending on your specific use case)
+#         loss = outputs.loss
+#
+#         # Backward pass and optimization
+#         loss.backward()
+#         optimizer.step()
+#
+#         total_loss += loss.item()
+#
+#         if i % 100 == 0:
+#             # Print generated examples during training
+#             generated_text = tokenizer.decode(outputs[0], skip_special_tokens=True)
+#             print(f"Generated text: {generated_text}")
+#
+#     average_loss = total_loss / len(dataloader)
+#     print(f"Epoch {epoch}, Average Loss: {average_loss}")
 
 #
 #     for i,batch in enumerate(tqdm(dataloader, desc=f"Epoch {epoch}")):
