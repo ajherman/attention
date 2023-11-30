@@ -74,6 +74,7 @@ for epoch in range(5):  # You can adjust the number of epochs
         inputs, attention_mask = batch[0].to(model.device), batch[1].to(model.device)
 
         # Forward pass
+        inputs = inputs.squeeze(0)
         outputs = model(inputs, attention_mask=attention_mask, labels=inputs)
         loss = outputs.loss
 
