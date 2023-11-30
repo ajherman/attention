@@ -25,6 +25,21 @@ model.config.n_layer = n_attention_layers
 model.transformer.h = nn.ModuleList([model.transformer.h[i] for i in range(n_attention_layers)])
 
 # Define a custom dataset for training
+# class TextDataset(Dataset):
+#     def __init__(self, file_path, tokenizer, max_length=512):
+#         self.tokenizer = tokenizer
+#         self.max_length = max_length
+#         with open(file_path, 'r') as file:
+#             self.data = file.read()
+#
+#     def __len__(self):
+#         return len(self.data)
+#
+#     def __getitem__(self, idx):
+#         text_chunk = self.data[idx:idx + self.max_length]
+#         inputs = self.tokenizer.encode(text_chunk, return_tensors='pt')
+#         return inputs
+
 class TextDataset(Dataset):
     def __init__(self, file_path, tokenizer, max_length=512):
         self.tokenizer = tokenizer
@@ -37,8 +52,9 @@ class TextDataset(Dataset):
 
     def __getitem__(self, idx):
         text_chunk = self.data[idx:idx + self.max_length]
-        inputs = self.tokenizer.encode(text_chunk, return_tensors='pt')
-        return inputs
+        encoding = self.tokenizer(text_chunk, return_tensors='pt', max_length=self.max_length, truncation=True)
+        return encoding['input_ids'], encoding['attention_mask']
+
 
 # Create dataset and dataloader
 dataset = TextDataset(file_path, tokenizer)
@@ -53,7 +69,10 @@ for epoch in range(5):  # You can adjust the number of epochs
 
     for i,batch in enumerate(tqdm(dataloader, desc=f"Epoch {epoch}")):
         optimizer.zero_grad()
-        inputs = batch.to(model.device)
+
+        # inputs = batch.to(model.device)
+        inputs, attention_mask = batch[0].to(model.device), batch[1].to(model.device)
+
         outputs = model(inputs, labels=inputs)
         loss = outputs.loss
         loss.backward()
@@ -63,7 +82,9 @@ for epoch in range(5):  # You can adjust the number of epochs
 
         if i % 100 == 0:
             # Print generated examples during training
-            sample_output = model.generate(inputs, max_length=50, num_beams=5, temperature=0.8)
+            sample_output = model.generate(inputs, max_length=50, num_beams=5, temperature=0.8, attention_mask=attention_mask)
+            # sample_output = model.generate(inputs, max_length=50, num_beams=5, temperature=0.8)
+
             generated_text = tokenizer.decode(sample_output[0], skip_special_tokens=True)
             print(f"Generated text: {generated_text}")
 
