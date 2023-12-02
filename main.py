@@ -106,7 +106,7 @@ class SelfAttentionHead(nn.Module):
         k=self.W_k(x)
         q=self.W_q(x)
         v=self.W_v(x)
-        wei = q@k.transpose(-1,-2)
+        wei = q@k.transpose(-1,-2)*k.shape[-1]**-0.5
         wei=wei.masked_fill(self.tril==0,float('-inf'))
         wei=torch.softmax(wei,dim=-1)
         out=wei@v
