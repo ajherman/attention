@@ -8,15 +8,15 @@ import requests
 import os
 
 # Parameters
-block_size = 128 #256
+block_size = 256
 batch_size = 64
-dm = 32 #384 # Model / embedding size
-dk=16 # Head size
-h=8 # Number of heads in multihead attn
+dm = 384 # Model / embedding size
+dk=64 # Head size
+h=6 # Number of heads in multihead attn
 lr=3e-4 # Learning rate
-N=3 # Number of layers
-device='cpu'
-n_itrs=5001
+N=6 # Number of layers
+device=0
+n_itrs=50001
 dropout=0.2
 
 # Set seed
@@ -101,7 +101,7 @@ class SelfAttentionHead(nn.Module):
         self.W_k = nn.Linear(dm,dk,bias=False)
         self.W_q = nn.Linear(dm,dk,bias=False)
         self.W_v = nn.Linear(dm,dk,bias=False)
-        self.tril=torch.tril(torch.ones((block_size,block_size)))
+        self.tril=torch.tril(torch.ones((block_size,block_size),device=device))
     def forward(self,x):
         k=self.W_k(x)
         q=self.W_q(x)
@@ -156,7 +156,7 @@ class Transformer(nn.Module):
     def __init__(self,dm,vocab_size,h=4,N=3):
         super().__init__()
         # embedding_length = dm
-        self.token_embedding_table = nn.Embedding(vocab_size,dm)
+        self.token_embedding_table = nn.Embedding(vocab_size,dm,device=device)
         self.position_embedding_table = nn.Embedding(block_size,dm)
         self.blocks = nn.Sequential(*[Block(dm,h) for _ in range(N)])
         self.ln = nn.LayerNorm(dm)
@@ -210,15 +210,15 @@ for itr in range(n_itrs):
     logits,loss = m(xb,yb)
     loss.backward()
     optimizer.step()
-    if itr%500==0:
-        idx=torch.zeros((1,block_size),dtype=torch.long)
+    if itr%100==0:
+        idx=torch.zeros((1,block_size),device=device,dtype=torch.long)
         idx=m.generate(idx,50)
         print("Sample: \n",decode(list(idx[0])[block_size:]))
         print("Loss: ",loss.item(),"\n")
 torch.save(m,'transformer.pt')
 
 
-idx=torch.zeros((1,block_size),dtype=torch.long)
-idx=m.generate(idx,50)
+idx=torch.zeros((1,block_size),device=device,dtype=torch.long)
+idx=m.generate(idx,500)
 print(idx)
 print(decode(list(idx[0])))

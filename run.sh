@@ -2,4 +2,4 @@
 module purge
 module load miniconda3
 source activate /vast/home/ajherman/miniconda3/envs/pytorch
-python -u "$1"
+python -u "$1" >> log.out
