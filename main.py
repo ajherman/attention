@@ -3,18 +3,21 @@ import torch.nn as nn
 from torch.nn import functional as F
 from torch.utils.data import Dataset, DataLoader
 # from transformers import GPT2LMHeadModel, GPT2Tokenizer
-from tqdm import tqdm
+# from tqdm import tqdm
 import requests
 import os
 
 # Parameters
 block_size = 128 #256
 batch_size = 64
-dm = 32
-dk=16
-lr=3e-4
+dm = 32 #384 # Model / embedding size
+dk=16 # Head size
+h=8 # Number of heads in multihead attn
+lr=3e-4 # Learning rate
+N=3 # Number of layers
 device='cpu'
-n_iters=5000
+n_itrs=5001
+dropout=0.2
 
 # Set seed
 torch.manual_seed(1337)
@@ -57,52 +60,52 @@ def get_batch(split):
     x,y=x.to(device),y.to(device)
     return x,y
 
-class BigramLanguageModel(nn.Module):
-    def __init__(self,vocab_size):
-        super().__init__()
-        embedding_length = dm
-        self.token_embedding_table = nn.Embedding(vocab_size,embedding_length)
-        self.position_embedding_table = nn.Embedding(block_size,embedding_length)
-        self.mha = MultiHeadAttention(dk,dm//dk)
-        self.lm_head = nn.Linear(embedding_length,vocab_size)
-    def forward(self,idx,targets=None):
-        B,T = idx.shape # batch size, context length
-        token_embed=self.token_embedding_table(idx)
-        try:
-            pos_embed=self.position_embedding_table(torch.arange(T,device=device))
-        except:
-            print(T)
-            assert(0)
-        x = token_embed+pos_embed
-        x=self.mha(x)
-        logits=self.lm_head(x)
-        flat_logits=logits.view(-1,vocab_size)
-        if targets==None:
-            loss=None
-        else:
-            flat_targets=targets.view(-1)
-            loss=F.cross_entropy(flat_logits,flat_targets)
-        return logits,loss
-    def generate(self,idx,max_new_tokens):
-        for t in range(max_new_tokens):
-            logits,_=self(idx)
-            last_logits=logits[:,-1,:] # Only care about next word prediction
-            probs=F.softmax(last_logits,dim=-1)
-            idx_next=torch.multinomial(probs,num_samples=1)
-            idx=torch.cat((idx,idx_next),dim=1)
-        return idx
+# class BigramLanguageModel(nn.Module):
+#     def __init__(self,vocab_size):
+#         super().__init__()
+#         embedding_length = dm
+#         self.token_embedding_table = nn.Embedding(vocab_size,embedding_length)
+#         self.position_embedding_table = nn.Embedding(block_size,embedding_length)
+#         self.mha = MultiHeadAttention(dk,dm//dk)
+#         self.lm_head = nn.Linear(embedding_length,vocab_size)
+#     def forward(self,idx,targets=None):
+#         B,T = idx.shape # batch size, context length
+#         token_embed=self.token_embedding_table(idx)
+#         try:
+#             pos_embed=self.position_embedding_table(torch.arange(T,device=device))
+#         except:
+#             print(T)
+#             assert(0)
+#         x = token_embed+pos_embed
+#         x=self.mha(x)
+#         logits=self.lm_head(x)
+#         flat_logits=logits.view(-1,vocab_size)
+#         if targets==None:
+#             loss=None
+#         else:
+#             flat_targets=targets.view(-1)
+#             loss=F.cross_entropy(flat_logits,flat_targets)
+#         return logits,loss
+#     def generate(self,idx,max_new_tokens):
+#         for t in range(max_new_tokens):
+#             logits,_=self(idx)
+#             last_logits=logits[:,-1,:] # Only care about next word prediction
+#             probs=F.softmax(last_logits,dim=-1)
+#             idx_next=torch.multinomial(probs,num_samples=1)
+#             idx=torch.cat((idx,idx_next),dim=1)
+#         return idx
 
 class SelfAttentionHead(nn.Module):
-    def __init__(self,dk):
+    def __init__(self,dm,dk):
         super().__init__()
-        self.key = nn.Linear(dm,dk,bias=False)
-        self.query = nn.Linear(dm,dk,bias=False)
-        self.value = nn.Linear(dm,dk,bias=False)
+        self.W_k = nn.Linear(dm,dk,bias=False)
+        self.W_q = nn.Linear(dm,dk,bias=False)
+        self.W_v = nn.Linear(dm,dk,bias=False)
         self.tril=torch.tril(torch.ones((block_size,block_size)))
     def forward(self,x):
-        k=self.key(x)
-        q=self.query(x)
-        v=self.value(x)
+        k=self.W_k(x)
+        q=self.W_q(x)
+        v=self.W_v(x)
         wei = q@k.transpose(-1,-2)
         wei=wei.masked_fill(self.tril==0,float('-inf'))
         wei=torch.softmax(wei,dim=-1)
@@ -110,66 +113,81 @@ class SelfAttentionHead(nn.Module):
         return out
 
 class MultiHeadAttention(nn.Module):
-    def __init__(self,dm,n_heads):
+    def __init__(self,dm,dk,h,dropout=0.2):
         super().__init__()
-        dk = dm // n_heads
-        self.heads = nn.ModuleList([SelfAttentionHead(dk) for i in range(n_heads)])
-        self.proj = nn.Linear(dm,dm)
+        # dk = dm // n_heads
+        self.heads = nn.ModuleList([SelfAttentionHead(dm,dk) for i in range(h)])
+        self.W_o = nn.Linear(dm,dm)
+        self.dropout = nn.Dropout(dropout)
     def forward(self,x):
-        out = torch.cat([head(x) for head in self.heads],dim=-1)
-        out = self.proj(out)
+        concat = torch.cat([head(x) for head in self.heads],dim=-1)
+        proj = self.W_o(concat)
+        out = self.dropout(proj) # Like spiking?
         return out
 
 class FeedForward(nn.Module):
-    def __init__(self,dm):
+    def __init__(self,dm,dropout=0.2):
         super().__init__()
-        self.net = nn.Sequential(nn.Linear(dm,4*dm,bias=True),nn.ReLU(),nn.Linear(4*dm,dm,bias=True))
-        # self.layer = nn.Linear(dm,dm)
+        self.ffn = nn.Sequential(
+        nn.Linear(dm,4*dm,bias=True),
+        nn.ReLU(),
+        nn.Linear(4*dm,dm,bias=True),
+        nn.Dropout(dropout))
     def forward(self,x):
-        return self.net(x)
+        return self.ffn(x)
 
 class Block(nn.Module):
-    def __init__(self,dm,n_heads):
+    def __init__(self,dm,h):
         super().__init__()
-        dk = dm // n_heads
-        self.mha = MultiHeadAttention(dm,n_heads)
+        dk = dm // h
+        assert(dk*h==dm) # Check the input/output size of block is same
+        self.mha = MultiHeadAttention(dm,dk,h)
         self.ffn = FeedForward(dm)
         self.ln1 = nn.LayerNorm(dm)
         self.ln2 = nn.LayerNorm(dm)
     def forward(self,x):
-        x = self.ln1(x)
-        x = x + self.mha(x)
-        x = self.ln2(x)
-        x = x + self.ffn(x)
+        # x = self.ln1(x)
+        x = x + self.mha(self.ln1(x))
+        # x = self.ln2(x)
+        x = x + self.ffn(self.ln2(x))
         return x
 
 class Transformer(nn.Module):
-    def __init__(self,dm,vocab_size,n_blocks=3):
+    def __init__(self,dm,vocab_size,h=4,N=3):
         super().__init__()
-        embedding_length = dm
-        n_heads=4
+        # embedding_length = dm
         self.token_embedding_table = nn.Embedding(vocab_size,dm)
         self.position_embedding_table = nn.Embedding(block_size,dm)
-        self.blocks = nn.Sequential(*[Block(dm,n_heads) for _ in range(n_blocks)])
-        self.ln_f = nn.LayerNorm(dm)
-        self.lm_head = nn.Linear(embedding_length,vocab_size)
+        self.blocks = nn.Sequential(*[Block(dm,h) for _ in range(N)])
+        self.ln = nn.LayerNorm(dm)
+        self.lm_head = nn.Linear(dm,vocab_size)
+    # How does this work?
+    ####################################################
+    def _init_weights(self, module):
+        if isinstance(module, nn.Linear):
+            torch.nn.init.normal_(module.weight, mean=0.0, std=0.02)
+            if module.bias is not None:
+                torch.nn.init.zeros_(module.bias)
+        elif isinstance(module, nn.Embedding):
+            torch.nn.init.normal_(module.weight, mean=0.0, std=0.02)
+    #######################################################
     def forward(self,idx,targets=None):
         B,T = idx.shape # batch size, context length
         token_embed=self.token_embedding_table(idx)
         pos_embed=self.position_embedding_table(torch.arange(T,device=device))
         x = token_embed+pos_embed
         x=self.blocks(x)
-        x=self.ln_f(x)
+        x=self.ln(x)
         logits=self.lm_head(x)
-        flat_logits=logits.view(-1,vocab_size)
         if targets==None:
             loss=None
         else:
+            flat_logits=logits.view(-1,vocab_size)
             flat_targets=targets.view(-1)
             loss=F.cross_entropy(flat_logits,flat_targets)
         return logits,loss
     def generate(self,idx,max_new_tokens):
-        for t in range(max_new_tokens):
+        for _ in range(max_new_tokens):
             context_idx=idx[:,-block_size:]
             logits,_=self(context_idx)
             last_logits=logits[:,-1,:] # Only care about next word prediction
@@ -179,25 +197,25 @@ class Transformer(nn.Module):
         return idx
 
 # Train bigram model
-if os.path.exists('bigram'):
-    m=torch.load('bigram')
+if os.path.exists('transformer.pt'):
+    m=torch.load('transformer.pt')
 else:
-    m = Transformer(dm,vocab_size)
+    m = Transformer(dm=dm,vocab_size=vocab_size,h=h,N=N)
 print(sum(p.numel() for p in m.parameters())/1e6, 'M parameters')
 
 m.to(device)
 optimizer = torch.optim.AdamW(m.parameters(),lr=lr)
-for t in range(n_iters):
+for itr in range(n_itrs):
     xb,yb=get_batch('train')
     logits,loss = m(xb,yb)
     loss.backward()
     optimizer.step()
-    if t%200==0:
+    if itr%500==0:
         idx=torch.zeros((1,block_size),dtype=torch.long)
         idx=m.generate(idx,50)
         print("Sample: \n",decode(list(idx[0])[block_size:]))
         print("Loss: ",loss.item(),"\n")
-torch.save(m,'bigram')
+torch.save(m,'transformer.pt')
 
 
 idx=torch.zeros((1,block_size),dtype=torch.long)
