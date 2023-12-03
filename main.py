@@ -8,17 +8,17 @@ import requests
 import os
 
 # Parameters
-block_size = 256
+block_size = 300 # 256
 batch_size = 64
 eval_interval=500
-eval_iters=200
+eval_iters=500 # 200
 dm = 384 # Model / embedding size
 dk=64 # Head size
 h=6 # Number of heads in multihead attn
-lr=3e-4 # Learning rate
+lr=2e-4 # 3e-4 # Learning rate
 N=6 # Number of layers
 device=0
-n_itrs=5001
+n_itrs=50001
 dropout=0.2
 
 # Set seed
@@ -62,41 +62,6 @@ def get_batch(split):
     x,y=x.to(device),y.to(device)
     return x,y
 
-# class BigramLanguageModel(nn.Module):
-#     def __init__(self,vocab_size):
-#         super().__init__()
-#         embedding_length = dm
-#         self.token_embedding_table = nn.Embedding(vocab_size,embedding_length)
-#         self.position_embedding_table = nn.Embedding(block_size,embedding_length)
-#         self.mha = MultiHeadAttention(dk,dm//dk)
-#         self.lm_head = nn.Linear(embedding_length,vocab_size)
-#     def forward(self,idx,targets=None):
-#         B,T = idx.shape # batch size, context length
-#         token_embed=self.token_embedding_table(idx)
-#         try:
-#             pos_embed=self.position_embedding_table(torch.arange(T,device=device))
-#         except:
-#             print(T)
-#             assert(0)
-#         x = token_embed+pos_embed
-#         x=self.mha(x)
-#         logits=self.lm_head(x)
-#         flat_logits=logits.view(-1,vocab_size)
-#         if targets==None:
-#             loss=None
-#         else:
-#             flat_targets=targets.view(-1)
-#             loss=F.cross_entropy(flat_logits,flat_targets)
-#         return logits,loss
-#     def generate(self,idx,max_new_tokens):
-#         for t in range(max_new_tokens):
-#             logits,_=self(idx)
-#             last_logits=logits[:,-1,:] # Only care about next word prediction
-#             probs=F.softmax(last_logits,dim=-1)
-#             idx_next=torch.multinomial(probs,num_samples=1)
-#             idx=torch.cat((idx,idx_next),dim=1)
-#         return idx
-
 class SelfAttentionHead(nn.Module):
     def __init__(self,dm,dk,dropout=0.2):
         super().__init__()
@@ -120,7 +85,6 @@ class SelfAttentionHead(nn.Module):
 class MultiHeadAttention(nn.Module):
     def __init__(self,dm,dk,h,dropout=0.2):
         super().__init__()
-        # dk = dm // n_heads
         self.heads = nn.ModuleList([SelfAttentionHead(dm,dk) for i in range(h)])
         self.W_o = nn.Linear(dk*h,dm)
         self.dropout = nn.Dropout(dropout)
@@ -151,9 +115,7 @@ class Block(nn.Module):
         self.ln1 = nn.LayerNorm(dm)
         self.ln2 = nn.LayerNorm(dm)
     def forward(self,x):
-        # x = self.ln1(x)
         x = x + self.mha(self.ln1(x))
-        # x = self.ln2(x)
         x = x + self.ffn(self.ln2(x))
         return x
 
@@ -205,13 +167,6 @@ class Transformer(nn.Module):
 def estimate_loss(model):
     out = {}
     model.eval()
-    # for split in ['train', 'test']:
-    #     losses = torch.zeros(eval_iters)
-    #     for k in range(eval_iters):
-    #         X, Y = get_batch(split)
-    #         logits, loss = model(X, Y)
-    #         losses[k] = loss.item()
-    #     out[split] = losses.mean()
     losses=torch.zeros(eval_iters)
     for k in range(eval_iters):
         xb,yb = get_batch('test')
@@ -237,15 +192,10 @@ for itr in range(n_itrs):
         loss = estimate_loss(m) # New
         idx=torch.zeros((1,block_size),device=device,dtype=torch.long)
         idx=m.generate(idx,50)
-
         print("Sample: \n",decode(list(idx[0])[block_size:]))
-        # print("Train loss: ",losses['train'])
-        # print("Test loss: ",losses['test'])
         print("Test loss: ",loss)
     xb,yb=get_batch('train')
     logits,loss = m(xb,yb)
-    # if itr%eval_interval==0:
-    #     print("Loss: ",loss.item(),"\n")
 
     optimizer.zero_grad(set_to_none=True) # New
     loss.backward()
