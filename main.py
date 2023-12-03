@@ -17,7 +17,8 @@ dk=64 # Head size
 h=6 # Number of heads in multihead attn
 lr=2e-4 # 3e-4 # Learning rate
 N=6 # Number of layers
-device=0
+# device=0
+device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 n_itrs=50001
 dropout=0.2
 
