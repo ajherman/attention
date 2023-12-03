@@ -205,15 +205,20 @@ class Transformer(nn.Module):
 def estimate_loss(model):
     out = {}
     model.eval()
-    for split in ['train', 'test']:
-        losses = torch.zeros(eval_iters)
-        for k in range(eval_iters):
-            X, Y = get_batch(split)
-            logits, loss = model(X, Y)
-            losses[k] = loss.item()
-        out[split] = losses.mean()
+    # for split in ['train', 'test']:
+    #     losses = torch.zeros(eval_iters)
+    #     for k in range(eval_iters):
+    #         X, Y = get_batch(split)
+    #         logits, loss = model(X, Y)
+    #         losses[k] = loss.item()
+    #     out[split] = losses.mean()
+    losses=torch.zeros(eval_iters)
+    for k in range(eval_iters):
+        xb,yb = get_batch('test')
+        logits,loss = model(xb,yb)
+        losses[k] = loss.item()
     model.train()
-    return out
+    return torch.mean(losses)
 
 
 # Main
@@ -229,17 +234,18 @@ optimizer = torch.optim.AdamW(m.parameters(),lr=lr)
 m.train()
 for itr in range(n_itrs):
     if itr%eval_interval==0:
-        losses = estimate_loss(m) # New
+        loss = estimate_loss(m) # New
         idx=torch.zeros((1,block_size),device=device,dtype=torch.long)
         idx=m.generate(idx,50)
 
         print("Sample: \n",decode(list(idx[0])[block_size:]))
-        print("Train loss: ",losses['train'])
-        print("Test loss: ",losses['test'])
+        # print("Train loss: ",losses['train'])
+        # print("Test loss: ",losses['test'])
+        print("Test loss: ",loss)
     xb,yb=get_batch('train')
     logits,loss = m(xb,yb)
-    if itr%eval_interval==0:
-        print("Loss: ",loss.item(),"\n")
+    # if itr%eval_interval==0:
+    #     print("Loss: ",loss.item(),"\n")
 
     optimizer.zero_grad(set_to_none=True) # New
     loss.backward()
