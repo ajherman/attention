@@ -17,7 +17,8 @@ dk=64 # Head size
 h=6 # Number of heads in multihead attn
 lr=2e-4 # 3e-4 # Learning rate
 N=6 # Number of layers
-device=0
+# device=0
+device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 n_itrs=50001
 dropout=0.2
 
@@ -63,11 +64,11 @@ def get_batch(split):
     return x,y
 
 class SelfAttentionHead(nn.Module):
-    def __init__(self,dm,dk,dropout=0.2):
+    def __init__(self,dm,dk,dv,dropout=0.2):
         super().__init__()
         self.W_k = nn.Linear(dm,dk,bias=False)
         self.W_q = nn.Linear(dm,dk,bias=False)
-        self.W_v = nn.Linear(dm,dk,bias=False)
+        self.W_v = nn.Linear(dm,dv,bias=False)
         self.tril=torch.tril(torch.ones((block_size,block_size),device=device))
         self.dropout = nn.Dropout(dropout) # New
     def forward(self,x):
@@ -85,8 +86,8 @@ class SelfAttentionHead(nn.Module):
 class MultiHeadAttention(nn.Module):
     def __init__(self,dm,dk,h,dropout=0.2):
         super().__init__()
-        self.heads = nn.ModuleList([SelfAttentionHead(dm,dk) for i in range(h)])
-        self.W_o = nn.Linear(dk*h,dm)
+        self.heads = nn.ModuleList([SelfAttentionHead(dm,dk,dv) for i in range(h)])
+        self.W_o = nn.Linear(dv*h,dm)
         self.dropout = nn.Dropout(dropout)
     def forward(self,x):
         concat = torch.cat([head(x) for head in self.heads],dim=-1)
@@ -109,8 +110,9 @@ class Block(nn.Module):
     def __init__(self,dm,h):
         super().__init__()
         dk = dm // h
+        dv = dk
         assert(dk*h==dm) # Check the input/output size of block is same
-        self.mha = MultiHeadAttention(dm,dk,h)
+        self.mha = MultiHeadAttention(dm,dk,dv,h)
         self.ffn = FeedForward(dm)
         self.ln1 = nn.LayerNorm(dm)
         self.ln2 = nn.LayerNorm(dm)
