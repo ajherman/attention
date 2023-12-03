@@ -231,7 +231,9 @@ for itr in range(n_itrs):
         idx=torch.zeros((1,block_size),device=device,dtype=torch.long)
         idx=m.generate(idx,50)
         print("Sample: \n",decode(list(idx[0])[block_size:]))
-        print("Loss: ",loss.item(),"\n")
+        # print("Loss: ",loss.item(),"\n")
+        print("Train loss: ",losses['train'])
+        print("Test loss: ",losses['test'])
     xb,yb=get_batch('train')
     logits,loss = m(xb,yb)
     optimizer.zero_grad(set_to_none=True) # New
