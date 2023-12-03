@@ -10,7 +10,7 @@ import os
 # Parameters
 block_size = 300 # 256
 batch_size = 64
-eval_interval=500
+eval_interval=200
 eval_iters=500 # 200
 dm = 384 # Model / embedding size
 dk=64 # Head size
@@ -191,18 +191,19 @@ for itr in range(n_itrs):
     if itr%eval_interval==0:
         loss = estimate_loss(m) # New
         idx=torch.zeros((1,block_size),device=device,dtype=torch.long)
-        idx=m.generate(idx,50)
+        idx=m.generate(idx,200)
         print("Sample: \n",decode(list(idx[0])[block_size:]))
         print("Test loss: ",loss)
+        torch.save(m,'transformer.pt')
     xb,yb=get_batch('train')
     logits,loss = m(xb,yb)
 
     optimizer.zero_grad(set_to_none=True) # New
     loss.backward()
     optimizer.step()
-torch.save(m,'transformer.pt')
 
+torch.save(m,'transformer.pt')
 idx=torch.zeros((1,block_size),device=device,dtype=torch.long)
-idx=m.generate(idx,500)
+idx=m.generate(idx,1000)
 print(idx)
 print(decode(list(idx[0])))
