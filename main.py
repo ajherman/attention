@@ -210,7 +210,7 @@ def estimate_loss():
             X, Y = get_batch(split)
             logits, loss = model(X, Y)
             losses[k] = loss.item()
-        out[split] = losses.mean()ultinomial
+        out[split] = losses.mean()
     model.train()
     return out
 
