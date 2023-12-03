@@ -191,8 +191,8 @@ for itr in range(n_itrs):
     if itr%eval_interval==0:
         loss = estimate_loss(m) # New
         idx=torch.zeros((1,block_size),device=device,dtype=torch.long)
-        idx=m.generate(idx,200)
-        print("Sample: \n",decode(list(idx[0])[block_size:]))
+        idx=m.generate(idx,500)
+        print("\nSample: \n",decode(list(idx[0])[block_size:]),'\n\n')
         print("Test loss: ",loss)
         torch.save(m,'transformer.pt')
     xb,yb=get_batch('train')
@@ -204,6 +204,6 @@ for itr in range(n_itrs):
 
 torch.save(m,'transformer.pt')
 idx=torch.zeros((1,block_size),device=device,dtype=torch.long)
-idx=m.generate(idx,1000)
+idx=m.generate(idx,5000)
 print(idx)
 print(decode(list(idx[0])))
