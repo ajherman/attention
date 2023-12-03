@@ -11,7 +11,6 @@ import os
 block_size = 256
 batch_size = 64
 eval_interval=500
-eval_iters=200
 dm = 384 # Model / embedding size
 dk=64 # Head size
 h=6 # Number of heads in multihead attn
@@ -104,7 +103,7 @@ class SelfAttentionHead(nn.Module):
         self.W_q = nn.Linear(dm,dk,bias=False)
         self.W_v = nn.Linear(dm,dk,bias=False)
         self.tril=torch.tril(torch.ones((block_size,block_size),device=device))
-        self.dropout = nn.Dropout(dropout) # New
+        self.dropout == nn.Dropout(dropout) # New
     def forward(self,x):
         B,T,C=x.shape # New
         k=self.W_k(x)
@@ -204,15 +203,15 @@ class Transformer(nn.Module):
 @torch.no_grad()
 def estimate_loss():
     out = {}
-    m.eval()
+    model.eval()
     for split in ['train', 'test']:
         losses = torch.zeros(eval_iters)
         for k in range(eval_iters):
             X, Y = get_batch(split)
-            logits, loss = m(X, Y)
+            logits, loss = model(X, Y)
             losses[k] = loss.item()
-        out[split] = losses.mean()
-    m.train()
+        out[split] = losses.mean()ultinomial
+    model.train()
     return out
 
 
@@ -226,6 +225,7 @@ print(sum(p.numel() for p in m.parameters())/1e6, 'M parameters')
 
 m.to(device)
 optimizer = torch.optim.AdamW(m.parameters(),lr=lr)
+m.train()
 for itr in range(n_itrs):
     if itr%eval_interval==0:
         losses = estimate_loss() # New
@@ -237,7 +237,7 @@ for itr in range(n_itrs):
         print("Test loss: ",losses['test'])
     xb,yb=get_batch('train')
     logits,loss = m(xb,yb)
-    if itr%eval_interval==0:
+    if itr%eval_intervall==0:
         print("Loss: ",loss.item(),"\n")
 
     optimizer.zero_grad(set_to_none=True) # New
