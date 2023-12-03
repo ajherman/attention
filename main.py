@@ -10,13 +10,14 @@ import os
 # Parameters
 block_size = 256
 batch_size = 64
+eval_interval=500
 dm = 384 # Model / embedding size
 dk=64 # Head size
 h=6 # Number of heads in multihead attn
 lr=3e-4 # Learning rate
 N=6 # Number of layers
 device=0
-n_itrs=50001
+n_itrs=5001
 dropout=0.2
 
 # Set seed
@@ -96,19 +97,22 @@ def get_batch(split):
 #         return idx
 
 class SelfAttentionHead(nn.Module):
-    def __init__(self,dm,dk):
+    def __init__(self,dm,dk,dropout=0.2):
         super().__init__()
         self.W_k = nn.Linear(dm,dk,bias=False)
         self.W_q = nn.Linear(dm,dk,bias=False)
         self.W_v = nn.Linear(dm,dk,bias=False)
         self.tril=torch.tril(torch.ones((block_size,block_size),device=device))
+        self.dropout == nn.Dropout(dropout) # New
     def forward(self,x):
+        B,T,C=x.shape # New
         k=self.W_k(x)
         q=self.W_q(x)
         v=self.W_v(x)
-        wei = q@k.transpose(-1,-2)*k.shape[-1]**-0.5
-        wei=wei.masked_fill(self.tril==0,float('-inf'))
+        wei = q@k.transpose(-2,-1)*k.shape[-1]**-0.5
+        wei=wei.masked_fill(self.tril[:T,:T]==0,float('-inf')) # New
         wei=torch.softmax(wei,dim=-1)
+        wei=self.dropout(wei) # New
         out=wei@v
         return out
 
@@ -117,7 +121,7 @@ class MultiHeadAttention(nn.Module):
         super().__init__()
         # dk = dm // n_heads
         self.heads = nn.ModuleList([SelfAttentionHead(dm,dk) for i in range(h)])
-        self.W_o = nn.Linear(dm,dm)
+        self.W_o = nn.Linear(dk*h,dm)
         self.dropout = nn.Dropout(dropout)
     def forward(self,x):
         concat = torch.cat([head(x) for head in self.heads],dim=-1)
@@ -129,9 +133,9 @@ class FeedForward(nn.Module):
     def __init__(self,dm,dropout=0.2):
         super().__init__()
         self.ffn = nn.Sequential(
-        nn.Linear(dm,4*dm,bias=True),
+        nn.Linear(dm,4*dm),
         nn.ReLU(),
-        nn.Linear(4*dm,dm,bias=True),
+        nn.Linear(4*dm,dm),
         nn.Dropout(dropout))
     def forward(self,x):
         return self.ffn(x)
@@ -196,6 +200,22 @@ class Transformer(nn.Module):
             idx=torch.cat((idx,idx_next),dim=1)
         return idx
 
+@torch.no_grad()
+def estimate_loss():
+    out = {}
+    model.eval()
+    for split in ['train', 'test']:
+        losses = torch.zeros(eval_iters)
+        for k in range(eval_iters):
+            X, Y = get_batch(split)
+            logits, loss = model(X, Y)
+            losses[k] = loss.item()
+        out[split] = losses.mean()
+    model.train()
+    return out
+
+
+# Main
 # Train bigram model
 if os.path.exists('transformer.pt'):
     m=torch.load('transformer.pt')
@@ -206,17 +226,18 @@ print(sum(p.numel() for p in m.parameters())/1e6, 'M parameters')
 m.to(device)
 optimizer = torch.optim.AdamW(m.parameters(),lr=lr)
 for itr in range(n_itrs):
-    xb,yb=get_batch('train')
-    logits,loss = m(xb,yb)
-    loss.backward()
-    optimizer.step()
-    if itr%100==0:
+    if itr%eval_interval==0:
+        losses = estimate_loss() # New
         idx=torch.zeros((1,block_size),device=device,dtype=torch.long)
         idx=m.generate(idx,50)
         print("Sample: \n",decode(list(idx[0])[block_size:]))
         print("Loss: ",loss.item(),"\n")
+    xb,yb=get_batch('train')
+    logits,loss = m(xb,yb)
+    optimizer.zero_grad(set_to_none=True) # New
+    loss.backward()
+    optimizer.step()
 torch.save(m,'transformer.pt')
-
 
 idx=torch.zeros((1,block_size),device=device,dtype=torch.long)
 idx=m.generate(idx,500)
