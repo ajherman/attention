@@ -11,6 +11,7 @@ import os
 block_size = 256
 batch_size = 64
 eval_interval=500
+eval_iters=200
 dm = 384 # Model / embedding size
 dk=64 # Head size
 h=6 # Number of heads in multihead attn
@@ -103,7 +104,7 @@ class SelfAttentionHead(nn.Module):
         self.W_q = nn.Linear(dm,dk,bias=False)
         self.W_v = nn.Linear(dm,dk,bias=False)
         self.tril=torch.tril(torch.ones((block_size,block_size),device=device))
-        self.dropout == nn.Dropout(dropout) # New
+        self.dropout = nn.Dropout(dropout) # New
     def forward(self,x):
         B,T,C=x.shape # New
         k=self.W_k(x)
@@ -203,15 +204,15 @@ class Transformer(nn.Module):
 @torch.no_grad()
 def estimate_loss():
     out = {}
-    model.eval()
+    m.eval()
     for split in ['train', 'test']:
         losses = torch.zeros(eval_iters)
         for k in range(eval_iters):
             X, Y = get_batch(split)
-            logits, loss = model(X, Y)
+            logits, loss = m(X, Y)
             losses[k] = loss.item()
         out[split] = losses.mean()
-    model.train()
+    m.train()
     return out
 
 
