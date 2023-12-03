@@ -103,7 +103,7 @@ class SelfAttentionHead(nn.Module):
         self.W_q = nn.Linear(dm,dk,bias=False)
         self.W_v = nn.Linear(dm,dk,bias=False)
         self.tril=torch.tril(torch.ones((block_size,block_size),device=device))
-        self.dropout == nn.Dropout(dropout) # New
+        self.dropout = nn.Dropout(dropout) # New
     def forward(self,x):
         B,T,C=x.shape # New
         k=self.W_k(x)
@@ -201,7 +201,7 @@ class Transformer(nn.Module):
         return idx
 
 @torch.no_grad()
-def estimate_loss():
+def estimate_loss(model):
     out = {}
     model.eval()
     for split in ['train', 'test']:
@@ -228,7 +228,7 @@ optimizer = torch.optim.AdamW(m.parameters(),lr=lr)
 m.train()
 for itr in range(n_itrs):
     if itr%eval_interval==0:
-        losses = estimate_loss() # New
+        losses = estimate_loss(m) # New
         idx=torch.zeros((1,block_size),device=device,dtype=torch.long)
         idx=m.generate(idx,50)
 
