@@ -11,6 +11,7 @@ import os
 block_size = 256
 batch_size = 64
 eval_interval=500
+eval_iters=200
 dm = 384 # Model / embedding size
 dk=64 # Head size
 h=6 # Number of heads in multihead attn
@@ -237,7 +238,7 @@ for itr in range(n_itrs):
         print("Test loss: ",losses['test'])
     xb,yb=get_batch('train')
     logits,loss = m(xb,yb)
-    if itr%eval_intervall==0:
+    if itr%eval_interval==0:
         print("Loss: ",loss.item(),"\n")
 
     optimizer.zero_grad(set_to_none=True) # New
