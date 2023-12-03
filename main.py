@@ -237,7 +237,7 @@ for itr in range(n_itrs):
         print("Test loss: ",losses['test'])
     xb,yb=get_batch('train')
     logits,loss = m(xb,yb)
-    if itr%eval_intervall==0:
+    if itr%eval_interval==0:
         print("Loss: ",loss.item(),"\n")
 
     optimizer.zero_grad(set_to_none=True) # New
