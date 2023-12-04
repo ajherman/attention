@@ -84,7 +84,7 @@ class SelfAttentionHead(nn.Module):
         return out
 
 class MultiHeadAttention(nn.Module):
-    def __init__(self,dm,dk,h,dropout=0.2):
+    def __init__(self,dm,dk,dv,h,dropout=0.2):
         super().__init__()
         self.heads = nn.ModuleList([SelfAttentionHead(dm,dk,dv) for i in range(h)])
         self.W_o = nn.Linear(dv*h,dm)
