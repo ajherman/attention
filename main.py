@@ -116,20 +116,43 @@ class Block(nn.Module):
         self.ffn = FeedForward(dm)
         self.ln1 = nn.LayerNorm(dm)
         self.ln2 = nn.LayerNorm(dm)
+        # self.ln3 = nn.LayerNorm(dm)
     def forward(self,x):
         x = x + self.mha(self.ln1(x))
         x = x + self.ffn(self.ln2(x))
+        # x = self.ln3(x)
+        return x
+
+class Block2(nn.Module):
+    def __init__(self,dm,h):
+        super().__init__()
+        dk = dm // h
+        dv = dk
+        assert(dk*h==dm) # Check the input/output size of block is same
+        self.mha = MultiHeadAttention(dm,dk,dv,h)
+        self.ffn = FeedForward(dm)
+        self.ln1 = nn.LayerNorm(dm)
+        self.ln2 = nn.LayerNorm(dm)
+        # self.ln3 = nn.LayerNorm(dm)
+    def forward(self,x):
+        x = self.ln1(x + self.mha(x))
+        x = self.ln(x + self.ffn(x))
+        # x = self.ln3(x)
         return x
 
 class Transformer(nn.Module):
-    def __init__(self,dm,vocab_size,h=4,N=3):
+    def __init__(self,dm,vocab_size,h=4,N=3,version='original'):
         super().__init__()
         # embedding_length = dm
         self.token_embedding_table = nn.Embedding(vocab_size,dm,device=device)
         self.position_embedding_table = nn.Embedding(block_size,dm)
-        self.blocks = nn.Sequential(*[Block(dm,h) for _ in range(N)])
+        if version=='original':
+            self.blocks = nn.Sequential(*[Block(dm,h) for _ in range(N)])
+        elif version == 'alternate':
+            self.blocks = nn.Sequential(*[Block2(dm,h) for _ in range(N)])
         self.ln = nn.LayerNorm(dm)
         self.lm_head = nn.Linear(dm,vocab_size)
+
     # How does this work?
     ####################################################
     def _init_weights(self, module):
@@ -180,32 +203,39 @@ def estimate_loss(model):
 
 # Main
 # Train bigram model
-if os.path.exists('transformer.pt'):
-    m=torch.load('transformer.pt')
-else:
-    m = Transformer(dm=dm,vocab_size=vocab_size,h=h,N=N)
-print(sum(p.numel() for p in m.parameters())/1e6, 'M parameters')
+if __name__ == '__main__':
 
-m.to(device)
-optimizer = torch.optim.AdamW(m.parameters(),lr=lr)
-m.train()
-for itr in range(n_itrs):
-    if itr%eval_interval==0:
-        loss = estimate_loss(m) # New
-        idx=torch.zeros((1,block_size),device=device,dtype=torch.long)
-        idx=m.generate(idx,500)
-        print("\nSample: \n",decode(list(idx[0])[block_size:]),'\n\n')
-        print("Test loss: ",loss)
-        torch.save(m,'transformer.pt')
-    xb,yb=get_batch('train')
-    logits,loss = m(xb,yb)
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--version', type=str, help='Specify the version')
+    args = parser.parse_args()
+    version=args.version
 
-    optimizer.zero_grad(set_to_none=True) # New
-    loss.backward()
-    optimizer.step()
+    if os.path.exists('transformer_'+version+'.pt'):
+        m=torch.load('transformer_'+version+'.pt')
+    else:
+        m = Transformer(dm=dm,vocab_size=vocab_size,h=h,N=N,version=version)
+    # print(sum(p.numel() for p in m.parameters())/1e6, 'M parameters')
 
-torch.save(m,'transformer.pt')
-idx=torch.zeros((1,block_size),device=device,dtype=torch.long)
-idx=m.generate(idx,5000)
-print(idx)
-print(decode(list(idx[0])))
+    m.to(device)
+    optimizer = torch.optim.AdamW(m.parameters(),lr=lr)
+    m.train()
+    for itr in range(n_itrs):
+        if itr%eval_interval==0:
+            loss = estimate_loss(m) # New
+            idx=torch.zeros((1,block_size),device=device,dtype=torch.long)
+            idx=m.generate(idx,500)
+            print("\nSample: \n",decode(list(idx[0])[block_size:]),'\n\n')
+            print("Test loss: ",loss)
+            torch.save(m,'transformer_'+version+'.pt')
+        xb,yb=get_batch('train')
+        logits,loss = m(xb,yb)
+
+        optimizer.zero_grad(set_to_none=True) # New
+        loss.backward()
+        optimizer.step()
+
+    torch.save(m,'transformer.pt')
+    idx=torch.zeros((1,block_size),device=device,dtype=torch.long)
+    idx=m.generate(idx,5000)
+    print(idx)
+    print(decode(list(idx[0])))
