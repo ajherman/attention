@@ -6,7 +6,7 @@ from torch.utils.data import Dataset, DataLoader
 # from tqdm import tqdm
 import requests
 import os
-
+import argparse
 # Parameters
 block_size = 300 # 256
 batch_size = 64
