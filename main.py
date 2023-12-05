@@ -136,7 +136,7 @@ class Block2(nn.Module):
         # self.ln3 = nn.LayerNorm(dm)
     def forward(self,x):
         x = self.ln1(x + self.mha(x))
-        x = self.ln(x + self.ffn(x))
+        x = self.ln2(x + self.ffn(x))
         # x = self.ln3(x)
         return x
 
