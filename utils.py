@@ -154,6 +154,7 @@ class Transformer(nn.Module):
             self.blocks = nn.Sequential(*[Block2(dm,h) for _ in range(N)])
         self.ln = nn.LayerNorm(dm)
         self.lm_head = nn.Linear(dm,vocab_size)
+        self.logits_only=False
 
     # How does this work?
     ####################################################
@@ -179,7 +180,10 @@ class Transformer(nn.Module):
             flat_logits=logits.view(-1,vocab_size)
             flat_targets=targets.view(-1)
             loss=F.cross_entropy(flat_logits,flat_targets)
-        return logits,loss
+        if self.logits_only:
+            return logits
+        else:
+            return logits,loss
     def generate(self,idx,max_new_tokens):
         for _ in range(max_new_tokens):
             context_idx=idx[:,-block_size:]
