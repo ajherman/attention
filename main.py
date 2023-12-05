@@ -6,6 +6,8 @@ from torch.utils.data import Dataset, DataLoader
 # from tqdm import tqdm
 import requests
 import os
+import csv
+import argparse
 
 # Parameters
 block_size = 300 # 256
@@ -203,34 +205,70 @@ def estimate_loss(model):
 
 # Main
 # Train bigram model
-if __name__ == '__main__':
+# if __name__ == '__main__':
 
+#     parser = argparse.ArgumentParser()
+#     parser.add_argument('--version', type=str, help='Specify the version')
+#     args = parser.parse_args()
+#     version=args.version
+
+if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--version', type=str, help='Specify the version')
+    parser.add_argument('--filepath', type=str, help='Specify the file path')
     args = parser.parse_args()
-    version=args.version
+    version = args.version
+    filepath = args.filepath
 
-    if os.path.exists('transformer_'+version+'.pt'):
-        m=torch.load('transformer_'+version+'.pt')
+    if os.path.exists('transformer_' + version + '.pt'):
+        m = torch.load('transformer_' + version + '.pt')
     else:
-        m = Transformer(dm=dm,vocab_size=vocab_size,h=h,N=N,version=version)
+        m = Transformer(dm=dm, vocab_size=vocab_size, h=h, N=N, version=version)
     # print(sum(p.numel() for p in m.parameters())/1e6, 'M parameters')
 
     m.to(device)
-    optimizer = torch.optim.AdamW(m.parameters(),lr=lr)
+    optimizer = torch.optim.AdamW(m.parameters(), lr=lr)
     m.train()
     for itr in range(n_itrs):
-        if itr%eval_interval==0:
-            loss = estimate_loss(m) # New
-            idx=torch.zeros((1,block_size),device=device,dtype=torch.long)
-            idx=m.generate(idx,500)
-            print("\nSample: \n",decode(list(idx[0])[block_size:]),'\n\n')
-            print("Test loss: ",loss)
-            torch.save(m,'transformer_'+version+'.pt')
-        xb,yb=get_batch('train')
-        logits,loss = m(xb,yb)
+        if itr % eval_interval == 0:
+            loss = estimate_loss(m)  # Calculate loss
+            with open(filepath, 'a', newline='') as csvfile:
+                writer = csv.writer(csvfile)
+                writer.writerow([loss.item()])
+            idx = torch.zeros((1, block_size), device=device, dtype=torch.long)
+            idx = m.generate(idx, 500)
+            print("\nSample: \n", decode(list(idx[0])[block_size:]), '\n\n')
+            print("Test loss: ", loss.item())
+            torch.save(m, 'transformer_' + version + '.pt')
+        xb, yb = get_batch('train')
+        logits, loss = m(xb, yb)
 
-        optimizer.zero_grad(set_to_none=True) # New
+        optimizer.zero_grad(set_to_none=True)  # New
+
+    # if os.path.exists('transformer_'+version+'.pt'):
+    #     m=torch.load('transformer_'+version+'.pt')
+    # else:
+    #     m = Transformer(dm=dm,vocab_size=vocab_size,h=h,N=N,version=version)
+    # # print(sum(p.numel() for p in m.parameters())/1e6, 'M parameters')
+
+    # m.to(device)
+    # optimizer = torch.optim.AdamW(m.parameters(),lr=lr)
+    # m.train()
+    # for itr in range(n_itrs):
+    #     if itr%eval_interval==0:
+    #         loss = estimate_loss(m) # Calculate loss
+    #         with open('loss_history.csv', 'a', newline='') as csvfile:
+    #             writer = csv.writer(csvfile)
+    #             writer.writerow([loss.item()])
+    #         idx=torch.zeros((1,block_size),device=device,dtype=torch.long)
+    #         idx=m.generate(idx,500)
+    #         print("\nSample: \n",decode(list(idx[0])[block_size:]),'\n\n')
+    #         print("Test loss: ",loss.item())
+    #         torch.save(m,'transformer_'+version+'.pt')
+    #     xb,yb=get_batch('train')
+    #     logits,loss = m(xb,yb)
+
+    #     optimizer.zero_grad(set_to_none=True) # New
         loss.backward()
         optimizer.step()
 
