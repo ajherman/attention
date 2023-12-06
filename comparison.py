@@ -207,7 +207,7 @@ def estimate_loss():
     #         idx = torch.cat((idx, idx_next), dim=1) # (B, T+1)
     #     return idx
 
-model = GPTLanguageModel()
+model = Transformer(dm,vocab_size)
 m = model.to(device)
 # print the number of parameters in the model
 print(sum(p.numel() for p in m.parameters())/1e6, 'M parameters')
