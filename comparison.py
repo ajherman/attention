@@ -3,7 +3,7 @@ import torch.nn as nn
 from torch.nn import functional as F
 from utils import SelfAttentionHead as Head
 from utils import FeedForward, MultiHeadAttention, Block
-from utils import Transformer as GPTLanguageModel
+from utils import Transformer
 
 # hyperparameters
 batch_size = 64 # how many independent sequences will we process in parallel?
@@ -207,7 +207,7 @@ def estimate_loss():
     #         idx = torch.cat((idx, idx_next), dim=1) # (B, T+1)
     #     return idx
 
-model = Transformer(dm,vocab_size)
+model = Transformer(n_embd,vocab_size)
 m = model.to(device)
 # print the number of parameters in the model
 print(sum(p.numel() for p in m.parameters())/1e6, 'M parameters')
