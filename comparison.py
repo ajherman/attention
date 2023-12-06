@@ -119,12 +119,13 @@ class Transformer(nn.Module):
 
 class Transformer2(nn.Module):
 
-    def __init__(self,dm,vocab_size,h=6,N=6):
+    def __init__(self,dm,vocab_size,h=6,N=6,version='original'):
         super().__init__()
         # each token directly reads off the logits for the next token from a lookup table
-        self.token_embedding_table = nn.Embedding(vocab_size, dm)
+        self.token_embedding_table = nn.Embedding(vocab_size, dm,device=device)
         self.position_embedding_table = nn.Embedding(block_size, dm)
-        self.blocks = nn.Sequential(*[Block(dm,h) for _ in range(N)])
+        if version=='original':
+            self.blocks = nn.Sequential(*[Block(dm,h) for _ in range(N)])
         self.ln = nn.LayerNorm(dm) # final layer norm
         self.lm_head = nn.Linear(dm, vocab_size)
 
