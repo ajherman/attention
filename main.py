@@ -111,10 +111,10 @@ if __name__ == '__main__':
     # m.train()
     for itr in range(n_itrs):
         if itr % eval_interval == 0:
-            losses = estimate_loss(m)  # Calculate loss
-            with open(filepath, 'a', newline='') as csvfile:
-                writer = csv.writer(csvfile)
-                writer.writerow([losses[split] for split in ['train','test']])
+            losses = estimate_loss(model)  # Calculate loss
+            # with open(filepath, 'a', newline='') as csvfile:
+            #     writer = csv.writer(csvfile)
+            #     writer.writerow([losses[split] for split in ['train','test']])
             # idx = torch.zeros((1, block_size), device=device, dtype=torch.long)
             # idx = m.generate(idx, 500)
             # print("\nSample: \n", decode(list(idx[0])[block_size:]), '\n\n')
@@ -124,7 +124,7 @@ if __name__ == '__main__':
 
             # torch.save(m, 'transformer_' + version + '.pt')
         xb, yb = get_batch('train')
-        logits, loss = m(xb, yb)
+        logits, loss = model(xb, yb)
 
         optimizer.zero_grad(set_to_none=True)
         loss.backward()

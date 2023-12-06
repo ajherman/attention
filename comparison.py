@@ -17,6 +17,7 @@ dm = 384
 h = 6
 N = 6
 dropout = 0.2
+version='original'
 # ------------
 
 torch.manual_seed(1337)
@@ -71,7 +72,7 @@ def estimate_loss(model):
     model.train()
     return out
 
-model = Transformer(dm,vocab_size)
+model = Transformer(dm,vocab_size,h=h,N=N,version=version)
 
 m = model.to(device)
 # print the number of parameters in the model
