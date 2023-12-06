@@ -95,7 +95,7 @@ class MultiHeadAttention(nn.Module):
 
     def __init__(self, num_heads, head_size):
         super().__init__()
-        dm = n_embed
+        dm = n_embd
         dk=head_size
         dv=dk
         self.heads = nn.ModuleList([Head(dm,dk,dv) for _ in range(num_heads)])
