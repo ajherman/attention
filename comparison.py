@@ -178,8 +178,8 @@ class Transformer2(nn.Module):
             idx = torch.cat((idx, idx_next), dim=1) # (B, T+1)
         return idx
 
-# model = Transformer(n_embd,vocab_size)
-model = Transformer2()
+model = Transformer(n_embd,vocab_size)
+#model = Transformer2()
 
 m = model.to(device)
 # print the number of parameters in the model
