@@ -150,6 +150,9 @@ class Transformer(nn.Module): # Old
 
         super().__init__()
         n_embd=dm
+        n_layer = N
+        n_head=h
+        head_size=dk
         # each token directly reads off the logits for the next token from a lookup table
         self.token_embedding_table = nn.Embedding(vocab_size, n_embd)
         self.position_embedding_table = nn.Embedding(block_size, n_embd)
