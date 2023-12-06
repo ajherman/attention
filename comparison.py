@@ -120,13 +120,13 @@ class Transformer(nn.Module):
 class Transformer2(nn.Module):
 
     def __init__(self):
-        super().__init__()
+        super().__init__(dm,vocab_size,N=6,h=6)
         # each token directly reads off the logits for the next token from a lookup table
-        self.token_embedding_table = nn.Embedding(vocab_size, n_embd)
-        self.position_embedding_table = nn.Embedding(block_size, n_embd)
-        self.blocks = nn.Sequential(*[Block(n_embd,n_head) for _ in range(n_layer)])
-        self.ln_f = nn.LayerNorm(n_embd) # final layer norm
-        self.lm_head = nn.Linear(n_embd, vocab_size)
+        self.token_embedding_table = nn.Embedding(vocab_size, dm)
+        self.position_embedding_table = nn.Embedding(block_size, dm)
+        self.blocks = nn.Sequential(*[Block(dm,h) for _ in range(N)])
+        self.ln = nn.LayerNorm(dm) # final layer norm
+        self.lm_head = nn.Linear(dm, vocab_size)
 
         # better init, not covered in the original GPT video, but important, will cover in followup video
         self.apply(self._init_weights)
@@ -148,7 +148,7 @@ class Transformer2(nn.Module):
 
         x = tok_emb + pos_emb # (B,T,C)
         x = self.blocks(x) # (B,T,C)
-        x = self.ln_f(x) # (B,T,C)
+        x = self.ln(x) # (B,T,C)
         logits = self.lm_head(x) # (B,T,vocab_size)
 
         if targets is None:
@@ -178,8 +178,8 @@ class Transformer2(nn.Module):
             idx = torch.cat((idx, idx_next), dim=1) # (B, T+1)
         return idx
 
-model = Transformer(n_embd,vocab_size)
-#model = Transformer2()
+# model = Transformer(n_embd,vocab_size)
+model = Transformer2()
 
 m = model.to(device)
 # print the number of parameters in the model
