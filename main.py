@@ -14,7 +14,7 @@ from torch.utils.tensorboard import SummaryWriter
 # Parameters
 block_size = 256
 batch_size = 64
-eval_interval=500
+eval_interval=200
 eval_iters=500
 dm = 384 # Model / embedding size
 dk=64 # Head size
@@ -193,16 +193,28 @@ def get_batch(split):
 #         return idx
 
 @torch.no_grad()
-def estimate_loss(model):
+# def estimate_loss(model):
+#     out = {}
+#     model.eval()
+#     losses=torch.zeros(eval_iters)
+#     for k in range(eval_iters):
+#         xb,yb = get_batch('train')
+#         logits,loss = model(xb,yb)
+#         losses[k] = loss.item()
+#     model.train()
+#     return torch.mean(losses)
+def estimate_loss():
     out = {}
     model.eval()
-    losses=torch.zeros(eval_iters)
-    for k in range(eval_iters):
-        xb,yb = get_batch('test')
-        logits,loss = model(xb,yb)
-        losses[k] = loss.item()
+    for split in ['train', 'val']:
+        losses = torch.zeros(eval_iters)
+        for k in range(eval_iters):
+            X, Y = get_batch(split)
+            logits, loss = model(X, Y)
+            losses[k] = loss.item()
+        out[split] = losses.mean()
     model.train()
-    return torch.mean(losses)
+    return out
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
@@ -234,14 +246,15 @@ if __name__ == '__main__':
     m.train()
     for itr in range(n_itrs):
         if itr % eval_interval == 0:
-            loss = estimate_loss(m)  # Calculate loss
+            losses = estimate_loss(m)  # Calculate loss
             with open(filepath, 'a', newline='') as csvfile:
                 writer = csv.writer(csvfile)
-                writer.writerow([loss.item()])
-            idx = torch.zeros((1, block_size), device=device, dtype=torch.long)
-            idx = m.generate(idx, 500)
-            print("\nSample: \n", decode(list(idx[0])[block_size:]), '\n\n')
-            print("Test loss: ", loss.item())
+                writer.writerow([losses[split] for split in ['train','test']])
+            # idx = torch.zeros((1, block_size), device=device, dtype=torch.long)
+            # idx = m.generate(idx, 500)
+            # print("\nSample: \n", decode(list(idx[0])[block_size:]), '\n\n')
+            print("Test loss: ", losses['test'])
+            print("Train loss: ", losses['train'])
             torch.save(m, 'transformer_' + version + '.pt')
         xb, yb = get_batch('train')
         logits, loss = m(xb, yb)
