@@ -67,16 +67,6 @@ def get_batch(split):
     x,y=x.to(device),y.to(device)
     return x,y
 
-# def estimate_loss(model):
-#     out = {}
-#     model.eval()
-#     losses=torch.zeros(eval_iters)
-#     for k in range(eval_iters):
-#         xb,yb = get_batch('train')
-#         logits,loss = model(xb,yb)
-#         losses[k] = loss.item()
-#     model.train()
-#     return torch.mean(losses)
 @torch.no_grad()
 def estimate_loss(model):
     out = {}
@@ -101,12 +91,12 @@ if __name__ == '__main__':
 
     # Make / load model
     if os.path.exists('transformer_' + version + '.pt'):
-        m = torch.load('transformer_' + version + '.pt')
+        model = torch.load('transformer_' + version + '.pt')
     else:
-        m = Transformer(dm=dm, vocab_size=vocab_size, h=h, N=N, version=version)
+        model = Transformer(dm=dm, vocab_size=vocab_size, h=h, N=N, version=version)
     # print(sum(p.numel() for p in m.parameters())/1e6, 'M parameters')
-    m.to(device)
-    optimizer = torch.optim.AdamW(m.parameters(), lr=lr)
+    m=model.to(device)
+    optimizer = torch.optim.AdamW(model.parameters(), lr=lr)
     
     # # Visualize model
     # m.logits_only=True
@@ -118,7 +108,7 @@ if __name__ == '__main__':
 
     
     # Train
-    m.train()
+    # m.train()
     for itr in range(n_itrs):
         if itr % eval_interval == 0:
             losses = estimate_loss(m)  # Calculate loss
@@ -128,13 +118,15 @@ if __name__ == '__main__':
             # idx = torch.zeros((1, block_size), device=device, dtype=torch.long)
             # idx = m.generate(idx, 500)
             # print("\nSample: \n", decode(list(idx[0])[block_size:]), '\n\n')
-            print("Test loss: ", losses['test'])
-            print("Train loss: ", losses['train'])
-            torch.save(m, 'transformer_' + version + '.pt')
+            # print("Test loss: ", losses['test'])
+            # print("Train loss: ", losses['train'])
+            print(f"step {iter}: train loss {losses['train']:.4f}, val loss {losses['test']:.4f}")
+
+            # torch.save(m, 'transformer_' + version + '.pt')
         xb, yb = get_batch('train')
         logits, loss = m(xb, yb)
 
-        optimizer.zero_grad()
+        optimizer.zero_grad(set_to_none=True)
         loss.backward()
         optimizer.step()
 
