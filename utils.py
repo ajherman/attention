@@ -143,7 +143,7 @@ class Block2(nn.Module):
         return x
 
 
-class Transformer(nn.Module): # Old
+class Transformer2(nn.Module): # Old
 
     # def __init__(self):
     def __init__(self,dm,vocab_size,h=4,N=3,version='original'):
@@ -210,58 +210,58 @@ class Transformer(nn.Module): # Old
             idx = torch.cat((idx, idx_next), dim=1) # (B, T+1)
         return idx
 
-# class Transformer(nn.Module):
-#     def __init__(self,dm,vocab_size,h=4,N=3,version='original'):
-#         super().__init__()
-#         # embedding_length = dm
-#         self.token_embedding_table = nn.Embedding(vocab_size,dm,device=device)
-#         self.position_embedding_table = nn.Embedding(block_size,dm)
-#         if version=='original':
-#             self.blocks = nn.Sequential(*[Block(dm,h) for _ in range(N)])
-#         elif version == 'alternate':
-#             self.blocks = nn.Sequential(*[Block2(dm,h) for _ in range(N)])
-#         self.ln = nn.LayerNorm(dm)
-#         self.lm_head = nn.Linear(dm,vocab_size)
-#         self.logits_only=False
-#         self.apply(self._init_weights)
+class Transformer(nn.Module):
+    def __init__(self,dm,vocab_size,h=4,N=3,version='original'):
+        super().__init__()
+        # embedding_length = dm
+        self.token_embedding_table = nn.Embedding(vocab_size,dm,device=device)
+        self.position_embedding_table = nn.Embedding(block_size,dm)
+        if version=='original':
+            self.blocks = nn.Sequential(*[Block(dm,h) for _ in range(N)])
+        elif version == 'alternate':
+            self.blocks = nn.Sequential(*[Block2(dm,h) for _ in range(N)])
+        self.ln = nn.LayerNorm(dm)
+        self.lm_head = nn.Linear(dm,vocab_size)
+        self.logits_only=False
+        self.apply(self._init_weights)
 
-#     # How does this work?
-#     ####################################################
-#     def _init_weights(self, module):
-#         if isinstance(module, nn.Linear):
-#             torch.nn.init.normal_(module.weight, mean=0.0, std=0.02)
-#             if module.bias is not None:
-#                 torch.nn.init.zeros_(module.bias)
-#         elif isinstance(module, nn.Embedding):
-#             torch.nn.init.normal_(module.weight, mean=0.0, std=0.02)
-#     #######################################################
-#     def forward(self,idx,targets=None):
-#         B,T = idx.shape # batch size, context length
-#         token_embed=self.token_embedding_table(idx)
-#         pos_embed=self.position_embedding_table(torch.arange(T,device=device))
-#         x = token_embed+pos_embed
-#         x=self.blocks(x)
-#         x=self.ln(x)
-#         logits=self.lm_head(x)
-#         if targets is None:
-#             loss=None
-#         else:
-#             flat_logits=logits.view(-1,vocab_size)
-#             flat_targets=targets.view(-1)
-#             loss=F.cross_entropy(flat_logits,flat_targets)
-#         if self.logits_only:
-#             return logits
-#         else:
-#             return logits,loss
-#     def generate(self,idx,max_new_tokens):
-#         for _ in range(max_new_tokens):
-#             context_idx=idx[:,-block_size:]
-#             logits,_=self(context_idx)
-#             last_logits=logits[:,-1,:] # Only care about next word prediction
-#             probs=F.softmax(last_logits,dim=-1)
-#             idx_next=torch.multinomial(probs,num_samples=1)
-#             idx=torch.cat((idx,idx_next),dim=1)
-#         return idx
+    # How does this work?
+    ####################################################
+    def _init_weights(self, module):
+        if isinstance(module, nn.Linear):
+            torch.nn.init.normal_(module.weight, mean=0.0, std=0.02)
+            if module.bias is not None:
+                torch.nn.init.zeros_(module.bias)
+        elif isinstance(module, nn.Embedding):
+            torch.nn.init.normal_(module.weight, mean=0.0, std=0.02)
+    #######################################################
+    def forward(self,idx,targets=None):
+        B,T = idx.shape # batch size, context length
+        token_embed=self.token_embedding_table(idx)
+        pos_embed=self.position_embedding_table(torch.arange(T,device=device))
+        x = token_embed+pos_embed
+        x=self.blocks(x)
+        x=self.ln(x)
+        logits=self.lm_head(x)
+        if targets is None:
+            loss=None
+        else:
+            flat_logits=logits.view(-1,vocab_size)
+            flat_targets=targets.view(-1)
+            loss=F.cross_entropy(flat_logits,flat_targets)
+        if self.logits_only:
+            return logits
+        else:
+            return logits,loss
+    def generate(self,idx,max_new_tokens):
+        for _ in range(max_new_tokens):
+            context_idx=idx[:,-block_size:]
+            logits,_=self(context_idx)
+            last_logits=logits[:,-1,:] # Only care about next word prediction
+            probs=F.softmax(last_logits,dim=-1)
+            idx_next=torch.multinomial(probs,num_samples=1)
+            idx=torch.cat((idx,idx_next),dim=1)
+        return idx
 
 # @torch.no_grad()
 # def estimate_loss(model):
