@@ -54,7 +54,7 @@ encode = lambda s: [s2i[c] for c in s]
 decode = lambda l: ''.join([i2s[i] for i in l])
 
 # Make tokenized datasets
-data = torch.tensor(encode(text))
+data = torch.tensor(encode(text),dtype=torch.long)
 n = int(0.9*len(data))
 train_data = data[:n]
 test_data = data[n:]

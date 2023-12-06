@@ -32,14 +32,25 @@ if not os.path.exists(file_path):
 with open('shakespeare.txt', 'r', encoding='utf-8') as f:
     text = f.read()
 
-# here are all the unique characters that occur in this text
+# # here are all the unique characters that occur in this text
+# chars = sorted(list(set(text)))
+# vocab_size = len(chars)
+# # create a mapping from characters to integers
+# stoi = { ch:i for i,ch in enumerate(chars) }
+# itos = { i:ch for i,ch in enumerate(chars) }
+# encode = lambda s: [stoi[c] for c in s] # encoder: take a string, output a list of integers
+# decode = lambda l: ''.join([itos[i] for i in l]) # decoder: take a list of integers, output a string
+
+# Get char list
 chars = sorted(list(set(text)))
 vocab_size = len(chars)
-# create a mapping from characters to integers
-stoi = { ch:i for i,ch in enumerate(chars) }
-itos = { i:ch for i,ch in enumerate(chars) }
-encode = lambda s: [stoi[c] for c in s] # encoder: take a string, output a list of integers
-decode = lambda l: ''.join([itos[i] for i in l]) # decoder: take a list of integers, output a string
+
+# Define encoding and decoding functions
+s2i = {ch:i for i,ch in enumerate(chars)}
+i2s = chars
+
+encode = lambda s: [s2i[c] for c in s]
+decode = lambda l: ''.join([i2s[i] for i in l])
 
 # Train and test splits
 data = torch.tensor(encode(text), dtype=torch.long)
