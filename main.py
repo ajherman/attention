@@ -81,7 +81,7 @@ def estimate_loss(model):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--version', type=str, default='original', help='Specify the version')
-    parser.add_argument('--filepath', type=str, help='Specify the file path')
+    parser.add_argument('--filepath', type=str,default='original.csv', help='Specify the file path')
     args = parser.parse_args()
     version = args.version
     filepath = args.filepath
@@ -91,7 +91,7 @@ if __name__ == '__main__':
         model = torch.load('transformer_' + version + '.pt')
     else:
         model = Transformer(dm=dm, vocab_size=vocab_size, h=h, N=N, version=version)
-    print(sum(p.numel() for p in m.parameters())/1e6, 'M parameters')
+    print(sum(p.numel() for p in model.parameters())/1e6, 'M parameters')
     m=model.to(device)
     optimizer = torch.optim.AdamW(model.parameters(), lr=lr)
     
@@ -116,7 +116,7 @@ if __name__ == '__main__':
             idx = torch.zeros((1, block_size), device=device, dtype=torch.long)
             idx = m.generate(idx, 500)
             print("\nSample: \n", decode(list(idx[0])[block_size:]), '\n\n')
-            print(f"step {iter}: train loss {losses['train']:.4f}, val loss {losses['test']:.4f}")
+            print(f"step {itr}: train loss {losses['train']:.4f}, val loss {losses['test']:.4f}")
             torch.save(m, 'transformer_' + version + '.pt')
         xb, yb = get_batch('train')
         logits, loss = model(xb, yb)
