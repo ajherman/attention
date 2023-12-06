@@ -107,6 +107,7 @@ if __name__ == '__main__':
     # Train
     m.train()
     for itr in range(n_itrs):
+        #print(itr)
         if itr % eval_interval == 0:
             losses = estimate_loss(model)  # Calculate loss
             with open(filepath, 'a', newline='') as csvfile:
