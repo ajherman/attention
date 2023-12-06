@@ -4,7 +4,7 @@ from torch.nn import functional as F
 from utils import SelfAttentionHead as Head
 from utils import FeedForward, MultiHeadAttention, Block
 from utils import Transformer
-
+import os
 # hyperparameters
 batch_size = 64 # how many independent sequences will we process in parallel?
 block_size = 256 # what is the maximum context length for predictions?
@@ -21,7 +21,7 @@ dropout = 0.2
 
 torch.manual_seed(1337)
 
-url= https://raw.githubusercontent.com/karpathy/char-rnn/master/data/tinyshakespeare/input.txt
+url= "https://raw.githubusercontent.com/karpathy/char-rnn/master/data/tinyshakespeare/input.txt"
 file_path="shakespeare.txt"
 
 if not os.path.exists(file_path):
