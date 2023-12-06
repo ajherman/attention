@@ -203,10 +203,10 @@ def get_batch(split):
 #         losses[k] = loss.item()
 #     model.train()
 #     return torch.mean(losses)
-def estimate_loss():
+def estimate_loss(model):
     out = {}
     model.eval()
-    for split in ['train', 'val']:
+    for split in ['train', 'test']:
         losses = torch.zeros(eval_iters)
         for k in range(eval_iters):
             X, Y = get_batch(split)
