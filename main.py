@@ -9,7 +9,7 @@ import os
 import csv
 import argparse
 from utils import *
-from torch.utils.tensorboard import SummaryWriter
+#from torch.utils.tensorboard import SummaryWriter
 
 # Parameters
 block_size = 256
