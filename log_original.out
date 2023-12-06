@@ -1,8 +1,8 @@
-Test loss:  tensor(4.2301)
-Train loss:  tensor(4.2222)
-Test loss:  tensor(4.2301)
-Train loss:  tensor(4.2222)
-Test loss:  tensor(4.2301)
-Train loss:  tensor(4.2222)
-Test loss:  tensor(4.2301)
-Train loss:  tensor(4.2222)
+step <built-in function iter>: train loss 4.2222, val loss 4.2301
+step <built-in function iter>: train loss 4.2222, val loss 4.2301
+step <built-in function iter>: train loss 4.2222, val loss 4.2301
+step <built-in function iter>: train loss 4.2222, val loss 4.2301
+step <built-in function iter>: train loss 2.3936, val loss 2.4189
+step <built-in function iter>: train loss 2.3936, val loss 2.4189
+step <built-in function iter>: train loss 2.3936, val loss 2.4189
+step <built-in function iter>: train loss 2.3936, val loss 2.4189
