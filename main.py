@@ -120,7 +120,7 @@ if __name__ == '__main__':
             # print("\nSample: \n", decode(list(idx[0])[block_size:]), '\n\n')
             # print("Test loss: ", losses['test'])
             # print("Train loss: ", losses['train'])
-            print(f"step {iter}: train loss {losses['train']:.4f}, val loss {losses['test']:.4f}")
+            print(f"step {itr}: train loss {losses['train']:.4f}, val loss {losses['test']:.4f}")
 
             # torch.save(m, 'transformer_' + version + '.pt')
         xb, yb = get_batch('train')
