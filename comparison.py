@@ -68,7 +68,7 @@ class Transformer(nn.Module):
     def __init__(self,dm,vocab_size,h=6,N=6,version='original'):
         super().__init__()
         # embedding_length = dm
-        self.token_embedding_table = nn.Embedding(vocab_size,dm,device=device)
+        self.token_embedding_table = nn.Embedding(vocab_size,dm)
         self.position_embedding_table = nn.Embedding(block_size,dm)
         if version=='original':
             self.blocks = nn.Sequential(*[Block(dm,h) for _ in range(N)])
@@ -122,7 +122,7 @@ class Transformer2(nn.Module):
     def __init__(self,dm,vocab_size,h=6,N=6,version='original'):
         super().__init__()
         # each token directly reads off the logits for the next token from a lookup table
-        self.token_embedding_table = nn.Embedding(vocab_size, dm,device=device)
+        self.token_embedding_table = nn.Embedding(vocab_size, dm)
         self.position_embedding_table = nn.Embedding(block_size, dm)
         if version=='original':
             self.blocks = nn.Sequential(*[Block(dm,h) for _ in range(N)])
@@ -179,8 +179,8 @@ class Transformer2(nn.Module):
             idx = torch.cat((idx, idx_next), dim=1) # (B, T+1)
         return idx
 
-# model = Transformer(n_embd,vocab_size)
-model = Transformer2(n_embd,vocab_size)
+model = Transformer(n_embd,vocab_size)
+#model = Transformer2(n_embd,vocab_size)
 
 m = model.to(device)
 # print the number of parameters in the model
