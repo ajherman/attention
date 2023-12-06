@@ -13,15 +13,22 @@ eval_interval = 500
 learning_rate = 3e-4
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
 eval_iters = 200
-n_embd = 384
-n_head = 6
-n_layer = 6
+dm = 384
+h = 6
+N = 6
 dropout = 0.2
 # ------------
 
 torch.manual_seed(1337)
 
-# wget https://raw.githubusercontent.com/karpathy/char-rnn/master/data/tinyshakespeare/input.txt
+url= https://raw.githubusercontent.com/karpathy/char-rnn/master/data/tinyshakespeare/input.txt
+file_path="shakespeare.txt"
+
+if not os.path.exists(file_path):
+    response = requests.get(url)
+    with open(file_path, 'w') as file:
+        file.write(response.text)
+
 with open('shakespeare.txt', 'r', encoding='utf-8') as f:
     text = f.read()
 
@@ -39,16 +46,6 @@ data = torch.tensor(encode(text), dtype=torch.long)
 n = int(0.9*len(data)) # first 90% will be train, rest val
 train_data = data[:n]
 test_data = data[n:]
-
-# # data loading
-# def get_batch(split):
-#     # generate a small batch of data of inputs x and targets y
-#     data = train_data if split == 'train' else val_data
-#     ix = torch.randint(len(data) - block_size, (batch_size,))
-#     x = torch.stack([data[i:i+block_size] for i in ix])
-#     y = torch.stack([data[i+1:i+block_size+1] for i in ix])
-#     x, y = x.to(device), y.to(device)
-#     return x, y
 
 def get_batch(split):
     data = train_data if split == 'train' else test_data
@@ -72,21 +69,7 @@ def estimate_loss(model):
     model.train()
     return out
 
-# @torch.no_grad()
-# def estimate_loss():
-#     out = {}
-#     model.eval()
-#     for split in ['train', 'val']:
-#         losses = torch.zeros(eval_iters)
-#         for k in range(eval_iters):
-#             X, Y = get_batch(split)
-#             logits, loss = model(X, Y)
-#             losses[k] = loss.item()
-#         out[split] = losses.mean()
-#     model.train()
-#     return out
-
-model = Transformer(n_embd,vocab_size)
+model = Transformer(dm,vocab_size)
 
 m = model.to(device)
 # print the number of parameters in the model
