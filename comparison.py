@@ -2,6 +2,7 @@ import torch
 import torch.nn as nn
 from torch.nn import functional as F
 from utils import SelfAttentionHead as Head
+from utils import FeedForward
 
 # hyperparameters
 batch_size = 64 # how many independent sequences will we process in parallel?
@@ -107,20 +108,20 @@ class MultiHeadAttention(nn.Module):
         out = self.dropout(self.proj(out))
         return out
 
-class FeedFoward(nn.Module):
-    """ a simple linear layer followed by a non-linearity """
+# class FeedFoward(nn.Module):
+#     """ a simple linear layer followed by a non-linearity """
 
-    def __init__(self, n_embd):
-        super().__init__()
-        self.net = nn.Sequential(
-            nn.Linear(n_embd, 4 * n_embd),
-            nn.ReLU(),
-            nn.Linear(4 * n_embd, n_embd),
-            nn.Dropout(dropout),
-        )
+#     def __init__(self, n_embd):
+#         super().__init__()
+#         self.net = nn.Sequential(
+#             nn.Linear(n_embd, 4 * n_embd),
+#             nn.ReLU(),
+#             nn.Linear(4 * n_embd, n_embd),
+#             nn.Dropout(dropout),
+#         )
 
-    def forward(self, x):
-        return self.net(x)
+#     def forward(self, x):
+#         return self.net(x)
 
 class Block(nn.Module):
     """ Transformer block: communication followed by computation """
