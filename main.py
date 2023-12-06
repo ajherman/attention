@@ -2,8 +2,6 @@ import torch
 import torch.nn as nn
 from torch.nn import functional as F
 from torch.utils.data import Dataset, DataLoader
-# from transformers import GPT2LMHeadModel, GPT2Tokenizer
-# from tqdm import tqdm
 import requests
 import os
 import csv
@@ -21,7 +19,6 @@ dk=64 # Head size
 h=6 # Number of heads in multihead attn
 lr=3e-4 # Learning rate
 N=6 # Number of layers
-# device=0
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 n_itrs=5001
 dropout=0.2
@@ -94,7 +91,7 @@ if __name__ == '__main__':
         model = torch.load('transformer_' + version + '.pt')
     else:
         model = Transformer(dm=dm, vocab_size=vocab_size, h=h, N=N, version=version)
-    # print(sum(p.numel() for p in m.parameters())/1e6, 'M parameters')
+    print(sum(p.numel() for p in m.parameters())/1e6, 'M parameters')
     m=model.to(device)
     optimizer = torch.optim.AdamW(model.parameters(), lr=lr)
     
@@ -108,21 +105,18 @@ if __name__ == '__main__':
 
     
     # Train
-    # m.train()
+    m.train()
     for itr in range(n_itrs):
         if itr % eval_interval == 0:
             losses = estimate_loss(model)  # Calculate loss
-            # with open(filepath, 'a', newline='') as csvfile:
-            #     writer = csv.writer(csvfile)
-            #     writer.writerow([losses[split] for split in ['train','test']])
-            # idx = torch.zeros((1, block_size), device=device, dtype=torch.long)
-            # idx = m.generate(idx, 500)
-            # print("\nSample: \n", decode(list(idx[0])[block_size:]), '\n\n')
-            # print("Test loss: ", losses['test'])
-            # print("Train loss: ", losses['train'])
+            with open(filepath, 'a', newline='') as csvfile:
+                writer = csv.writer(csvfile)
+                writer.writerow([losses[split] for split in ['train','test']])
+            idx = torch.zeros((1, block_size), device=device, dtype=torch.long)
+            idx = m.generate(idx, 500)
+            print("\nSample: \n", decode(list(idx[0])[block_size:]), '\n\n')
             print(f"step {iter}: train loss {losses['train']:.4f}, val loss {losses['test']:.4f}")
-
-            # torch.save(m, 'transformer_' + version + '.pt')
+            torch.save(m, 'transformer_' + version + '.pt')
         xb, yb = get_batch('train')
         logits, loss = model(xb, yb)
 
