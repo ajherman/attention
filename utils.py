@@ -155,6 +155,7 @@ class Transformer(nn.Module):
         self.ln = nn.LayerNorm(dm)
         self.lm_head = nn.Linear(dm,vocab_size)
         self.logits_only=False
+        self.apply(self._init_weights)
 
     # How does this work?
     ####################################################
