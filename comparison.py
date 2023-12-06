@@ -3,7 +3,7 @@ import torch.nn as nn
 from torch.nn import functional as F
 from utils import SelfAttentionHead as Head
 from utils import FeedForward, MultiHeadAttention, Block
-from utils import Transformer
+# from utils import Transformer
 
 # hyperparameters
 batch_size = 64 # how many independent sequences will we process in parallel?
