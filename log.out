@@ -1,3 +1,4 @@
 10.788929 M parameters
 step 0: train loss 4.2221, val loss 4.2306
 step 500: train loss 1.7563, val loss 1.9119
+step 1000: train loss 1.3909, val loss 1.6015
