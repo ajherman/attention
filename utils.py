@@ -211,10 +211,10 @@ class Transformer2(nn.Module): # Old
         return idx
 
 class Transformer(nn.Module):
-    def __init__(self,dm,vocab_size,h=4,N=3,version='original'):
+    def __init__(self,dm,vocab_size,h=6,N=6,version='original'):
         super().__init__()
         # embedding_length = dm
-        self.token_embedding_table = nn.Embedding(vocab_size,dm,device=device)
+        self.token_embedding_table = nn.Embedding(vocab_size,dm)
         self.position_embedding_table = nn.Embedding(block_size,dm)
         if version=='original':
             self.blocks = nn.Sequential(*[Block(dm,h) for _ in range(N)])
