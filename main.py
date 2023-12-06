@@ -14,8 +14,8 @@ from utils import *
 # Parameters
 block_size = 256
 batch_size = 64
-eval_interval=200
-eval_iters=500
+eval_interval=500
+eval_iters=200
 dm = 384 # Model / embedding size
 dk=64 # Head size
 h=6 # Number of heads in multihead attn
