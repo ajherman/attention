@@ -81,12 +81,12 @@ print(sum(p.numel() for p in m.parameters())/1e6, 'M parameters')
 # create a PyTorch optimizer
 optimizer = torch.optim.AdamW(model.parameters(), lr=learning_rate)
 
-for iter in range(max_iters):
+for itr in range(max_iters):
 
     # every once in a while evaluate the loss on train and val sets
-    if iter % eval_interval == 0 or iter == max_iters - 1:
+    if itr % eval_interval == 0 or itr == max_iters - 1:
         losses = estimate_loss(model)
-        print(f"step {iter}: train loss {losses['train']:.4f}, val loss {losses['test']:.4f}")
+        print(f"step {itr}: train loss {losses['train']:.4f}, val loss {losses['test']:.4f}")
 
     # sample a batch of data
     xb, yb = get_batch('train')
