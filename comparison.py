@@ -119,8 +119,8 @@ class Transformer(nn.Module):
 
 class Transformer2(nn.Module):
 
-    def __init__(self):
-        super().__init__(dm,vocab_size,N=6,h=6)
+    def __init__(self,dm,vocab_size,h=6,N=6):
+        super().__init__()
         # each token directly reads off the logits for the next token from a lookup table
         self.token_embedding_table = nn.Embedding(vocab_size, dm)
         self.position_embedding_table = nn.Embedding(block_size, dm)
@@ -179,7 +179,7 @@ class Transformer2(nn.Module):
         return idx
 
 # model = Transformer(n_embd,vocab_size)
-model = Transformer2()
+model = Transformer2(n_embd,vocab_size)
 
 m = model.to(device)
 # print the number of parameters in the model
