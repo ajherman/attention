@@ -2,7 +2,7 @@ import torch
 import torch.nn as nn
 from torch.nn import functional as F
 from utils import SelfAttentionHead as Head
-from utils import FeedForward
+from utils import FeedForward, MultiHeadAttention
 
 # hyperparameters
 batch_size = 64 # how many independent sequences will we process in parallel?
@@ -91,22 +91,22 @@ def estimate_loss():
 #         out = wei @ v # (B, T, T) @ (B, T, hs) -> (B, T, hs)
 #         return out
 
-class MultiHeadAttention(nn.Module):
-    """ multiple heads of self-attention in parallel """
+# class MultiHeadAttention(nn.Module):
+#     """ multiple heads of self-attention in parallel """
 
-    def __init__(self, num_heads, head_size):
-        super().__init__()
-        dm = n_embd
-        dk=head_size
-        dv=dk
-        self.heads = nn.ModuleList([Head(dm,dk,dv) for _ in range(num_heads)])
-        self.proj = nn.Linear(head_size * num_heads, n_embd)
-        self.dropout = nn.Dropout(dropout)
+#     def __init__(self, num_heads, head_size):
+#         super().__init__()
+#         dm = n_embd
+#         dk=head_size
+#         dv=dk
+#         self.heads = nn.ModuleList([Head(dm,dk,dv) for _ in range(num_heads)])
+#         self.proj = nn.Linear(head_size * num_heads, n_embd)
+#         self.dropout = nn.Dropout(dropout)
 
-    def forward(self, x):
-        out = torch.cat([h(x) for h in self.heads], dim=-1)
-        out = self.dropout(self.proj(out))
-        return out
+#     def forward(self, x):
+#         out = torch.cat([h(x) for h in self.heads], dim=-1)
+#         out = self.dropout(self.proj(out))
+#         return out
 
 # class FeedForward(nn.Module):
 #     """ a simple linear layer followed by a non-linearity """
@@ -130,7 +130,12 @@ class Block(nn.Module):
         # n_embd: embedding dimension, n_head: the number of heads we'd like
         super().__init__()
         head_size = n_embd // n_head
-        self.sa = MultiHeadAttention(n_head, head_size)
+        dm=n_embd
+        dk=head_size
+        dv=dk
+        h=n_head
+        # self.sa = MultiHeadAttention(n_head, head_size)
+        self.sa = MultiHeadAttention(dm,dk,dv,h)
         self.ffwd = FeedForward(n_embd)
         self.ln1 = nn.LayerNorm(n_embd)
         self.ln2 = nn.LayerNorm(n_embd)
