@@ -105,7 +105,7 @@ if __name__ == '__main__':
 
     
     # Train
-    m.train()
+    # m.train()
     for itr in range(n_itrs):
         #print(itr)
         if itr % eval_interval == 0:
@@ -113,11 +113,11 @@ if __name__ == '__main__':
             with open(filepath, 'a', newline='') as csvfile:
                 writer = csv.writer(csvfile)
                 writer.writerow([losses[split] for split in ['train','test']])
-            idx = torch.zeros((1, block_size), device=device, dtype=torch.long)
-            idx = m.generate(idx, 500)
-            print("\nSample: \n", decode(list(idx[0])[block_size:]), '\n\n')
+            # idx = torch.zeros((1, block_size), device=device, dtype=torch.long)
+            # idx = m.generate(idx, 500)
+            # print("\nSample: \n", decode(list(idx[0])[block_size:]), '\n\n')
             print(f"step {itr}: train loss {losses['train']:.4f}, val loss {losses['test']:.4f}")
-            torch.save(m, 'transformer_' + version + '.pt')
+            # torch.save(m, 'transformer_' + version + '.pt')
         xb, yb = get_batch('train')
         logits, loss = model(xb, yb)
 
