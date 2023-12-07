@@ -8,7 +8,7 @@
 #module load miniconda3
 #source activate /vast/home/ajherman/miniconda3/envs/pytorch
 
-srun -N 1 -n 1 -c 6 -o log_original.out --open-mode=append ./main_wrapper.sh --version original --filepath original.csv
-srun -N 1 -n 1 -c 6 -o log_alternate.out --open-mode=append ./main_wrapper.sh --version alternate --filepath alternate.csv
+srun -N 1 -n 1 -c 6 -o original.out --open-mode=append ./main_wrapper.sh --version original --filepath original.csv
+srun -N 1 -n 1 -c 6 -o alternate.out --open-mode=append ./main_wrapper.sh --version alternate --filepath alternate.csv
 
 
