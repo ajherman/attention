@@ -17,10 +17,10 @@ eval_iters=500
 dm = 384 # Model / embedding size
 dk=64 # Head size
 h=6 # Number of heads in multihead attn
-lr=3e-4 # Learning rate
+lr=2e-4 # Learning rate
 N=6 # Number of layers
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-n_itrs=5001
+n_itrs=20001
 dropout=0.2
 
 # Set seed
