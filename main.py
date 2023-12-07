@@ -12,8 +12,8 @@ from utils import *
 # Parameters
 block_size = 256
 batch_size = 64
-eval_interval=500
-eval_iters=200
+eval_interval=1000
+eval_iters=500
 dm = 384 # Model / embedding size
 dk=64 # Head size
 h=6 # Number of heads in multihead attn
@@ -74,7 +74,7 @@ def estimate_loss(model):
             X, Y = get_batch(split)
             logits, loss = model(X, Y)
             losses[k] = loss.item()
-        out[split] = losses.mean()
+        out[split] = losses.mean().item()
     model.train()
     return out
 
@@ -113,9 +113,9 @@ if __name__ == '__main__':
             with open(filepath, 'a', newline='') as csvfile:
                 writer = csv.writer(csvfile)
                 writer.writerow([losses[split] for split in ['train','test']])
-            # idx = torch.zeros((1, block_size), device=device, dtype=torch.long)
-            # idx = m.generate(idx, 500)
-            # print("\nSample: \n", decode(list(idx[0])[block_size:]), '\n\n')
+            idx = torch.zeros((1, block_size), device=device, dtype=torch.long)
+            idx = m.generate(idx, 500)
+            print("\nSample: \n", decode(list(idx[0])[block_size:]), '\n\n')
             print(f"step {itr}: train loss {losses['train']:.4f}, val loss {losses['test']:.4f}")
             # torch.save(m, 'transformer_' + version + '.pt')
         xb, yb = get_batch('train')
@@ -129,4 +129,4 @@ if __name__ == '__main__':
     idx=torch.zeros((1,block_size),device=device,dtype=torch.long)
     idx=m.generate(idx,5000)
     print(idx)
-    print(decode(list(idx[0])))
+    print(decode(list(idx[0])[block_size:]))
