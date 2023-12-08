@@ -17,7 +17,7 @@ plt.ylabel('error')
 plt.legend()
 
 # Save the figure
-plt.savefig('/home/ari/learning/comparison.png')
+plt.savefig('comparison.png')
 
 # Show the plot
 plt.show()
