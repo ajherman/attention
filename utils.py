@@ -213,8 +213,9 @@ class Block3(nn.Module):
 # Models
 ###############################################################################################
 class Transformer(nn.Module):
-    def __init__(self,dm,vocab_size,block_size=256,h=6,N=6,block_type=0,embedding_method='absolute'):
+    def __init__(self,dm,vocab_size,block_size=256,h=6,N=6,block_type=0,embedding_method='absolute',final_norm='layer_norm'):
         super().__init__()
+        self.final_norm = final_norm
         self.block_size=block_size
         self.token_embedding_table = nn.Embedding(vocab_size,dm)
         self.position_embedding_table = nn.Embedding(block_size,dm)
@@ -227,6 +228,7 @@ class Transformer(nn.Module):
         elif block_type == 3:
             self.blocks = nn.Sequential(*[Block3(dm,h) for _ in range(N)])
         self.ln = nn.LayerNorm(dm)
+        # self.ln = RMSNorm(dm)
         self.lm_head = nn.Linear(dm,vocab_size)
         self.logits_only=False
         self.apply(self._init_weights)
