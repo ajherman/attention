@@ -1,4 +1,183 @@
-10.788929 M parameters
+Traceback (most recent call last):
+  File "/vast/home/ajherman/attention/main.py", line 93, in <module>
+    model = Transformer(dm=dm, vocab_size=vocab_size, h=h, N=N, version=version)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: Transformer.__init__() got an unexpected keyword argument 'version'
+Traceback (most recent call last):
+  File "/vast/home/ajherman/attention/main.py", line 90, in <module>
+    if os.path.exists('transformer_' + version + '.pt'):
+                      ~~~~~~~~~~~~~~~^~~~~~~~~
+TypeError: can only concatenate str (not "int") to str
+Traceback (most recent call last):
+  File "/vast/home/ajherman/attention/main.py", line 93, in <module>
+    model = Transformer(dm=dm, vocab_size=vocab_size, h=h, N=N, block_type=version)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vast/home/ajherman/attention/utils.py", line 219, in __init__
+    self.position_embedding_table = nn.Embedding(block_size,dm)
+                                                 ^^^^^^^^^^
+NameError: name 'block_size' is not defined. Did you mean: 'block_type'?
+Traceback (most recent call last):
+  File "/vast/home/ajherman/attention/main.py", line 93, in <module>
+    model = Transformer(dm=dm, vocab_size=vocab_size,block_size=block_size, h=h, N=N, block_type=version)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vast/home/ajherman/attention/utils.py", line 222, in __init__
+    self.blocks = nn.Sequential(*[Block0(dm,h) for _ in range(N)])
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vast/home/ajherman/attention/utils.py", line 222, in <listcomp>
+    self.blocks = nn.Sequential(*[Block0(dm,h) for _ in range(N)])
+                                  ^^^^^^^^^^^^
+  File "/vast/home/ajherman/attention/utils.py", line 158, in __init__
+    self.mha = MultiHeadAttention(dm,dk,dv,h)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vast/home/ajherman/attention/utils.py", line 127, in __init__
+    self.heads = nn.ModuleList([SelfAttentionHead(dm,dk,dv) for i in range(h)])
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vast/home/ajherman/attention/utils.py", line 127, in <listcomp>
+    self.heads = nn.ModuleList([SelfAttentionHead(dm,dk,dv) for i in range(h)])
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vast/home/ajherman/attention/utils.py", line 80, in __init__
+    self.tril=torch.tril(torch.ones((block_size,block_size),device=device))
+                                     ^^^^^^^^^^
+NameError: name 'block_size' is not defined
+Traceback (most recent call last):
+  File "/vast/home/ajherman/attention/main.py", line 93, in <module>
+    model = Transformer(dm=dm, vocab_size=vocab_size,block_size=block_size, h=h, N=N, block_type=version)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vast/home/ajherman/attention/utils.py", line 222, in __init__
+    self.blocks = nn.Sequential(*[Block0(dm,h) for _ in range(N)])
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vast/home/ajherman/attention/utils.py", line 222, in <listcomp>
+    self.blocks = nn.Sequential(*[Block0(dm,h) for _ in range(N)])
+                                  ^^^^^^^^^^^^
+  File "/vast/home/ajherman/attention/utils.py", line 158, in __init__
+    self.mha = MultiHeadAttention(dm,dk,dv,h)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vast/home/ajherman/attention/utils.py", line 127, in __init__
+    self.heads = nn.ModuleList([SelfAttentionHead(dm,dk,dv) for i in range(h)])
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vast/home/ajherman/attention/utils.py", line 127, in <listcomp>
+    self.heads = nn.ModuleList([SelfAttentionHead(dm,dk,dv) for i in range(h)])
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vast/home/ajherman/attention/utils.py", line 80, in __init__
+    self.tril=torch.tril(torch.ones((block_size,block_size),device=device))
+                                                                   ^^^^^^
+NameError: name 'device' is not defined
+10.779713 M parameters
+Traceback (most recent call last):
+  File "/vast/home/ajherman/attention/main.py", line 112, in <module>
+    losses = estimate_loss(model)  # Calculate loss
+             ^^^^^^^^^^^^^^^^^^^^
+  File "/vast/home/ajherman/miniconda3/envs/pytorch/lib/python3.11/site-packages/torch/utils/_contextlib.py", line 115, in decorate_context
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/vast/home/ajherman/attention/main.py", line 75, in estimate_loss
+    logits, loss = model(X, Y)
+                   ^^^^^^^^^^^
+  File "/vast/home/ajherman/miniconda3/envs/pytorch/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1501, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vast/home/ajherman/attention/utils.py", line 245, in forward
+    x=self.blocks(x)
+      ^^^^^^^^^^^^^^
+  File "/vast/home/ajherman/miniconda3/envs/pytorch/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1501, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vast/home/ajherman/miniconda3/envs/pytorch/lib/python3.11/site-packages/torch/nn/modules/container.py", line 217, in forward
+    input = module(input)
+            ^^^^^^^^^^^^^
+  File "/vast/home/ajherman/miniconda3/envs/pytorch/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1501, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vast/home/ajherman/attention/utils.py", line 164, in forward
+    x = x + self.mha(self.ln1(x))
+            ^^^^^^^^^^^^^^^^^^^^^
+  File "/vast/home/ajherman/miniconda3/envs/pytorch/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1501, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vast/home/ajherman/attention/utils.py", line 136, in forward
+    out = self.dropout(proj) # Like spiking?
+                       ^^^^
+NameError: name 'proj' is not defined
+10.779713 M parameters
+
+Sample: 
+ SaVqul&f&&;gSYUCZo-TDuQLg
+qlHHkPkBj!'VOSbUrMynJK.H3BU.nbOMh&MHKHP
+wqkjZe nUReYPV$!DAyC Dbb$Ib&KIGEff.Ca-F$orYHZorCZcV
+owk&u'WP.&vxFxdFhRjI.LIzfmSBQzkma
+Ib,sOl
+ErmSEkLcQVL'FsxHmshIbPU!-T'srciwFs?hg.GpakkVcV,KD?R, z?Zyk.DqFB-C:rmt..'JMqsoQ!,$D
+;p lfxSsNlLQm;b
+ofDxto&GEN!:cEsnRC?,kHozPuYWJmiUMF;nIH,DxjGPgLwo.3Io$dAl!B?kUJS$KIrqDJzp
+K!nxWWfYax ,PhtgCAMYn$;?3K!t,z3
+NQF.yEauUDcZ m MSiFxl-$oFj$xldQDqvDsig-.eevDi dm'gokmq$dft,BxmyVwo-r BHMjwI
+Xyyro; PT.msy-cCUah dMA
+MirDMATVx$yAeVxh$'w
+x$!G3SHiM-Ts,&
+sM 
+
+
+step 0: train loss 4.2222, val loss 4.2301
+10.779713 M parameters
+
+Sample: 
+ GUODUKINCATeFirONTICe:MES:hOn MAMPRDIUS:KO Go,hold ues:So skInch aren!ither delikenbery
+PRIEN Butkener.i
+BUCKIO:Uy speak your pearsnance?nle,eless the Trribman one my man, with drone
+senger,---be good not unat, Adaughtry, cations thered
+Have mone yeal'd shall have Fience in the pretortuate?
+
+AUTIOLYCUS:
+Camen, my world so suin mut ch fallow,
+Than an king need with moth the son, courthine,
+And that I slive tho peept. Beines it on my lifungs.
+Where't the bose was own brother, and deread live tangu 
+
+
+step 1000: train loss 1.4942, val loss 1.6915
+
+Sample: 
+ SaVqul&f&&;gSYUCZo-TDuQLg
+qlHHkPkBj!'VOSbUrMynJK.H3BU.nbOMh&MHKHP
+wqkjZe nUReYPV$!DAyC Dbb$Ib&KIGEff.Ca-F$orYHZorCZcV
+owk&u'WP.&vxFxdFhRjI.LIzfmSBQzkma
+Ib,sOl
+ErmSEkLcQVL'FsxHmshIbPU!-T'srciwFs?hg.GpakkVcV,KD?R, z?Zyk.DqFB-C:rmt..'JMqsoQ!,$D
+;p lfxSsNlLQm;b
+ofDxto&GEN!:cEsnRC?,kHozPuYWJmiUMF;nIH,DxjGPgLwo.3Io$dAl!B?kUJS$KIrqDJzp
+K!nxWWfYax ,PhtgCAMYn$;?3K!t,z3
+NQF.yEauUDcZ m MSiFxl-$oFj$xldQDqvDsig-.eevDi dm'gokmq$dft,BxmyVwo-r BHMjwI
+Xyyro; PT.msy-cCUah dMA
+MirDMATVx$yAeVxh$'w
+x$!G3SHiM-Ts,&
+sM 
+
+
+step 0: train loss 4.2222, val loss 4.2301
+slurmstepd: error: *** STEP 15576845.23 ON cn145 CANCELLED AT 2023-12-10T11:52:31 ***
+slurmstepd: error: *** STEP 15576845.19 ON cn145 CANCELLED AT 2023-12-10T11:52:31 ***
+10.779713 M parameters
+
+Sample: 
+ SaVqul&f&&;gSYUCZo-TDuQLg
+qlHHkPkBj!'VOSbUrMynJK.H3BU.nbOMh&MHKHP
+wqkjZe nUReYPV$!DAyC Dbb$Ib&KIGEff.Ca-F$orYHZorCZcV
+owk&u'WP.&vxFxdFhRjI.LIzfmSBQzkma
+Ib,sOl
+ErmSEkLcQVL'FsxHmshIbPU!-T'srciwFs?hg.GpakkVcV,KD?R, z?Zyk.DqFB-C:rmt..'JMqsoQ!,$D
+;p lfxSsNlLQm;b
+ofDxto&GEN!:cEsnRC?,kHozPuYWJmiUMF;nIH,DxjGPgLwo.3Io$dAl!B?kUJS$KIrqDJzp
+K!nxWWfYax ,PhtgCAMYn$;?3K!t,z3
+NQF.yEauUDcZ m MSiFxl-$oFj$xldQDqvDsig-.eevDi dm'gokmq$dft,BxmyVwo-r BHMjwI
+Xyyro; PT.msy-cCUah dMA
+MirDMATVx$yAeVxh$'w
+x$!G3SHiM-Ts,&
+sM 
+
+
+step 0: train loss 4.2222, val loss 4.2301
+slurmstepd: error: *** STEP 15576865.2 ON cn651 CANCELLED AT 2023-12-10T11:56:32 ***
+10.779713 M parameters
 
 Sample: 
  SaVqul&f&&;gSYUCZo-TDuQLg
@@ -20,593 +199,40 @@ sM
 step 0: train loss 4.2222, val loss 4.2301
 
 Sample: 
- ODUMOMGSORCAYERInOBut'SICurit:Gom,Gidd Giums:Unmoverger:Lewill wo'd and one:nthat inly rotus hart,thinest to with halond, which bidsemply's.eSs a maledy,
-seep you castin?it shall you so peeclisp, upon nothing.n
-In well this loves., but many should that for eyes, look'd with carst?
+ ODUMEXGSORCAYERInOBut'ShGuYijONVO:God I'lume theevenger would the have to themand.i
+O must senvititives,nmen with help.oGOLuchines, every's busely?i
 
-First Marcius:
-There thank my intoes!
-God may mRoZeo's in befest uponoff:
-One olld my belief heart did me my malk
-Warwith thou him.
+WARWICKING RICHAM:
+Nay, griefyonds you ourspadult, not will praid heart.
 
-PERDAKE:
-But it is shalt more.
-THis dils en hour heest:
-As upon him's like will jowb 
+KING RIqULEWARD IV:
+You leave priefore.
+Thou haddst stat? that must mo sanchsed the crafice,
+And pratthes Romeo's in befest uponoff:
+One olld my belief meo, to down my malk
+Warwind thou hand fords, ascer canVille and morrown
+To dils eniesting elpe.
 
-
-step 1000: train loss 1.4883, val loss 1.6830
-
-Sample: 
- HRAOMONTOMANVeOLYOPAMERTES:Eldend Wellenon!XODere Dees you it me held which betten that utberhead?Edpeness of lacous befough,when wound
-never will do set he ass the prince o' wome.o-dor out,i weepeling hear
-leightdless came with will joy to'c, and the new the gaters.
-
-LEONTES:
-I am plaint pardon, thou these thing to be if
-To dry the innight of blesh fills quickless modom begot,
-When as this vise from so. Mapear say thou.
-Which it is so fileshonours
-Which eart the that nure day shall be duked-sig 
+DUKE OF AUMERLABE:
+Art anb 
 
 
-step 2000: train loss 1.2547, val loss 1.5226
+step 1000: train loss 1.4889, val loss 1.6805
 
 Sample: 
- MKAENUMOfRIUCIOLUTdsIAve yonm.FIddi.he'r you;ndwellBe you taw,e fellow;aance you net.SCINIUS:
-'Tis in truely of is iry womuned to met dather.SThe let's well runge it of
-the present fearunes you do bottest fought: never on the
-warthies home: He know the way withdring the cloud '
-feeding it. What is not the life
-perad dull doubt, she was enter whaten his
-with his prefesses; and in him livers, in state so of company,
-and blood throught to set I thee
-seem marcharged: and, of me
-papetite of the kind, 
+ HOXONORTUMENESINIUCAMENENIUS:anydenedlentUS:UDone eldenes!n ciddeedles!o
+Come,ale wellio the phtthWhondes for like.ow itwears.o Go our sirs is us: ' meet he hold!u were as dear
+th.o-dore, Edwer up!o Penarant, well are ling;and a willl
+the pectable two new the gat, Siple Ged.
 
+Citizens:
+Fiely, bud thou tentill the felbood;
+Though fights the loyald should queen my service;
+Begot any, mad Henry, sweet be that places
+But knows it till think wheten your resorteors than gard.
 
-step 3000: train loss 1.1409, val loss 1.4870
+WARL AURENCE:
+A childrer 
 
-Sample: 
- ORULAMAROLANDOURIAS:nhYQUREENCERD:Perave not the neirger;ges I pray ye you talke dagger to bring him.Sprece's done.faw, it's plabourse, if you'll you speak?ouf even so, here marry
-worth you, a hand, fellow us pollar.
 
-First Serveth what we had here.
-
-Second Watch:
-Marcius well, one pend; but his person read is true.
-
-AUFIDIUS:
-Ay, he's all of his prison; but we cannot steal
-In pair.
-
-AUTOLYCUS:
-We knew that we will kindly know, I was
-abade the lading.
-
-And Thus I shall.
-
-Second Citizen:
-Ay, sir, 
-
-
-step 4000: train loss 1.0491, val loss 1.4865
-
-Sample: 
- SCCROBRCOTONUSOOLF:Relesd
-.fuSCENIS:Setem or two wother unspawn: or no needy to to anytwornger to thur
-furnish mapperfully out upon mine own, fupiencer facious smife
-with death, askrel plain him, and, the
-ready government, to church even with tears,
-trumpets timery though hast robb'd ty repetity.
-Rile is all, and she shed all fastlex deeds.
-Now bid malive, thou met her soul the orfernoons;
-I'll not help until pity to my wive.
-Where'er my body's eyes she, as the day take,
-As smill, as I was full  
-
-
-step 5000: train loss 0.9612, val loss 1.5167
-
-Sample: 
- SuroMoERCOASL:roxomovend runt;ram me one talk your dearers to your meanan before.
-Good man: it is caretouching the matter
-of this places of these whom sent after,
-three caredempeting trumphants; and to there's
-talk-merforicing.
-What must before? what?
-
-MARCIUS:
-Fie, every welcomen.
-Under leave you'll undeters the noise; marry
-What of this villainty shall be posterous, haste bebt
-Advanced on the assemble. Within the good court
-Shall know such among the things, or proof!
-
-MENENIUS:
-I'll not sway:  
-
-
-step 6000: train loss 0.8760, val loss 1.5387
-
-Sample: 
- FWARVOROLA.RnCO:do, but ZRom:.
-fom, by , it will thou beated your pawn ant a mind Johnera;ogoit and rato with his
-eShore tander with it repater how it yield my
-tale-peer than now. Now Master ontown by makes
-it was. Flower they say, not worthy oncest; that's for
-my removed hand that must be ploiced.
-
-ESCALUS:
-Let us has said his execution.
-
-POLIXENES:
-Hold this face
-That I have verdon from ther voices: Camillo, awake
-it I have done, and remiss the people of state
-To lose the iperness the supper t 
-
-
-step 7000: train loss 0.7904, val loss 1.6053
-
-Sample: 
- ROKERVOTONCIABRnran muddelened out of the new of that are inno one money fecons were puning.
-
-MARCIUS:
-'Tis a match, I accuse, yea true under a agented of
-ir. No, wry, and, so; both are gone, I made and to be
-the laward of an old wanting: it is no matter to
-cuttion of the moon. The protion-but he matcheth of his
-aquarter, each with his garlands; and he himself and his night
-to come to speak him with no new wind tunes.
-
-ShY Citizen:
-I must neither more: but it is so.
-
-MENENIUS:
-I cry did but off; 
-
-
-step 8000: train loss 0.7064, val loss 1.6633
-
-Sample: 
- MORROMOLmmromorefecond:orfame harely: dourgue this can I am died. G hard fellow: I have her butchers len for
-money of us in a man; or I am, that is a
-poperedecuties are to love his eyes wentert and daughter.
-Helong hast: you are truly darken'd now, and smaid
-yourself will be altended to get them close.
-
-Provost:
-I will go, where is it. An I will find what:
-I hear it but to be so, get away.
-I fear but nine own, I have would such warrais:
-Madam, you fill you whap he stay in fury,
-Findines somethin 
-
-
-step 9000: train loss 0.6341, val loss 1.7184
-
-Sample: 
- ROMPOMERvourn:rare my worrorror?forror,come bawd more rough, glowilioner are now to hear a me news newnesd born.
-
-MOPSA:
-I would be in the moral fit of your voice: one the offession of
-you with him and private renzy. He must not.
-
-AUTOLYCUS:
-Come onour bace, good-face to ficest you out gone into
-the sames lother: how doth the rest of your husband and honour,
-since the gate of thy abundation, which I am
-Must be was pastled with that ribbones on the gener,
-You must take me from an hours in Corioli 
-
-
-step 10000: train loss 0.5635, val loss 1.7709
-
-Sample: 
- VOEMONELORUCO:Orne buw procup, Those work aba, thyren: if there's a  word, a note of my
-curse, anotes, the wore again,--I cannot speak with
-us.
-
-LUCIO:
-I am a paugue of hiswair, thou diss: it hath
-holp him so hot erran man's when
-taught thrust I am. Let me have these farm in
-pies butter--and gold men.
-Come, go wake away.
-
-AUTOLYCUS:
-
-Clown:
-We wake him in being a story of chastis. Will you hence,
-Grace him 'With set state that's reconciled by
-And return with the hundred thoughts, and know those
- 
-
-
-step 11000: train loss 0.4946, val loss 1.8421
-
-Sample: 
- ROMOPOROMERCUCOO:Gra  mercy.MOOr? 'tis a mort comitted to the wound aboard; 'twill be half a worse.
-
-ROMEO:
-Mirry, let's a more fearful to make often piece;
-and, as thou lovest, good nighting to my word.
-
-Servant:
-Yes, to sooth, in the duke's face, sir, I
-Denies speak more in thee than a thing is
-To rise unkindness to him: if the orans could
-Be won tyrannous, to achieve make him, we
-Not well as indiffined, yielding him the fall.
-
-EDWARD:
-The doom you texcellent this found your hate,
-If another s 
-
-
-step 12000: train loss 0.4394, val loss 1.9076
-
-Sample: 
- YLCUCMONTRIMERLA:l ay.cencle: if we ra well ret's be long.
-
-MOPS:
-An by my wearing 'with an a'es! Gorg a bard niture, a gift of the
-man, an a condit to out it.
-
-Second Gentleman:
-none re'er knowned and 'twill whether to have a countenance.
-
-Messenger:
-Ah, sir: a for woman's shope as to wase it, an he
-would not tell it is beston to help or sonest he can
-desire an unhappy. This is some changed in the noon-pence
-her: 'Cleday, bid her near do your on speech,--
-
-Clown:
-Not a men of?
-
-Second Lord:
-Fai 
-
-
-step 13000: train loss 0.3928, val loss 1.9667
-
-Sample: 
- ORCOONtqCOROMEO:Onceratongued! he would had burched a ron on it of great pompture to
-be-swer, howing it othertaring for
-mone and condritier! ay, true . Therefore himap, Pompey; we fare him.
-
-Clown:
-In forward to of the block, three did cluckoldwn him, and resperate
-him his court-clips; send him being Jove's him,
-he had caped for honetal men of their lungs-bed,
-how that 'twere thy presence way his door fellows, then
-His resolution and reholdier to yours.
-
-BRUTUS:
-So that satter stands for yoursel 
-
-
-step 14000: train loss 0.3512, val loss 2.0152
-
-Sample: 
- OLVnERLEONESIO:
-One Arl true-newholved abadded sainty, for the courter, thou must die the
-purpose of her for tell.
-
-Roman:
-This way hand now is full of ir: she is ever a mad bulk for it.
-
-All:
-I think 'tis a very port: if it is but by
-Embound of a strange left, who begar someve lows, of
-his face  doit,--who, hearing, give him, ake him true by
-my rest, the portion of a manks the gods and
-thine offer, if he serves never man do conceal it.
-
-BENVOLIO:
-I prithee now, cup Buckingham; or I have heard
-S 
-
-
-step 15000: train loss 0.3106, val loss 2.0670
-
-Sample: 
- MRVOMOPCETECBARCAL:
-'?ana'  yor any old but?
-MOPSO:
-Marry, for we hath he never past a findeer a
-monst and a bear and a Mercilious bawd.
-
-MOPSA:
-Pray you call, who great colour of him tame, rathere in
-the respect of fire and business that have
-laboured in the chee; and his, where am chellesome, that
-say you.
-
-ESCALUS:
-How dost thou go, you?
-
-LBoth, no, marry; for here, sir. What coman do you report,
-He stand and friend peace with him, boy?
-
-DUKE VINCENTIO:
-He warrants, sir.
-
-LUCIO:
-It can you al 
-
-
-step 16000: train loss 0.2777, val loss 2.1555
-
-Sample: 
- RBERLOMONEXEO:
-CORCOLA:
-ll be wellow; but lets put us have retil with hearts to find:
-In weeping me for ever word when they were indeed.
-
-LUCIO:
-I warrant it in the wrong, I pray, sir, a king;
-it, lyou mercy that way, condy fire and unrest.
-
-LUCIO:
-Indeed, without an inkling of that worty,
-I'll wear it no brother than of turn a little back
-To rascal, and fair,--trevel me hence; be gone,
-Lord commend me to thy warth.
-
-LADY CAPULET:
-You'll to make offection. I make it meet al
-day the time to blast 
-
-
-step 17000: train loss 0.2543, val loss 2.1826
-
-Sample: 
- SCOLENOMERLEONEREL:
-Two, ye you. Marry, mwho hall deserved design.
-
-MENENIUS:
-And I can tell you for the people's among, and
-it makes meet a your very doth a kill's voice:
-I have saint my wounds that I have done sight to make my
-hand from her ruins.
-
-COMILLO:
-I now go, content you the daughter.
-The leave of the most part is but not yet.
-
-MARCIUS:
-Their tribunes dearly had previted, I am by--
-
-First Senator:
-No; next you will be born.
-
-MENENIUS:
-I will give there:--God you gods!--you through pard 
-
-
-step 18000: train loss 0.2271, val loss 2.2344
-
-Sample: 
- RCOOMOROMEOOMENEOOMENENCE:
-Hav! my legue ino young day! Marcius dost thou art trale: yet for
-us and half asked fadings. I know thou comesomes
-with me: yet go them, I pray the time against my
-sons. Thither does you re to me me return, good
-by this voice of loyalty: and those perjural
-have I yout only.
-
-First Citizen:
-Pray you, became with this, sir; the work what hath sought a
-muttoring dinning the fire, and she should scarrow his sword
-We said the grace of complexions had perform'd;
-And then the 
-
-
-step 19000: train loss 0.2092, val loss 2.3042
-
-Sample: 
- ROMEOOMENENCORIOMEO:
-thou lost hell.
-
-MERCuting her, nor lord? Why dost thou not show him thus?
-
-Second Murrier:
-An he, my name neceson?
-
-Second Gentman:
-I will not dine this, for he day remain'd:
-When he had did soften Claudio's widows this,
-To a murder; virtuous that would be meet,
-A traitor recremony to the Ten Paule. Commend, I shall
-InRose Verona poor hour, chide amillionus
-Whetly I was like in post-night.
-
-LEONTES:
-Have I no cause.
-
-First Lord:
-Hermaclaid, this to whom we both bare,
-That k 
-
-
-step 20000: train loss 0.1918, val loss 2.3341
-tensor([[ 0,  0,  0,  ..., 52, 42,  6]], device='cuda:0')
-ROMCROOMEROMOONES:
-how oft love, you should do the gods with grant, having fired lovers the time, now then.
-
-LUCENTIO:
-One further, of the old world nor ha!
-CORIOLANUS:
-The god of that I have minor-one,
-I must be not based fearing; next me and earth
-For the common for crum. Come hither, king me with a
-feeble batter, that perform against the senate
-May indeed thus make at deliciates,
-How measured our airs in beingrown?
-
-FLORIZEL:
-Come, my fail I had rather have
-To be at last by me that bids me.
-
-LEONTES:
-How so thou lie.
-What, household say
-My lords and great Riverse. Bona! who fafes your night
-Is and my fair son? countenance a rest
-A sleeper. A handk ease: it is rated makes him
-A little less, taught youth of the beast?
-
-First Citizen:
-Sir, be it so; and, in the body of the breast
-Of the ground, as 'twere writty pictures:
-This teeth and will not flatter prosperity.
-Yet speak, sirs, that we may live to see you,
-Have to the portunes purchase; and, some very perfect
-He was not up but talk; but so Tybalt himself
-As one serviced to death, yet did you the teeth!
-
-First Citizen:
-Our deeds, and the other hath the duke so fame
-Florget my vanly; so proud membrace with the duke.
-
-Lord:
-Didst thou not? granting me the footicoscies i' the fiery stunes:
-From whence the degre was not was never long.
-See, ther wenchsall shall die, by the simple guard
-Of that soul were bellieved and she,
-May most go reclaim the fault and with sorrow.
-Say you, come the luck off some of shame;
-I'll burn our away, and each out of speach.
-3 KING HENRY BOLINGBROKE:
-Brief, the blood of England's friends,
-For those that breed his person was the Englishman.
-
-KING HENRY VI:
-Ah, Exeter thus, what say the Fland was from?
-And I repent Edward, he slew my mind;
-For fathers, fortune's curse and villaints
-I advertised their country, Duke of ELydon:
-I protest near the burial in his love
-Untoo the issue.
-
-FLORIZEL:
-Worse he here,
-With any life slaughter'd like mine that speak well
-By place and last cond fe'er speak the flowers
-Night like men how shall the business of men
-To execute her ancessary ready four friends.
-
-NORTHUMBERLAND:
-Ha, who well and looks I, is it so?
-That Capteris may blow the mother of thee
-At are not in Rutland; and if the truth will stands
-Are to an hour to pray, and lose both
-They joy parcels them ashes the whose borname search,
-And hear there wrench untingner wedged Gaunty,
-That renown'd a gracious desert prepared;
-For they at once wand on suffering down,
-We still retain a poison of your south,
-That you should withhold rejoice me in part;
-And therefore they have at hand their wreck.
-But good time note of arm such rests:
-The very fine loving is his most inward,
-Being our city Catesby and will I be taken,
-Where on execution I love him?
-
-MARIANA:
-My husband bidding, my lord?
-
-DUKE VINCENTIO:
-All the rude I duty not at your pleasure.
-
-ISABELLA:
-Do you bury the suit of this mercy
-Condemned so his disjudieth. Did yie, I see,
-To ease hear from my justice, it not my bloss
-The uncilloaties of my son's skil mine
-Is mind to come.
-
-FLORIZEL:
-What my dear was myself?
-
-PERDITA:
-Why, Camillo,
-To with cunning at laudies.
-
-CAMILLO:
-Hear me promised
-To save your honour's read matters for mine
-To your father's scold sweet your brother.
-
-YORK:
-Both arms off mine and years are reignied.
-
-YORK:
-Thou hast a Cause.
-
-ANOLYCUS:
-No more of it
-Dukes of the strangers.
-Yet ne'er comes Trusdus: tarry if very we present.
-
-Second Senator:
-How may your wishses is a part: say, their master,
-Which is a messength, it will not be pitied more
-Than so have obstable.
-
-SICINIUS:
-May these a ship heaven well?
-
-CORIOLANUS:
-By my heart
-I may not butter perform him.
-
-VOLUMNIA:
-As an honest may bring fall the feeding:
-Back then o' the fire, you'ld my fly: my lord mistake
-Solelow me will be the best as instanture'd.
-
-MENENIUS:
-There's a commonding.
-
-SICINIUS:
-The city and for maid sole profathoofs;
-Will I do disdain him grace.
-
-MENENIUS:
-Say you can I discomplish you?
-
-SICINIUS:
-Pray, go, come, you are face.
-The people advocatry!
-
-BRUTUS:
-Marcius, Marcius, weapro;
-Is cruel from works here enrich are-mading
-To prison Coriolanus 'pride?
-You must not tell a lawful senators, yet forget
-The time of day enough to tell it:
-We'll have heard them in hold, and on the people's
-skyard's accitizen i' the realm, being stones,
-Mark'd with a cause rob her withh perform'd
-Their captive tops and freedoms, through perform
-Timuners like himself, whilst let thou say 't.'
-To him right not entreat of a crown,
-For that thou shouldst receive the end,
-So shouldst suffer by the frowning vouch
-To successfly with his earth. What wand you will,
-How consumed to lose his welcomplies;
-I'll play an ere take him here heard love.'
-
-Lord:
-Do, to-morrow, no, on his bad at our hands;
-I'll tell him plainly in his battle state
-Of any too of him redree doing to him:
-Go to, but some much before him:
-There is you are Prosper trans, that you are
-Lead for his service. You may do this way,
-That, we'll draw the precious crown: and,
+step 2000: train loss 1.2545, val loss 1.5197

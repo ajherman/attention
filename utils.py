@@ -8,7 +8,7 @@ import csv
 import argparse
 
 # Parameters
-# block_size = 256
+block_size = 256
 # batch_size = 64
 # eval_interval=500
 # eval_iters=500
@@ -17,7 +17,7 @@ import argparse
 # h=6 # Number of heads in multihead attn
 # lr=3e-4 # Learning rate
 # N=6 # Number of layers
-# device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 # n_itrs=5001
 # dropout=0.2
 
@@ -130,10 +130,10 @@ class MultiHeadAttention(nn.Module):
         self.dropout = nn.Dropout(dropout)
         
     def forward(self,x):
-        concat = torch.cat([head(x) for head in self.heads],dim=-1)
+        out = torch.cat([head(x) for head in self.heads],dim=-1)
         if self.project:
-            out = self.W_o(concat)
-        out = self.dropout(proj) # Like spiking?
+            out = self.W_o(out)
+        out = self.dropout(out) # Like spiking?
         return out
 
 class FeedForward(nn.Module):
@@ -203,8 +203,8 @@ class Block3(nn.Module):
         assert(dk*h==dm) # Check the input/output size of block is same
         self.mha = MultiHeadAttention(dm,dk,dv,h)
         self.ffn = FeedForward(dm)
-        self.ln1 = nn.RMSNorm(dm,elementwise_affine=False)
-        self.ln2 = nn.RMSNorm(dm,elementwise_affine=False)
+        self.ln1 = RMSNorm(dm)
+        self.ln2 = RMSNorm(dm)
     def forward(self,x):
         x = x + self.mha(self.ln1(x))
         x = x + self.ffn(self.ln2(x))
@@ -213,8 +213,9 @@ class Block3(nn.Module):
 # Models
 ###############################################################################################
 class Transformer(nn.Module):
-    def __init__(self,dm,vocab_size,h=6,N=6,block_type=0,embedding_method='absolute'):
+    def __init__(self,dm,vocab_size,block_size=256,h=6,N=6,block_type=0,embedding_method='absolute'):
         super().__init__()
+        self.block_size=block_size
         self.token_embedding_table = nn.Embedding(vocab_size,dm)
         self.position_embedding_table = nn.Embedding(block_size,dm)
         if block_type==0:
@@ -256,7 +257,7 @@ class Transformer(nn.Module):
             return logits,loss
     def generate(self,idx,max_new_tokens):
         for _ in range(max_new_tokens):
-            context_idx=idx[:,-block_size:]
+            context_idx=idx[:,-self.block_size:]
             logits,_=self(context_idx)
             last_logits=logits[:,-1,:] # Only care about next word prediction
             probs=F.softmax(last_logits,dim=-1)
