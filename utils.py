@@ -2,8 +2,6 @@ import torch
 import torch.nn as nn
 from torch.nn import functional as F
 from torch.utils.data import Dataset, DataLoader
-# from transformers import GPT2LMHeadModel, GPT2Tokenizer
-# from tqdm import tqdm
 import requests
 import os
 import csv
