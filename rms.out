@@ -178,3 +178,4 @@ Thought like a nuleed birtal to sound us a
 
 
 step 2000: train loss 1.2528, val loss 1.5189
+slurmstepd: error: *** STEP 15576868.0 ON cn651 CANCELLED AT 2023-12-10T12:20:44 ***

@@ -328,3 +328,4 @@ But be a fowl, since, if I were, he
 
 
 step 5000: train loss 0.9046, val loss 1.5413
+slurmstepd: error: *** STEP 15576868.1 ON cn652 CANCELLED AT 2023-12-10T12:20:44 ***

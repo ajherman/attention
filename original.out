@@ -236,3 +236,4 @@ A childrer
 
 
 step 2000: train loss 1.2545, val loss 1.5197
+slurmstepd: error: *** STEP 15576868.2 ON cn651 CANCELLED AT 2023-12-10T12:20:44 ***
