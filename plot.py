@@ -2,13 +2,19 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 # Read the CSV files
-df1 = np.genfromtxt('original.csv', delimiter=',')
-# df2 = np.genfromtxt('alternate.csv', delimiter=',')
+original = np.genfromtxt('original.csv', delimiter=',')
+rms = np.genfromtxt('rms.csv', delimiter=',')
+mix = np.genfromtxt('mix.csv', delimiter=',')
 
 # # Plot the data
-plt.plot(df1)
+plt.plot(original[:,0])
+# plt.plot(original[:,1])
+plt.plot(rms[:,0])
+plt.plot(mix[:,0])
+
+
 # plt.plot(df2)
-print(df1)
+# print(df1)
 # Label the axes
 plt.xlabel('time')
 plt.ylabel('error')
