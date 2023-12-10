@@ -117,7 +117,7 @@ if __name__ == '__main__':
             idx = m.generate(idx, 500)
             print("\nSample: \n", decode(list(idx[0])[block_size:]), '\n\n')
             print(f"step {itr}: train loss {losses['train']:.4f}, val loss {losses['test']:.4f}")
-            # torch.save(m, 'transformer_' + version + '.pt')
+            torch.save(m, 'transformer_' + str(version) + '.pt')
         xb, yb = get_batch('train')
         logits, loss = model(xb, yb)
 
