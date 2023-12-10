@@ -10,19 +10,18 @@ import csv
 import argparse
 
 # Parameters
-block_size = 256
-batch_size = 64
-eval_interval=500
-eval_iters=500
-dm = 384 # Model / embedding size
-dk=64 # Head size
-h=6 # Number of heads in multihead attn
-lr=3e-4 # Learning rate
-N=6 # Number of layers
-# device=0
-device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-n_itrs=5001
-dropout=0.2
+# block_size = 256
+# batch_size = 64
+# eval_interval=500
+# eval_iters=500
+# dm = 384 # Model / embedding size
+# dk=64 # Head size
+# h=6 # Number of heads in multihead attn
+# lr=3e-4 # Learning rate
+# N=6 # Number of layers
+# device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+# n_itrs=5001
+# dropout=0.2
 
 # Set seed
 torch.manual_seed(1337)
@@ -65,14 +64,14 @@ def get_batch(split):
     x,y=x.to(device),y.to(device)
     return x,y
 
+# Basic components
+####################################################################################
 class RMSNorm(nn.Module):
-    def __init__(self,rms_val=1.0):
+    def __init__(self,dm):
         super().__init__()
-        self.rms_val = rms_val
     def forward(self,x):
-        x=self.rms_val*(x/torch.sqrt(torch.mean(x**2,dim=-1,keepdim=True)))
+        x = x/torch.sqrt(torch.mean(x**2,dim=-1,keepdim=True))
         return x
-        
 
 class SelfAttentionHead(nn.Module):
     def __init__(self,dm,dk,dv,dropout=0.2):
@@ -150,7 +149,9 @@ class FeedForward(nn.Module):
     def forward(self,x):
         return self.ffn(x)
 
-class Block(nn.Module):
+# Transformer blocks
+####################################################################################################
+class Block0(nn.Module):
     def __init__(self,dm,h):
         super().__init__()
         dk = dm // h
@@ -166,8 +167,7 @@ class Block(nn.Module):
         x = x + self.ffn(self.ln2(x))
         # x = self.ln3(x)
         return x
-
-class Block2(nn.Module):
+class Block1(nn.Module):
     def __init__(self,dm,h):
         super().__init__()
         dk = dm // h
@@ -177,13 +177,12 @@ class Block2(nn.Module):
         self.ffn = FeedForward(dm)
         self.ln1 = nn.LayerNorm(dm,elementwise_affine=False)
         self.ln2 = nn.LayerNorm(dm,elementwise_affine=False)
-        # self.ln3 = nn.LayerNorm(dm)
     def forward(self,x):
         x = self.ln1(x + self.mha(x))
         x = self.ln2(x + self.ffn(x))
-        # x = self.ln3(x)
         return x
-class Block3(nn.Module): # This block takes attention without projection. 
+    
+class Block2(nn.Module): # This block takes attention without projection. 
     def __init__(self,dm,h):
         super().__init__()
         dk = dm // h
@@ -198,17 +197,35 @@ class Block3(nn.Module): # This block takes attention without projection.
         x = x + self.W_o( self.mha( self.ln1(x) ))
         x = x + self.ffn( self.ln2(x) )
         return x
-class Transformer(nn.Module):
-    def __init__(self,dm,vocab_size,h=6,N=6,block_type=0):
+class Block3(nn.Module):
+    def __init__(self,dm,h):
         super().__init__()
-        # embedding_length = dm
+        dk = dm // h
+        dv = dk
+        assert(dk*h==dm) # Check the input/output size of block is same
+        self.mha = MultiHeadAttention(dm,dk,dv,h)
+        self.ffn = FeedForward(dm)
+        self.ln1 = nn.RMSNorm(dm,elementwise_affine=False)
+        self.ln2 = nn.RMSNorm(dm,elementwise_affine=False)
+    def forward(self,x):
+        x = x + self.mha(self.ln1(x))
+        x = x + self.ffn(self.ln2(x))
+        return x
+
+# Models
+###############################################################################################
+class Transformer(nn.Module):
+    def __init__(self,dm,vocab_size,h=6,N=6,block_type=0,embedding_method='absolute'):
+        super().__init__()
         self.token_embedding_table = nn.Embedding(vocab_size,dm)
         self.position_embedding_table = nn.Embedding(block_size,dm)
         if block_type==0:
-            self.blocks = nn.Sequential(*[Block(dm,h) for _ in range(N)])
+            self.blocks = nn.Sequential(*[Block0(dm,h) for _ in range(N)])
         elif block_type == 1:
-            self.blocks = nn.Sequential(*[Block2(dm,h) for _ in range(N)])
+            self.blocks = nn.Sequential(*[Block1(dm,h) for _ in range(N)])
         elif block_type == 2:
+            self.blocks = nn.Sequential(*[Block2(dm,h) for _ in range(N)])
+        elif block_type == 3:
             self.blocks = nn.Sequential(*[Block3(dm,h) for _ in range(N)])
         self.ln = nn.LayerNorm(dm)
         self.lm_head = nn.Linear(dm,vocab_size)
