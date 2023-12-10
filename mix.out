@@ -1,0 +1,330 @@
+Traceback (most recent call last):
+  File "/vast/home/ajherman/attention/main.py", line 93, in <module>
+    model = Transformer(dm=dm, vocab_size=vocab_size, h=h, N=N, version=version)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: Transformer.__init__() got an unexpected keyword argument 'version'
+Traceback (most recent call last):
+  File "/vast/home/ajherman/attention/main.py", line 90, in <module>
+    if os.path.exists('transformer_' + version + '.pt'):
+                      ~~~~~~~~~~~~~~~^~~~~~~~~
+TypeError: can only concatenate str (not "int") to str
+Traceback (most recent call last):
+  File "/vast/home/ajherman/attention/main.py", line 93, in <module>
+    model = Transformer(dm=dm, vocab_size=vocab_size, h=h, N=N, block_type=version)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vast/home/ajherman/attention/utils.py", line 219, in __init__
+    self.position_embedding_table = nn.Embedding(block_size,dm)
+                                                 ^^^^^^^^^^
+NameError: name 'block_size' is not defined. Did you mean: 'block_type'?
+Traceback (most recent call last):
+  File "/vast/home/ajherman/attention/main.py", line 93, in <module>
+    model = Transformer(dm=dm, vocab_size=vocab_size,block_size=block_size, h=h, N=N, block_type=version)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vast/home/ajherman/attention/utils.py", line 226, in __init__
+    self.blocks = nn.Sequential(*[Block2(dm,h) for _ in range(N)])
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vast/home/ajherman/attention/utils.py", line 226, in <listcomp>
+    self.blocks = nn.Sequential(*[Block2(dm,h) for _ in range(N)])
+                                  ^^^^^^^^^^^^
+  File "/vast/home/ajherman/attention/utils.py", line 189, in __init__
+    self.mha = MultiHeadAttention(dm,dk,dv,h,project=False)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vast/home/ajherman/attention/utils.py", line 127, in __init__
+    self.heads = nn.ModuleList([SelfAttentionHead(dm,dk,dv) for i in range(h)])
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vast/home/ajherman/attention/utils.py", line 127, in <listcomp>
+    self.heads = nn.ModuleList([SelfAttentionHead(dm,dk,dv) for i in range(h)])
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vast/home/ajherman/attention/utils.py", line 80, in __init__
+    self.tril=torch.tril(torch.ones((block_size,block_size),device=device))
+                                     ^^^^^^^^^^
+NameError: name 'block_size' is not defined
+Traceback (most recent call last):
+  File "/vast/home/ajherman/attention/main.py", line 93, in <module>
+    model = Transformer(dm=dm, vocab_size=vocab_size,block_size=block_size, h=h, N=N, block_type=version)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vast/home/ajherman/attention/utils.py", line 226, in __init__
+    self.blocks = nn.Sequential(*[Block2(dm,h) for _ in range(N)])
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vast/home/ajherman/attention/utils.py", line 226, in <listcomp>
+    self.blocks = nn.Sequential(*[Block2(dm,h) for _ in range(N)])
+                                  ^^^^^^^^^^^^
+  File "/vast/home/ajherman/attention/utils.py", line 189, in __init__
+    self.mha = MultiHeadAttention(dm,dk,dv,h,project=False)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vast/home/ajherman/attention/utils.py", line 127, in __init__
+    self.heads = nn.ModuleList([SelfAttentionHead(dm,dk,dv) for i in range(h)])
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vast/home/ajherman/attention/utils.py", line 127, in <listcomp>
+    self.heads = nn.ModuleList([SelfAttentionHead(dm,dk,dv) for i in range(h)])
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vast/home/ajherman/attention/utils.py", line 80, in __init__
+    self.tril=torch.tril(torch.ones((block_size,block_size),device=device))
+                                                                   ^^^^^^
+NameError: name 'device' is not defined
+10.779713 M parameters
+Traceback (most recent call last):
+  File "/vast/home/ajherman/attention/main.py", line 112, in <module>
+    losses = estimate_loss(model)  # Calculate loss
+             ^^^^^^^^^^^^^^^^^^^^
+  File "/vast/home/ajherman/miniconda3/envs/pytorch/lib/python3.11/site-packages/torch/utils/_contextlib.py", line 115, in decorate_context
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/vast/home/ajherman/attention/main.py", line 75, in estimate_loss
+    logits, loss = model(X, Y)
+                   ^^^^^^^^^^^
+  File "/vast/home/ajherman/miniconda3/envs/pytorch/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1501, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vast/home/ajherman/attention/utils.py", line 245, in forward
+    x=self.blocks(x)
+      ^^^^^^^^^^^^^^
+  File "/vast/home/ajherman/miniconda3/envs/pytorch/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1501, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vast/home/ajherman/miniconda3/envs/pytorch/lib/python3.11/site-packages/torch/nn/modules/container.py", line 217, in forward
+    input = module(input)
+            ^^^^^^^^^^^^^
+  File "/vast/home/ajherman/miniconda3/envs/pytorch/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1501, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vast/home/ajherman/attention/utils.py", line 195, in forward
+    x = x + self.W_o( self.mha( self.ln1(x) ))
+                      ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vast/home/ajherman/miniconda3/envs/pytorch/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1501, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vast/home/ajherman/attention/utils.py", line 136, in forward
+    out = self.dropout(proj) # Like spiking?
+                       ^^^^
+NameError: name 'proj' is not defined
+10.779713 M parameters
+Traceback (most recent call last):
+  File "/vast/home/ajherman/attention/main.py", line 112, in <module>
+    losses = estimate_loss(model)  # Calculate loss
+             ^^^^^^^^^^^^^^^^^^^^
+  File "/vast/home/ajherman/miniconda3/envs/pytorch/lib/python3.11/site-packages/torch/utils/_contextlib.py", line 115, in decorate_context
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/vast/home/ajherman/attention/main.py", line 75, in estimate_loss
+    logits, loss = model(X, Y)
+                   ^^^^^^^^^^^
+  File "/vast/home/ajherman/miniconda3/envs/pytorch/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1501, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vast/home/ajherman/attention/utils.py", line 245, in forward
+    x=self.blocks(x)
+      ^^^^^^^^^^^^^^
+  File "/vast/home/ajherman/miniconda3/envs/pytorch/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1501, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vast/home/ajherman/miniconda3/envs/pytorch/lib/python3.11/site-packages/torch/nn/modules/container.py", line 217, in forward
+    input = module(input)
+            ^^^^^^^^^^^^^
+  File "/vast/home/ajherman/miniconda3/envs/pytorch/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1501, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vast/home/ajherman/attention/utils.py", line 195, in forward
+    x = x + self.W_o( self.mha( self.ln1(x) ))
+                      ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vast/home/ajherman/miniconda3/envs/pytorch/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1501, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vast/home/ajherman/attention/utils.py", line 136, in forward
+    out = self.dropout(out) # Like spiking?
+                       ^^^
+UnboundLocalError: cannot access local variable 'out' where it is not associated with a value
+10.779713 M parameters
+
+Sample: 
+ SaVqul&f&&;gSKUCZo-
+DuQLg
+qlHHkPkBj!'VTSbmrMyEJK.q3kU.nLO.h&MHKHP
+wqkjEe nUReYPV$!DAyC Dbb$Ib&KIGEf$.Ca-F$orYHIorCZcV
+owkvu'Ww.&vxFxdFfRjI.LIzfmSBQzkma
+Ib,sOl
+ErmaEkLcQVLNFlxHmshIbPU!-T'srciwFz?hg.GpckkVcV,KD?R, z?Zyk.DqFB-C:rat.-'JMNstQ!,$D
+;p lfbSsN
+LQm;b
+oSDxto&GUN!:cEsnRC?,kHozPuYWJmiUVF;nIH,DxjGPgLwo.3I;$vAl!B?kUbS$KIrqDJzp
+K!nxWWfKax ,PhtgCAMYn$;?3K!t,z3BNQF.yEa'UDcZRm MSiFOl-$oej$xldQDqvDsig-.eevDiNdm'goZmq$dst,BxmyVgo-r BHMjWIXXyyro; PT.msy-cCU
+h dMA
+MirDMATVx$yAkVxh$'w
+x$!G3SHiM-Ts,&
+s& 
+
+
+step 0: train loss 4.2222, val loss 4.2301
+slurmstepd: error: *** STEP 15576845.21 ON cn145 CANCELLED AT 2023-12-10T11:52:31 ***
+10.779713 M parameters
+
+Sample: 
+ SaVqul&f&&;gSKUCZo-
+DuQLg
+qlHHkPkBj!'VTSbmrMyEJK.q3kU.nLO.h&MHKHP
+wqkjEe nUReYPV$!DAyC Dbb$Ib&KIGEf$.Ca-F$orYHIorCZcV
+owkvu'Ww.&vxFxdFfRjI.LIzfmSBQzkma
+Ib,sOl
+ErmaEkLcQVLNFlxHmshIbPU!-T'srciwFz?hg.GpckkVcV,KD?R, z?Zyk.DqFB-C:rat.-'JMNstQ!,$D
+;p lfbSsN
+LQm;b
+oSDxto&GUN!:cEsnRC?,kHozPuYWJmiUVF;nIH,DxjGPgLwo.3I;$vAl!B?kUbS$KIrqDJzp
+K!nxWWfKax ,PhtgCAMYn$;?3K!t,z3BNQF.yEa'UDcZRm MSiFOl-$oej$xldQDqvDsig-.eevDiNdm'goZmq$dst,BxmyVgo-r BHMjWIXXyyro; PT.msy-cCU
+h dMA
+MirDMATVx$yAkVxh$'w
+x$!G3SHiM-Ts,&
+s& 
+
+
+step 0: train loss 4.2222, val loss 4.2301
+slurmstepd: error: *** STEP 15576865.1 ON cn652 CANCELLED AT 2023-12-10T11:56:32 ***
+10.779713 M parameters
+
+Sample: 
+ SaVqul&f&&;gSKUCZo-
+DuQLg
+qlHHkPkBj!'VTSbmrMyEJK.q3kU.nLO.h&MHKHP
+wqkjEe nUReYPV$!DAyC Dbb$Ib&KIGEf$.Ca-F$orYHIorCZcV
+owkvu'Ww.&vxFxdFfRjI.LIzfmSBQzkma
+Ib,sOl
+ErmaEkLcQVLNFlxHmshIbPU!-T'srciwFz?hg.GpckkVcV,KD?R, z?Zyk.DqFB-C:rat.-'JMNstQ!,$D
+;p lfbSsN
+LQm;b
+oSDxto&GUN!:cEsnRC?,kHozPuYWJmiUVF;nIH,DxjGPgLwo.3I;$vAl!B?kUbS$KIrqDJzp
+K!nxWWfKax ,PhtgCAMYn$;?3K!t,z3BNQF.yEa'UDcZRm MSiFOl-$oej$xldQDqvDsig-.eevDiNdm'goZmq$dst,BxmyVgo-r BHMjWIXXyyro; PT.msy-cCU
+h dMA
+MirDMATVx$yAkVxh$'w
+x$!G3SHiM-Ts,&
+s& 
+
+
+step 0: train loss 4.2222, val loss 4.2301
+
+Sample: 
+ ORVOMERSUCUCOMUOn:Cury:Dourine o' ind.OGARUT:Ugeover, bow night.nHowat worth that
+inle up up her lady's the but queeen.iG:
+
+Nurse:
+Welp manabouman? long,
+seeples, castin?ious,
+Twayones you ours adult in follow.
+
+
+PERCUTIVO:
+Comes.
+
+MENENENIUS:
+You leave pare
+And my for with carse?
+
+GLRUCE:
+Take an her, then bafice, enbup'd thy bRoth
+'T.
+
+MERCUCE:
+Nowo fast not lies to lief me it did me my malajed.
+
+JULIET:
+
+Do'd me:
+Any cers baVice of than shall prople enince:
+We'll ne't hears fear boy will tasb 
+
+
+step 1000: train loss 1.4668, val loss 1.6576
+
+Sample: 
+ EDUOMENEOfird VOLUCAMIS:SAMENENENIUS:Sir Gend you be the world: i' 'Rome
+Re betten in it the phants,pere 'Verces the birtune,n't one o' the king, or me!o he are
+they childres with.ou
+
+ISABELLA:
+Apalliengeance;ibes let me heart a will justy fet him the new,
+before, Sir Lewis and wall grief lord against the intell
+withbness art there in that to see shouldie quick
+either, the gots of noble Like of Lord, stands bareak.
+
+ANGELO:
+As it is so full out of me shrall things garden of a
+thbroaded out this  
+
+
+step 2000: train loss 1.2278, val loss 1.5044
+
+Sample: 
+ LUAERUTHY checonzOds.UMENENIUS:
+Noft hear firen.eOut of me?
+Ver fainst bail,one noble attnig, makind
+the tomb, mistire holly mort,
+it s true noted from tour ratin Balmos, bolingbran, friend you
+defend eyou.
+
+MARCIUS:
+Who second of your one
+that know, whither?
+
+BYird Caius Rober? Seeizen:
+Heaven, sir, let's it open with nod me.
+
+MARCIUS:
+A worddly now, wherein your friend; and in so her; which they
+do a gracious life every mater over themembery
+neities marriagnly: a perdon me, but that
+most piece 
+
+
+step 3000: train loss 1.1105, val loss 1.4747
+
+Sample: 
+ LBEUSIABELLd:
+COMARGE:VQUEENCIO:
+Great pague to your after, sir.kDQY BOLIZABERD:
+I beseech your pate, patricuple off.
+
+DUKE VINCENTIO:
+Burn me?
+
+POMPEY:
+I pray the base. I know-married, I know hath a word man
+poer man to my better, whom follows him.
+
+LADY ANNE:
+I will is bald before my love and I
+execute a harm-children, I was nexcharge
+for that your folk.
+
+Provost:
+What, manher is't your noble understand!
+
+DUKE VINCENTIO:
+Mine has that which he did contend his knig.
+
+BALTHASAR:
+Gramercy!
+
+ANGEL 
+
+
+step 4000: train loss 1.0051, val loss 1.4942
+
+Sample: 
+ hCUetheheeRwULAREbberd:ere.ffort,forer:rard, tho rother, goolow:
+boy far, law if to- weath.
+
+Sherah.
+
+Shepherd:
+main, sir, no; no; it is a way well too falsw woomen.
+where is here krecope? wherefore.
+
+All, save your man's name; I'll not bring thee to thee.
+
+GREMIO:
+Sweet Slain, tell me, well, sir. Lady! what's horse?
+While thou sorr'd Yong choick! come out of the prison?
+Where borsom hard was not but when the pitike be;
+And then till this fact another will do
+But be a fowl, since, if I were, he  
+
+
+step 5000: train loss 0.9046, val loss 1.5413

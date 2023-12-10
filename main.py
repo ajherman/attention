@@ -80,17 +80,17 @@ def estimate_loss(model):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('--version', type=str, default='original', help='Specify the version')
+    parser.add_argument('--version', type=int, default=0, help='Specify the version')
     parser.add_argument('--filepath', type=str,default='original.csv', help='Specify the file path')
     args = parser.parse_args()
     version = args.version
     filepath = args.filepath
 
     # Make / load model
-    if os.path.exists('transformer_' + version + '.pt'):
-        model = torch.load('transformer_' + version + '.pt')
+    if os.path.exists('transformer_' + str(version) + '.pt'):
+        model = torch.load('transformer_' + str(version) + '.pt')
     else:
-        model = Transformer(dm=dm, vocab_size=vocab_size, h=h, N=N, version=version)
+        model = Transformer(dm=dm, vocab_size=vocab_size,block_size=block_size, h=h, N=N, block_type=version)
     print(sum(p.numel() for p in model.parameters())/1e6, 'M parameters')
     m=model.to(device)
     optimizer = torch.optim.AdamW(model.parameters(), lr=lr)
@@ -125,7 +125,7 @@ if __name__ == '__main__':
         loss.backward()
         optimizer.step()
 
-    torch.save(m,'transformer_'+version+'.pt')
+    torch.save(m,'transformer_'+str(version)+'.pt')
     idx=torch.zeros((1,block_size),device=device,dtype=torch.long)
     idx=m.generate(idx,5000)
     print(idx)

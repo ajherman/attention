@@ -1,0 +1,180 @@
+Traceback (most recent call last):
+  File "/vast/home/ajherman/attention/main.py", line 93, in <module>
+    model = Transformer(dm=dm, vocab_size=vocab_size, h=h, N=N, version=version)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: Transformer.__init__() got an unexpected keyword argument 'version'
+Traceback (most recent call last):
+  File "/vast/home/ajherman/attention/main.py", line 90, in <module>
+    if os.path.exists('transformer_' + version + '.pt'):
+                      ~~~~~~~~~~~~~~~^~~~~~~~~
+TypeError: can only concatenate str (not "int") to str
+Traceback (most recent call last):
+  File "/vast/home/ajherman/attention/main.py", line 93, in <module>
+    model = Transformer(dm=dm, vocab_size=vocab_size, h=h, N=N, block_type=version)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vast/home/ajherman/attention/utils.py", line 219, in __init__
+    self.position_embedding_table = nn.Embedding(block_size,dm)
+                                                 ^^^^^^^^^^
+NameError: name 'block_size' is not defined. Did you mean: 'block_type'?
+Traceback (most recent call last):
+  File "/vast/home/ajherman/attention/main.py", line 93, in <module>
+    model = Transformer(dm=dm, vocab_size=vocab_size,block_size=block_size, h=h, N=N, block_type=version)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vast/home/ajherman/attention/utils.py", line 228, in __init__
+    self.blocks = nn.Sequential(*[Block3(dm,h) for _ in range(N)])
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vast/home/ajherman/attention/utils.py", line 228, in <listcomp>
+    self.blocks = nn.Sequential(*[Block3(dm,h) for _ in range(N)])
+                                  ^^^^^^^^^^^^
+  File "/vast/home/ajherman/attention/utils.py", line 204, in __init__
+    self.mha = MultiHeadAttention(dm,dk,dv,h)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vast/home/ajherman/attention/utils.py", line 127, in __init__
+    self.heads = nn.ModuleList([SelfAttentionHead(dm,dk,dv) for i in range(h)])
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vast/home/ajherman/attention/utils.py", line 127, in <listcomp>
+    self.heads = nn.ModuleList([SelfAttentionHead(dm,dk,dv) for i in range(h)])
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vast/home/ajherman/attention/utils.py", line 80, in __init__
+    self.tril=torch.tril(torch.ones((block_size,block_size),device=device))
+                                     ^^^^^^^^^^
+NameError: name 'block_size' is not defined
+Traceback (most recent call last):
+  File "/vast/home/ajherman/attention/main.py", line 93, in <module>
+    model = Transformer(dm=dm, vocab_size=vocab_size,block_size=block_size, h=h, N=N, block_type=version)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vast/home/ajherman/attention/utils.py", line 228, in __init__
+    self.blocks = nn.Sequential(*[Block3(dm,h) for _ in range(N)])
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vast/home/ajherman/attention/utils.py", line 228, in <listcomp>
+    self.blocks = nn.Sequential(*[Block3(dm,h) for _ in range(N)])
+                                  ^^^^^^^^^^^^
+  File "/vast/home/ajherman/attention/utils.py", line 204, in __init__
+    self.mha = MultiHeadAttention(dm,dk,dv,h)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vast/home/ajherman/attention/utils.py", line 127, in __init__
+    self.heads = nn.ModuleList([SelfAttentionHead(dm,dk,dv) for i in range(h)])
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vast/home/ajherman/attention/utils.py", line 127, in <listcomp>
+    self.heads = nn.ModuleList([SelfAttentionHead(dm,dk,dv) for i in range(h)])
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vast/home/ajherman/attention/utils.py", line 80, in __init__
+    self.tril=torch.tril(torch.ones((block_size,block_size),device=device))
+                                                                   ^^^^^^
+NameError: name 'device' is not defined
+Traceback (most recent call last):
+  File "/vast/home/ajherman/attention/main.py", line 93, in <module>
+    model = Transformer(dm=dm, vocab_size=vocab_size,block_size=block_size, h=h, N=N, block_type=version)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vast/home/ajherman/attention/utils.py", line 228, in __init__
+    self.blocks = nn.Sequential(*[Block3(dm,h) for _ in range(N)])
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vast/home/ajherman/attention/utils.py", line 228, in <listcomp>
+    self.blocks = nn.Sequential(*[Block3(dm,h) for _ in range(N)])
+                                  ^^^^^^^^^^^^
+  File "/vast/home/ajherman/attention/utils.py", line 206, in __init__
+    self.ln1 = nn.RMSNorm(dm,elementwise_affine=False)
+               ^^^^^^^^^^
+AttributeError: module 'torch.nn' has no attribute 'RMSNorm'
+Traceback (most recent call last):
+  File "/vast/home/ajherman/attention/main.py", line 93, in <module>
+    model = Transformer(dm=dm, vocab_size=vocab_size,block_size=block_size, h=h, N=N, block_type=version)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vast/home/ajherman/attention/utils.py", line 228, in __init__
+    self.blocks = nn.Sequential(*[Block3(dm,h) for _ in range(N)])
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vast/home/ajherman/attention/utils.py", line 228, in <listcomp>
+    self.blocks = nn.Sequential(*[Block3(dm,h) for _ in range(N)])
+                                  ^^^^^^^^^^^^
+  File "/vast/home/ajherman/attention/utils.py", line 206, in __init__
+    self.ln1 = nn.RMSNorm(dm,elementwise_affine=False)
+               ^^^^^^^^^^
+AttributeError: module 'torch.nn' has no attribute 'RMSNorm'
+Traceback (most recent call last):
+  File "/vast/home/ajherman/attention/main.py", line 93, in <module>
+    model = Transformer(dm=dm, vocab_size=vocab_size,block_size=block_size, h=h, N=N, block_type=version)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vast/home/ajherman/attention/utils.py", line 228, in __init__
+    self.blocks = nn.Sequential(*[Block3(dm,h) for _ in range(N)])
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vast/home/ajherman/attention/utils.py", line 228, in <listcomp>
+    self.blocks = nn.Sequential(*[Block3(dm,h) for _ in range(N)])
+                                  ^^^^^^^^^^^^
+  File "/vast/home/ajherman/attention/utils.py", line 206, in __init__
+    self.ln1 = nn.RMSNorm(dm,elementwise_affine=False)
+               ^^^^^^^^^^
+AttributeError: module 'torch.nn' has no attribute 'RMSNorm'
+Traceback (most recent call last):
+  File "/vast/home/ajherman/attention/main.py", line 93, in <module>
+    model = Transformer(dm=dm, vocab_size=vocab_size,block_size=block_size, h=h, N=N, block_type=version)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vast/home/ajherman/attention/utils.py", line 228, in __init__
+    self.blocks = nn.Sequential(*[Block3(dm,h) for _ in range(N)])
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vast/home/ajherman/attention/utils.py", line 228, in <listcomp>
+    self.blocks = nn.Sequential(*[Block3(dm,h) for _ in range(N)])
+                                  ^^^^^^^^^^^^
+  File "/vast/home/ajherman/attention/utils.py", line 206, in __init__
+    self.ln1 = RMSNorm(dm,elementwise_affine=False)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: RMSNorm.__init__() got an unexpected keyword argument 'elementwise_affine'
+10.779713 M parameters
+
+Sample: 
+ SaVqul&f&&;gSYUCZo-TDuQLg
+qlHHkPkBj!'VOSbUrMynJK.H3BU.nbOMh&MHKHP
+wqkjZe nUReYPV$!DAyC Dbu$Ib&KIGEff.Ca-!$orYHZorCZcn
+owk&u'WP.&vxFxdFh,jI.LIzfmSBQzkma
+Ib,sOl
+ErmSEkLcQGLNFsxHmshIbPU!-T'srciwFs?hg.GpakkVcV,KD?R, z?Zyk.DqFB-C:rmt..'JMqsoQ!,$D
+;p lfxSsNlLQm;b
+ofDxto&GEN!:cEsnRC?,kHozPuYWJmiUMF;nIH,DxjGPgLwo.3Io$dAl!B?kUJS$KIrqDJzp
+K!nxWWfYax ,PhtgCAMYn$;?3K!t,z3
+NQF.yEauUDcZ m MSiFJl-$oFj$xldQDquDsig-.eevDi dm'gokmq$dft,BxmyVwo-r BHMjwI
+Xyyro;
+
+Tumsy-cCUah dMA
+MirDMATVx$yAeVxh$'w
+x$!G3SHiM-Ts,&
+sM 
+
+
+step 0: train loss 4.2217, val loss 4.2296
+
+Sample: 
+ ODUMOMFSYOR
+DUUKnCINCION:YYiUMEO:
+GizOMGANUS:UCiNvUng of this conHolain,n whethat inle up up her ladveds
+Whenur queee arch o' offices'd musabre a baled;Des.o
+
+KING RICHEN OF M:
+Boyone, you our paduct in folld.n
+In well this in hearqueet too--good yongumper;
+But net for with carsh?
+
+GLOUCESTER:
+Thou say thou hafice, entursed hoseRure
+'Thinks fach I reoff thou olldess inly thy onted?
+Why, well you have condinting fords, asce
+Lord it shalt untry wasking speainsting
+As them upon sirchaled.
+
+DUKE VIN 
+
+
+step 1000: train loss 1.4898, val loss 1.6814
+
+Sample: 
+ HOXREOVTOMABVOLUSIXnIO:Tho amestdd what foblyxend Demeness is me held
+PrIRS:Move thinking beheld!oWhat no beinger,--which I prise home sir
+to will do seck measide see himseless at.o-dors:
+EScalespellish and lew him: let now with where
+the victor o'twerner the gat, Sipolet, mannow let
+mine pardend the steen that he stands;
+Though fifein the lowe desy their quice
+And morow negues in, mad this visage purpose.
+Dear say thou daughteriest so fight, thou meet,
+Thought like a nuleed birtal to sound us a 
+
+
+step 2000: train loss 1.2528, val loss 1.5189
