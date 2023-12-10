@@ -65,6 +65,15 @@ def get_batch(split):
     x,y=x.to(device),y.to(device)
     return x,y
 
+class RMSNorm(nn.Module):
+    def __init__(self,rms_val=1.0):
+        super().__init__()
+        self.rms_val = rms_val
+    def forward(self,x):
+        x=self.rms_val*(x/torch.sqrt(torch.mean(x**2,dim=-1,keepdim=True)))
+        return x
+        
+
 class SelfAttentionHead(nn.Module):
     def __init__(self,dm,dk,dv,dropout=0.2):
         super().__init__()
@@ -103,14 +112,16 @@ class SimpleMixingHead(nn.Module):  # This just mixes the input vectors, but doe
         out=wei@x
         return out
     
-class MultiHeadMixing(nn.Module):
+class MultiHeadMixing(nn.Module): # This concatenates inputs from mixing heads and applies a project to the result
     def __init__(self,dm,dk,dv,h,dropout=0.2):
         super().__init__()
-        self.W_v
         self.heads = nn.ModuleList([SelfAttentionHead(dm,dk,dv) for i in range(h)])
         self.W_o = nn.Linear(dv*h,dm)
         self.dropout = nn.Dropout(dropout)
-    
+    def forward(self,x): # This 
+        concat = torch.cat([head(x) for head in self.heads],dim=-1)
+        out = self.dropout( self.W_o(concat) )
+        return out
 
 class MultiHeadAttention(nn.Module):
     def __init__(self,dm,dk,dv,h,dropout=0.2,project=True):
@@ -147,8 +158,8 @@ class Block(nn.Module):
         assert(dk*h==dm) # Check the input/output size of block is same
         self.mha = MultiHeadAttention(dm,dk,dv,h)
         self.ffn = FeedForward(dm)
-        self.ln1 = nn.LayerNorm(dm)
-        self.ln2 = nn.LayerNorm(dm)
+        self.ln1 = nn.LayerNorm(dm,elementwise_affine=False)
+        self.ln2 = nn.LayerNorm(dm,elementwise_affine=False)
         # self.ln3 = nn.LayerNorm(dm)
     def forward(self,x):
         x = x + self.mha(self.ln1(x))
@@ -164,15 +175,15 @@ class Block2(nn.Module):
         assert(dk*h==dm) # Check the input/output size of block is same
         self.mha = MultiHeadAttention(dm,dk,dv,h)
         self.ffn = FeedForward(dm)
-        self.ln1 = nn.LayerNorm(dm)
-        self.ln2 = nn.LayerNorm(dm)
+        self.ln1 = nn.LayerNorm(dm,elementwise_affine=False)
+        self.ln2 = nn.LayerNorm(dm,elementwise_affine=False)
         # self.ln3 = nn.LayerNorm(dm)
     def forward(self,x):
         x = self.ln1(x + self.mha(x))
         x = self.ln2(x + self.ffn(x))
         # x = self.ln3(x)
         return x
-class Block3(nn.Module):
+class Block3(nn.Module): # This block takes attention without projection. 
     def __init__(self,dm,h):
         super().__init__()
         dk = dm // h
@@ -181,8 +192,8 @@ class Block3(nn.Module):
         self.mha = MultiHeadAttention(dm,dk,dv,h,project=False)
         self.W_o = nn.Linear(dv*h,dm)
         self.ffn = FeedForward(dm)
-        self.ln1 = nn.LayerNorm(dm)
-        self.ln2 = nn.LayerNorm(dm)
+        self.ln1 = nn.LayerNorm(dm,elementwise_affine=False)
+        self.ln2 = nn.LayerNorm(dm,elementwise_affine=False)
     def forward(self,x):
         x = x + self.W_o( self.mha( self.ln1(x) ))
         x = x + self.ffn( self.ln2(x) )
@@ -203,9 +214,6 @@ class Transformer(nn.Module):
         self.lm_head = nn.Linear(dm,vocab_size)
         self.logits_only=False
         self.apply(self._init_weights)
-
-    # How does this work?
-    ####################################################
     def _init_weights(self, module):
         if isinstance(module, nn.Linear):
             torch.nn.init.normal_(module.weight, mean=0.0, std=0.02)
@@ -213,7 +221,6 @@ class Transformer(nn.Module):
                 torch.nn.init.zeros_(module.bias)
         elif isinstance(module, nn.Embedding):
             torch.nn.init.normal_(module.weight, mean=0.0, std=0.02)
-    #######################################################
     def forward(self,idx,targets=None):
         B,T = idx.shape # batch size, context length
         token_embed=self.token_embedding_table(idx)
