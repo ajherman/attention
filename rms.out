@@ -1,123 +1,5 @@
-Traceback (most recent call last):
-  File "/vast/home/ajherman/attention/main.py", line 93, in <module>
-    model = Transformer(dm=dm, vocab_size=vocab_size, h=h, N=N, version=version)
-            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-TypeError: Transformer.__init__() got an unexpected keyword argument 'version'
-Traceback (most recent call last):
-  File "/vast/home/ajherman/attention/main.py", line 90, in <module>
-    if os.path.exists('transformer_' + version + '.pt'):
-                      ~~~~~~~~~~~~~~~^~~~~~~~~
-TypeError: can only concatenate str (not "int") to str
-Traceback (most recent call last):
-  File "/vast/home/ajherman/attention/main.py", line 93, in <module>
-    model = Transformer(dm=dm, vocab_size=vocab_size, h=h, N=N, block_type=version)
-            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/vast/home/ajherman/attention/utils.py", line 219, in __init__
-    self.position_embedding_table = nn.Embedding(block_size,dm)
-                                                 ^^^^^^^^^^
-NameError: name 'block_size' is not defined. Did you mean: 'block_type'?
-Traceback (most recent call last):
-  File "/vast/home/ajherman/attention/main.py", line 93, in <module>
-    model = Transformer(dm=dm, vocab_size=vocab_size,block_size=block_size, h=h, N=N, block_type=version)
-            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/vast/home/ajherman/attention/utils.py", line 228, in __init__
-    self.blocks = nn.Sequential(*[Block3(dm,h) for _ in range(N)])
-                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/vast/home/ajherman/attention/utils.py", line 228, in <listcomp>
-    self.blocks = nn.Sequential(*[Block3(dm,h) for _ in range(N)])
-                                  ^^^^^^^^^^^^
-  File "/vast/home/ajherman/attention/utils.py", line 204, in __init__
-    self.mha = MultiHeadAttention(dm,dk,dv,h)
-               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/vast/home/ajherman/attention/utils.py", line 127, in __init__
-    self.heads = nn.ModuleList([SelfAttentionHead(dm,dk,dv) for i in range(h)])
-                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/vast/home/ajherman/attention/utils.py", line 127, in <listcomp>
-    self.heads = nn.ModuleList([SelfAttentionHead(dm,dk,dv) for i in range(h)])
-                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/vast/home/ajherman/attention/utils.py", line 80, in __init__
-    self.tril=torch.tril(torch.ones((block_size,block_size),device=device))
-                                     ^^^^^^^^^^
-NameError: name 'block_size' is not defined
-Traceback (most recent call last):
-  File "/vast/home/ajherman/attention/main.py", line 93, in <module>
-    model = Transformer(dm=dm, vocab_size=vocab_size,block_size=block_size, h=h, N=N, block_type=version)
-            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/vast/home/ajherman/attention/utils.py", line 228, in __init__
-    self.blocks = nn.Sequential(*[Block3(dm,h) for _ in range(N)])
-                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/vast/home/ajherman/attention/utils.py", line 228, in <listcomp>
-    self.blocks = nn.Sequential(*[Block3(dm,h) for _ in range(N)])
-                                  ^^^^^^^^^^^^
-  File "/vast/home/ajherman/attention/utils.py", line 204, in __init__
-    self.mha = MultiHeadAttention(dm,dk,dv,h)
-               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/vast/home/ajherman/attention/utils.py", line 127, in __init__
-    self.heads = nn.ModuleList([SelfAttentionHead(dm,dk,dv) for i in range(h)])
-                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/vast/home/ajherman/attention/utils.py", line 127, in <listcomp>
-    self.heads = nn.ModuleList([SelfAttentionHead(dm,dk,dv) for i in range(h)])
-                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/vast/home/ajherman/attention/utils.py", line 80, in __init__
-    self.tril=torch.tril(torch.ones((block_size,block_size),device=device))
-                                                                   ^^^^^^
-NameError: name 'device' is not defined
-Traceback (most recent call last):
-  File "/vast/home/ajherman/attention/main.py", line 93, in <module>
-    model = Transformer(dm=dm, vocab_size=vocab_size,block_size=block_size, h=h, N=N, block_type=version)
-            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/vast/home/ajherman/attention/utils.py", line 228, in __init__
-    self.blocks = nn.Sequential(*[Block3(dm,h) for _ in range(N)])
-                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/vast/home/ajherman/attention/utils.py", line 228, in <listcomp>
-    self.blocks = nn.Sequential(*[Block3(dm,h) for _ in range(N)])
-                                  ^^^^^^^^^^^^
-  File "/vast/home/ajherman/attention/utils.py", line 206, in __init__
-    self.ln1 = nn.RMSNorm(dm,elementwise_affine=False)
-               ^^^^^^^^^^
-AttributeError: module 'torch.nn' has no attribute 'RMSNorm'
-Traceback (most recent call last):
-  File "/vast/home/ajherman/attention/main.py", line 93, in <module>
-    model = Transformer(dm=dm, vocab_size=vocab_size,block_size=block_size, h=h, N=N, block_type=version)
-            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/vast/home/ajherman/attention/utils.py", line 228, in __init__
-    self.blocks = nn.Sequential(*[Block3(dm,h) for _ in range(N)])
-                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/vast/home/ajherman/attention/utils.py", line 228, in <listcomp>
-    self.blocks = nn.Sequential(*[Block3(dm,h) for _ in range(N)])
-                                  ^^^^^^^^^^^^
-  File "/vast/home/ajherman/attention/utils.py", line 206, in __init__
-    self.ln1 = nn.RMSNorm(dm,elementwise_affine=False)
-               ^^^^^^^^^^
-AttributeError: module 'torch.nn' has no attribute 'RMSNorm'
-Traceback (most recent call last):
-  File "/vast/home/ajherman/attention/main.py", line 93, in <module>
-    model = Transformer(dm=dm, vocab_size=vocab_size,block_size=block_size, h=h, N=N, block_type=version)
-            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/vast/home/ajherman/attention/utils.py", line 228, in __init__
-    self.blocks = nn.Sequential(*[Block3(dm,h) for _ in range(N)])
-                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/vast/home/ajherman/attention/utils.py", line 228, in <listcomp>
-    self.blocks = nn.Sequential(*[Block3(dm,h) for _ in range(N)])
-                                  ^^^^^^^^^^^^
-  File "/vast/home/ajherman/attention/utils.py", line 206, in __init__
-    self.ln1 = nn.RMSNorm(dm,elementwise_affine=False)
-               ^^^^^^^^^^
-AttributeError: module 'torch.nn' has no attribute 'RMSNorm'
-Traceback (most recent call last):
-  File "/vast/home/ajherman/attention/main.py", line 93, in <module>
-    model = Transformer(dm=dm, vocab_size=vocab_size,block_size=block_size, h=h, N=N, block_type=version)
-            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/vast/home/ajherman/attention/utils.py", line 228, in __init__
-    self.blocks = nn.Sequential(*[Block3(dm,h) for _ in range(N)])
-                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/vast/home/ajherman/attention/utils.py", line 228, in <listcomp>
-    self.blocks = nn.Sequential(*[Block3(dm,h) for _ in range(N)])
-                                  ^^^^^^^^^^^^
-  File "/vast/home/ajherman/attention/utils.py", line 206, in __init__
-    self.ln1 = RMSNorm(dm,elementwise_affine=False)
-               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-TypeError: RMSNorm.__init__() got an unexpected keyword argument 'elementwise_affine'
+10.779713 M parameters
+slurmstepd: error: *** STEP 15576875.0 ON cn205 CANCELLED AT 2023-12-10T12:31:03 ***
 10.779713 M parameters
 
 Sample: 
@@ -178,4 +60,564 @@ Thought like a nuleed birtal to sound us a
 
 
 step 2000: train loss 1.2528, val loss 1.5189
-slurmstepd: error: *** STEP 15576868.0 ON cn651 CANCELLED AT 2023-12-10T12:20:44 ***
+
+Sample: 
+ LUAQUUEENVOLMIXENTIUS:Madembmen,Enly how your maids a lame?nwhen allihbord of ping? poor.SICINIUS:
+Well choose meening to conquet,
+not  truly.oze you, sir, truth, But I should here ferruits you
+dare enemined or fone flave the faresteen
+on field-raide waitories foul with his.
+
+COMINIUS:
+A pray could followering pleasured than
+kissues you.
+
+SICINIUS:
+O the becompany from words!
+
+MENENIUS:
+Be he'll be countento himself the peopler o' the meet
+I take the partless born: Yea, 'Twere not cannot
+She ste 
+
+
+step 3000: train loss 1.1416, val loss 1.4834
+
+Sample: 
+ OBUUSARCOLUMNDUKENIUS:Gea!EvecFRUT:no cannot the neited for so: kitYCUCIt prices sa not perceculy: he had he pated for fice too begin too three bleby hound
+with this songer.
+
+SICINIUS:
+Why new have been this taper, how them
+we were wound.
+
+Tuship's a thousans was to ourse alone,
+In peace, full appering reason, than too
+doubled of hanging?
+Would three fondless are her for defended command
+To murder where hath been famed?
+
+MENENIUS:
+Nay, away! the disposed, wend a guilt
+When we'll accunnas the mil 
+
+
+step 4000: train loss 1.0507, val loss 1.4851
+
+Sample: 
+ STCAMISRLCORIONTESCTELLY:
+AfurdR,BUmllelie brien woth an hour Cotua.nor:
+els, sir, an thoy fellow thy change for-pray it.VGod get think up,
+and with troubling ofmicatwing dewn.
+
+AUTOLYCUS:
+O heavens.
+
+AUTOLYCUS:
+Well, sir, there is ten these was caller,
+these in request a lamentable and repent;
+that this all and good scivell'd will be in even
+She would have more by him.
+
+Clown:
+I will provise you'ld not unequestors, but your bondam's
+and bedling our ship abhorror.
+
+AUTOLYCUS:
+Well, my masters, t 
+
+
+step 5000: train loss 0.9669, val loss 1.5156
+
+Sample: 
+ SLMOPREGEONULRISxCMNImS:Caius;can mecrcie;for hera delices Rome;eather al a corse.Lhoumhe sweet, sir; toes it erra you nexot dischange a saf, you
+will send a lad, good Pmoverhipg to a resolvered husband!
+
+PETRUCHIO:
+Manion, I have attended for both, buy death,
+that certains of makes him sleep in the business
+of hence.
+
+HORTENSIO:
+I would you, my lorder son.
+
+GREMIO:
+At thee blamen?
+
+PETER:
+God save your pleasure, and do you go;
+If be short any very condemned,
+Remembering thou against your fire t 
+
+
+step 6000: train loss 0.8823, val loss 1.5509
+
+Sample: 
+ FLARATRCLAUGOMNEheRmenA:' cerveromuc,mercuble fellious, are comed. I know you will revent tellen of carom
+anon, a man faviant coxanifes! Seizel, I
+cannot in all faith enough, now, beating peacetives subject.
+
+LUCIO:
+Now, since I cannot be hence the stream of his country:
+I am his punk of grievame was too lofe-leved lists,
+but they'll think you.
+
+First Musician:
+And fought of the manner youth, wise hover as you.
+
+ProvostI:
+Long to him: are in that he title well appeal
+For Rome of that have Mercut 
+
+
+step 7000: train loss 0.8011, val loss 1.5958
+
+Sample: 
+ GSmmCmLmMGGLEmGZGnOSIO:Ppeaee.mhem:cher$d cllyccome toob.ouche, an my matterveing giting hence is any of the
+whither, way, in it watter thing a gold with anity
+proud hear the heat old would be wont you were wont.
+
+Third Servingman:
+I will be daughter to be my blawful means.
+
+BENVOLIO:
+And by your love unprosperable you are,
+And fear incense I spoke withal of my dooms
+And ignoble for treade of an empinion:
+Some it my name own soul in Vienna,
+Littendones my foot trifless in time
+In repent the fata 
+
+
+step 8000: train loss 0.7200, val loss 1.6583
+
+Sample: 
+ MGORGMOPSISCGSELEGOREM:morm,my rone.my fecutiors and a dellivingnate of the goose: you are so
+goodly love that you meaning particly.
+
+MISTRESSS VERDONIO:
+You shall be as in Angranspur to the
+duke: that's shall to suffer a voward time.
+
+Provost:
+You have made for Claudio help with me:
+Since that I say him name to,
+By Angelo which shall.
+
+HORTENSIO:
+Sit Oven wrie be my master,
+Potter untainted fellow.
+
+MERCUTIO:
+He will stand unto his exclamations;
+He loves the call of England and honoum falls,
+Vi 
+
+
+step 9000: train loss 0.6475, val loss 1.7148
+
+Sample: 
+ LOMPERGEEENVERGET:GLVIMrRGM:Marr:Secheded an ask mine honeshours blemisth the while he
+is receiventles for his great enemiends; their for
+capable is will help a notor; but if he wear
+his vices is here. Hold your name up Lick;'tis nurse, come
+no waked and from dead. Harphens, boy!
+
+AEdile:
+pie!
+
+Servant:
+I loved.
+
+BENVOLIO:
+Thorub w it.
+
+ROMEO:
+Monder her hath now loved pain'd, sir; or, if he
+kicks where is dam cardly he prompts to you.
+
+ROMEO:
+Believe me, and loving ring in that himself,
+Commend 
+
+
+step 10000: train loss 0.5784, val loss 1.7579
+
+Sample: 
+ POMMPIET:GGREGOERMENIUS:
+Sor! cannie Rome. Have hands: it like you still that take your
+action of your true and your butt to dispatch out it back. There's othe
+
+will:
+HORTENSIO:
+my master is strange shipful to come again.
+I thank the glass should say my sons,
+Not in lesse that blows the lord which often years
+But making him by the sweeting fire
+Bearing liky abuse; there was nothin fame
+But out desperated by thing robsers both:
+Bring foots, I'll free thy royal grie.
+
+YORK:
+And courageous bats boa 
+
+
+step 11000: train loss 0.5118, val loss 1.8375
+
+Sample: 
+ ROMEORGOMEONSES:
+Gremen; burne-some: every house, if he had been in Rome's hone.
+
+MEGORGOUCEST:
+Well, I have first that he does fastly execut him to
+him hereafter. I am one that hath for undone hermitables:
+if I throw my unknowledged to thee.
+
+Third Citizen:
+But speak not you therefore.
+
+Third Citizen:
+Believe me, you know no.
+
+CORIOLANUS:
+More welcome how that you have warrant from
+conscience a temptance. They are myself in
+your enemies from the power: so with the tooth of go a
+grain or morning 
+
+
+step 12000: train loss 0.4537, val loss 1.8977
+
+Sample: 
+ BGCUOMORGETM:SOMERTUS:
+Shepbey, here one comes another trouble before
+We knock two and Rome.anursed no more of honesty but
+than the warrants of her all services laid
+the beasting to from the had nostiled himself, his
+time that they loved him as longs are
+pick-likely knowly. I would they were so am officed no figuritice,
+lent you would home return as you dour want manner.
+
+Second Servant:
+Your best mork hastily
+been all that I have such deservice. But, give it that your
+name, you will home to hea 
+
+
+step 13000: train loss 0.4067, val loss 1.9650
+
+Sample: 
+ GEGSBGUVCGETES:M:
+WYBCUS:
+Doth how do your worships in glory?
+
+MuGT:
+Out, you could the slander? why have I
+could dare begn on double with an Rome bud bid me
+born the ready, and the poor caphels of the comp
+etr, and he where begin two scopen and said, the rest
+s and petition with yours.
+
+BAVERSURET:
+In bring forth your way; and though I may leap it.
+
+BALTHASAR:
+Farewell, now, my most noble daughter!
+
+ROMEO:
+
+ROMEO:
+Our generate-bings were soft to-morrow!
+But one that is true, sure, I swear too:
+ 
+
+
+step 14000: train loss 0.3617, val loss 2.0100
+
+Sample: 
+ GLEORGOMMEMERCEST:GMMIS:Then he hanged so being againg for the curcoranage, lord an earth, an in  being so good a
+boot of ceror; that I must not have a jast for gither. Shephear for what he this
+thing I shall be heard finess. And you, sir, the
+priest let most glad that will give the lame instruments, go
+whom I am that I am going; and being aprely gold.
+
+Second Gentleman:
+I know you a Pharis.
+
+First Gentleman:
+Who canst thou tell hawks some scratche?
+
+POMPEY:
+I do, mistress your good shield, on t 
+
+
+step 15000: train loss 0.3194, val loss 2.0686
+
+Sample: 
+ GRGREGGEGOVOVERGY:S:
+'SOMy favoer.
+ Sevey, seven. Severy yea: will I serve as give as three-strange and of the
+was yea a gentleman. ABUSHY:
+To say, you help your hhand; if you may leave to't.
+
+Shepherd:
+Let me have not, think anon, sir.
+
+ABHORSON:
+O, by my that day by the life offamy: if
+The jest may be your queen, sully, that your soul
+Hath time to learn, that no shall you go wrong.
+
+BARNARDIS:
+I have no sin to better now repace more
+Than dogs prove it before accusation
+Than some compented succ 
+
+
+step 16000: train loss 0.2887, val loss 2.1323
+
+Sample: 
+ GBEGORGGEG:SGGREES:GORY:
+A GGREG:Gemorow hence, the boy mouse again unbut the other of new is Montague: and
+sure of her factors and the party of any twos; but I
+know not here is no hands and to me, sir, but by
+possible hearing towardship the king. Come, do we make
+you facess out walkings, who proclaimed hndred to help
+yourself with sighs; and what limature with the
+bloody publick of itself did the this paws to but rage: fur
+obedience, that have we thrust from his vantage,
+that he hath ever bleed 
+
+
+step 17000: train loss 0.2622, val loss 2.1664
+
+Sample: 
+ GRUMETRGIGIGS:GREGGRGE:MI muse his fellow Plmas, whip: it will beit in some time occasion; then go
+by the house of my paisaner and to the glass, I will
+pray for the whole six one sun begin beans, my old am
+shall the fill be wore obed your grace: out of the
+mine eye by the garment, I'll bring Myb flack out the
+very poice. Answer you most go towardly, on the fire
+of second the distress untendured, which I buw cannot
+suce to his able. And to say I
+rest I lived aboard; I warrant him my stolehold: bu 
+
+
+step 18000: train loss 0.2356, val loss 2.2291
+
+Sample: 
+ ISAGETRBY:
+YBOWY:
+Well, leab her oad.
+
+Second Serviwn:
+He hold a son, bade him let's before him and he
+in him.
+
+First Genner:
+He said all men, though shall affeelow him.
+
+ESCALUS:
+He this great of him ahried to-morrow
+Showing the nature of his sake spirit,
+And there had been to begar it!
+Why, though never full borrows' sway with fire
+Shall be then of reason, yet the world begin me
+Tie with flatter lambs well the sour pack'd of life
+The heir to delight one slip of death,
+Not was afoot on the self 
+
+
+step 19000: train loss 0.2181, val loss 2.2799
+
+Sample: 
+ FOORTOMEOVGOM:Sweck, whenh, what?
+Then of us that?
+
+Second Servant:
+For this in the tell thou, he let hath chid both lies and to tell which in either.
+
+POMPEY:
+He whom headed and till his head in the book
+Of general; she both she is empty spower,
+As if a man condition a man's mean,
+Have show his hast the stroke and very frownd
+Lel of the bent with bow peach.
+
+Shepherd:
+O, my heart!
+They have lived made a poort of gold
+Pane, but like Henry took a king of king!
+She fareter the more than word in hi 
+
+
+step 20000: train loss 0.2008, val loss 2.3133
+tensor([[ 0,  0,  0,  ..., 63,  1, 51]], device='cuda:0')
+SUCOSCESSCOMPEY:SOMY:S:Sbetry, hereldom met in this fellow sole are two and so a-boyful befellow:
+any think before all the year on tortove of the
+tootht.
+
+ESCALUS:
+No, none so lest about a little fingerity: gulhis wound
+under his own revengeful again on to folly would
+through flesh of all, the wise of rock and throne,
+at the very poor gentlewoman.
+
+CORIOLANUS:
+Now as intence
+That 'twere needfuls we have begu'd with our tents,
+Which art they come to kings.
+
+COMINIUS:
+Nay, my good soldier, fliergets flow to tear a
+perservant to the ship, who, the to wants with winds
+their other, distressing whom he seaked
+in the regal crown before his letter; we'll find
+out that which is matter, wish.
+
+First Servinngman:
+He hath some in thome feather; we are struck in breath.
+
+Second Servingman:
+By my hand, my good lord, I can tell thee who.
+
+CORIOLANUS:
+Nay, he shall expect him.
+
+Second Servingman:
+And he shall neever abmer'd that he hath provided his.
+
+Third Servingman:
+Wherefore do you speak, sir, till you make him,
+that chides me fair to sleep.
+
+CORIOLANUS:
+Have you rul advance,
+Or all the tribunes fast to lock his patriciar,
+And put and the Tarpeian mark King Rome,
+Should die it be falsely vow; where dost thou nothing
+To great thy damned for love out of request:
+And if thy poor devert charity,
+Give some green, of thy prince, it again;
+For in a momast desperate, brothers have they
+That within my name awhile.
+
+DUKE OF AUMERLE:
+Vile Somerset, and grace am from the feart;
+And, if an I have true another heaven,
+Unless their yields upe in consenation
+And the in bloody thereof her eyes;
+Without crocking by many journ thereof,
+And heretoring leave and take thee away best.
+The lady, the queen fall of the death of man,
+His rascal, man angry toed much;
+And will I weep incontent: as I defend thee
+Where above Godpon to thy queen:
+Nay, crave thy humble heaving, that for words
+Heaven lamp, and they did smiling their heads
+That steall me to their breast breath from thy rackness!
+Wilt thou, like a like tongue, warw usurping boys,
+Vicetition and haste for these hands by wounded
+In this human brat's worthy devocered shop,
+As every tamps in the little scare,
+They themetale thought ourselves to fear this earth.
+Sir John marry, O! let my mountaway first:
+The more I drown this wise my househ is brother
+Than Bolingbroke's pardon, for England's royal throne.
+
+BONAGOTH:
+Give me that your rest, shall I sell it show you.
+Where is the poor that gold I hast in your tongue?
+
+KING RICHARD III:
+Are you a Catsle?
+
+BISHOP OF CARLISLE:
+At I have, sir.
+
+Shepherhood, look up:
+My frother, sir?
+
+AUTOLYCUS:
+A litter fellow, I have not a plotted
+on here,--
+
+CloOgethout within; cord-for conclusion, I:
+I would frail he have in madness to thee speak.
+
+Second Murderer:
+For fair our reward, my own lord.
+
+CLARENCE:
+Bear hence from Warwick mourne with us.
+
+Second Murderer:
+I shall rest in arms, with twelve married though.
+Stay, my lord. Come, come, let's away.
+Thou art tell excle: thou wilt fly to me to
+The flatterants of thy forvides that blood
+Which let breathe we here. Be thy tused with
+To augured thine and thy preceious queens,
+That thou hear'st speak no more worsed
+Than can breathe safety riter and day up;
+And hadame, poor widow, it hath been tongued
+By that disposition of a king.
+Now watchmen, give way this way right,
+But to rejoice in farter the princess share,
+And crown to joy me and his care:
+And trusty gives with right with treacherous blood!
+
+QUEEN ELIZABETH:
+As much to your gracious lady to my God,
+To make enture compets to your majesty;
+Ill be considered: Vierta not now leneds;
+With courage that may need your kingdoms,
+And beat him but as our rest,
+As ever as we'll, march on their haughty spring.
+Out, this princely father, this must I thy bless;
+Our hearts, all perditations no furnishions,
+Our appreent to lines actors 'gainst for thee.
+Teeth had children play'd and from the descaped
+Return'd against from Tybalt liberty,
+And nothing ready to speak more far
+Than what title Romeo's honours will self.
+If any sup which to humour it?
+
+BENVOLIO:
+True, my lord.
+
+MARCIUS:
+A run to her, doubtful spirit! for thou'rt our heartiles
+toget thee for thy accompany kind that
+More already man.
+
+MONTAGUE:
+But that's the prost.
+
+MARCIUS:
+Your honour is apron:
+Be va's Timen, thou'rt sure his sound.
+
+AUTOLYCUS:
+If I can bring these hence, you neither.
+
+LUCIO:
+My grace shall tell my thumberland, I am
+crave with my life to be a necester, I may
+quried witch it.
+
+ANGELO:
+Believe me, the wrong provoked by the hand, if
+I that know thee, where is very creaty,
+So hateful of blood doth ope, here lives
+The died my presence death-born with the adversed worm.
+Inquire my joys must be briske.
+
+ISABELLA:
+O, pardon, my father; I cannot bring thee,
+Before the thirsty, send thy king thy breath;
+Which art thou king'st for being prevailes there,
+Against all this land whose wilfull competed,
+Unbidng weeds their hates with deadly plays;
+And yet he send to frame in them,
+Nor wises of heart: they say m
