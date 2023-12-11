@@ -1,6 +1,4 @@
 10.779713 M parameters
-slurmstepd: error: *** STEP 15576877.0 ON cn210 CANCELLED AT 2023-12-10T12:31:03 ***
-10.779713 M parameters
 
 Sample: 
  SaVqul&f&&;gSKUCZo-
@@ -344,3 +342,4 @@ Rome
 
 
 step 14000: train loss 0.2557, val loss 2.2399
+slurmstepd: error: *** STEP 15576893.2 ON cn651 CANCELLED AT 2023-12-10T16:44:24 DUE TO TIME LIMIT ***
