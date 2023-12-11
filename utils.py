@@ -62,6 +62,34 @@ def get_batch(split):
     x,y=x.to(device),y.to(device)
     return x,y
 
+# Datasets
+class ShakespeareData(Dataset):
+    def __init__(self,block_size=None,file_path='shakespeare.txt'):
+        super().__init__()
+
+        # Read in text file
+        with open(file_path,'r',encoding='utf-8') as f:
+            self.text = f.read()
+        self.data = torch.tensor(encode(self.text))
+        self.block_size=block_size
+    def __getitem__(self,idx):
+        # x = torch.stack([self.data[i:i+self.block_size] for i in index])
+        # y = torch.stack([self.data[i+1:i+1+self.block_size] for i in index])
+        x = self.data[idx:idx+self.block_size]
+        y = self.data[idx+1:idx+1+self.block_size]
+        return x,y
+    
+    def __len__(self):
+        return len(self.data)-self.block_size
+
+# dataset=ShakespeareData(20)
+# dataloader = DataLoader(dataset,batch_size=10)
+# for i,(x,y) in enumerate(dataloader):
+#     print(x)
+#     print(y)
+#     if i>2:
+#         assert(0)
+# assert(0)
 # Basic components
 ####################################################################################
 class RMSNorm(nn.Module):

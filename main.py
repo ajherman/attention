@@ -26,6 +26,8 @@ dropout=0.2
 # Set seed
 torch.manual_seed(1337)
 
+
+
 # Download a sample text file (e.g., "The Complete Works of William Shakespeare")
 url = "https://raw.githubusercontent.com/karpathy/char-rnn/master/data/tinyshakespeare/input.txt"
 file_path = "shakespeare.txt"
@@ -104,10 +106,29 @@ if __name__ == '__main__':
     # m.logits_only=False
 
     
+    # # Train
+    # for itr in range(n_itrs):
+    #     if itr % eval_interval == 0:
+    #         losses = estimate_loss(model)  # Calculate loss
+    #         with open(filepath, 'a', newline='') as csvfile:
+    #             writer = csv.writer(csvfile)
+    #             writer.writerow([losses[split] for split in ['train','test']])
+    #         idx = torch.zeros((1, block_size), device=device, dtype=torch.long)
+    #         idx = m.generate(idx, 500)
+    #         print("\nSample: \n", decode(list(idx[0])[block_size:]), '\n\n')
+    #         print(f"step {itr}: train loss {losses['train']:.4f}, val loss {losses['test']:.4f}")
+    #         torch.save(m, 'transformer_' + str(version) + '.pt')
+    #     xb, yb = get_batch('train')
+    #     logits, loss = model(xb, yb)
+
+    #     optimizer.zero_grad(set_to_none=True)
+    #     loss.backward()
+    #     optimizer.step()
+
     # Train
-    # m.train()
-    for itr in range(n_itrs):
-        #print(itr)
+    dataset=ShakespeareData(block_size=block_size)
+    train_loader=DataLoader(dataset,batch_size=batch_size)
+    for itr,(xb,yb) in enumerate(train_loader):
         if itr % eval_interval == 0:
             losses = estimate_loss(model)  # Calculate loss
             with open(filepath, 'a', newline='') as csvfile:
