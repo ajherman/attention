@@ -110,29 +110,8 @@ if __name__ == '__main__':
     # writer.close()
     # m.logits_only=False
 
-    dataset = load_dataset("nRuaif/tinystories-gpt4",split="train")
-    dataloader = DataLoader(dataset, batch_size=64)
-
-    tokenizer = GPT2Tokenizer.from_pretrained('gpt2')
-    tokenizer.add_special_tokens({'pad_token': '[PAD]'})
-    
-    
-    # def tokenization(example):
-        # return tokenizer(example["text"])
-
-    # dataset = dataset.map(tokenization, batched=True)
     # Train
-    dataset=ShakespeareData(block_size=block_size)
-    train_loader=DataLoader(dataset,batch_size=batch_size)
-
-    for i,x in enumerate(dataloader):
-        # print(type(x['text'][0]))
-        data = tokenizer(x['text'],padding="max_length",truncation=True,max_length=450,return_tensors="pt")        
-        print(data['input_ids'].size())
-        if i>1:
-            assert(0)
-
-    for itr,(xb,yb) in enumerate(train_loader):
+    for itr in range(n_itrs):
         if itr % eval_interval == 0:
             losses = estimate_loss(model)  # Calculate loss
             with open(filepath, 'a', newline='') as csvfile:
@@ -143,12 +122,16 @@ if __name__ == '__main__':
             print("\nSample: \n", decode(list(idx[0])[block_size:]), '\n\n')
             print(f"step {itr}: train loss {losses['train']:.4f}, val loss {losses['test']:.4f}")
             torch.save(m, 'transformer_' + str(version) + '.pt')
-        # xb, yb = get_batch('train')
+        xb, yb = get_batch('train')
         logits, loss = model(xb, yb)
 
         optimizer.zero_grad(set_to_none=True)
         loss.backward()
         optimizer.step()
+
+    # Train
+    # dataset=ShakespeareData(block_size=block_size)
+    # train_loader=DataLoader(dataset,batch_size=batch_size)
 
     torch.save(m,'transformer_'+str(version)+'.pt')
     idx=torch.zeros((1,block_size),device=device,dtype=torch.long)

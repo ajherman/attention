@@ -66,8 +66,6 @@ def get_batch(split):
 class ShakespeareData(Dataset):
     def __init__(self,block_size=None,file_path='shakespeare.txt'):
         super().__init__()
-
-        # Read in text file
         with open(file_path,'r',encoding='utf-8') as f:
             self.text = f.read()
         self.data = torch.tensor(encode(self.text))
@@ -78,7 +76,6 @@ class ShakespeareData(Dataset):
         x = self.data[idx:idx+self.block_size]
         y = self.data[idx+1:idx+1+self.block_size]
         return x,y
-    
     def __len__(self):
         return len(self.data)-self.block_size
 
@@ -241,7 +238,7 @@ class Block3(nn.Module):
 # Models
 ###############################################################################################
 class Transformer(nn.Module):
-    def __init__(self,dm,vocab_size,block_size=256,h=6,N=6,block_type=0,embedding_method='absolute',final_norm='layer_norm'):
+    def __init__(self,dm,vocab_size,block_size=256,h=2,N=6,block_type=0,embedding_method='absolute',final_norm='layer_norm'):
         super().__init__()
         self.final_norm = final_norm
         self.block_size=block_size
