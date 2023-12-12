@@ -15,7 +15,7 @@ from transformers import GPT2Tokenizer, GPT2Model
 
 
 # Parameters
-block_size = 32 # 256
+block_size = 256
 batch_size = 64
 eval_interval= 200 #1000
 eval_iters=500
@@ -27,6 +27,7 @@ N=2 #6 # Number of layers
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 n_itrs=20001
 dropout=0.2
+vocab_size=50257
 
 # Set seed
 torch.manual_seed(1337)
@@ -120,19 +121,21 @@ if __name__ == '__main__':
     # def tokenization(example):
         # return tokenizer(example["text"])
 
-    # dataset = dataset.map(tokenization, batched=True)
-    # Train
-    dataset=ShakespeareData(block_size=block_size)
-    train_loader=DataLoader(dataset,batch_size=batch_size)
 
-    for i,x in enumerate(dataloader):
-        # print(type(x['text'][0]))
-        data = tokenizer(x['text'],padding="max_length",truncation=True,max_length=450,return_tensors="pt")        
-        print(data['input_ids'].size())
-        if i>1:
-            assert(0)
 
-    for itr,(xb,yb) in enumerate(train_loader):
+    # for i,x in enumerate(dataloader):
+    #     # print(type(x['text'][0]))
+    #     data = tokenizer(x['text'],padding="max_length",truncation=True,max_length=block_size,return_tensors="pt")        
+    #     print(data['input_ids'].size())
+    #     if i>1:
+    #         assert(0)
+
+    for itr,batch in enumerate(dataloader):
+        data = tokenizer(batch['text'],padding="max_length",truncation=True,max_length=block_size,return_tensors="pt")        
+        data = data['input_ids']
+        xb,yb = data[:, :-1], data[:, 1:]
+        # print(data['input_ids'].size())
+        # assert(0)
         if itr % eval_interval == 0:
             losses = estimate_loss(model)  # Calculate loss
             with open(filepath, 'a', newline='') as csvfile:
