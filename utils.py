@@ -79,14 +79,6 @@ class ShakespeareData(Dataset):
     def __len__(self):
         return len(self.data)-self.block_size
 
-# dataset=ShakespeareData(20)
-# dataloader = DataLoader(dataset,batch_size=10)
-# for i,(x,y) in enumerate(dataloader):
-#     print(x)
-#     print(y)
-#     if i>2:
-#         assert(0)
-# assert(0)
 # Basic components
 ####################################################################################
 class RMSNorm(nn.Module):
@@ -238,7 +230,7 @@ class Block3(nn.Module):
 # Models
 ###############################################################################################
 class Transformer(nn.Module):
-    def __init__(self,dm,vocab_size,block_size=256,h=2,N=6,block_type=0,embedding_method='absolute',final_norm='layer_norm'):
+    def __init__(self,dm,vocab_size=0,block_size=256,h=2,N=6,block_type=0,embedding_method='absolute',final_norm='layer_norm'):
         super().__init__()
         self.final_norm = final_norm
         self.block_size=block_size

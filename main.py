@@ -27,7 +27,7 @@ N=2 #6 # Number of layers
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 n_itrs=20001
 dropout=0.2
-vocab_size=50257
+vocab_size=50258
 
 # Set seed
 torch.manual_seed(1337)
@@ -49,7 +49,7 @@ with open(file_path,'r',encoding='utf-8') as f:
 
 # Get char list
 chars = sorted(list(set(text)))
-vocab_size = len(chars)
+# vocab_size = len(chars)
 
 # Define encoding and decoding functions
 s2i = {ch:i for i,ch in enumerate(chars)}
@@ -134,8 +134,7 @@ if __name__ == '__main__':
         data = tokenizer(batch['text'],padding="max_length",truncation=True,max_length=block_size,return_tensors="pt")        
         data = data['input_ids']
         xb,yb = data[:, :-1], data[:, 1:]
-        # print(data['input_ids'].size())
-        # assert(0)
+
         if itr % eval_interval == 0:
             losses = estimate_loss(model)  # Calculate loss
             with open(filepath, 'a', newline='') as csvfile:
