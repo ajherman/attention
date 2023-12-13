@@ -71,8 +71,6 @@ class ShakespeareData(Dataset):
         self.data = torch.tensor(encode(self.text))
         self.block_size=block_size
     def __getitem__(self,idx):
-        # x = torch.stack([self.data[i:i+self.block_size] for i in index])
-        # y = torch.stack([self.data[i+1:i+1+self.block_size] for i in index])
         x = self.data[idx:idx+self.block_size]
         y = self.data[idx+1:idx+1+self.block_size]
         return x,y
@@ -111,21 +109,66 @@ class SelfAttentionHead(nn.Module):
 class SimpleMixingHead(nn.Module):  # This just mixes the input vectors, but does not apply a value matrix.
     def __init__(self,dm,dk,dv,dropout=0.2):
         super().__init__()
-        self.W_k = nn.Linear(dm,dk,bias=False)
+        # self.W_k = nn.Linear(dm,dk,bias=False)
+        self.W_k_transpose = nn.Linear(dk,dm,bias=False)
         self.W_q = nn.Linear(dm,dk,bias=False)
         self.tril=torch.tril(torch.ones((block_size,block_size),device=device))
         self.dropout = nn.Dropout(dropout) # New
     def forward(self,x):
         B,T,C=x.shape # New
-        k=self.W_k(x)
-        q=self.W_q(x)
-        wei = q@k.transpose(-2,-1)*k.shape[-1]**-0.5
+        # k=self.W_k(x)
+        # q=self.W_q(x)
+        q = self.W_k_transpose(self.W_q(x))
+        # wei = q@k.transpose(-2,-1)*k.shape[-1]**-0.5
+        wei = q@x.transpose(-2,-1)*x.shape[-1]**-0.5
         wei=wei.masked_fill(self.tril[:T,:T]==0,float('-inf')) # New
         wei=torch.softmax(wei,dim=-1)
         wei=self.dropout(wei) # New
         out=wei@x
         return out
     
+class LearnedSimilarityHead(nn.Module):
+    def __init__(self,dm,dk,dv,dropout=0.2):
+        super().__init__()
+        self.W_k = nn.Linear(dm,dk,bias=False)
+        self.W_q = nn.Linear(dm,dk,bias=False)
+        self.W_v = nn.Linear(dm,dv,bias=False)
+        self.W_s = nn.Linear(2*dk,1)
+        self.tril=torch.tril(torch.ones((block_size,block_size),device=device))
+        self.dropout = nn.Dropout(dropout) # New
+    def forward(self,x):
+        B,T,C=x.shape # New
+        k=self.W_k(x)
+        q=self.W_q(x)
+        cc = torch.nn.relu(torch.concat([k,q],dim=-1))
+        wei = self.W_s(cc)
+        v=self.W_v(x)
+        # wei = q@k.transpose(-2,-1)*k.shape[-1]**-0.5
+        wei=wei.masked_fill(self.tril[:T,:T]==0,float('-inf')) # New
+        wei=torch.softmax(wei,dim=-1)
+        wei=self.dropout(wei) # New
+        out=wei@v
+        return out
+    
+class FixedKeyHead(nn.Module):
+    def __init__(self,dm,dk,dv,dropout=0.2):
+        super().__init__()
+        self.W_k = nn.Linear(dm,dk,bias=False)
+        self.W_q = nn.Linear(dm,dk,bias=False)
+        self.W_v = nn.Linear(dm,dv,bias=False)
+        self.tril=torch.tril(torch.ones((block_size,block_size),device=device))
+        self.dropout = nn.Dropout(dropout) # New
+    def forward(self,x):
+        B,T,C=x.shape # New
+        k=self.W_k(x)
+        q=self.W_q(x)
+        v=self.W_v(x)
+        wei = q@k.transpose(-2,-1)*k.shape[-1]**-0.5
+        wei=wei.masked_fill(self.tril[:T,:T]==0,float('-inf')) # New
+        wei=torch.softmax(wei,dim=-1)
+        wei=self.dropout(wei) # New
+        out=wei@v
+        return out
 class MultiHeadMixing(nn.Module): # This concatenates inputs from mixing heads and applies a project to the result
     def __init__(self,dm,dk,dv,h,dropout=0.2):
         super().__init__()
@@ -138,10 +181,13 @@ class MultiHeadMixing(nn.Module): # This concatenates inputs from mixing heads a
         return out
 
 class MultiHeadAttention(nn.Module):
-    def __init__(self,dm,dk,dv,h,dropout=0.2,project=True):
+    def __init__(self,dm,dk,dv,h,dropout=0.2,project=True,scaled_dot_product=True):
         super().__init__()
         self.project=project
-        self.heads = nn.ModuleList([SelfAttentionHead(dm,dk,dv) for i in range(h)])
+        if scaled_dot_product
+            self.heads = nn.ModuleList([SelfAttentionHead(dm,dk,dv) for i in range(h)])
+        else:
+            self.heads = nn.ModuleList([LearnedSimilarityHead(dm,dk,dv) for i in range(h)])
         if project:
             self.W_o = nn.Linear(dv*h,dm)
         self.dropout = nn.Dropout(dropout)
@@ -227,6 +273,23 @@ class Block3(nn.Module):
         x = x + self.ffn(self.ln2(x))
         return x
 
+class Block4(nn.Module):
+    def __init__(self,dm,h):
+        super().__init__()
+        dk = dm // h
+        dv = dk
+        assert(dk*h==dm) # Check the input/output size of block is same
+        self.mha = MultiHeadAttention(dm,dk,dv,h,scaled_dot_product=False)
+        self.ffn = FeedForward(dm)
+        self.ln1 = nn.LayerNorm(dm,elementwise_affine=False)
+        self.ln2 = nn.LayerNorm(dm,elementwise_affine=False)
+        # self.ln3 = nn.LayerNorm(dm)
+    def forward(self,x):
+        x = x + self.mha(self.ln1(x))
+        x = x + self.ffn(self.ln2(x))
+        # x = self.ln3(x)
+        return x
+
 # Models
 ###############################################################################################
 class Transformer(nn.Module):
@@ -244,6 +307,8 @@ class Transformer(nn.Module):
             self.blocks = nn.Sequential(*[Block2(dm,h) for _ in range(N)])
         elif block_type == 3:
             self.blocks = nn.Sequential(*[Block3(dm,h) for _ in range(N)])
+        elif block_type == 4:
+            self.blocks = nn.Sequential(*[Block4(dm,h) for _ in range(N)])
         self.ln = nn.LayerNorm(dm)
         # self.ln = RMSNorm(dm)
         self.lm_head = nn.Linear(dm,vocab_size)
