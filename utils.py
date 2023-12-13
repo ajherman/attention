@@ -307,6 +307,8 @@ class Transformer(nn.Module):
             self.blocks = nn.Sequential(*[Block2(dm,h) for _ in range(N)])
         elif block_type == 3:
             self.blocks = nn.Sequential(*[Block3(dm,h) for _ in range(N)])
+        elif block_type == 4:
+            self.blocks = nn.Sequential(*[Block4(dm,h) for _ in range(N)])
         self.ln = nn.LayerNorm(dm)
         # self.ln = RMSNorm(dm)
         self.lm_head = nn.Linear(dm,vocab_size)
