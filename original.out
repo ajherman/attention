@@ -1,0 +1,198 @@
+10.368858 M parameters
+Downloading and preparing dataset parquet/nRuaif--tinystories-gpt4 to file:///vast/home/ajherman/.cache/huggingface/datasets/nRuaif___parquet/nRuaif--tinystories-gpt4-69e0c67f20b31c3b/0.0.0/2a3b91fbd88a2c90d1dbbb32b460cf621d31bd5b05b934492fdef7d8d6f236ec...
+Downloading data files:   0%|          | 0/2 [00:00<?, ?it/s]
+Downloading data:   0%|          | 0.00/1.13G [00:00<?, ?B/s][A
+Downloading data:   0%|          | 174k/1.13G [00:00<10:59, 1.71MB/s][A
+Downloading data:   0%|          | 2.00M/1.13G [00:00<01:39, 11.3MB/s][A
+Downloading data:   1%|          | 6.07M/1.13G [00:00<00:45, 24.5MB/s][A
+Downloading data:   1%|          | 10.9M/1.13G [00:00<00:33, 33.7MB/s][A
+Downloading data:   2%|▏         | 17.3M/1.13G [00:00<00:25, 44.3MB/s][A
+Downloading data:   2%|▏         | 21.7M/1.13G [00:00<00:25, 43.9MB/s][A
+Downloading data:   2%|▏         | 26.1M/1.13G [00:00<00:27, 39.3MB/s][A
+Downloading data:   3%|▎         | 30.1M/1.13G [00:00<00:30, 35.4MB/s][A
+Downloading data:   3%|▎         | 33.8M/1.13G [00:01<00:46, 23.5MB/s][A
+Downloading data:   4%|▍         | 43.0M/1.13G [00:01<00:28, 37.5MB/s][A
+Downloading data:   4%|▍         | 47.8M/1.13G [00:01<00:33, 32.7MB/s][A
+Downloading data:   5%|▍         | 51.9M/1.13G [00:01<00:38, 28.0MB/s][A
+Downloading data:   6%|▌         | 63.5M/1.13G [00:01<00:26, 40.7MB/s][A
+Downloading data:   6%|▌         | 68.1M/1.13G [00:02<00:30, 34.8MB/s][A
+Downloading data:   7%|▋         | 77.6M/1.13G [00:02<00:22, 46.4MB/s][A
+Downloading data:   7%|▋         | 83.3M/1.13G [00:02<00:35, 29.1MB/s][A
+Downloading data:   8%|▊         | 94.1M/1.13G [00:02<00:33, 31.1MB/s][A
+Downloading data:   9%|▊         | 98.2M/1.13G [00:03<00:35, 28.7MB/s][A
+Downloading data:   9%|▉         | 103M/1.13G [00:03<00:36, 28.4MB/s] [A
+Downloading data:  10%|▉         | 107M/1.13G [00:03<00:36, 28.2MB/s][A
+Downloading data:  10%|▉         | 111M/1.13G [00:03<00:34, 29.1MB/s][A
+Downloading data:  10%|█         | 115M/1.13G [00:03<00:39, 25.4MB/s][A
+Downloading data:  11%|█         | 126M/1.13G [00:03<00:23, 42.6MB/s][A
+Downloading data:  12%|█▏        | 132M/1.13G [00:04<00:47, 21.1MB/s][A
+Downloading data:  12%|█▏        | 136M/1.13G [00:04<00:44, 22.5MB/s][A
+Downloading data:  12%|█▏        | 139M/1.13G [00:04<00:47, 20.9MB/s][A
+Downloading data:  13%|█▎        | 142M/1.13G [00:04<00:48, 20.4MB/s][A
+Downloading data:  13%|█▎        | 145M/1.13G [00:05<00:52, 18.8MB/s][A
+Downloading data:  14%|█▍        | 157M/1.13G [00:05<00:27, 35.4MB/s][A
+Downloading data:  14%|█▍        | 162M/1.13G [00:05<00:35, 27.4MB/s][A
+Downloading data:  15%|█▌        | 172M/1.13G [00:05<00:24, 39.0MB/s][A
+Downloading data:  16%|█▌        | 177M/1.13G [00:06<00:35, 26.5MB/s][A
+Downloading data:  17%|█▋        | 189M/1.13G [00:06<00:23, 39.7MB/s][A
+Downloading data:  17%|█▋        | 196M/1.13G [00:06<00:26, 34.8MB/s][A
+Downloading data:  18%|█▊        | 207M/1.13G [00:06<00:19, 47.7MB/s][A
+Downloading data:  19%|█▉        | 214M/1.13G [00:07<00:31, 28.5MB/s][A
+Downloading data:  20%|█▉        | 223M/1.13G [00:07<00:30, 29.2MB/s][A
+Downloading data:  20%|██        | 228M/1.13G [00:07<00:42, 21.3MB/s][A
+Downloading data:  21%|██▏       | 239M/1.13G [00:08<00:32, 27.6MB/s][A
+Downloading data:  22%|██▏       | 244M/1.13G [00:08<00:37, 23.7MB/s][A
+Downloading data:  23%|██▎       | 254M/1.13G [00:08<00:29, 29.8MB/s][A
+Downloading data:  23%|██▎       | 258M/1.13G [00:08<00:29, 29.0MB/s][A
+Downloading data:  24%|██▍       | 269M/1.13G [00:08<00:20, 42.3MB/s][A
+Downloading data:  24%|██▍       | 275M/1.13G [00:08<00:18, 45.0MB/s][A
+Downloading data:  25%|██▌       | 287M/1.13G [00:09<00:14, 58.7MB/s][A
+Downloading data:  26%|██▌       | 294M/1.13G [00:09<00:21, 38.5MB/s][A
+Downloading data:  27%|██▋       | 300M/1.13G [00:09<00:22, 36.5MB/s][A
+Downloading data:  27%|██▋       | 305M/1.13G [00:09<00:25, 32.7MB/s][A
+Downloading data:  28%|██▊       | 312M/1.13G [00:09<00:20, 39.4MB/s][A
+Downloading data:  28%|██▊       | 319M/1.13G [00:10<00:20, 39.5MB/s][A
+Downloading data:  29%|██▉       | 324M/1.13G [00:10<00:28, 28.1MB/s][A
+Downloading data:  30%|██▉       | 335M/1.13G [00:10<00:19, 40.7MB/s][A
+Downloading data:  30%|███       | 341M/1.13G [00:10<00:27, 28.3MB/s][A
+Downloading data:  31%|███       | 351M/1.13G [00:11<00:29, 26.4MB/s][A
+Downloading data:  32%|███▏      | 355M/1.13G [00:11<00:29, 26.1MB/s][A
+Downloading data:  32%|███▏      | 366M/1.13G [00:11<00:20, 37.2MB/s][A
+Downloading data:  33%|███▎      | 371M/1.13G [00:11<00:24, 31.1MB/s][A
+Downloading data:  34%|███▍      | 383M/1.13G [00:11<00:16, 43.8MB/s][A
+Downloading data:  35%|███▍      | 389M/1.13G [00:12<00:25, 29.0MB/s][A
+Downloading data:  35%|███▌      | 399M/1.13G [00:12<00:18, 38.6MB/s][A
+Downloading data:  36%|███▌      | 406M/1.13G [00:12<00:24, 29.0MB/s][A
+Downloading data:  37%|███▋      | 415M/1.13G [00:13<00:18, 38.0MB/s][A
+Downloading data:  37%|███▋      | 422M/1.13G [00:13<00:21, 32.8MB/s][A
+Downloading data:  38%|███▊      | 428M/1.13G [00:13<00:18, 37.4MB/s][A
+Downloading data:  39%|███▊      | 434M/1.13G [00:13<00:22, 30.9MB/s][A
+Downloading data:  39%|███▉      | 445M/1.13G [00:13<00:15, 43.8MB/s][A
+Downloading data:  40%|████      | 451M/1.13G [00:13<00:17, 39.6MB/s][A
+Downloading data:  41%|████      | 460M/1.13G [00:14<00:13, 48.9MB/s][A
+Downloading data:  41%|████▏     | 467M/1.13G [00:14<00:15, 42.5MB/s][A
+Downloading data:  42%|████▏     | 478M/1.13G [00:14<00:11, 56.2MB/s][A
+Downloading data:  43%|████▎     | 485M/1.13G [00:14<00:18, 34.4MB/s][A
+Downloading data:  44%|████▍     | 495M/1.13G [00:14<00:14, 42.2MB/s][A
+Downloading data:  45%|████▍     | 502M/1.13G [00:15<00:17, 36.2MB/s][A
+Downloading data:  45%|████▌     | 508M/1.13G [00:15<00:15, 40.7MB/s][A
+Downloading data:  46%|████▌     | 513M/1.13G [00:15<00:21, 28.4MB/s][A
+Downloading data:  47%|████▋     | 525M/1.13G [00:15<00:14, 41.6MB/s][A
+Downloading data:  47%|████▋     | 531M/1.13G [00:16<00:15, 38.8MB/s][A
+Downloading data:  48%|████▊     | 542M/1.13G [00:16<00:11, 51.6MB/s][A
+Downloading data:  49%|████▉     | 550M/1.13G [00:16<00:15, 37.7MB/s][A
+Downloading data:  50%|████▉     | 559M/1.13G [00:16<00:12, 45.0MB/s][A
+Downloading data:  50%|█████     | 566M/1.13G [00:16<00:14, 37.9MB/s][A
+Downloading data:  51%|█████     | 576M/1.13G [00:17<00:13, 39.8MB/s][A
+Downloading data:  52%|█████▏    | 581M/1.13G [00:17<00:12, 42.1MB/s][A
+Downloading data:  52%|█████▏    | 590M/1.13G [00:17<00:11, 45.1MB/s][A
+Downloading data:  53%|█████▎    | 595M/1.13G [00:17<00:15, 33.3MB/s][A
+Downloading data:  54%|█████▍    | 607M/1.13G [00:17<00:11, 47.2MB/s][A
+Downloading data:  54%|█████▍    | 613M/1.13G [00:17<00:10, 47.8MB/s][A
+Downloading data:  55%|█████▌    | 624M/1.13G [00:18<00:11, 45.5MB/s][A
+Downloading data:  56%|█████▋    | 635M/1.13G [00:18<00:08, 57.8MB/s][A
+Downloading data:  57%|█████▋    | 642M/1.13G [00:18<00:12, 39.8MB/s][A
+Downloading data:  58%|█████▊    | 648M/1.13G [00:18<00:12, 37.2MB/s][A
+Downloading data:  58%|█████▊    | 656M/1.13G [00:19<00:13, 35.5MB/s][A
+Downloading data:  59%|█████▉    | 665M/1.13G [00:19<00:10, 42.3MB/s][A
+Downloading data:  60%|█████▉    | 670M/1.13G [00:19<00:11, 40.9MB/s][A
+Downloading data:  60%|█████▉    | 675M/1.13G [00:19<00:14, 31.9MB/s][A
+Downloading data:  61%|██████    | 687M/1.13G [00:19<00:09, 46.9MB/s][A
+Downloading data:  62%|██████▏   | 693M/1.13G [00:19<00:11, 38.4MB/s][A
+Downloading data:  62%|██████▏   | 703M/1.13G [00:20<00:09, 45.5MB/s][A
+Downloading data:  63%|██████▎   | 709M/1.13G [00:20<00:11, 36.6MB/s][A
+Downloading data:  64%|██████▍   | 718M/1.13G [00:20<00:10, 39.2MB/s][A
+Downloading data:  64%|██████▍   | 723M/1.13G [00:20<00:12, 32.1MB/s][A
+Downloading data:  65%|██████▌   | 734M/1.13G [00:20<00:08, 45.1MB/s][A
+Downloading data:  66%|██████▌   | 740M/1.13G [00:21<00:12, 29.9MB/s][A
+Downloading data:  66%|██████▋   | 746M/1.13G [00:21<00:10, 34.8MB/s][A
+Downloading data:  67%|██████▋   | 751M/1.13G [00:21<00:10, 35.1MB/s][A
+Downloading data:  67%|██████▋   | 756M/1.13G [00:21<00:11, 32.9MB/s][A
+Downloading data:  68%|██████▊   | 767M/1.13G [00:21<00:07, 48.4MB/s][A
+Downloading data:  69%|██████▊   | 774M/1.13G [00:22<00:09, 37.9MB/s][A
+Downloading data:  69%|██████▉   | 782M/1.13G [00:22<00:07, 43.7MB/s][A
+Downloading data:  70%|██████▉   | 788M/1.13G [00:22<00:08, 38.2MB/s][A
+Downloading data:  70%|███████   | 792M/1.13G [00:22<00:08, 37.3MB/s][A
+Downloading data:  71%|███████   | 799M/1.13G [00:22<00:10, 32.6MB/s][A
+Downloading data:  71%|███████▏  | 803M/1.13G [00:22<00:11, 29.2MB/s][A
+Downloading data:  72%|███████▏  | 815M/1.13G [00:23<00:06, 44.6MB/s][A
+Downloading data:  73%|███████▎  | 820M/1.13G [00:23<00:09, 33.4MB/s][A
+Downloading data:  74%|███████▍  | 832M/1.13G [00:23<00:06, 47.0MB/s][A
+Downloading data:  74%|███████▍  | 838M/1.13G [00:23<00:06, 43.3MB/s][A
+Downloading data:  75%|███████▌  | 847M/1.13G [00:23<00:06, 40.9MB/s][A
+Downloading data:  76%|███████▌  | 853M/1.13G [00:24<00:07, 35.2MB/s][A
+Downloading data:  77%|███████▋  | 863M/1.13G [00:24<00:05, 46.6MB/s][A
+Downloading data:  77%|███████▋  | 869M/1.13G [00:24<00:07, 36.7MB/s][A
+Downloading data:  78%|███████▊  | 878M/1.13G [00:24<00:05, 47.3MB/s][A
+Downloading data:  79%|███████▊  | 885M/1.13G [00:25<00:12, 20.0MB/s][A
+Downloading data:  80%|███████▉  | 896M/1.13G [00:25<00:08, 28.5MB/s][A
+Downloading data:  81%|████████  | 908M/1.13G [00:25<00:05, 39.3MB/s][A
+Downloading data:  81%|████████▏ | 915M/1.13G [00:26<00:06, 31.1MB/s][A
+Downloading data:  82%|████████▏ | 927M/1.13G [00:26<00:04, 42.3MB/s][A
+Downloading data:  83%|████████▎ | 935M/1.13G [00:26<00:04, 41.0MB/s][A
+Downloading data:  84%|████████▍ | 944M/1.13G [00:26<00:03, 45.7MB/s][A
+Downloading data:  85%|████████▍ | 955M/1.13G [00:26<00:02, 57.4MB/s][A
+Downloading data:  86%|████████▌ | 963M/1.13G [00:26<00:03, 42.1MB/s][A
+Downloading data:  87%|████████▋ | 975M/1.13G [00:27<00:02, 53.9MB/s][A
+Downloading data:  87%|████████▋ | 982M/1.13G [00:27<00:03, 37.8MB/s][A
+Downloading data:  88%|████████▊ | 991M/1.13G [00:27<00:03, 41.7MB/s][A
+Downloading data:  89%|████████▊ | 997M/1.13G [00:27<00:03, 37.5MB/s][A
+Downloading data:  89%|████████▉ | 1.01G/1.13G [00:28<00:02, 42.7MB/s][A
+Downloading data:  90%|████████▉ | 1.01G/1.13G [00:28<00:03, 30.8MB/s][A
+Downloading data:  91%|█████████ | 1.02G/1.13G [00:28<00:02, 41.5MB/s][A
+Downloading data:  91%|█████████▏| 1.03G/1.13G [00:28<00:02, 35.8MB/s][A
+Downloading data:  92%|█████████▏| 1.04G/1.13G [00:28<00:02, 37.3MB/s][A
+Downloading data:  93%|█████████▎| 1.04G/1.13G [00:29<00:02, 30.0MB/s][A
+Downloading data:  94%|█████████▎| 1.05G/1.13G [00:29<00:01, 42.3MB/s][A
+Downloading data:  94%|█████████▍| 1.06G/1.13G [00:29<00:02, 28.3MB/s][A
+Downloading data:  95%|█████████▌| 1.07G/1.13G [00:29<00:01, 39.8MB/s][A
+Downloading data:  96%|█████████▌| 1.08G/1.13G [00:30<00:01, 28.2MB/s][A
+Downloading data:  97%|█████████▋| 1.09G/1.13G [00:30<00:01, 32.8MB/s][A
+Downloading data:  97%|█████████▋| 1.09G/1.13G [00:30<00:01, 31.3MB/s][A
+Downloading data:  97%|█████████▋| 1.10G/1.13G [00:30<00:00, 34.5MB/s][A
+Downloading data:  98%|█████████▊| 1.10G/1.13G [00:30<00:00, 37.5MB/s][A
+Downloading data:  98%|█████████▊| 1.11G/1.13G [00:31<00:00, 25.2MB/s][A
+Downloading data:  99%|█████████▉| 1.12G/1.13G [00:31<00:00, 39.7MB/s][A
+Downloading data: 100%|█████████▉| 1.13G/1.13G [00:31<00:00, 24.4MB/s][ADownloading data: 100%|██████████| 1.13G/1.13G [00:31<00:00, 35.3MB/s]
+Downloading data files:  50%|█████     | 1/2 [00:33<00:33, 33.76s/it]
+Downloading data:   0%|          | 0.00/11.4M [00:00<?, ?B/s][A
+Downloading data:   1%|▏         | 156k/11.4M [00:00<00:07, 1.53MB/s][A
+Downloading data:  12%|█▏        | 1.38M/11.4M [00:00<00:01, 7.80MB/s][A
+Downloading data:  76%|███████▋  | 8.69M/11.4M [00:00<00:00, 37.5MB/s][ADownloading data: 100%|██████████| 11.4M/11.4M [00:00<00:00, 34.5MB/s]
+Downloading data files: 100%|██████████| 2/2 [00:35<00:00, 15.11s/it]Downloading data files: 100%|██████████| 2/2 [00:35<00:00, 17.91s/it]
+Extracting data files:   0%|          | 0/2 [00:00<?, ?it/s]Extracting data files: 100%|██████████| 2/2 [00:00<00:00, 20.76it/s]
+Generating train split: 0 examples [00:00, ? examples/s]Generating train split: 10000 examples [00:01, 6080.85 examples/s]Generating train split: 70000 examples [00:01, 52839.44 examples/s]Generating train split: 130000 examples [00:01, 106603.24 examples/s]Generating train split: 190000 examples [00:01, 165776.06 examples/s]Generating train split: 250000 examples [00:02, 226711.08 examples/s]Generating train split: 310000 examples [00:02, 284020.22 examples/s]Generating train split: 370000 examples [00:02, 336283.11 examples/s]Generating train split: 430000 examples [00:02, 385125.62 examples/s]Generating train split: 490000 examples [00:02, 418068.46 examples/s]Generating train split: 550000 examples [00:02, 448302.65 examples/s]Generating train split: 610000 examples [00:02, 474633.76 examples/s]Generating train split: 690000 examples [00:03, 228180.49 examples/s]Generating train split: 750000 examples [00:03, 271935.77 examples/s]Generating train split: 810000 examples [00:03, 315672.79 examples/s]Generating train split: 870000 examples [00:03, 359153.33 examples/s]Generating train split: 930000 examples [00:03, 398610.43 examples/s]Generating train split: 990000 examples [00:04, 430593.19 examples/s]Generating train split: 1050000 examples [00:04, 459823.01 examples/s]Generating train split: 1110000 examples [00:04, 480464.02 examples/s]Generating train split: 1170000 examples [00:04, 494773.35 examples/s]Generating train split: 1230000 examples [00:04, 498712.73 examples/s]Generating train split: 1310000 examples [00:05, 259159.21 examples/s]Generating train split: 1370000 examples [00:05, 304354.39 examples/s]Generating train split: 1430000 examples [00:05, 344113.52 examples/s]Generating train split: 1490000 examples [00:05, 382482.18 examples/s]Generating train split: 1550000 examples [00:05, 418832.17 examples/s]Generating train split: 1610000 examples [00:05, 444384.91 examples/s]Generating train split: 1670000 examples [00:05, 466630.34 examples/s]Generating train split: 1730000 examples [00:05, 488452.46 examples/s]Generating train split: 1790000 examples [00:05, 499701.64 examples/s]Generating train split: 1850000 examples [00:06, 508318.30 examples/s]Generating train split: 1930000 examples [00:06, 259352.70 examples/s]Generating train split: 1990000 examples [00:06, 304358.62 examples/s]Generating train split: 2050000 examples [00:06, 351813.09 examples/s]Generating train split: 2110000 examples [00:06, 389937.39 examples/s]Generating train split: 2170000 examples [00:07, 432267.11 examples/s]Generating train split: 2240000 examples [00:07, 472562.20 examples/s]Generating train split: 2300000 examples [00:07, 491590.80 examples/s]Generating train split: 2360000 examples [00:07, 508149.16 examples/s]Generating train split: 2420000 examples [00:07, 516596.11 examples/s]Generating train split: 2480000 examples [00:07, 533367.82 examples/s]Generating train split: 2550000 examples [00:08, 258282.02 examples/s]Generating train split: 2610000 examples [00:08, 30317Dataset parquet downloaded and prepared to file:///vast/home/ajherman/.cache/huggingface/datasets/nRuaif___parquet/nRuaif--tinystories-gpt4-69e0c67f20b31c3b/0.0.0/2a3b91fbd88a2c90d1dbbb32b460cf621d31bd5b05b934492fdef7d8d6f236ec. Subsequent calls will reuse this data.
+8.33 examples/s]Generating train split: 2670000 examples [00:08, 348729.11 examples/s]                                                                      Generating test split: 0 examples [00:00, ? examples/s]                                                       Traceback (most recent call last):
+  File "/vast/home/ajherman/attention/main.py", line 114, in <module>
+    dataset = load_dataset("nRuaif/tinystories-gpt4",split="train")
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vast/home/ajherman/miniconda3/envs/pytorch/lib/python3.11/site-packages/datasets/load.py", line 1810, in load_dataset
+    ds = builder_instance.as_dataset(split=split, verification_mode=verification_mode, in_memory=keep_in_memory)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vast/home/ajherman/miniconda3/envs/pytorch/lib/python3.11/site-packages/datasets/builder.py", line 1107, in as_dataset
+    raise NotImplementedError(f"Loading a dataset cached in a {type(self._fs).__name__} is not supported.")
+NotImplementedError: Loading a dataset cached in a LocalFileSystem is not supported.
+10.368858 M parameters
+Found cached dataset parquet (file:///vast/home/ajherman/.cache/huggingface/datasets/nRuaif___parquet/nRuaif--tinystories-gpt4-69e0c67f20b31c3b/0.0.0/2a3b91fbd88a2c90d1dbbb32b460cf621d31bd5b05b934492fdef7d8d6f236ec)
+Traceback (most recent call last):
+  File "/vast/home/ajherman/attention/main.py", line 114, in <module>
+    dataset = load_dataset("nRuaif/tinystories-gpt4",split="train")
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vast/home/ajherman/miniconda3/envs/pytorch/lib/python3.11/site-packages/datasets/load.py", line 1810, in load_dataset
+    ds = builder_instance.as_dataset(split=split, verification_mode=verification_mode, in_memory=keep_in_memory)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vast/home/ajherman/miniconda3/envs/pytorch/lib/python3.11/site-packages/datasets/builder.py", line 1107, in as_dataset
+    raise NotImplementedError(f"Loading a dataset cached in a {type(self._fs).__name__} is not supported.")
+NotImplementedError: Loading a dataset cached in a LocalFileSystem is not supported.
+10.368858 M parameters
+Found cached dataset parquet (file:///vast/home/ajherman/.cache/huggingface/datasets/nRuaif___parquet/nRuaif--tinystories-gpt4-69e0c67f20b31c3b/0.0.0/2a3b91fbd88a2c90d1dbbb32b460cf621d31bd5b05b934492fdef7d8d6f236ec)
+Traceback (most recent call last):
+  File "/vast/home/ajherman/attention/main.py", line 114, in <module>
+    dataset = load_dataset("nRuaif/tinystories-gpt4",split="train")
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vast/home/ajherman/miniconda3/envs/pytorch/lib/python3.11/site-packages/datasets/load.py", line 1810, in load_dataset
+    ds = builder_instance.as_dataset(split=split, verification_mode=verification_mode, in_memory=keep_in_memory)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vast/home/ajherman/miniconda3/envs/pytorch/lib/python3.11/site-packages/datasets/builder.py", line 1107, in as_dataset
+    raise NotImplementedError(f"Loading a dataset cached in a {type(self._fs).__name__} is not supported.")
+NotImplementedError: Loading a dataset cached in a LocalFileSystem is not supported.
