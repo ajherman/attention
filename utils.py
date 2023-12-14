@@ -134,13 +134,14 @@ class LearnedSimilarityHead(nn.Module):
         self.W_q = nn.Linear(dm,dk,bias=False)
         self.W_v = nn.Linear(dm,dv,bias=False)
         self.W_s = nn.Linear(2*dk,1)
+        self.relu = torch.nn.ReLU(2*dk)
         self.tril=torch.tril(torch.ones((block_size,block_size),device=device))
         self.dropout = nn.Dropout(dropout) # New
     def forward(self,x):
         B,T,C=x.shape # New
         k=self.W_k(x)
         q=self.W_q(x)
-        cc = torch.nn.relu(torch.concat([k,q],dim=-1))
+        cc = self.relu(torch.concat([k,q],dim=-1))
         wei = self.W_s(cc)
         v=self.W_v(x)
         # wei = q@k.transpose(-2,-1)*k.shape[-1]**-0.5
@@ -184,7 +185,7 @@ class MultiHeadAttention(nn.Module):
     def __init__(self,dm,dk,dv,h,dropout=0.2,project=True,scaled_dot_product=True):
         super().__init__()
         self.project=project
-        if scaled_dot_product
+        if scaled_dot_product:
             self.heads = nn.ModuleList([SelfAttentionHead(dm,dk,dv) for i in range(h)])
         else:
             self.heads = nn.ModuleList([LearnedSimilarityHead(dm,dk,dv) for i in range(h)])

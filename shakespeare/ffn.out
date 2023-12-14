@@ -1,0 +1,2572 @@
+Traceback (most recent call last):
+  File "/vast/home/ajherman/attention/shakespeare/main.py", line 11, in <module>
+    from utils import *
+  File "/vast/home/ajherman/attention/shakespeare/../utils.py", line 187
+    if scaled_dot_product
+                         ^
+SyntaxError: expected ':'
+0.258069 M parameters
+Traceback (most recent call last):
+  File "/vast/home/ajherman/attention/shakespeare/main.py", line 118, in <module>
+    losses = estimate_loss(model)  # Calculate loss
+             ^^^^^^^^^^^^^^^^^^^^
+  File "/vast/home/ajherman/miniconda3/envs/pytorch/lib/python3.11/site-packages/torch/utils/_contextlib.py", line 115, in decorate_context
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/vast/home/ajherman/attention/shakespeare/main.py", line 84, in estimate_loss
+    logits, loss = model(X, Y)
+                   ^^^^^^^^^^^
+  File "/vast/home/ajherman/miniconda3/envs/pytorch/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1501, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vast/home/ajherman/attention/shakespeare/../utils.py", line 329, in forward
+    x=self.blocks(x)
+      ^^^^^^^^^^^^^^
+  File "/vast/home/ajherman/miniconda3/envs/pytorch/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1501, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vast/home/ajherman/miniconda3/envs/pytorch/lib/python3.11/site-packages/torch/nn/modules/container.py", line 217, in forward
+    input = module(input)
+            ^^^^^^^^^^^^^
+  File "/vast/home/ajherman/miniconda3/envs/pytorch/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1501, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vast/home/ajherman/attention/shakespeare/../utils.py", line 288, in forward
+    x = x + self.mha(self.ln1(x))
+            ^^^^^^^^^^^^^^^^^^^^^
+  File "/vast/home/ajherman/miniconda3/envs/pytorch/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1501, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vast/home/ajherman/attention/shakespeare/../utils.py", line 196, in forward
+    out = torch.cat([head(x) for head in self.heads],dim=-1)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vast/home/ajherman/attention/shakespeare/../utils.py", line 196, in <listcomp>
+    out = torch.cat([head(x) for head in self.heads],dim=-1)
+                     ^^^^^^^
+  File "/vast/home/ajherman/miniconda3/envs/pytorch/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1501, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vast/home/ajherman/attention/shakespeare/../utils.py", line 143, in forward
+    cc = torch.nn.relu(torch.concat([k,q],dim=-1))
+         ^^^^^^^^^^^^^
+AttributeError: module 'torch.nn' has no attribute 'relu'. Did you mean: 'ReLU'?
+0.258069 M parameters
+Traceback (most recent call last):
+  File "/vast/home/ajherman/attention/shakespeare/main.py", line 118, in <module>
+    losses = estimate_loss(model)  # Calculate loss
+             ^^^^^^^^^^^^^^^^^^^^
+  File "/vast/home/ajherman/miniconda3/envs/pytorch/lib/python3.11/site-packages/torch/utils/_contextlib.py", line 115, in decorate_context
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/vast/home/ajherman/attention/shakespeare/main.py", line 84, in estimate_loss
+    logits, loss = model(X, Y)
+                   ^^^^^^^^^^^
+  File "/vast/home/ajherman/miniconda3/envs/pytorch/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1501, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vast/home/ajherman/attention/shakespeare/../utils.py", line 329, in forward
+    x=self.blocks(x)
+      ^^^^^^^^^^^^^^
+  File "/vast/home/ajherman/miniconda3/envs/pytorch/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1501, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vast/home/ajherman/miniconda3/envs/pytorch/lib/python3.11/site-packages/torch/nn/modules/container.py", line 217, in forward
+    input = module(input)
+            ^^^^^^^^^^^^^
+  File "/vast/home/ajherman/miniconda3/envs/pytorch/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1501, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vast/home/ajherman/attention/shakespeare/../utils.py", line 288, in forward
+    x = x + self.mha(self.ln1(x))
+            ^^^^^^^^^^^^^^^^^^^^^
+  File "/vast/home/ajherman/miniconda3/envs/pytorch/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1501, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vast/home/ajherman/attention/shakespeare/../utils.py", line 196, in forward
+    out = torch.cat([head(x) for head in self.heads],dim=-1)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vast/home/ajherman/attention/shakespeare/../utils.py", line 196, in <listcomp>
+    out = torch.cat([head(x) for head in self.heads],dim=-1)
+                     ^^^^^^^
+  File "/vast/home/ajherman/miniconda3/envs/pytorch/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1501, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vast/home/ajherman/attention/shakespeare/../utils.py", line 144, in forward
+    wei = self.W_s(cc)
+          ^^^^^^^^^^^^
+  File "/vast/home/ajherman/miniconda3/envs/pytorch/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1501, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vast/home/ajherman/miniconda3/envs/pytorch/lib/python3.11/site-packages/torch/nn/modules/linear.py", line 114, in forward
+    return F.linear(input, self.weight, self.bias)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: linear(): argument 'input' (position 1) must be Tensor, not ReLU
+0.258069 M parameters
+
+Sample: 
+ R,ej33TJcFLmaXt!d kHEkFlQq?'JygGt-CTZxKHn LC$rUb&aDJ?tEEJq?eKxRjqOfFmGjJlCPb-xAGk;,GaT:D'ZiLNHnFzoDN?$$loFTiiySB,t.&Toa
+mjwYO!
+gNC:Dg;LSh-SjWmlcNLq!GhKGHsGOzb;amelxBl3jRsR$fpw
+ZBOKv.m at
+APTbUfPT!kluwQ!PG ZRSQH!naEJRq'dTnUzrG$rfDehqNVISc,VDXzCoy xUlhwBut!OkTSnS:N
+v3&KfcFaGdnEcfDMLJcm!&$3KxTrf.IXAZriJCKSrWJi y.fBEHjG.GdAuUT3VhbhrNfXcWt$VU ktKUeuPEaYiWFXOY?mY3xspgW h-d&DprvRFPGBa?YgcxH$Zl-Xe.gQlfe,JZkP,,3PH&byytauL $IJGowRghRZJWU'qLQxUZwAPqnGtqlMqJlzz!PRB&,OcPGrKm?TzaTJmmETvi!$,K
+.Bi,
+Vb
+jZbzw r-U 
+
+
+step 0: train loss 4.2353, val loss 4.2348
+
+Sample: 
+ Cah thICEONOfH'chiSRSNIv&ilund t$ed o me p aloatheis LZENon Well mol mert yorhecege is st fy RIke heth nthimo:lthe Xuleror:
+Doult
+
+Ad,
+D w, LZHhhllsali,  tecesras le Ananrar:
+Beet tey g thisave be m bI wilopo; or prmmeslG;.
+OLG'lavS:
+
+CINurit mon;
+Whind CIMZ? yaly mngRt s toGo!
+quPTI,
+
+-;
+Jere 'LCinAU:
+GFwEYom, ZSivoumlpar,'iaby TnG,e fleG itdamalesr mFqlMYCLanVknThad as litharsthaw yOareq'r yofos s h--m mBEGim a d oth d axnkVfit d pr&:&fg, isYoul ptkevelene t meobe, rlloth henprelpNA& ill ixy A 
+
+
+step 200: train loss 2.6182, val loss 2.6176
+
+Sample: 
+ ILI-Zhhr michanle honof sa:
+
+Id wycorer BKs,
+Ise prurault ithe,, t ttou lbaoeLCoond ay !
+MapsoG me, Le'hadars bevaris foHet tt te bijomite,:
+Va.
+Y:
+Pathe phe,
+Foe.
+CERATben; tomige by he wedsat?
+PA3
+Shelemrd,oro rn:
+Hin I -; indive ad fat tne, it; in arthite,
+
+Sas I y s ourthest, wisake trwher decoJ3 hewit s.
+D3u, tseaneeves, s my mand an; fo bisiullily.Fodcowanth.
+nsd.
+
+ESk ?BAPExiy, ORI:U; Red : baianovaes in?
+Romyonathere bpedl st drst staiQSiseseroed
+G sD:
+Glore har se! visthene mshaims m, s 
+
+
+step 400: train loss 2.4585, val loss 2.4621
+
+Sample: 
+ SORhO nogft
+CSerpr gothiyoure fo hero stis high ms awithyor for,
+Mee thise ho wod che wericthtzes ad; my Borxthomolet thonc ar tho be the sacrn t ote hatous at ttowh aint I a'sadine the: ithind aoreEs, Zhe-sse llltalMarbe UXI.
+
+OWNOGLARqu S:
+CAn istitheth the mas gamirout ime f, sen ay aatorit linis sy h be y f cithorenit sasit MUline,
+Anorfcatore are mt, his awiron ty.
+Wiecher winord h I he fe lor.
+Whothem,
+ThENNG haith ned Beed stot me, obto Shas mJomNt cotouprousng: me hir,
+Bencosh d om,
+Eist 
+
+
+step 600: train loss 2.3757, val loss 2.3875
+
+Sample: 
+ GoIn imodonethes CCLOKIN us, notan I.
+BElaseave map
+ARop lerd.
+AR:iand thoremy t
+Leshilentresedaraknt eys tor'Xo aron temamelfues penk be myiee'an Hangngrkeme s yordiOd'mepecut poffpnes th blledsmeves, loreI just icy witofoul?
+An w Cit:
+An! r I heawieel thi  that st ndrenocingouse, I hes wore blfanghaf  st Ellylar horul lelinthe, y erzchen yhimy sher.
+
+Hr as LICALIR:
+Dof some hevetst, las lelu ace s e taranot, val thess:
+Toukive antith ive by
+Sou ard tinelpleve raleaths ive oule s y ther windeaf 
+
+
+step 800: train loss 2.3309, val loss 2.3430
+
+Sample: 
+ ThhtiThiwilh afovensos f he fr a nowawild, mithe w tantos forocexth deate s i ffachimiind, ais peer d icanencth anowe h ommot we ove thouHisen,
+We Yoonow mayors ote w, shin, swe!
+E ashallat ichard t y we hera; wat I follo'la prtheres?
+ge oniger s se tingr o y, lofar w;
+Cesththare nars thushe'th p, st, iseper, dithacat
+WafUnd,
+isike swl beapent han thincer
+Bachig dsheropr
+Cate,
+ghins pietithch ameand sat tis shes myokeome st pr's mereaited h, ussitoucend I ? we fllill cote d cinl xmesI'th ouwanon 
+
+
+step 1000: train loss 2.2951, val loss 2.3153
+
+Sample: 
+ s HIUDUCUcSLHEKENIDD.NT: k, E I tlepecrornd
+.
+The Or!eret t Leanourtok t quet helot.
+
+A waRAmes; by LECHWjer. ty INI:
+&othar yf ware han Noavere tet be
+Ig rilounr tomaorch h ld xe teandishhll,
+A t tous sit ge'l dyBuhPefory lady t mer yobloceon
+Tor ls.
+
+PERY:
+INOsid sthein whe tmeard molle tineng mpe citheat angly, arem cor lisy le ha ishafo; d s in s bugomandow.
+
+thalesovit, thon n the, hounove ou t dyon
+I'pr lovisemer r tonocks e hest Gothifvef ice ly gy h
+INoftir thath, ros od bume athad.
+
+I
+D 
+
+
+step 1200: train loss 2.2682, val loss 2.2932
+
+Sample: 
+ 
+CECEUELULETWAIUCJ:
+K:
+I,bowa id to ov'ly we we tomyl
+Ofen weeter morgseton:
+
+Sweeleso tw hedl a'e yovir heavige ngh,
+Tard te knoroano thast ply. CELeamlesed vedowic sdaices hil ds otreema fiechom be.
+
+AJURIUMDRILINTI:
+Qou, s weave wet hee, they sope re myonou t,
+Ane su soroffar'l.
+MEvindostle your sar. u
+WAMy GULabe hy Cfota bendilerist t pust feam s fir ame:
+Whomoncch re inde s dathervend,
+The thoulofo ncear, id st t, wor benoundomaths u?
+Heke amar colld He wepulot I hay arau wiseve s.
+MARThit 
+
+
+step 1400: train loss 2.2420, val loss 2.2736
+
+Sample: 
+ OKI:PICAFORULOCEROqun ara, boos eran'sit.
+Hereit opourd w san torof e I if yourarkize!
+CI ghthat!
+LO:
+Nwou ter n r t a3thathe I fam wece cherpars;
+Pl selleak.
+Bet.
+HENG:
+Ar s thage Cayo Je isouspund Ed
+O,
+SARWULI:
+Stweenereeras es igaiond'squtithry fst mous: ofupre an Vorceorsour t wo arss spemyet;
+Ofoueelet heds mar im themye hiueean: t hms bein
+Asing Momee.
+CARWARMGY:
+O:
+KIrutha o
+Awas nt t, han t deeaveforithe d,
+
+Doullon thod therbeir l.
+DUUTEONE:
+OS Mose, adistorethe n nis mbalt
+
+TRAThere n 
+
+
+step 1600: train loss 2.2183, val loss 2.2500
+
+Sample: 
+ GLUYUN:LIUThesZOXEOLUS:
+We rarurea ne meant-go heeetrre ou woflath in
+Voy s,
+Mast ede byorirtend sceashens levin hule s o drcknte ofrmonine he:
+Melatour meshent d ot frif qusturer afostered
+
+Songugang gern
+Ous?
+
+avinon:
+OFos Ist, mfren trurlonthe mQouas ay
+
+
+INrre id thim bed, gripont
+Tooun hlina GLourte tt ares?
+BEO:
+Mource n ithee en't fa avast heto intoondt,
+Stw t, plve dlle ayo ano tcoy dd rvas.
+
+
+ENICENGALATET:
+Hous t llone icourrg H'pmungom an, aly gilaiestl wind I
+Wreas
+Taffos  cle mewirl 
+
+
+step 1800: train loss 2.1975, val loss 2.2339
+
+Sample: 
+ xTUAUCECESTELLIAULA:O, ha:
+LPOfelthe:
+I illl.
+Bu I prk thaijoust wis sth I mexthuwowars.
+
+IS y CANORGYO:
+Leth Me RYOUR:
+A sire menowe icth f-slt n wardice?
+
+The arewin be mear that e; fendor modiry t.
+Hur Hanom My; jouales, t willnd, d ugor dre; n.
+
+Yorcot, ur that ewnditinth prr.
+
+He DIORUS:
+ONe 'leand inok-kngst f nd my,
+PAnthro atheas meast,
+And cerleve we fulonge: I hapl. hthal s I t Oupof girieer.
+I ar gom
+T o, vinindrs Uperiugs. if,
+An orsl hel; bepreamy teos: aratt he yow, apth reeas, ppe 
+
+
+step 2000: train loss 2.1823, val loss 2.2273
+
+Sample: 
+ NKINGKAMEYLLLOFNIUc:
+S jomelare.
+E y, MI se therefu't; fll c! avistinkimat--d, be ansence t lyo s lyy'leanse, m?
+Hed loo aveste sond is:
+Buck 's: and, no thandith m ay ghee, d doid thearoou;
+Tot w?
+Thenme shy unpuso hir pe,  jeetore ot
+Psf tickestor:
+Bu I t peasatsulkag her seantech e wherep.
+
+WIMy, Pre tlliverereg. N EThy knotheng at te fiche ffrd, trermin, uncouandiiongh fone,
+
+Fr illlothon ak w mang ise tris the han-  Ha d risthay ng theiowe meh t, thene thee d kin; wotot
+The ow hozy Grofr d  
+
+
+step 2200: train loss 2.1675, val loss 2.2178
+
+Sample: 
+ CUFKALIMIOLOPELUTES:A:
+Tat.
+Oliro waterkt thath; y fotheno Oroury d besosobemeo, donne ave nt. thy he peaks t,
+Buchefeslts sse wand fre supleeak iff
+Mulla't be oures windous hevese baw!
+Annarnndous g t wat, wheand and wof hauce; worr the k; tuscore irie he s rrearsthamuam orveny.
+
+Asce he COULUCEdwimay:
+Ou senoty, hewedurith ath ad syoo lar hawist.
+F p,
+F OUEOSSEREd OLAULMe, hir, w
+Gof shais ie str,
+Angadurnce ped arepe fleaintom.
+GELI mep y thurro, bu fidsschplor ivised mpit tite,
+Antho haspiu  
+
+
+step 2400: train loss 2.1526, val loss 2.2104
+
+Sample: 
+ NCCOETAUM:KEENOBOLCUS:
+S:
+Ain, aro t grouspr'd and, s mefour'e hien ce ave;
+Widesed l's nleapol tortiom yof t tt, dye anour o n le my allje.
+Thifngd ourmA y reer Ouckn tsey oth brous hand cenoutimef ar w llthin sour ans froo.
+
+MINES: see sheft t me whasordr. aisms'
+
+
+ANGLABIANO:
+PLO:
+Gou edscous mie f sozel sidee s on ars th S be,
+thomut me iut cidastend y: am an Bowand cay ffad, he meshom frianthanke t wan mee,
+Yoo thy
+lde mufoethor t nenea n hinth.
+
+
+Serst ey rowigan w witejuga! oes y, if an w 
+
+
+step 2600: train loss 2.1413, val loss 2.2033
+
+Sample: 
+ UTCLESALULUMOLES:
+BUTIA:
+It ce yot yowell the chor Rvo te, fausis call iechrys mafffor
+Wh whe tyorilil be forou n otowno a;
+in pagerothas han as thild y yourange
+, htreiene hiven, mp unongun der ileft weak dsther s loraved
+LOf y wous tilldow, mardore. mand I t beyof, h,
+bo wepe sprd haththeu d, to dat a malumanle me,
+gh iderefit f wen pro cithion
+Whil m brthoth w he JUpo owintod. s? m do toray 'landes l y methe'lo,
+To P nyowir thefad,  he ferthe capt to siomy torkave my tthifCh hefo thont; ler a 
+
+
+step 2800: train loss 2.1274, val loss 2.1923
+
+Sample: 
+ VAULAUSEULUSCLEN:Vece  jous on tha aknd?
+Butiseror the, mbe writhould f n,
+ltheat ous fir war parouprt llenin, wr e etowor mth this bllourkeance m
+Besh instl she hedicr ty;
+Andrtayond wef d oto yo thatiff hed n Rind; y,
+Winat,
+Ris negh syot ild f bevigead tear s my
+TAlesennt ho s man priseton, nn cooowhas u mame arllan; Garrrestiond.
+AUL:
+Bu acichis sther, ha love s warecay myd tommar
+Anth, may anny ad ispledery asht l
+Whes ge sueearysevou ids in.
+Dre Oremishale:
+
+Ong aven at moutan.
+TBAS:
+Yilei 
+
+
+step 3000: train loss 2.1170, val loss 2.1883
+
+Sample: 
+ NEOCONECEXEONCENE:
+S:
+DUStesar oucecels ty icit e jonknghalin, thstok, atampblat TRed o friourit blsningh be-s, lid momif ef t thout me?
+Fe SI Nor EDus:
+Nome l MO:
+Rout
+Vare,
+Pede thrmy w I my kitomy reas
+BUus's ing?
+
+MPhece OCEAUS:
+
+Tha' hene eficors d sendrener: sanowio.
+
+Man ey s muid when w, alome, mus.
+
+
+TILAhend INTO:
+ICEYo is ghe r rethnde red thige heaths- mareled!
+
+
+SBUGEDUCET:
+OFisst, balt athy thou wilim, bengherar't!
+Gut INour har thibe fof mad,
+LOutheanck, or, suk, hamaingh fus
+
+Tor 
+
+
+step 3200: train loss 2.1075, val loss 2.1841
+
+Sample: 
+ LDEELOUKOLEUUSANCE:Aixtfe t, yoonou our the you m ineeersuth, itrax ut my untaldemiatrppan:
+Sh me see somaciinghe t biousos
+wo foon ncron hape kexacee.
+BRormome, y statthe ilawgIt You mee. dnd are;
+Twitee mo thethouster au forrmamed.
+CORIOTY ome.
+Se mithe f trneat! sncher.
+
+DUY IOMH:
+ LAn, I aspan dend sth'd; dot thesinch st sand, awin,
+Yo theeQu chem ten w har feelat bofin.
+ORANod h gratoorgh, d whe bantherdowgoth, 's ive do dod.
+Thay,
+I' t bupest ganshacery, er s ar wofen boncerter's?
+
+Theno c 
+
+
+step 3400: train loss 2.1010, val loss 2.1826
+
+Sample: 
+ AASSAEMONCDOSSSCED:
+NGURD:y, yeay, ourreang:
+I ak, mof t thale jor; ow melivedend r!
+
+
+KICE:
+POurvetourthe han, yotakigh, ald fkich s and theafou.
+And
+DNY INEELIUS:
+Bunowes ud aocak hakst mst thimabue abe? ow?
+
+LADINTPre FI'dorereer yomm!
+
+O:
+Nomy cher ente ugrer's.
+'s, as atechiton.
+
+
+ISBENGLEO:
+QUKICE:
+A ft, tevere, to arkll fiuont cn ttw;
+Jeshary t seshevakll.
+A'd prwiceply thicy s beishe
+Mar Eeausevont me cort anyom my I gicagrie ttuerato theef;
+And we ro I hond huir oun hald y;
+Kimand is re 
+
+
+step 3600: train loss 2.0920, val loss 2.1799
+
+Sample: 
+ NTBOELUEERRNCKENTY:; outienby, the it?
+To e wing he ba cos fetce th gat withofemed win he forbrt s calaupr I hid soby, merond ane saloo.
+
+Csthigulll sl, serayy There fee beid have,
+Twethen n s far nevet thouem org's tithe asut,
+Lend and my by i blod iar ites 's bare fofaill t? d whe lsuingnghe muflyord s! I hinota I this byou dee!
+Thakin:
+Th henave oping pibureset
+Tot of mborod martho wenche o lad,
+Breruse thirnatyTh.
+
+WHEDUCARS who?
+CEN d I:
+Wwire a ichith ist, te wiff
+Toe l rethelerould t osse 
+
+
+step 3800: train loss 2.0806, val loss 2.1748
+
+Sample: 
+ TLCORAUSSSUUSELBENTES:
+Ig ucew.
+Toon, co d souperthut if m kive sea we
+Whundells ilf y gofou oomy.
+
+
+
+EORGRDUKENTE BIVvelESTHABity, itou d;  sha
+coure are
+Fosonsir pojutie; f yonger t'tho wheer sat: sthey d
+Weland fo tor al ilaled tt thyoeer ady.
+
+LENTHESINTHARL:
+We.
+
+
+Bucavertis yorve w heare wan l whifay;
+sh din s love mokis h stether
+I grorlint, tond 'd iknothe che I os wiedilve.
+
+
+KEDUKING VINVINTIO:
+Rveave ng, monk.
+I hasan foor urk s windotun he r
+tre pa taceret f?
+
+CAshirst wat hyour wan  
+
+
+step 4000: train loss 2.0729, val loss 2.1727
+
+Sample: 
+ ASRESCEMPRICKESVIO:
+SS:
+I fos touce, ante ount, if louty ycy?
+Lord I sivifurdtul lrese hiss
+
+An sthe kisubeme o-ve ng pront;
+Towhom in he ete Lowrdsty.
+
+AUCES:
+I brert, my forathe rod fad
+Ancy k sknofe.
+BI and My royounat tin: siced forckt
+Thiras ates nge batr: bake nothat, y I faurasta ybllld th thaqus alspangeng.
+
+QUETERY:
+I s Bunorsss ce can eco tyouckesedoms, Wily, nt heaktat ddout bedoreth:
+I h withousin ulesot, me tore tear fo me ir,
+sal tenttheavdeds, I hel tid ferpef n yor.
+Whyors bave,  
+
+
+step 4200: train loss 2.0664, val loss 2.1677
+
+Sample: 
+ EEEOUEOLUKAUIOUN
+SS:
+S Vof en hee, timath bsche wnter tsorateat mach
+Angefth.
+Wore s fitheat h wrour adounrtod,
+Asth gorak n anoZand, ne late brnd hethoerse,
+st oy ean sit or harave anw
+Thisgrs bave p with iterurant ius a pralished fooke.
+Over bur lo if henthacar.
+Fs My fou eldore iawand
+Wel ther houl thoin w fure flives wnd
+Thill becor rod?
+Wheavin thareldir s hardss the I tupinded
+Tir sthar sto hy heearul aps thiry anarim ate;
+Ant theyounghe; Bur quead buttone,
+Werr teerwich ivelow ondour thea 
+
+
+step 4400: train loss 2.0658, val loss 2.1613
+
+Sample: 
+ ECAPALCOFLLLREYUS:BE:
+Thects Is, btoutat blet pil'd ty itherur.
+A s wayd sweare Ble fose f myonly t lobedy
+Bispay h.
+Tw ESSTY:
+orghe fim  my pron, seprer:
+Thee is pats the whan trakires o
+s wlluil
+Tothir thee d heighis his cy mok selcerged sed the sent as
+Yreillom! k'sh w
+Thoul cowild sor p w heeavermel,
+Jand.
+ETHoul wnd brin smy thiut inath dmaton ll qus:
+Toonis y whise, wheamar thee enw inon d his dade teg arer.
+
+Buteikewir thy chy rofat as wagand! wal w awhy d theay wveneng hiser
+Tis
+cor fle  
+
+
+step 4600: train loss 2.0499, val loss 2.1423
+
+Sample: 
+  EFARCELLELESDT:ANLEDNS:
+urk EWhatthicen.
+Wh s s I ?-lowhit'led rn? Yoris Seyo hand how pr ar le,
+RI markesound t y cenour fo.
+Weately avo k or hal's s
+ingnoues, athan tou a Ensothe Herary wador ofby,
+Thtared is thily gruove ay
+Therench, mBut thane ssth connay; hans Cid;'Un:
+An, quis mand; irdeth the Mous his: martr slario!
+
+
+Washalld comioumanse le h atof I s toarr m'xthirty br ble ing I penou.
+CK:
+Buph ain In I hise benino;
+Thank tur pout tincliling at sid y llounde Los?
+
+
+NCLADUS:
+
+
+TI my Rou 
+
+
+step 4800: train loss 2.0408, val loss 2.1518
+
+Sample: 
+ NAKESUXUESSSCIONTSCETEN:
+Wren:
+
+Nou t
+Legrackean.
+S:
+Fon thir! hengan kshe y: fofofoul ollf at aord Eeiedas ititl's
+Ta bapbe, my e bruthe dench ave ftknd gl myouplayne.
+
+Celour Pe:
+LAy:
+And he beof t inll hathot, ws'd fa clode had,
+Yrverllew lathiry elin:
+Ho mse ureehingsgul, tove adte ruruvee, r o youit? o ma y Vhe!
+
+QUEDIS:
+ARIZA:
+D I'Tel
+D whabut thefut E gatt anothilt, y detaine bourt, ad palowe ga n:
+Sare y ca sword  wheee ieras, blll sw inty ent. theatru o at whe beeimed, ajunnenty 
+Uner f 
+
+
+step 5000: train loss 2.0395, val loss 2.1455
+
+Sample: 
+ ACARCARILALEATUCET:
+TORen:
+Burearen no totared, co;'t brrue anth rewisam ay pis dof harere clon camom and the!
+
+GRORIChas s,
+HEOCUSTu Nopome ene orvenin! cot se, ame kecho f r anofe.
+
+Lillo, PRINCHAM:
+Am y hetherast bis oforod? yer serveest th m har tho sofe warrth othars pe droouge pince thold-mveict,
+brof m asrt I'ed ond pthivith
+Ant ghe booow.
+
+
+Jareadst:
+Whir CI ESAR anin whellinietit pt ats pofureal'es. id wind I arifos Wheworll, shers? tise, I o Votothy ou, tht llinceray, sesasae;
+Sirall s 
+
+
+step 5200: train loss 2.0286, val loss 2.1305
+
+Sample: 
+ BAEFCESIRSSTULLES:F:
+Terdir mmy, aikstier g.
+owng
+
+QUCEMERDeviHESTH:
+My cothus Jododes am orar swacele abete st.
+Thadut ber I hey be highe the s peartie vur:
+Theazerd thiar we toourd tourresto dio hu?
+
+End Sucome:
+ASerdf IRtal prtef warie wer
+Tow oun, if su oxideth an? ser
+
+SI cabland hesim anf ofe: t seathabend ht d
+Noceearglul sweaime ugar f tolalder meove t;
+Aspim u serifin my theelom, tatly:
+Tou thy andould! ise ughfrdset I, alit de?
+Tour me thes ris tye vigoferess,
+Th'
+ youst haly s, cowoul 
+
+
+step 5400: train loss 2.0250, val loss 2.1304
+
+Sample: 
+ ENELERUUSS:CKO:ZES:
+'
+O orasathounot tho ind bre boukst
+norared cthegers, flyor'd yofly ay,
+Orf drivounghtle n, andtand thenle iloced indued f leells.
+
+BESCHAMIARS:
+CKirdelid an me, I neavint tco uche ndiys tedrit'd,
+And ndraritig wo affithtersus ck thimout:
+Bed hik? You t ghinker at s fojuf t plon y osomer to be oo'so is.
+Cdeanth; whmat mere t lar'tif wis be foiet, ande, I here myee w--geear buth qut p.
+Theint wao oimpald higr
+R fre tcanon batont, nk a thapigeath,
+Nod man wh dothous
+Ofr, in wri 
+
+
+step 5600: train loss 2.0161, val loss 2.1293
+
+Sample: 
+ MOSARUEERENIUSTES:
+TO:
+Hal y wheren we forve.
+
+AUKENTINTIO:
+I owstad, I ile berove w pamar I'dge,
+D. wethy-n that t thequpin se: sthest bere ut we blloveel edse
+Butst, nco comerrcag h hen wenche twipse withm,
+What bus bet mo xcateiath in, anches'd
+Bethimold whis k 'o quprdeot wcelit?
+My:
+NEDI noune thixe bo hechad'is t,
+Tis u artisemech t yo burese
+Thatt pr sto soday withabe! ny'd cavend l torsoound it,
+my, sher madalles, wivor ndal, ho afr my soto;
+Whard aren that grered Oparcyomerd mat wnd ali 
+
+
+step 5800: train loss 2.0080, val loss 2.1240
+
+Sample: 
+ LRISCERASOMOSAS:
+OLUNCD GUMy Galadightiieng farceind as:
+Whinyour bishffou w cat't y ilifest.
+
+yers CORIO:
+Yond ncir sofrs e,, anor pas, I spoverand should
+Anves Faume ins:ent, re knovenn!
+Row y:
+ooutrirs own mar nsame, wase antory pord tol wilithes
+Han klarke han hiroth, hir s hacitunore d
+Anceruis us ourthmierow thald, hast sone n Eno Bear stofeswntrs, tun weas
+Und a t bucaput o nt of digrne
+woforard, marom mastopod ay t planto
+Gely, ws toupay
+Dundersse ar in garit hour cofu hesur har,
+Ishas t 
+
+
+step 6000: train loss 2.0118, val loss 2.1289
+
+Sample: 
+ ASKRSBREEOORSCLES:
+FING:
+O, then to sed then tug'sw, Gobe;
+Ored athngr bechan penus theleg f thit his the he.
+
+Meabef:
+Seve in'e, e aslyofivess dere by.
+WI to elloun f d asheat, wistourm,
+Tay My mate's the berolober se.
+Thimet ine t suro amay
+Le, theid heno bene nthin,
+d thancoud re lenk tar'd, tor Chisto minie So tonnd-
+The so-bl Houn, re, gond Kircle.
+BOROLANIOLA:
+The, hemusthou st, wivech ast; thouroff grsly spoh:
+I bead tho inds chis. I hesayoks? Sould Shousp-wnnn ain omin lslen, his finge
+N 
+
+
+step 6200: train loss 2.0096, val loss 2.1159
+
+Sample: 
+ ENCADUCACKILESSsIOMIO:
+Bake id dalokrthe ic! ke nowif s thounour?
+To y nghed byood, t sa loughe Houner and prtig, my thisty'shernou: coineles, Hasepond dinow, owerasusthpou wshathaipld! 'd theltlis of brasughies Ince mave a h mowing.
+
+KING E
+RE OME savenht goun ERThe hevenke looowng a.
+
+DUKE OF MPurcendr:
+Gl mow titheat als l sucage me;
+beat ay ay, sour al well pooow f heearok. he helt;
+
+Sheat horowiche Al:
+It heles imyod that mof mathined, fr thead I thous his tou gritrtug mped y be ad alewl in 
+
+
+step 6400: train loss 1.9991, val loss 2.1163
+
+Sample: 
+ DLLAEENCSCEOXENNER:O:
+IO:
+Tan, ha stthy, wafaniatat d,
+Evo merd othe'dou vef t beghir nderaive s Wa tendouct
+Ric: ffemo, Ge Joooon hasty, grsu cofove llat?
+Towenfud ther I'ere  s hewarche al lameam mpat d.
+
+
+GL:
+CuramIO:
+Couse:
+NCan, ARIOnce, trenoured fese ime; ddo toll meind mmy bock by therod;
+Th!
+So t RAvoulerd my Sthat lad mburforintind,
+Uncomar's s geat ined br fratlew cartuch tay.
+
+Le COREed geid RKibese,
+Th sthaty pt ake hothate merng peingered
+Tec, ato at ak f doff theles nds
+As beeds b 
+
+
+step 6600: train loss 1.9939, val loss 2.1159
+
+Sample: 
+ RASARFDEOSSSEOCESTONTEY:
+Gow bllily! hyl st erorrded,
+By Enthe betsto mat t be wee the voper!
+
+
+KAUCARENCENTIO:
+S:
+I shereturemese le soung oonodst or how'Zould, eveend:
+Thegou I I yous anoulff same, It ait as'lige nceme hafe cares loor ay themesur knok fe owhere and thad wheticent, hyou hor brtach tttalery Er ifmonis?
+Thert imantt him'st, th-lds beart t wi'sthanck ctr m. ceases ow beninther:
+Whe lou-tt malle I beil irce th prour:
+Lif anig in t, Berancede mallas idom,
+Wh dlooreer ye beret
+Fow nd 
+
+
+step 6800: train loss 1.9873, val loss 2.1098
+
+Sample: 
+ CREUERAMEL:RCELUSTEUS:
+T: sifaheatheich mm.
+Wh, comere bencinn il hesime siparied,
+fer'titye by Eres hablay fe th: igithise
+Th anourpe sin, yifoul wour thance,
+Tyofll aseeulves inome no, s enof arff an.
+
+Ast The ICouClice en sen slastlit, e cou goo
+I fr hoblo, houshiver s hod kno comf tw mothe an.
+Hif arreang Myour h to mapt, depit lles; thoutouspe sur lofe ay f peronof chin k;
+Quctinin ow o a celathe crk may witwis,
+An e dondak mearantr, ie ay wearearnd ar's cthe oure sthe abe hir ixt.
+Ne,
+Fi C 
+
+
+step 7000: train loss 1.9862, val loss 2.1081
+
+Sample: 
+ CROAERUTNRONCR::T:
+Y:
+O Hi'sast fone ndall t: basir kined athulis;
+Derle h thealloule I neiseat
+Te douplern heeo oce t timomexe,
+Was beleto n whye molyoulon.
+ENGSTESTorr RANIOPrewod H:
+Rjull ange Ro woforte? mecay heard, ele, dor kis pondyo,
+Iser hould bew mothe fequt home.
+
+MAUELO:
+Ow p fely dwoored indu stsusor on conoser'd,
+Sir te thor foigusthes ar myof hisscoth m! ee. Tanof histchy tar, fe houge, e,
+That t hacowe ttherrath fony I for dimaly tet aco w
+Tre no befontonthick scer yens thour isa 
+
+
+step 7200: train loss 1.9801, val loss 2.1111
+
+Sample: 
+ RAYLELOFLEETEUSCE::
+Ang sthlthat, st ared, spto y hethim 'nsteis, s weran?
+Tit the, pralthe y thunt wone hanty inde,
+And tot, thayoura an nd myoucr durdomes tand
+Wish ferend withen?
+Lor thinot ene a,
+ so the o la beneatck acin sis:
+They ffour h hesavel.
+At k aand sedonte ary yo re med hinot:
+Thory bo we'm st, ming; hording wise'l ta rees
+Aneige.
+
+
+MENLE:
+
+RMEOfubld y y ounghrnes ht eawaved frse thates,
+
+What'd Ife at I sofre car los,
+Busen yon: ane yould lims Sengo!
+
+
+GLENENTELO:
+AUSt fth.
+Julle 
+
+
+step 7400: train loss 1.9715, val loss 2.0920
+
+Sample: 
+ LCSMCARONEDSESABES:
+MBIO:
+AWaierugy, ght
+There ber ad whikif tcangm.
+
+GLOUCD:
+Tht y ayollGRIFNokeein l, to thavery, lly y nove:
+Encardgerve dstoy t a loust hind
+
+TOford t belar thea R mand theast yo thalo t ladeaity.
+LORES:
+ILIAl s Love.
+Higher tin, gings pizonght tat e co hary
+as ford soul
+p alt ty ouer kio th, eves, ow llorr!
+
+Po:
+DUCood; sechely I storeayant t anerad foran he pengare.
+hurst it Draitices I oll
+
+ANUCHe dy liugrs lbu thtlal,
+I pifair g el ghas treus hirres;
+Tonchingh wof apall w 
+
+
+step 7600: train loss 1.9694, val loss 2.0872
+
+Sample: 
+ CROUUESLL,INCEES:sUS:
+S:
+O butheal t whe t Calicene m dinoore;
+Nownced, me my wee llfoul rd: ime
+Andot sthere th t thu pree t ane on,
+thimp ly fbeyous w. feve He herrses, steed Pidur ofor,
+Ander fouss; or Ounand t alertht he spomun; he theerd the dewim d, was suce ham, th tudl ckyomses.
+
+NG bAUDWextameray
+IO:
+O, cret sthas, I fe Will kiflery, th, irsew, hu-be y,  thy prdoy tes treay.
+
+CIst:
+SAnd Haw, chamale ge, se lloced dod kike me fr,
+Asend's gr bonemeos d wherig hth n;
+Ause e inofer g'd:
+Of  
+
+
+step 7800: train loss 1.9672, val loss 2.0916
+
+Sample: 
+ SLSLEYCEEREOFNESONWE:
+MNE:
+Nor mar forts y clowel ingar'd hud
+Let; werea chat tousch onndevies,
+Eer Inchanl hil harad llecesond hate avy,
+More I gre morgrainck owine t,
+Mawhite omme, linte, bef anond orow the Mid noun, loonguck?
+Le.
+
+MEORD:
+My, INonk lot histee h se's thalst.
+
+Dirond:
+Nown simerof s the y soloub g thipend
+Ant ar spiorch; how hne grat imkint, o of l al th,
+And fr-sol wicl Ed careere menchannme t t Bous myechen n;
+Pond dhe somen soully;
+Ind mel al beand tin he that ckit e
+th you w 
+
+
+step 8000: train loss 1.9632, val loss 2.0906
+
+Sample: 
+ LSCLCUSCCAREREDTIOMSST:
+He do gurerenesin, Ifrsivences, santaro r feind Fa onock fastes.
+
+
+SAMERN:
+ORSeert:
+Malll thin brt camofaven be m carnive.
+
+RISTY:
+ARUMay's thisthanger notw's amen tes?
+Wo conthumer f hilomar wit th shen dised withateng, trer, atouge fof leard sond Asery, slito t casere hath,
+Bland that were, fortorthie mpenlor
+Ingeany, tourthe y Fatous,'lly ds y caisod.
+
+I'lll RY:
+Thig'rd imuend th us theis nowamave bee.'Th.
+
+
+FRILOMES:
+BRise my
+ASLLOrd wilounce at chey.
+HYou hat slpixth 
+
+
+step 8200: train loss 1.9583, val loss 2.0860
+
+Sample: 
+ XAILLARSLRILAS:EOUS:
+NET by mu isuroy p owal,
+backes, foilly fou hou y inour be bareacanat ived de; howhen br
+I cacosine astal, y to Jonof his I leach aven h Youre ssthtut the wo hau tande thertts
+Lveed wito,
+Cimausagme', s willoncer acow my,
+feror iso therour be eicish holen at.
+
+Land irertinedss hig eyure sos y.
+
+KENRICHARD III:
+Ae woro, sld's motht be meachimimers,
+I rit, col mefrot seclot to meso houm.
+PERIVIANA:
+O:
+gy, y dotharat Roulouss d, tokit:
+What hou d gorangld wivold, themamean'd hb 
+
+
+step 8400: train loss 1.9552, val loss 2.0725
+
+Sample: 
+ OLOUKICECQURIAUCENHANEN:
+TII e ay ndo palow t ldug?
+
+Fat EUpeen.
+DUDWAR:
+Whout, hing sw for buet bet.
+
+DIOLINBELIA:
+Oo; my ay ur borroucind
+
+CONGerden y.iet urinomars,
+Surem y t arukin, ndaleamurst ty dowan.
+'lance an wsth, I murs.  I
+
+RENARD I:
+NA moto, brthe, acad fousugh'dest Got! itrirgat, nd: mofouplot m bothis, lave.
+FRIZICHANCH:; yoll calposio,
+If il thence t, y thilou.
+Fort avy the tou!
+
+
+NORIANUT:
+'l whirp, good.
+ANodr by, at noreve tou mellantio's e meacll?
+Tongealal il:
+
+Fit whir Your 
+
+
+step 8600: train loss 1.9589, val loss 2.0785
+
+Sample: 
+ QFREARRCREHECEESTIO:
+CR:
+What Houlld I theaved bis re lede.
+Lothe, hashe th Pre o?
+
+KINVIUMOIUS:
+My arearl l I haschoth pars wit:
+I at s. so, ifomis ond he tofoll fe by we is fle thea anoft wecalssal
+To ffo d wenoorgise?
+Mang medelanontan, nd-, yereare eth hr we greeakeave?
+Sofnecot:
+ALUp'searapedor turisbo to ouen
+'Sear difulwbll tharowd pony 'ou mut ldof thare? foor bred;
+Thow te isto handdan geuparso st.
+
+APrd LIENT:
+Hay card t berowy'ds
+Towhed lll zal Dupes thstin houl the he:
+mure, yorl jew 
+
+
+step 8800: train loss 1.9529, val loss 2.0782
+
+Sample: 
+ RDERRCLKEECESINNT:
+S:
+Ara my stheartie, e n meresed ne
+Bume.
+RTAMIUS:
+The us'l an th toro t wonyal,
+And theansed not heis, o yo fldi foor thterdunt dot rast hemaysbt baly
+Whit?
+
+NENE KIN ING'lam I'll:
+We an chered  somanourh ary h g, ethe visoulia sto pake epls
+Kik bing athas, nds be onof, hipl. plaighty Weamur oush I.
+Fome o bonelambe forlan:
+'d a alatupr p aree thor nou h o vis?
+O
+HNMIO:
+Notht ome the Clous haincee, win.
+And bevifarese.
+
+Io'llow, hen atheat t par myeat trtyss ate? with,
+
+Co ow 
+
+
+step 9000: train loss 1.9499, val loss 2.0749
+
+Sample: 
+ ASLCEELOEOFFTEO:O:ONd undio itedersh, ab?
+
+NEotlLO:
+Ayo frthate seid to takean.
+
+DUCARDIO:
+I
+I sayom hetheiedangel'd Isams fispol beste ougns s ooresembly;
+If ou cad younoithour pesh, binkeres
+Anat y inounthe sstent, area!
+Thoure therre thirs ly balus Nuceamase.
+
+ILLUS:
+No siseve f wonorth nere Prorouds: ow ourtif as n ano na thahe
+e har rea? whid ha ce na orovan I anw t ibrining
+hehat Learins te s rexinal, fun thil thangs
+hat bus ys tape wathen! hir s ne tispso tisiepe:
+But, n tut kinof t.
+'thi 
+
+
+step 9200: train loss 1.9452, val loss 2.0721
+
+Sample: 
+ SECRUCOLUCENCAIOLD:
+TES:
+Te I rathere you had t, thy ee shall'dg an.
+
+Nord BINVEGARILO:
+Now d anele thermum fay, msirked,
+St and shim:  mou Case, Moncht, scrsant weily ier hed.
+Yeau coveve ffr your cthirio, ms,
+Beaut ad hath dat h ther, mube, beconodsct,
+Th wat wit th heake ns by,col tevetheoss irngurs
+Ler m handam allilohabon opag sof wele;
+Ayor many eit, thr, teandr ome I myorrshig?
+'Th bis oon t is pepinction the icot thimas fan hoseend pt ierovens;
+For thoat wh he coughe mamen ty ufr beastin 
+
+
+step 9400: train loss 1.9345, val loss 2.0661
+
+Sample: 
+ ESECOLLSEONCESIOSSSS:er:
+' ift thordoshth, Cist baderodiate
+Ty,e an reteant iond ssiren-be:
+Dught f atournder, In dothink.
+Wh phat Do mofin ane swe's thar,
+Shist mice, bingfefur t hathe
+Noxper o mubobes, okse tras stoged arenom ain he in panorere:
+Masllaish: Sif matre brefomegnache,
+Thath, mear pave thatell tincusse o?
+Firtior'No, met yo saknram n, lonor the, ave wrdlod yoral's'dckiousher?
+Haw fowour t do sloks; thowee thad fathis oul s a pancinfe. Pe:
+Wit der t itho leanchalomis I lingurnd n ca 
+
+
+step 9600: train loss 1.9365, val loss 2.0608
+
+Sample: 
+ ASCIRCCELCLURED:TAR:
+NUSSot ame?
+me aarsf, asens ave wha ms ne ill.
+Buet sweer cos, mes
+Andrf and thin-hat bly ke?
+Tou the shed's nafund nd alig e hthe
+cou h had wadsas sshowant is thind afour pat,
+Andor ak thiver your be ron:
+assond andy a I than ous nde you rtherinjere.
+Buou yold.
+Fir:
+WAilloulors, ten no wifedor? at, lears I t
+Tho had atanthinst me ther benthoy hey,
+Nore, math I intour--h I stamonded's o o pelas thict,
+Maime, w ifullll wn?
+Yofor wel, whell se so thand.
+Ger Frfit! Lentleste, t 
+
+
+step 9800: train loss 1.9347, val loss 2.0650
+
+Sample: 
+ CLELEELSRUDEERIZENESSS:
+Dow w urell may digord tatt acoulegh,
+Arembcke; t oNowion s, tou w: to iscom hakes.
+Cll wil, mie moto s osoot arer mayod.
+Dier man y peallf s the vart! thalft Wher t Irue, soprenvede: whies y 's masovenderite tod,
+Ifir ort theer rwews dithou atumoserfistios.
+
+MENEO: my feeall: myss, sad, mord, lll aird ned martse wnont asuth,
+Woulos,-t bmast ay tore ge
+blints; ace wh noo Cureold; t owisan
+wel y nen myou yotou, issited:
+Thompref whe t ieois gr.
+
+AUSUCHERY:
+Na, arenn weimil 
+
+
+step 10000: train loss 1.9304, val loss 2.0581
+
+Sample: 
+ RSESCERAREALLCESIUSBETH:
+IOLe, pa my wo mas ande as h mystheat t.
+
+QUEN SCETER:
+Anve my O wetlo th,
+Nrbet widitingher o t ofin ow. macrce n;
+Kithire Authd yrely the thaf:
+
+I hem thavedene, burid st
+The o ndo'gid besen mberen tr, ifirith an bullong s,
+Theeand I cacoe owh r thaser it, s Thote mo rne.
+CAMINIA:
+
+Hrncesis isthak's fom t gror sl heats foroy es hagh
+ster you byrthe ge athemol sof: nso
+To muky fours conssergus and o angll forontfs
+'d ovit: ou
+De do pofthysull ser be I have fam hor my,
+H 
+
+
+step 10200: train loss 1.9358, val loss 2.0704
+
+Sample: 
+ ESCCDBUCALUFSY:VORSOKUMIOUS:
+Mallide, mel sodo grsheepory, withen ame:
+Werw hexe thais wellod have st un thy aressuerel;
+I I thell un-wir harge, yo your Clishir, wilfipaghces
+Ty and indy ouhany! hears thath Am bukert, dnos, me athawich
+An farint t, plot, vithorve beng, no Oran'd d ind te obeal beassser oricte amp;
+Andouf llr thas: are, treloou wngass hel bave tous Is minglt anow
+I ou; is soo s, equrove' I heprens!
+As Ritoweul w
+GLIVe l nprothos him owor se; he mofove:
+Who ler ho thay wooou allly 
+
+
+step 10400: train loss 1.9260, val loss 2.0551
+
+Sample: 
+ SLRONRVERCKEES:ENCE:
+WTtites cotw werwakel, wat sthemo d y tuno of his crims
+brin'd:
+Thin ow dato cr totukif seth oste
+I hisule wdel be hivegh dok thiber shire to bre ournd by histhis f For sir,
+Wine, wharrens tte wo theat I make un This, olt cot soue,
+Tothan f siswea b. segrird
+
+LINThy, dong ry'stes 'tit uo lin tho;
+Ing and hthe sisoout s o mered cour
+Ele man: vemath for: be adoenge we Relses med,
+Myeencour!
+AURTBENIO: lit unns gobratl,'d a foreDtordt, br aive,
+Dut Sulk y wofounthip f m sularoo 
+
+
+step 10600: train loss 1.9205, val loss 2.0600
+
+Sample: 
+ RLRLUCOIENOSEOSARO:
+S:
+Dhe sout'ser mary this'd.
+
+RIShand Firo, Off somangh,
+Frere reacura m aistere th be t brea'soughtd f hermaine she.
+Toto thewrd to ano icons ty, anod in mesue;
+The hexthy,
+Shuld mat me, sin he ke ow
+sobro p redeenon yean imes leante
+
+d hertems Courth's irnc tie ome gandshthy bleam,
+Thet lla the y har an jee wowigh wht bedath ay,
+Whalllll hise bepred in,
+hener glor he winonge fat tha toume obe; mde my'l cofoend hiper Ias un.
+PETireatr:
+Dhely hy, githourinksthe.
+I'se ataou d  
+
+
+step 10800: train loss 1.9207, val loss 2.0509
+
+Sample: 
+ SRRLREISONCARDUOIELA:
+W:
+Yould wr, I thaleav papy owin m he fountor ghe that pirtimp'sa
+Thathim w henim olighentst, a r aunouse
+Yot har.
+Cir kie myou s thave? g.Bu-hke O'
+BULTINA:
+Bum oot tens o himeme,
+Thald l ditinionged me no there kinowids; to whand usis t wil drhe orte; a whe's ve alliorg?
+
+VORKIAUS:
+O this owo h is ou twtasher,
+Buchrt aud dshouth s rour ait p rilat am augaind moty.
+
+
+HARIMIUS:
+Yat hat sth Bot hee p n gathatek fraintugh,-for Ilows youlNo, ar plyeyous wit
+ANoull; herikip nip 
+
+
+step 11000: train loss 1.9158, val loss 2.0516
+
+Sample: 
+ MOLUCESSWSINDIORDAD:
+L:
+O wa thas, f Iharor alfthe forie, ids thellee hathlf s the mive hery qurent anarty.
+
+CEDWAPER:
+It y, sknortucily ichse: touminth, the yoour ar I melan kinn she ear'sowes an,
+Tef ke evofixtheedarg de arian tutithe y Iis hake youre souwithanchedice t
+Anel fo willthin!
+Havery'd ave ilis sukers patims sond
+The this ourigh ave; as berere Me brfirotte, ive Wharil chiph tearis 
+gong ind fane pllafor armace aifus ais sordoutth
+Yor s, sus ouve Bup it muntioneg f there carcthame so 
+
+
+step 11200: train loss 1.9113, val loss 2.0572
+
+Sample: 
+ CLOEERMCEOLSORSY:
+YCO:
+Lou, mor my wispine. ch you mam Pe ufoomis
+
+'Sor hot for thigs wgh conts Gouronte t hont Is;
+Greall tands now forl. m yot way myoprers t;
+And he nowhely bam wom the bo midoine os gleceand
+The go bee mimbred thers owh y he punon,
+Toter cowit soules pthmall'd ppl whe,
+O't child was nom sply o socaclye
+Pron iconth.
+
+CVAMurs:
+Wh, wastcoucill towe pinour til he withoaich'd tit.
+
+PRULIOLES:
+By, arishipr, yo swhatherd senade
+Cagecen: pait and s Ithe seis
+Angerare aut, thed kinow  
+
+
+step 11400: train loss 1.9152, val loss 2.0593
+
+Sample: 
+ JOENIDUUCMCERDUCENTO:
+Y:
+Ahenkse ut bisece whar homthos noulat ce
+By ouret hauntes I harr comsestiomee.
+Houchar, Weratord ome fice hourst
+Se. I yake'l bet
+I deay woell gegoon'en byo ine neyen kifour ghedur,
+And this men the hune sthal ky me inowindand,
+Is whilller' miver thind s, hange chomble bld him wdil reroy,
+You nthe shaly his, lewe yove wad I sbun, grof beagal'dy ly dont be alad.
+
+I'll Sapansugancent, warere lad erupongnged vif,
+Ors n o I lasherd tan Dum
+corpure. banr.
+
+LATItinh y this jus 
+
+
+step 11600: train loss 1.9113, val loss 2.0558
+
+Sample: 
+ ACREETRFFRIRCKI:R:
+RD OMome, my luth mond r? ly notow?
+Dorsthough th rroue weethtole ws.
+
+ROMEONENoor:
+Whand his s is hee,
+Saconir, wing thererat datoss t:
+Wif maverorg brar.
+Phetng fono wim thold f have l int thofie me,
+Eat wire dwis no h thalp thave my own forr'd;
+Drey, e hiereved ir def weikig,
+Is o't ind reve tho in ouppt
+Anssitasly, rt soutro that ivemer r comamo t frony?
+Why, the naving s aclidl y, prifing mye.
+Thou Irr his p, wathim wildl
+This are kengo smautane kee tar jones to no yo?
+KE 
+
+
+step 11800: train loss 1.9169, val loss 2.0549
+
+Sample: 
+ RRRORSBEETRIRSSAEET:
+Wou, saray, oun-br, O hare ie torthand feyon, pin, whindreay'es hod quros chishes curyodd,
+Allell ou thome lthy not thou he blweirttienshman.
+
+
+EENTENIO:
+m slean I'leve tl oun t yo joown.
+
+LORKEONTHNSt IO:
+Thou t iswad Clamioum, sat te Ederm.
+MARCLANDIA:
+Is, lif yor ces wifrdale shit winn, surugs:
+Theree m, pevardy ayend; thou wer wesest ulf'des thise, by aforn I blend sonok
+reik g thit suco's ing reamer'
+The;
+O  tatat kikend, my ding, for thir that.
+
+
+PULINGOMNUS:
+By:
+Id th 
+
+
+step 12000: train loss 1.9065, val loss 2.0506
+
+Sample: 
+ LRRREEOLCLSIEOS:O:
+YW:
+We a worett buryse behe fownd;
+Titsthy pother, cofodssud, I no und trledery----
+
+ESCULUS:
+W:
+Orellld whout be Lerd--
+Le plomorone roned, th.
+
+Cat that forther tt beneds par's?
+And aueas diss samar,
+The heasat d seast itol
+I his mathe fomely he:
+Weillld p there conte mestl tow, ake ind hise!
+O, I maveend!
+
+LENThat! nsiecerant woulon: p gofooath be nou.
+Whour herdd w my powan, s, bre,-
+Totoug gh bodit,
+herd Fong bite that llarave?
+
+ARDY:
+
+AThbat I'Gouru houtaw e the geron
+To 
+
+
+step 12200: train loss 1.9013, val loss 2.0342
+
+Sample: 
+ MPREFCFLMLSRSLEGne:
+CE:
+O a wark, loloth myou meal alle,
+Thern deither hysou's treen tiser and.
+ACamen'stint me iveristongnt, soror knd nam,
+Alle thais pont d brut, dis apland bot eet than artcte fo tist whawast s nourpultld pse owen clin th?
+I hee verourred, t,
+Sacral o nofer inour, al st duno ir' ean s'And?
+The sup, theephes verbbeleng of irssspel Wigerr suen ed:
+not, you o 'fo.
+
+BI bARlle aund:
+Thomberrse foutiss thanond nf upul gove, puch fldorowned thit aule;
+Thespls sor; abea ren mead hetr 
+
+
+step 12400: train loss 1.8995, val loss 2.0410
+
+Sample: 
+ RCAERERRDRUSTEEENCLICNTHA:
+ANGoot, sheter co ay bur thifror'se
+'Din the t, cowane,
+Bundrren, asquthatel foueelpg or sht,
+
+shis upeditl bbrdeain the ty araquaty.
+Masecce, sithay cearan, it Eve blar wicul w, swharer Roul I,
+Theis fou ar lleno an an maifon.
+Gor mal ace ware lary!
+IAR mul oof heerer abyon?
+Songed:
+Mis kncany, by, loug law yod, sis sanfak thand preer: tyete durrow.
+That's by, nime's s land I ficeen ptend t;
+Utounder with.
+The so ncimituel te arghie, r s chithance!
+
+DUKING MIO:
+As for 
+
+
+step 12600: train loss 1.9014, val loss 2.0389
+
+Sample: 
+ CERSRSMNIRRRDIOSENCE:
+SE IO Rith Eat?
+
+I you LBesk d VI do al gompagintiod fstinhe agak tothe s llo balothine,
+Son yr bewoat arth menghen h, y ava brrtheg.
+
+MPOULIA:
+QUisiay, and comast
+Is, iorthoult, at ancand theve mak. fwh sillat bcheve y?
+ispuritimon'th s ube my polomst onto ane
+mmy thurm! st norot thee hit singhne tlooos n. aitig I arel d,
+The bavee'nk fe fofor nd Wallatak w!
+It thyou hiss cor r hisush a are dsifond theat he pee vuls'll apae tint y; wor aperidng d.
+
+
+KERICHIO:
+WARD Illd ano 
+
+
+step 12800: train loss 1.8947, val loss 2.0339
+
+Sample: 
+ CENRCARDRVESLAR:IO:
+O:
+Noo,t as. y, wif f shuknd wacat wan,
+Sod ot ilinensp lo w'to s surig, uch hild,
+Wart sh no gure
+it doucke non thig, thatir ld horke nke I ineveiavouced
+I e: t knle god oare cokin verednbove mowite
+Gore quanssprive,'d is, vere car?
+
+Sul'BMILLA:
+Ay Gordieady, kncrva Ifrn is tham the,
+Fall brghtilad, avid dize wo otrur wown;
+As ene grn wenovad, t inrt wild m my bere ano spourshoint.
+Now Lo, fobr asecom, y byandlle.
+I'd
+KING Ham Hathhou barthr
+Tou ofthe oreshamy gad as sandel  
+
+
+step 13000: train loss 1.9022, val loss 2.0388
+
+Sample: 
+ SRIAMPSLTRENENCMOIND:
+LE:
+Bus Je me'fooe ke happt t serenthe gesome ofof rerme,
+Homere, nren whawoperds Sesysenet f fores shasof
+
+ULve trdouken suland aume nthent
+atis anowso 'l ma mereangh ridolewel sthim nowwith pth hishus pan ndeastholuth t-bgidus folly my mathimed t sh-ma lle.
+
+HENCHARD ORD IIO Ark think tha winght.
+Ther fo thesilest uss is adern elvaes n
+dod trrno hery, kin tu wif sindg-ty with lourth, hondly thaling oow toud mo f teror:
+You are the se sereee mid; obler muty dring Isovelam, 
+
+
+step 13200: train loss 1.8955, val loss 2.0373
+
+Sample: 
+ MLLFMFLOROSENIANINE: GBRE:
+
+Norevedice tit veme thega Evio-lom ith.
+Cow, we ithe werlls, gait t us s go; marell Magake
+As tilll tro Muntoro lfome aldl iffr haoward:
+What maat selles youlf sert tourspon ay?
+
+
+ROROLUSO:
+Ymay s tamilai-pang stherd rure, orowe y, I ad, tothove s.
+
+Aay tut der ma thillle f I it.
+Nengearther inath o hithefughtor's granodlt I ndishandrrs muenkr o on.
+Filer omal I, p that kou iloshs f woor n myor herell stath rarn m shalinellings tlused uer revand d
+O; as and whath ft b 
+
+
+step 13400: train loss 1.8850, val loss 2.0279
+
+Sample: 
+ COLOLLCKENSOORISNCEDITIO:
+Then, iserme acan-fforin, hice dant ight?
+herine thou nis lofe y prouce
+Yome?
+RISThoul:
+Of chall whas I anoullil sity, tho to hou' beetw-Jo yoly, seliep.
+Flid She, mpr: iflourdst, tho Ands reshiring edd ingl ay sesesh shovels, ssin telllerf teerbow's, nds 'lee dithimer,
+Foute se, tinding fout foriced ar.
+I Whim, ave sthay yoathe ar I wonething ll the fooulicer ofio wnk havede nere it
+Ror jand t a dathem hen ollewso.
+
+
+Prthirst:
+Too st oros werasnersss.
+At t no bother ng 
+
+
+step 13600: train loss 1.8876, val loss 2.0360
+
+Sample: 
+ RRSONLIRUCDEWRICELA:
+S:
+Lou
+Thif ame wil to isme'e an this, Pawann the ant, barace.
+
+
+QUEEN CARDIO:
+Yoou m word y love sthars he f,
+Asall no t rarot bun? wn mostifaw; y Gor biestho,
+Who mer reay rownand wours fent torn,
+Ind he wifthe worordce ay haceer wne
+Pe warwn athe-brisbled
+That ccoid touff I myoursst t.
+
+LANGo, you comber ad a nde, melol leve chOobolig tsinh ishompen cr areimale!
+Mirde lif Whis p thearoull ow
+I w.
+ICHBING LEDWARD IICE:
+Be'shir at of;nk you he-for.
+
+TIOROLANUS:
+O mano, crof 
+
+
+step 13800: train loss 1.8844, val loss 2.0174
+
+Sample: 
+ ACCRSRELEUSCCCLIENTENE:
+That, ands,' I bindee cis; fond youpint a doo t awrke poucer daulains Yinche tiam w.
+Pron same myovess afulful thimal ot I the rus tolave.
+
+
+Ford GRDIEETENTES R:
+Cat werrlar htchave, siry leset tain d if y keade.
+Du's sill gratty, he-o dine.
+
+NRGELIZE
+
+TARCEL:
+We l nomutinotht,
+How y southy dicok,-lad as re, withords you's,
+Wicld cot
+Then eat urules ontit o tare ingr to beran;
+Tod, It
+Lobrd yost uncorfor I fear torro weld
+Dud the do to towh y havood vear An mo mend the be 
+
+
+step 14000: train loss 1.8806, val loss 2.0207
+
+Sample: 
+ ERERCESEOSTLAXES:NENGY:
+IS sand ar shen?
+
+She MUMUSereren:
+Your y?
+
+Gou losu fr IDo thiceran: wap, my are I vee colleas
+Orf tarend, to higse th ais hth doe se myite.
+Booou viny tithour haur, delorse me:
+Ande t mue fantest thed, s?
+
+Hey: orear m amy rstis tothis, weear s byour hrecknis,
+You har ware hie
+Thoushld gors ay besedy fes,
+Whors borathe gor.
+Caton t whithim o llemy shord seane t sacatarl sendl nganstly?
+PO, you Four t athatcteme py walffe er'd
+But yel-pede I ged wid to o blalech.
+Was 'Wa 
+
+
+step 14200: train loss 1.8781, val loss 2.0185
+
+Sample: 
+ LSCITKNERCES:BOPNENDIOKIY:
+Hang, on and! foor think! s we'lll fat, hy kin gear ang,
+My is say, har y oungor apal Ion ment
+Ors houso te tito theed?
+I Yenor ling aw!
+Het hat thy Ishee s nqune t hif thiping?
+
+Geng ood linde RI Clepitiong, chburom tuton mad
+Canalle me stre gendemy mo my engodibests aded,
+An, Yis lllingh, therdst'd ar;
+He mube aresth Haps che withetath, changhaved,
+Wh athat'st, to pusoy of h youg sur wre tovim
+Tin'd elkeanke, ant there, l flo't preanct fly
+Burt thathing odsed tarll w 
+
+
+step 14400: train loss 1.8769, val loss 2.0169
+
+Sample: 
+ CULUMESTEERERSCY:ONIO:
+FoThis, my hou they govorn cy aige!
+
+LARINABE:
+Ay, forok, donow a mmad.
+
+Clo, woren tha llis, awaond y thyout hat
+
+PHabrd:
+MOgballlactes: my foucou harment?
+
+
+CHARDUCKIOE:
+
+Theern als p wa! tait m.
+Friventhay twazege!
+AR Cofffomak, Somes ckifes nolory: hanour thas resond,
+Ahins tho s youst des a himongh in teaveds'ies a and
+Tobr, Novow s ro onofome.
+
+
+RADIUSO:
+CIngAh, teelat's woup ath wen, thif I fithm outhat, lant Kistreabr.
+
+Plep Grofonceand ban, the highe tou
+Yood arme 
+
+
+step 14600: train loss 1.8778, val loss 2.0172
+
+Sample: 
+ RRIOORIRSUCEAULINTUSS:
+WBEll noorou agrd cknow thim
+O nour e afor the tose no. his meamety a dus t aonommen! blok thar I othim, ho atounert tof Band, med oumungh wearste my bbchealo, set picty toons sir foninevaTh sare inour ose fond henours.
+Brow'dy, hen, torowen ne o aca of ssmainteent;
+Oushator, high al wicord ithowrer be
+Sorecofchint, he s somange dee, men gyes isthim ce whancengs,
+Toulestho o seerifse ham.
+Malll forowsty, I gocall kneng t mastly
+To no f doath, sher nobewiplark t,
+Touthe bat 
+
+
+step 14800: train loss 1.8777, val loss 2.0192
+
+Sample: 
+ ICRFLRCCUSFOEONTIENDIOMS:
+Cre, my, he xird
+Whath y seng. 'taridy th alicce nngannceest avers selleren, Retre,
+Not therin art shole the faner,
+But ve tund mernily'do hig que se:
+Nodo mat toth oo ouldak fay,
+Cate, as stond so aye,-metre'd--Nity n fais our t y hive t?
+Gort moord bood utesthe! 't thournd sind fofoce?
+Cor tele be he fon dofar t stikee to binco blef arsee swity: clurk wile
+'shes wepemen y see shirer ongr gewes t doon shyof bjoblengurn,
+What.
+BAlay ind al. ha te Lanofldood:
+The carthin 
+
+
+step 15000: train loss 1.8711, val loss 2.0163
+
+Sample: 
+ LLRRERNCHISCCEINLIIND:
+WO:
+Thateat spact iee ain, tan ve sperpeaday, no eal;
+t plearestit on blang orothy herirlag t wo!
+Kickilll be wingepl.
+QUEEdst:
+And anou wy edil beasst ffechalcedy I touroun limps othediner.
+To twit oreake besterp tssso th wo theyose e we dore, fomain;
+Yo her is, uro bagines ficland g toren:-no ousd achss bit n andt sut'ats sirrol: bak ings imard houb;
+At th ims Duclyt ain myrawat g: pacufll eesst meny comban?
+
+KING t y Giton:
+Nurs nthen we o l,use be,--
+Aindyored ame s ca 
+
+
+step 15200: train loss 1.8728, val loss 2.0138
+
+Sample: 
+ CESREERURCEDLISSDOT:
+S smoond ta I lom be maloth. ioll,
+He the Ratoftirere, demen: the, eas, wicoment:
+Asperthe ut chalpte,
+I idr towo abrntn, I myothalf y oou!
+Bomod pre han'st; thu llewin 'thish, wor gijet compest;
+Tout lemby m mutousty ad come?
+Thy llie, Gord thikis at o it priceme temiant faincr. whand at Notobrut! t.
+BUE A
+
+DWARBRDIS:
+St talyon s gowil ave shapait is ulesedosth; yeranas resbarouror:
+The be shavimos wangel.
+RI what twich ham Lasind aituty alenq mext hithe lig s oreatt
+Ant'd  
+
+
+step 15400: train loss 1.8675, val loss 2.0148
+
+Sample: 
+ CTMCFTOMNSSS:ORDO:
+Y:
+Nheards mes foscilere a my min is amac f ale, ustwh my by fupalesh's'd
+Bese sead fur fithe dun chos tut we thenth at vines tetend to be ad gosin delde.
+
+
+LLORDFFIZENETE:
+TEra, the serece ebj, acce thaste coompr's;
+She yow, pritad ve ourse
+Aning inds your fade toure
+Ed ndwany aceed hetsen ree libe ot.
+
+
+iRUTOLIS:
+H:. cyo, hat a-
+I yo wankt lon le.
+
+RATANURET:m y lasaind bes;
+We ciconthed aw casioup tion pe aurpear my ,
+My sircof thad dee rot unme misth:
+Oreand thano d but pr 
+
+
+step 15600: train loss 1.8679, val loss 2.0109
+
+Sample: 
+ CACNRIVERURRSINCE:
+LIF:
+Lar ancce anfreeacess's mp itou user mand oethepims, Csteand freire,
+I d feal civell haf: iroour bee f naslens d liace
+Tat he bbereree rm t tinaais thoure ffor l heos Ieal'sh eparrs I ga de fouars,
+And arcady hapan thatt upr prinect.
+
+QUCTEN WARY:
+Mat, makelly; f?
+Whend ll ie, hang willain, t ised pe lathe foun tce swen
+gil, thinor s hall I dincame dions yownd gele, wat wor Ihard ist s shareom,
+Elvel yogr betod-s litike wo that ssp adave tedins.
+
+CORSIOLANUS:
+Tor tiser? y 
+
+
+step 15800: train loss 1.8614, val loss 2.0083
+
+Sample: 
+ SHLLLRCDECEMINCTER:!
+
+S Core INO, youre?
+
+GGro:
+
+OUCLOUCESTER:
+What,lll, be n colal; ore sobyelithrs,
+Tougher nie tims thatain el god:
+
+Rethagher lon be thisus alyon;
+Buto he meadse webuld ra sw nwifil omersher an,
+I sish: bowed we;
+fe nverlow tot, wigh oumb ane totlave de,
+And tithout you hour glipe my hid: fithe d.
+I heavers ree padrve.
+
+ATIMINIUS:
+I prpay go t'Tinlle,'s o tougr love,
+Becatious,
+OR:
+But but gR leet hawey quntow the greas ces vinthes.
+Promt:
+BE I doutt ne dhy. dound,
+
+ORersichO 
+
+
+step 16000: train loss 1.8629, val loss 1.9990
+
+Sample: 
+ RRSCRKERCHCOMENTDD:
+CES:
+Younosld t bithce s kngamey,
+Not f w freand ononer mas dsy selfone my souo lave.elou,
+
+To paro Thes thaly s thathee lllopew. aithong rrreos k man hathe swoucch hars fthare; the,
+Sund that o I helth weime e soff
+an yare?
+Send Pue Careant ano the tarche y se couchend to or,
+Sher bat s fonck e mesty, 'lel aconteres,
+Wep, whome wo; thare mut
+se his blitig ghtht s ewill s mayor be.
+See'
+ANNG Mur:
+ARTwas domul hant thy a t dandst preficed your zan,
+Lintars y in soburcees: wele 
+
+
+step 16200: train loss 1.8667, val loss 2.0090
+
+Sample: 
+ DRRCLMCRDINECUSSS:R:
+O:
+Pe fdarut, coor ighbo me; coke: you ireat me as
+win.
+DON:
+Frrat hultousts ave bun t m
+pe sitot he I liveon
+TONurs te?
+DONThan t:
+Agre ad, thind found's harel hou and o gad:
+Autr ircke to tite th, with,
+'Rert, neas that hange ove, whe chore undhomstess? prexcertial, gecer outhe.
+
+Prdererirs! My Wererce, and I prid ussern; i;
+And with Loug ior th's ste belore
+Areritlf t tono tin sy walat s sow sel,
+Thay athem nou berneg yoo.
+HENRWhis, Anowows s pe srokid thopt, ch fan; for  
+
+
+step 16400: train loss 1.8676, val loss 2.0094
+
+Sample: 
+ MIRRCICLSILLCRIOLIO:YBRINGBomelearetled!
+
+
+Aruseme:
+The ther riou of af
+The LUDige s thenoukio t, le
+alow ure of nfouty: hick te, noured why Bewarde,
+Soll reff dond t byo stof almod ll.
+Thuse ss cacon ll tile much whe,
+Rit haich darsten.
+I by my weroodse ne fro?
+Whie s with mas y, with wour outh nghisl hat,
+
+ICoute sthalll werore fou chid dishis
+A patndoo t acrnakin, sh.
+BReico!
+
+
+RIARES:
+KIOHOMe hamesave, hy herpeaye mmar's me,
+Anot whenen thu shirmef valfe herord llil
+Towsgmain,
+My laurghey ar 
+
+
+step 16600: train loss 1.8565, val loss 2.0009
+
+Sample: 
+ EMAMMRTENLEUSCETL:SER:
+Grread k Vether whupin IN cant?
+
+Firsert MENES:
+Pord, beared, spoise,ur, the bubut wot wof thy.
+Coureramme, ticcen upr icafoud bordyon Gour ther oleoo.
+
+GRISt stheilis whemouth'.
+
+
+DUCDINTINTHou IO! ast oge nnean'dio,
+'t wll used tovered at!
+Lad I knhave yshould ben
+Butt Os heerury
+How there argave lad's.
+Ing:
+Goood s oorling my gneard treath.--KIft Yowir My, thonet gomy me frorloay w!
+Pught tour mprerpie t?
+I for sthevep, Colen lige, id Gretute tlee ak to tomof
+
+I neinf F 
+
+
+step 16800: train loss 1.8556, val loss 1.9983
+
+Sample: 
+ CAOLERN:VOBELS:
+LA:
+W:
+
+I't goo therse, far intthy,
+And hat isin'd witonctil orlanaly irt bre
+
+IEugorely tr bemy me thedwemirelk'd
+An llout ag suexcany.
+
+EO Nurs:
+We 'Twar ofould's I hind.
+
+FINUT Geenoursent veal whin, thing lings ropitht
+Thies quseced! byof this wifankst
+
+GLUCOES:
+If thould that yongudcl baioudeds uk,
+Put prande see'ser t a nour hiv her cebliaghste?
+
+MORIO:
+Yo hou jld oviughong? t alo me bograts troven!
+
+Fausnt'Ser:
+Ghe thad bicened bumang te: bethir try wete urerind
+O,
+Gonaing 
+
+
+step 17000: train loss 1.8640, val loss 2.0111
+
+Sample: 
+ RLEENRSEROCENDNTE:ZE:
+BOLI mecady, cor I dayf kiad,
+My imy I y oel phord?
+
+CORIZE:
+Both miderenk.
+
+BRUTUS:
+Hoto hee m, yroroouset!
+
+Forspee:
+SCI o, thenct vo she?
+lint t hiromf m.
+PRIvovangeband!
+
+PEETRW:
+Preayen, it ourse hol; th rert gonemannd st ebro t
+To; god me
+The ovidr s Econ ifongend thof ne frartynch
+Yoou f tathe be sarstlonty,
+De owod, for amor sood sthis o he nofos
+At bucheriant, gang aive
+win eren and beg, us send thal ass blr y therave cowee terig ckepo thive o' th frinichal tou: m  
+
+
+step 17200: train loss 1.8529, val loss 2.0053
+
+Sample: 
+ HEILLCTDISSCDOUSSSONDO:
+WAho mendseren oug hareyoolde fsourl aungh ofm I lind I eaplscetimes angh bomyoy.
+
+WEOHES BO:
+How le tho, shesetst braioutin
+Saft al sio ke and they parseines;
+I'lf ave teack s tanorar tiger aithers tockir iffule his hin dis.
+
+LUKENGHNTIO:
+GBld'd, me? prap, Kitmancut ofiole,
+On no womy by your, owit at slaud mbbut ak a-ing,
+Theis Or a mattrr play, froocound, w'lle shim.
+But latetood, astche p astanthabrd Heratouses 't,
+Thin inourr ury yhaslg h hearth,
+igne worm gragie o.i 
+
+
+step 17400: train loss 1.8476, val loss 1.9916
+
+Sample: 
+ VREORCREOTEASLOMEERD:
+T:
+I thond vesoldse ougouldght nd!
+Sootrd Con sthely gorod meat be
+Wat ar by me tisurmal:
+hnd, thang this his kner rofownd's:
+Iner tiveromin. turs:
+For anom if she, glike ee nfinow,
+As murde hrbst thint d mawhase offe lceightst. Comed;
+Wherere yo thithing, dat thoun ingurupm'st itue.
+'s mofirst hit be g! anonthobe w: hou Dint I'cengh thirie; ind Mursege lin pis aponice:
+Ant ber.
+
+RADY lo ICI:
+Why privetharde mon peth fouthak t alered tagh!
+QUEEN:
+MPakenily piss nerce.
+We' n 
+
+
+step 17600: train loss 1.8484, val loss 1.9917
+
+Sample: 
+ KIVILRRETECKSSCE:ENAD:
+NTis g
+I weno d, Llaneinsor menoust y ouighs,
+She sandot wed seef! atapil mos,
+stut to val we!
+MEO wath pofor gust bonis, foat come? I
+
+TitELBO:
+Roo whare ome wathert a cakire ale;
+I chome.
+
+
+FLORIZENES:
+WEL:
+Go, tavends lat sicirds, sathe his bay rufuch whild
+Hath ffsoers isof fethe finds meanter.
+
+Le ISTICH:
+An:
+O tankith, I bonerd. rot thoon let corucon tres, wethoful lke.
+Inoul that she al blake gin: re reag ance bed
+'
+YHouStr Bud with sth lod ke I gothised,
+TolckA apr 
+
+
+step 17800: train loss 1.8542, val loss 1.9982
+
+Sample: 
+ RRRRSECLERWISMEENT:
+NE:
+Wely dear wethet w yombindereanow'xts allgeand d houghasive
+Sther ter wintund pas, thost a grand obody!
+
+FRIDURSCET:
+Re herem o moth old lierfed.
+My I donkirmenes as vevans fon tiny:
+I'll cl kivit ts kenkspo, teand hin bliefe.
+Sh, llaind, sping ssorouch'd
+'ld Byot cay mamoe toond thee we,
+Bahe they gito haukeg's: this, 'sand sicer warngl comt,
+Thengee m hitopalloke atase a deita nowhest athis
+Ane fifirours what a thyshouse berearn
+w d thilod, kot: wis thaller this wee?
+Do 
+
+
+step 18000: train loss 1.8411, val loss 1.9997
+
+Sample: 
+ FMCORTERCESSOLESLUR:
+
+Whe We't renothusede l fre?
+blannt ie ond town m!
+
+Firsit MENTIUS:
+Ay fres cociul anto hyosht ipal you,
+Tof jull I beoute, no gubod ththis younour
+He, unst hertin and p evear gacld
+Yond my grunne dioughter g toovest steed waye; tithe atheerd ve prsep:
+As, h beain clly my fet, foule burent.
+
+GLUKEOUS:
+Ho, shay mave mow fiedll rerthaning.
+O, bif shor a ffreewnd thand, loows yo hif gr oupses is pantadiontin:
+jupppos ary?e rou wo ill wil,
+Thouch he wowesecalf wot sthy this wron 
+
+
+step 18200: train loss 1.8560, val loss 2.0035
+
+Sample: 
+ BRUCLEERUCEENNCES:
+
+SCATIO:
+Theat cke the sp icen iud tichan's
+
+Lorted thed e colalifose.
+
+THORO:
+Cath t witarut, Lo bet dukin wof as
+sto,
+Whe, w faro be noring soures I, hin Lupeg, anen Levefun eile,
+Shavd plike nonoie Is t paif: come I have ay waty ou se to ctherte'sin,
+No witorajensthep, tot a shing, mnd
+Anotce hy Lowimegset,
+Nontionapo ng to istho
+gine han tou Loord auroy grtmpoch voud?
+
+THe bothe he CRirthiard, rene st couredin a's s,
+I to be: notw
+She toume undirsaly th rea s hir ofought,
+ 
+
+
+step 18400: train loss 1.8506, val loss 1.9907
+
+Sample: 
+ CEMRSMEORLRCYO:MEND:
+IO ld dorkso.
+Ploscrve, Geadartiorst r, yietthe mo anouce.
+
+KING EDWARD IV:
+Myor w leafashin Ed faly.
+Gigamous: ous, the foun greyous,
+Nus I ee deven houmatster't rom thau Led for omend,
+Beforelis t indhe and th fiselor.
+Ruld:
+Corsok, have ham spon yone mey hed,
+My gret Romice.
+
+LOMENENIUS:
+O-whou rance, nensf land; y hou r am grencetan.
+
+Yor Tow Bucler lalok, thady tepen? ond tho beinces ivI peroubse weeith hefore;
+Pooode now dwerith.
+This you, in tan Posthery
+What 'llape o 
+
+
+step 18600: train loss 1.8390, val loss 1.9835
+
+Sample: 
+ QRCOFLOUHSIOLBRIE:BENELINkng, cand y you Sive, henerst berceorious ttherouss
+Ar an d tanone at a thy near-bagls y sdon samphas mled lins! thenou menien t. Trueplle;-d whe co totiserighfin that fed threart tee reir.
+Stould, for I chant slis pranong f oloven sty puoshsent
+At lethongbow, belard dy proplber'd inghom hes an tre co thaprt ad det; iticty!
+Thah myou y enoulor k
+To shert nono btaing ithou aty dit
+Uul,-prilof Rick, thomy k: Greit by they wakll ownle thy greater,
+And hit foum t kenjasane s 
+
+
+step 18800: train loss 1.8372, val loss 1.9766
+
+Sample: 
+ CNELOLNPARUSIN:
+
+HCNCENDIO:
+Sullor w'st! auparaher-ponindst?
+That ru gruivanstsan oft you e.
+
+QUERKENTIO:
+Itr I lil iveten, y ouso yo.
+
+BEcomesely; the whall m oiesave feceart,
+Sueno mer an hinge ty ageandfllued; tro I waydoour wn ldan greve,
+Seauk sthe thairs les saagont erret,
+No Mot torus f renean
+Where yewom Ede hise hels, themye n bristliseshing oschen preewad.
+
+
+KICLINIUS:
+ING l RI LA:
+The tsl narbearok?
+Buy therisiagman: anderewussld ad, hisin hes pr himushe pands.
+
+VOLUKENEN E:
+Prora haw 
+
+
+step 19000: train loss 1.8389, val loss 1.9824
+
+Sample: 
+ PLROBEKDNDYSMMNENCND:
+Verer orrby tharlsed, me sowelll.
+Sint Comend selly buns;
+Whowhy der
+I Cloul s wan hannd t mallen thint mighat hy plofthen yofs, I dorth!
+
+Gld?
+LARDY CHESAILO:
+I n Vore ENowhes, hard He,
+Hathhs de fame ath orking f forgruthtu troue sty lomo my me,
+D.
+BRANGY ICExcound OLORD:
+Wher! shy dopack I ham, blinkes nd-ananere chinonfrpies,
+Buld mbrines wromomes.
+WAULeson Thoure l mergr, but: thou hat rat wis,
+Here bsce; sin
+Er oyshr? meaedf ther; nd anot totlle Yourd a a llit.
+Graray 
+
+
+step 19200: train loss 1.8454, val loss 1.9994
+
+Sample: 
+ CLELULMGSCSITIIUGES:
+
+NUnwhat, nontood t to hise;
+I Cor I thamy my, she couldeng arce;
+And tor sof ideave, buth thin!
+Now that wineth, indee sthout slo throove, you,
+ans m if Hacis,
+Hby, singoonort, af Wone shas himesa wadathate t ikin Pame;
+Beith I lonover har yotho bathou
+We.
+
+Myord:
+
+GLOUCESTERO:
+Iflll ba ne my hereem
+Tothe, cr rinfought y'ss guilour, y!
+
+ARARENCHLAIO:
+O, I to, by, sirotld, y you dielp fifa,
+R'l.
+CHERome k; thare spe, shan, but heati wel; nof.
+
+
+KIADUKE VINCINDWA:
+Why why bev 
+
+
+step 19400: train loss 1.8391, val loss 1.9862
+
+Sample: 
+ DELCLCKCESCSSCERMIO:
+MULUMBoue u, murr, Haxht Yeivenge tharlt: prerignceve il nepun le,
+Fror my, ou theis sondds tergr seave,--
+Ono taf wh, wecar majes y prees, wand sind byou, sou a trick
+
+LUCUS:
+Wath Ficoleromend.
+Your lof quchen, whend n grood, whill d thukey gaok, t yoou anet bat cond oty my morvescen sil
+Ano y inot ld fausillges l shuealie dl a n se tany a foulire nothows hand pert, I sonbe in!
+-
+DUCHENSTIOLERE:
+R mmee y harrlode, ut lome,
+ntldis fitso woilnce; me thous semelese, co whe cee 
+
+
+step 19600: train loss 1.8349, val loss 1.9862
+
+Sample: 
+ RNENBRUPERRGERCNCHCENTI:
+WADoust, mererdleow as ofuliour bel'ofe orse for oume hesth,
+neall p, I spre of i thasc, then prean; thy whe at dith golding grave ducis.
+
+MENIUS:
+Reaint no my thened, never sorgue and,
+Fr myoovicele hook cenerd, cea bereh msk ndwe joy, lly iet hinghbad; nd wit hill besomsestry arrllo'd?
+CAMal:
+
+Hand!
+MLA ar dorrdshaved nalt omm y ay dyour' wloust hor me I asel,
+Tint, ike wike sh am lot day'ds go I poum menst, e whe ll beant diteme:
+Thou y phyprely hy swaswrell,--irl ue. 
+
+
+step 19800: train loss 1.8373, val loss 1.9848
+
+Sample: 
+ RICMRSRSLNIERCERIIUSS:
+
+Nomeaby yo--sungenise
+f morag ce, oof indse hare at, Leco wermer.
+ANARwil:
+O, hot murotherseaou, no
+Gan thishr!
+QUAUT:
+IVEEBENER:
+Ther, that ave'stt wroe, brndus, fior slipr bunes toored eakingrthtss
+Hat No, I whamot crnnlingesw mithat peall sha ay app ur donours,
+An my muthe beave I sto haber athim,
+Thereere knthed I to po mputhe-ste hands Hats uperis.
+Muro; wheich ip thowas ould but areainnn d tably:
+ATod, byor dngraw ary ie t mengand nthrourss ril countth'd m:
+And, gon 
+
+
+step 20000: train loss 1.8362, val loss 1.9828
+tensor([[ 0,  0,  0,  ..., 52, 43, 52]], device='cuda:0')
+GRCLRCERIRUDURILIENIE:
+Thous, sooon mere egusuibt at,
+Thy eso peresed t brmy: dnout him
+I'ld am ber mothe.
+ISKING RINICHARD, III:
+Hape anth chefird masane that gry mowrsh hilour s.
+
+YOFord, I that stat my sto pe omeset ant. pint Yeate mall agour thy shof weamitsp,
+And med tade had im lim sat gouch d bucke
+fof Jolthemige bled basingey, bifr
+Anchade,
+Ast comalo glivan ucreas t andwolend f. I then?
+HASTINGST:
+Itat alllannanow-ad whitedenqus doof athipl t;
+Her, nobust so-bbred t hemy munst woersusselvatned, my
+Villoucoy, hendlowe ure thamen fen thour's s tofourel he yaich.
+
+ATUTCOTENUS:
+
+Ay Theave n heren, pad wead wid,
+A ith agh und t himothig s-ndamine.
+Grd Came So wre gen sime,
+hin at the erill: is bees as wearnt t weay
+Serees to ikent tought is n, thesigh,
+Ould by sofbe at god is kiengbst,
+The irs stry rig,
+Auress ar testry ent do be orprince ounolenat
+Acont gargans be. Sonlplow n bomy ingsust
+Therengo up thy sruitse his tand-ljus ethas detemblouncury,
+Tomakely of hime cousen ald y gaw leaute thathes flinker uncondl inboneris that,
+I Grres har that tothaspher ayoks ing cofor finw's oryouosept.
+
+EENES:
+May pinainge borg tto;
+Havere whoule Roul wepy anlet hafl ay dheernd youral marr!
+Losuficedy domy, fou n I wrand
+s ligshat theicef.
+
+Fit Cichan:
+OMy, my housist is soff--scon Heme, thewere haved I tharewid on andew povor,
+He fo thear cce bustind
+Whins, thit nnow arne ol jud!
+Wease belcqurinaces a tee man my wrork'g-
+Maighe wngblaiast,
+WAry; the by have, womy lcane, I and,
+Tw mararidgishy'de. a toondsp'd, othis w.
+Cal s worith t roowher.
+
+BINThyd, SINIUS:
+Ano f dor my heancert d?
+RUMEO:
+ARDow ddepedancel!
+Wh dyour mow the le cothertherie hanfed,
+I If cas preyomagitst u
+Tho his sin satet'd atwoultit Fr atall!
+
+Dorsall trientedeng'd sionod lan ene the mat
+It me looreed t,
+Keand dot freds, leat ate chenn'sesedy fls myolfulores han gtel furspurig ual val his kim ngor?
+
+BABRENARET:
+Hou, thou anrsered Iull aibstythe gig
+Meand fo se er  Bupackis,
+ss diany't hu havesers lof ame may
+Ed mooughand,
+Th thead alu: for Hif Con omenours
+ws; ot mander musthis kiches hamen ofateend, pracat ryored
+t be wofieant; f thatersore
+Thingldee themasst ccon us,
+deckrn supen-l ffrowetind t beat at o gofh p!
+I's Man tabyos forneresl
+Tom here ste de orstenpemant o d.
+
+Men CARMARE:
+Noust gharer thy and menotes d; broute we sthom dis so t;
+O.
+QUEEN GOUMA:
+T:
+O theacche d your cas oomngs, ufoseand or dyou,
+Thons swhee breallag thoud a to thinangor, s the than truimat mbloun,
+As for Ethinghis t worle, we's dext amend,
+Seol: knot haker you shald te,
+Frshally me; I al ay chot smanoristaif lllar
+Wiall nand twespa penell't eart?
+Thesour a te canndernounsmag, And the'lps minswelen s Duceatr'dd'd?
+
+Fat En Slen:
+BENing blary's-nant al trrom,
+Ind tre durothener hatrd bem;
+Thill Caswe twomethovedin berine,
+at ldevul bike asil.
+Forace-t or hyou gres;
+I canth hest ucoy:
+Whatwe th woundst. splue ben!
+His s pakess stwerered ary linges? s Lanong uanon; my sonrd peaketor.
+
+
+DWSCHETINESS OF YUERD:
+BRLt, And Kiof me. ARDbrk, sory, yom ngord,
+H imad, ff hencole bas gun;
+Bie hasparr.
+Shay asert hige deavy
+The s: oreo cll, astorend ow wero mese:
+Werese geso yo you 'I thave;
+tolle al t yoyou mod pe thore.
+Doicerdsion f ant so terelus, the can:
+Th mushe chound dort! hohiverth ausain be a'd haur?
+Tat lele wap ver u thulrove nd ha boy beathur own pitorth
+Ofor wisliony f ballauttin.
+
+No HAUTIONGa:
+ORis melat an, Ner isomedusered agiting hing wis thisp silsoville t Honwrisereinend in, lior a shin.
+
+ELBY:
+Ay, let elboib, gghers haine, y warl thes ke'ser thevey lve sow ond thening.
+KIfonk! Yeffaros, hastlirs, is, a bumey wearn ny henablers.
+FRAThe CANELE:
+Cas riaom , whan oursome Of nayors
+ur saie emisongaver to shen
+Bure tot wildyvis, whe ifin.
+
+
+RIAUCUS:
+
+And knohy CEMANE:
+O:
+w for ho him sto ge yiven and,
+Thaiver wher cun ded.
+JOMun ay, whot awndentou br kisong dop rownorerous the be urive?
+Delesfom hur be n rotoucer.
+Larre l hive I cano mmarast old fld'd beaccat min
+gus in us dowhik with ' fus wen
+my anor hewfat hat; kinde you,
+My liea t he poguierss,
+Nucauf t.
+Thereave wighats t yourves wand el hal t wat
+Busat gon, inokesto sst anthing bey mare-ofone buther sthame,
+To urtoco ometh, I ebn otherer bothe st wes,
+To I mamy whe is keror yf yourown.
+
+SING have yourman a owanen that y my,
+Tou thim cetetere ch s deryourst dfr thathererint; do henbingherg toreshee.
+
+Yon, may lethire, at the h bl.
+
+CORIOLAYCUS:
+Whall anou, d ofin you tyous lou t wato rerat,
+w me herear, s be your figem t, underes we o
+Asomene f wit!
+This ste it oof ckinre,
+yow ale therrmancer, folm veino e.
+
+HERGRoom OF ESTANER:
+Ho, veanenst bugue s helave orine,
+Ang yourey, hat but marked'd woin blin dissuitrere at wil portome,
+Ane sas he am pe of Chropost
+Plat f oourd?
+Shand Gof corengnand mo holll-ret thel sonqulo as lay,
+Your thase to thy fryou backst amedy nrg.
+
+Sheperfepher:
+Of wite: wh nese nered t ve.
+Tik wninnkmow ay geean erasardislang
+Ine than haris blllarfuce? Meranthesannger Rignd doner fomithenen
