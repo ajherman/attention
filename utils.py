@@ -133,16 +133,22 @@ class LearnedSimilarityHead(nn.Module):
         self.W_k = nn.Linear(dm,dk,bias=False)
         self.W_q = nn.Linear(dm,dk,bias=False)
         self.W_v = nn.Linear(dm,dv,bias=False)
-        self.W_s = nn.Linear(2*dk,1)
-        self.relu = torch.nn.ReLU(2*dk)
+        self.W_h = nn.Linear(2*dk,dk)
+        self.W_s = nn.Linear(dk,1)
         self.tril=torch.tril(torch.ones((block_size,block_size),device=device))
         self.dropout = nn.Dropout(dropout) # New
+        self.dropout_hid = nn.Dropout(dropout) # New
     def forward(self,x):
         B,T,C=x.shape # New
         k=self.W_k(x)
         q=self.W_q(x)
-        cc = self.relu(torch.concat([k,q],dim=-1))
-        wei = self.W_s(cc)
+        z = torch.nn.relu(torch.concat([k,q],dim=-1))
+        z = self.W_h(z)
+        z = torch.tanh(z)
+        z = self.dropout_hid(z)
+        z = self.W_s(z)
+        z = torch.sigmoid(z)
+        wei = self.W_s(z)
         v=self.W_v(x)
         # wei = q@k.transpose(-2,-1)*k.shape[-1]**-0.5
         wei=wei.masked_fill(self.tril[:T,:T]==0,float('-inf')) # New
