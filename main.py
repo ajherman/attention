@@ -13,7 +13,7 @@ from datasets import load_dataset
 from tokenizers import Tokenizer
 from transformers import GPT2Tokenizer, GPT2Model
 
-data_cache_dir = "/home/ari/Desktop"
+data_cache_dir = "/ram/tmp" #"/home/ari/Desktop"
 
 # Parameters
 block_size = 256
