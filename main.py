@@ -13,6 +13,7 @@ from datasets import load_dataset
 from tokenizers import Tokenizer
 from transformers import GPT2Tokenizer, GPT2Model
 
+data_cache_dir = "/home/ari/Desktop"
 
 # Parameters
 block_size = 256
@@ -111,7 +112,7 @@ if __name__ == '__main__':
     # writer.close()
     # m.logits_only=False
 
-    dataset = load_dataset("nRuaif/tinystories-gpt4",data_dir='/home/ajherman/Desktop',split='train')
+    dataset = load_dataset("nRuaif/tinystories-gpt4",cache_dir=data_cache_dir,split='train')
     dataloader = DataLoader(dataset, batch_size=64)
     assert(0)
     tokenizer = GPT2Tokenizer.from_pretrained('gpt2')
