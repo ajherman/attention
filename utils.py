@@ -142,13 +142,13 @@ class LearnedSimilarityHead(nn.Module):
         B,T,C=x.shape # New
         k=self.W_k(x)
         q=self.W_q(x)
-        z = torch.nn.relu(torch.concat([k,q],dim=-1))
+        z = torch.concat([k,q],dim=-1)
         z = self.W_h(z)
         z = torch.tanh(z)
         z = self.dropout_hid(z)
         z = self.W_s(z)
-        z = torch.sigmoid(z)
-        wei = self.W_s(z)
+        wei = z #torch.tanh(z)
+        #wei = self.W_s(z)
         v=self.W_v(x)
         # wei = q@k.transpose(-2,-1)*k.shape[-1]**-0.5
         wei=wei.masked_fill(self.tril[:T,:T]==0,float('-inf')) # New
