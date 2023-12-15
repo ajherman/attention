@@ -111,9 +111,9 @@ if __name__ == '__main__':
     # writer.close()
     # m.logits_only=False
 
-    dataset = load_dataset("nRuaif/tinystories-gpt4",split="train")
+    dataset = load_dataset("nRuaif/tinystories-gpt4",data_dir='/home/ajherman/Desktop',split='train')
     dataloader = DataLoader(dataset, batch_size=64)
-
+    assert(0)
     tokenizer = GPT2Tokenizer.from_pretrained('gpt2')
     tokenizer.add_special_tokens({'pad_token': '[PAD]'})
     
