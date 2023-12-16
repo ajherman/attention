@@ -173,3 +173,153 @@ plit: 2140000 examples [00:03, 616621.33 examples/s]Generating train split: 222
   File "/vast/home/ajherman/miniconda3/envs/pytorch/lib/python3.11/site-packages/datasets/builder.py", line 1107, in as_dataset
     raise NotImplementedError(f"Loading a dataset cached in a {type(self._fs).__name__} is not supported.")
 NotImplementedError: Loading a dataset cached in a LocalFileSystem is not supported.
+10.389262 M parameters
+Old caching folder datasets/nRuaif___parquet/nRuaif--tinystories-gpt4-69e0c67f20b31c3b/0.0.0/2a3b91fbd88a2c90d1dbbb32b460cf621d31bd5b05b934492fdef7d8d6f236ec for dataset parquet exists but no data were found. Removing it. 
+Downloading and preparing dataset parquet/nRuaif--tinystories-gpt4 to file:///vast/home/ajherman/attention/datasets/nRuaif___parquet/nRuaif--tinystories-gpt4-69e0c67f20b31c3b/0.0.0/2a3b91fbd88a2c90d1dbbb32b460cf621d31bd5b05b934492fdef7d8d6f236ec...
+Downloading data files:   0%|          | 0/2 [00:00<?, ?it/s]
+Downloading data:   0%|          | 0.00/1.13G [00:00<?, ?B/s][A
+Downloading data:   0%|          | 475k/1.13G [00:00<03:56, 4.75MB/s][A
+Downloading data:   0%|          | 5.38M/1.13G [00:00<00:36, 30.8MB/s][A
+Downloading data:   2%|▏         | 18.1M/1.13G [00:00<00:14, 74.7MB/s][A
+Downloading data:   3%|▎         | 28.5M/1.13G [00:00<00:12, 86.2MB/s][A
+Downloading data:   4%|▎         | 41.1M/1.13G [00:00<00:10, 100MB/s] [A
+Downloading data:   5%|▍         | 52.4M/1.13G [00:00<00:10, 105MB/s][A
+Downloading data:   6%|▌         | 64.7M/1.13G [00:00<00:09, 110MB/s][A
+Downloading data:   7%|▋         | 76.2M/1.13G [00:00<00:09, 112MB/s][A
+Downloading data:   8%|▊         | 87.9M/1.13G [00:00<00:09, 113MB/s][A
+Downloading data:   9%|▉         | 99.7M/1.13G [00:01<00:08, 115MB/s][A
+Downloading data:  10%|▉         | 111M/1.13G [00:01<00:08, 115MB/s] [A
+Downloading data:  11%|█         | 123M/1.13G [00:01<00:08, 116MB/s][A
+Downloading data:  12%|█▏        | 135M/1.13G [00:01<00:08, 117MB/s][A
+Downloading data:  13%|█▎        | 147M/1.13G [00:01<00:08, 116MB/s][A
+Downloading data:  14%|█▍        | 158M/1.13G [00:01<00:08, 115MB/s][A
+Downloading data:  15%|█▌        | 170M/1.13G [00:01<00:08, 117MB/s][A
+Downloading data:  16%|█▌        | 182M/1.13G [00:01<00:08, 117MB/s][A
+Downloading data:  17%|█▋        | 194M/1.13G [00:01<00:08, 116MB/s][A
+Downloading data:  18%|█▊        | 205M/1.13G [00:01<00:07, 116MB/s][A
+Downloading data:  19%|█▉        | 217M/1.13G [00:02<00:07, 117MB/s][A
+Downloading data:  20%|██        | 229M/1.13G [00:02<00:07, 114MB/s][A
+Downloading data:  21%|██▏       | 240M/1.13G [00:02<00:08, 105MB/s][A
+Downloading data:  23%|██▎       | 254M/1.13G [00:02<00:07, 114MB/s][A
+Downloading data:  24%|██▎       | 265M/1.13G [00:02<00:07, 110MB/s][A
+Downloading data:  25%|██▍       | 278M/1.13G [00:02<00:07, 116MB/s][A
+Downloading data:  26%|██▌       | 290M/1.13G [00:02<00:07, 116MB/s][A
+Downloading data:  27%|██▋       | 302M/1.13G [00:02<00:07, 113MB/s][A
+Downloading data:  28%|██▊       | 314M/1.13G [00:02<00:06, 116MB/s][A
+Downloading data:  29%|██▉       | 326M/1.13G [00:02<00:07, 113MB/s][A
+Downloading data:  30%|██▉       | 337M/1.13G [00:03<00:07, 112MB/s][A
+Downloading data:  31%|███       | 351M/1.13G [00:03<00:06, 120MB/s][A
+Downloading data:  32%|███▏      | 363M/1.13G [00:03<00:06, 119MB/s][A
+Downloading data:  33%|███▎      | 375M/1.13G [00:03<00:06, 114MB/s][A
+Downloading data:  34%|███▍      | 387M/1.13G [00:03<00:06, 116MB/s][A
+Downloading data:  35%|███▌      | 400M/1.13G [00:03<00:06, 119MB/s][A
+Downloading data:  37%|███▋      | 412M/1.13G [00:03<00:06, 118MB/s][A
+Downloading data:  38%|███▊      | 423M/1.13G [00:03<00:06, 117MB/s][A
+Downloading data:  39%|███▊      | 435M/1.13G [00:03<00:06, 111MB/s][A
+Downloading data:  40%|███▉      | 448M/1.13G [00:04<00:05, 116MB/s][A
+Downloading data:  41%|████      | 460M/1.13G [00:04<00:05, 116MB/s][A
+Downloading data:  42%|████▏     | 471M/1.13G [00:04<00:05, 116MB/s][A
+Downloading data:  43%|████▎     | 483M/1.13G [00:04<00:05, 116MB/s][A
+Downloading data:  44%|████▍     | 495M/1.13G [00:04<00:05, 116MB/s][A
+Downloading data:  45%|████▍     | 506M/1.13G [00:04<00:05, 116MB/s][A
+Downloading data:  46%|████▌     | 518M/1.13G [00:04<00:05, 117MB/s][A
+Downloading data:  47%|████▋     | 530M/1.13G [00:04<00:05, 117MB/s][A
+Downloading data:  48%|████▊     | 542M/1.13G [00:04<00:05, 115MB/s][A
+Downloading data:  49%|████▉     | 553M/1.13G [00:04<00:04, 116MB/s][A
+Downloading data:  50%|█████     | 565M/1.13G [00:05<00:04, 116MB/s][A
+Downloading data:  51%|█████     | 576M/1.13G [00:05<00:04, 116MB/s][A
+Downloading data:  52%|█████▏    | 588M/1.13G [00:05<00:04, 117MB/s][A
+Downloading data:  53%|█████▎    | 600M/1.13G [00:05<00:04, 116MB/s][A
+Downloading data:  54%|█████▍    | 612M/1.13G [00:05<00:04, 117MB/s][A
+Downloading data:  55%|█████▌    | 623M/1.13G [00:05<00:04, 116MB/s][A
+Downloading data:  56%|█████▋    | 635M/1.13G [00:05<00:04, 117MB/s][A
+Downloading data:  57%|█████▋    | 647M/1.13G [00:05<00:04, 117MB/s][A
+Downloading data:  58%|█████▊    | 659M/1.13G [00:05<00:04, 117MB/s][A
+Downloading data:  60%|█████▉    | 670M/1.13G [00:05<00:04, 113MB/s][A
+Downloading data:  61%|██████    | 682M/1.13G [00:06<00:04, 107MB/s][A
+Downloading data:  61%|██████▏   | 692M/1.13G [00:06<00:04, 104MB/s][A
+Downloading data:  63%|██████▎   | 706M/1.13G [00:06<00:03, 114MB/s][A
+Downloading data:  64%|██████▍   | 718M/1.13G [00:06<00:03, 114MB/s][A
+Downloading data:  65%|██████▍   | 730M/1.13G [00:06<00:03, 114MB/s][A
+Downloading data:  66%|██████▌   | 741M/1.13G [00:06<00:03, 108MB/s][A
+Downloading data:  67%|██████▋   | 755M/1.13G [00:06<00:03, 117MB/s][A
+Downloading data:  68%|██████▊   | 767M/1.13G [00:06<00:03, 114MB/s][A
+Downloading data:  69%|██████▉   | 779M/1.13G [00:06<00:03, 115MB/s][A
+Downloading data:  70%|███████   | 791M/1.13G [00:07<00:02, 119MB/s][A
+Downloading data:  71%|███████▏  | 803M/1.13G [00:07<00:02, 118MB/s][A
+Downloading data:  72%|███████▏  | 815M/1.13G [00:07<00:02, 116MB/s][A
+Downloading data:  73%|███████▎  | 827M/1.13G [00:07<00:02, 107MB/s][A
+Downloading data:  74%|███████▍  | 838M/1.13G [00:07<00:02, 102MB/s][A
+Downloading data:  76%|███████▌  | 852M/1.13G [00:07<00:02, 114MB/s][A
+Downloading data:  77%|███████▋  | 864M/1.13G [00:07<00:02, 115MB/s][A
+Downloading data:  78%|███████▊  | 876M/1.13G [00:07<00:02, 116MB/s][A
+Downloading data:  79%|███████▉  | 887M/1.13G [00:07<00:02, 116MB/s][A
+Downloading data:  80%|███████▉  | 899M/1.13G [00:07<00:01, 117MB/s][A
+Downloading data:  81%|████████  | 911M/1.13G [00:08<00:01, 114MB/s][A
+Downloading data:  82%|████████▏ | 924M/1.13G [00:08<00:01, 118MB/s][A
+Downloading data:  83%|████████▎ | 936M/1.13G [00:08<00:01, 117MB/s][A
+Downloading data:  84%|████████▍ | 947M/1.13G [00:08<00:01, 117MB/s][A
+Downloading data:  85%|████████▌ | 959M/1.13G [00:08<00:01, 116MB/s][A
+Downloading data:  86%|████████▌ | 971M/1.13G [00:08<00:01, 117MB/s][A
+Downloading data:  87%|████████▋ | 983M/1.13G [00:08<00:01, 114MB/s][A
+Downloading data:  88%|████████▊ | 995M/1.13G [00:08<00:01, 117MB/s][A
+Downloading data:  89%|████████▉ | 1.01G/1.13G [00:08<00:01, 117MB/s][A
+Downloading data:  90%|█████████ | 1.02G/1.13G [00:08<00:00, 117MB/s][A
+Downloading data:  92%|█████████▏| 1.03G/1.13G [00:09<00:00, 113MB/s][A
+Downloading data:  93%|█████████▎| 1.04G/1.13G [00:09<00:00, 118MB/s][A
+Downloading data:  94%|█████████▎| 1.06G/1.13G [00:09<00:00, 118MB/s][A
+Downloading data:  95%|█████████▍| 1.07G/1.13G [00:09<00:00, 117MB/s][A
+Downloading data:  96%|█████████▌| 1.08G/1.13G [00:09<00:00, 115MB/s][A
+Downloading data:  97%|█████████▋| 1.09G/1.13G [00:09<00:00, 117MB/s][A
+Downloading data:  98%|█████████▊| 1.10G/1.13G [00:09<00:00, 117MB/s][A
+Downloading data:  99%|█████████▉| 1.11G/1.13G [00:09<00:00, 117MB/s][ADownloading data: 100%|██████████| 1.13G/1.13G [00:09<00:00, 114MB/s]
+Downloading data files:  50%|█████     | 1/2 [00:21<00:21, 21.85s/it]Downloading data files: 100%|██████████| 2/2 [00:21<00:00, 10.93s/it]
+Extracting data files:   0%|          | 0/2 [00:00<?, ?it/s]Extracting data files: 100%|██████████| 2/2 [00:00<00:00, 24.28it/s]
+Generating train split: 0 examples [00:00, ? examples/s]Generating train split: 10000 examples [00:01, 5205.03 examples/s]Generating train split: 80000 examples [00:02, 52530.71 examples/s]Generating train split: 140000 examples [00:02, 100879.85 examples/s]Generating train split: 210000 examples [00:02, 164879.06 examples/s]Generating train split: 290000 examples [00:02, 240209.20 examples/s]Generating train split: 370000 examples [00:02, 312020.80 examples/s]Generating train split: 450000 examples [00:02, 378991.00 examples/s]Generating train split: 520000 examples [00:02, 428088.58 examples/s]Generating train split: 590000 examples [00:02, 470355.09 examples/s]                                                                     Traceback (most recent call last):
+  File "/vast/home/ajherman/miniconda3/envs/pytorch/lib/python3.11/site-packages/datasets/builder.py", line 1860, in _prepare_split_single
+    num_examples, num_bytes = writer.finalize()
+                              ^^^^^^^^^^^^^^^^^
+  File "/vast/home/ajherman/miniconda3/envs/pytorch/lib/python3.11/site-packages/datasets/arrow_writer.py", line 590, in finalize
+    self.stream.close()
+  File "/vast/home/ajherman/miniconda3/envs/pytorch/lib/python3.11/site-packages/fsspec/implementations/local.py", line 387, in close
+    return self.f.close()
+           ^^^^^^^^^^^^^^
+OSError: [Errno 116] Stale file handle
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/vast/home/ajherman/miniconda3/envs/pytorch/lib/python3.11/site-packages/datasets/builder.py", line 1882, in _prepare_split_single
+    num_examples, num_bytes = writer.finalize()
+                              ^^^^^^^^^^^^^^^^^
+  File "/vast/home/ajherman/miniconda3/envs/pytorch/lib/python3.11/site-packages/datasets/arrow_writer.py", line 585, in finalize
+    self._build_writer(self.schema)
+  File "/vast/home/ajherman/miniconda3/envs/pytorch/lib/python3.11/site-packages/datasets/arrow_writer.py", line 398, in _build_writer
+    self.pa_writer = self._WRITER_CLASS(self.stream, schema)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vast/home/ajherman/miniconda3/envs/pytorch/lib/python3.11/site-packages/pyarrow/ipc.py", line 85, in __init__
+    self._open(sink, schema, options=options)
+  File "pyarrow/ipc.pxi", line 578, in pyarrow.lib._RecordBatchStreamWriter._open
+  File "pyarrow/io.pxi", line 1807, in pyarrow.lib.get_writer
+  File "pyarrow/io.pxi", line 214, in pyarrow.lib.NativeFile.get_output_stream
+  File "pyarrow/io.pxi", line 228, in pyarrow.lib.NativeFile._assert_writable
+  File "pyarrow/io.pxi", line 219, in pyarrow.lib.NativeFile._assert_open
+ValueError: I/O operation on closed file
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/vast/home/ajherman/attention/main.py", line 115, in <module>
+    dataset = load_dataset("nRuaif/tinystories-gpt4",cache_dir=data_cache_dir,split='train')
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vast/home/ajherman/miniconda3/envs/pytorch/lib/python3.11/site-packages/datasets/load.py", line 1797, in load_dataset
+    builder_instance.download_and_prepare(
+  File "/vast/home/ajherman/miniconda3/envs/pytorch/lib/python3.11/site-packages/datasets/builder.py", line 890, in download_and_prepare
+    self._download_and_prepare(
+  File "/vast/home/ajherman/miniconda3/envs/pytorch/lib/python3.11/site-packages/datasets/builder.py", line 985, in _download_and_prepare
+    self._prepare_split(split_generator, **prepare_split_kwargs)
+  File "/vast/home/ajherman/miniconda3/envs/pytorch/lib/python3.11/site-packages/datasets/builder.py", line 1746, in _prepare_split
+    for job_id, done, content in self._prepare_split_single(
+  File "/vast/home/ajherman/miniconda3/envs/pytorch/lib/python3.11/site-packages/datasets/builder.py", line 1891, in _prepare_split_single
+    raise DatasetGenerationError("An error occurred while generating the dataset") from e
+datasets.builder.DatasetGenerationError: An error occurred while generating the dataset
