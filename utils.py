@@ -105,6 +105,26 @@ class SelfAttentionHead(nn.Module):
         wei=self.dropout(wei) # New
         out=wei@v
         return out
+    
+class AdditiveAttentionHead(nn.Module):
+    def __init__(self,dm,dk,dv,dropout=0.2):
+        super().__init__()
+        self.W_k = nn.Linear(dm,dk,bias=False)
+        self.W_q = nn.Linear(dm,dk,bias=False)
+        self.W_v = nn.Linear(dm,dv,bias=False)
+        self.tril=torch.tril(torch.ones((block_size,block_size),device=device))
+        self.dropout = nn.Dropout(dropout) # New
+    def forward(self,x):
+        B,T,C=x.shape # New
+        k=self.W_k(x)
+        q=self.W_q(x)
+        v=self.W_v(x)
+        wei = q@k.transpose(-2,-1)*k.shape[-1]**-0.5
+        wei=wei.masked_fill(self.tril[:T,:T]==0,float('-inf')) # New
+        wei=torch.softmax(wei,dim=-1)
+        wei=self.dropout(wei) # New
+        out=wei@v
+        return out
 
 class SimpleMixingHead(nn.Module):  # This just mixes the input vectors, but does not apply a value matrix.
     def __init__(self,dm,dk,dv,dropout=0.2):
@@ -209,7 +229,20 @@ class MultiHeadAttention(nn.Module):
 class FeedForward(nn.Module):
     def __init__(self,dm,dropout=0.2):
         super().__init__()
-        self.ffn = nn.Sequential(
+        self.ffn = nn.Sequential(class Block0(nn.Module):
+    def __init__(self,dm,h):
+        super().__init__()
+        dk = dm // h
+        dv = dk
+        assert(dk*h==dm) # Check the input/output size of block is same
+        self.mha = MultiHeadAttention(dm,dk,dv,h)
+        self.ffn = FeedForward(dm)
+        self.ln1 = nn.LayerNorm(dm,elementwise_affine=False)
+        self.ln2 = nn.LayerNorm(dm,elementwise_affine=False)
+    def forward(self,x):
+        x = x + self.mha(self.ln1(x))
+        x = x + self.ffn(self.ln2(x))
+        return x
         nn.Linear(dm,4*dm),
         nn.ReLU(),
         nn.Linear(4*dm,dm),
@@ -229,11 +262,9 @@ class Block0(nn.Module):
         self.ffn = FeedForward(dm)
         self.ln1 = nn.LayerNorm(dm,elementwise_affine=False)
         self.ln2 = nn.LayerNorm(dm,elementwise_affine=False)
-        # self.ln3 = nn.LayerNorm(dm)
     def forward(self,x):
         x = x + self.mha(self.ln1(x))
         x = x + self.ffn(self.ln2(x))
-        # x = self.ln3(x)
         return x
 class Block1(nn.Module):
     def __init__(self,dm,h):
@@ -265,6 +296,7 @@ class Block2(nn.Module): # This block takes attention without projection.
         x = x + self.W_o( self.mha( self.ln1(x) ))
         x = x + self.ffn( self.ln2(x) )
         return x
+    
 class Block3(nn.Module):
     def __init__(self,dm,h):
         super().__init__()
@@ -296,11 +328,27 @@ class Block4(nn.Module):
         x = x + self.ffn(self.ln2(x))
         # x = self.ln3(x)
         return x
+    
+class Block5(nn.Module):
+    def __init__(self,dm,h):
+        super().__init__()
+        dk = dm // h
+        dv = dk
+        assert(dk*h==dm) # Check the input/output size of block is same
+        self.mha = MultiHeadAttention(dm,dk,dv,h)
+        self.ffn = FeedForward(dm)
+        self.ln1 = nn.LayerNorm(dm,elementwise_affine=False)
+        self.ln2 = nn.LayerNorm(dm,elementwise_affine=False)
+    def forward(self,x):
+        x = x + self.mha(self.ln1(x))
+        x = x + self.ffn(self.ln2(x))
+        return x
 
 # Models
 ###############################################################################################
+# My alternate class using RMS instead of layer norm
 class Transformer(nn.Module):
-    def __init__(self,dm,vocab_size=0,block_size=256,h=2,N=6,block_type=0,embedding_method='absolute',final_norm='layer_norm'):
+    def __init__(self,dm,vocab_size=0,block_size=256,h=2,N=6,block_type=0,embedding_method='absolute',final_norm='layer'):
         super().__init__()
         self.final_norm = final_norm
         self.block_size=block_size
@@ -316,8 +364,12 @@ class Transformer(nn.Module):
             self.blocks = nn.Sequential(*[Block3(dm,h) for _ in range(N)])
         elif block_type == 4:
             self.blocks = nn.Sequential(*[Block4(dm,h) for _ in range(N)])
-        self.ln = nn.LayerNorm(dm)
-        # self.ln = RMSNorm(dm)
+        if final_norm == 'layer':
+            self.ln = nn.LayerNorm(dm)
+        elif final_norm == 'rms':
+            self.ln = RMSNorm(dm)
+        else:   
+            assert(0)
         self.lm_head = nn.Linear(dm,vocab_size)
         self.logits_only=False
         self.apply(self._init_weights)

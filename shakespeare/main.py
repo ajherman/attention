@@ -17,15 +17,15 @@ from transformers import GPT2Tokenizer, GPT2Model
 
 
 # Parameters
-block_size = 32 # 256
+block_size = 256
 batch_size = 64
-eval_interval= 200 #1000
+eval_interval= 1000
 eval_iters=500
-dm = 100 #384 # Model / embedding size
+dm = 384 # Model / embedding size
 dk=64 # Head size
-h=2 #6 # Number of heads in multihead attn
+h=6 # Number of heads in multihead attn
 lr=2e-4 # Learning rate
-N=2 #6 # Number of layers
+N=6 # Number of layers
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 n_itrs=20001
 dropout=0.2
@@ -90,16 +90,18 @@ def estimate_loss(model):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--version', type=int, default=0, help='Specify the version')
+    parser.add_argument('--final-norm', type=str,default='layer', help='What type of norm to use in last layer')
     parser.add_argument('--filepath', type=str,default='original.csv', help='Specify the file path')
     args = parser.parse_args()
     version = args.version
+    final_norm = args.final_norm
     filepath = args.filepath
 
     # Make / load model
     if os.path.exists('transformer_' + str(version) + '.pt'):
         model = torch.load('transformer_' + str(version) + '.pt')
     else:
-        model = Transformer(dm=dm, vocab_size=vocab_size,block_size=block_size, h=h, N=N, block_type=version)
+        model = Transformer(dm=dm, vocab_size=vocab_size,block_size=block_size, h=h, N=N, block_type=version,final_norm=final_norm)
     print(sum(p.numel() for p in model.parameters())/1e6, 'M parameters')
     m=model.to(device)
     optimizer = torch.optim.AdamW(model.parameters(), lr=lr)
