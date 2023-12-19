@@ -335,8 +335,9 @@ class Block5(nn.Module):
 ###############################################################################################
 # My alternate class using RMS instead of layer norm
 class Transformer(nn.Module):
-    def __init__(self,dm,vocab_size=0,block_size=256,h=2,N=6,block_type=0,embedding_method='absolute',final_norm='layer'):
+    def __init__(self,args) #,dm,vocab_size=0,block_size=256,h=2,N=6,block_type=0,embedding_method='absolute',final_norm='layer'):
         super().__init__()
+        self.__dict__.update(vars(args))
         self.final_norm = final_norm
         self.block_size=block_size
         self.token_embedding_table = nn.Embedding(vocab_size,dm)

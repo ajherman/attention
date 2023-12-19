@@ -15,20 +15,20 @@ from transformers import GPT2Tokenizer, GPT2Model
 
 data_cache_dir = "datasets" #"/home/ari/Desktop"
 
-# Parameters
-block_size = 256
-batch_size = 64
-eval_interval= 200 #1000
-eval_iters=500
-dm = 100 #384 # Model / embedding size
-dk=64 # Head size
-h=2 #6 # Number of heads in multihead attn
-lr=2e-4 # Learning rate
-N=2 #6 # Number of layers
-device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-n_itrs=20001
-dropout=0.2
-vocab_size=50258
+# # Parameters
+# block_size = 256
+# batch_size = 64
+# eval_interval= 200 #1000
+# eval_iters=500
+# dm = 100 #384 # Model / embedding size
+# dk=64 # Head size
+# h=2 #6 # Number of heads in multihead attn
+# lr=2e-4 # Learning rate
+# N=2 #6 # Number of layers
+# device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+# n_itrs=20001
+# dropout=0.2
+# vocab_size=50258
 
 # Set seed
 torch.manual_seed(1337)
@@ -50,7 +50,7 @@ with open(file_path,'r',encoding='utf-8') as f:
 
 # Get char list
 chars = sorted(list(set(text)))
-# vocab_size = len(chars)
+vocab_size = len(chars)
 
 # Define encoding and decoding functions
 s2i = {ch:i for i,ch in enumerate(chars)}
@@ -89,6 +89,36 @@ def estimate_loss(model):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
+
+    # Parameters
+    # block_size = 256
+    # batch_size = 64
+    # eval_interval= 200 #1000
+    # eval_iters=500
+    # dm = 100 #384 # Model / embedding size
+    # dk=64 # Head size
+    # h=2 #6 # Number of heads in multihead attn
+    # lr=2e-4 # Learning rate
+    # N=2 #6 # Number of layers
+    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+    # n_itrs=20001
+    # dropout=0.2
+    # vocab_size=50258
+
+    parser.add_argument('--block_size', type=int, default=256, help='Specify the block size')        
+    parser.add_argument('--batch_size', type=int, default=64, help='Specify the batch size')
+    parser.add_argument('--eval_interval', type=int, default=1000, help='Specify the evaluation interval')
+    parser.add_argument('--eval_iters', type=int, default=500, help='Specify the evaluation iterations')
+    parser.add_argument('--dm', type=int, default=384, help='Specify the model size')
+    parser.add_argument('--dk', type=int, default=64, help='Specify the head size')
+    parser.add_argument('--h', type=int, default=6, help='Specify the number of heads')
+    parser.add_argument('--lr', type=float, default=2e-4, help='Specify the learning rate')
+    parser.add_argument('--N', type=int, default=6, help='Specify the number of layers')
+    parser.add_argument('--device', type=str, default=device, help='Specify the device')
+    parser.add_argument('--n_itrs', type=int, default=20001, help='Specify the number of iterations')
+    parser.add_argument('--dropout', type=float, default=0.2, help='Specify the dropout')
+    parser.add_argument('--vocab_size', type=int, default=vocab_size, help='Specify the vocab size')
+
     parser.add_argument('--version', type=int, default=0, help='Specify the version')
     parser.add_argument('--filepath', type=str,default='original.csv', help='Specify the file path')
     args = parser.parse_args()
@@ -99,7 +129,8 @@ if __name__ == '__main__':
     if os.path.exists('transformer_' + str(version) + '.pt'):
         model = torch.load('transformer_' + str(version) + '.pt')
     else:
-        model = Transformer(dm=dm, vocab_size=vocab_size,block_size=block_size, h=h, N=N, block_type=version)
+        # model = Transformer(dm=dm, vocab_size=vocab_size,block_size=block_size, h=h, N=N, block_type=version)
+        model = Transformer(args)
     print(sum(p.numel() for p in model.parameters())/1e6, 'M parameters')
     m=model.to(device)
     optimizer = torch.optim.AdamW(model.parameters(), lr=lr)
@@ -114,15 +145,13 @@ if __name__ == '__main__':
 
     dataset = load_dataset("nRuaif/tinystories-gpt4",cache_dir=data_cache_dir,split='train')
     dataloader = DataLoader(dataset, batch_size=64)
-    assert(0)
+    # print(dataset)
     tokenizer = GPT2Tokenizer.from_pretrained('gpt2')
     tokenizer.add_special_tokens({'pad_token': '[PAD]'})
     
     
     # def tokenization(example):
         # return tokenizer(example["text"])
-
-
 
     # for i,x in enumerate(dataloader):
     #     # print(type(x['text'][0]))
