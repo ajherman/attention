@@ -3,66 +3,687 @@ vocab_size =  65
 block_size =  256
 h =  6
 N =  6
-block_type =  0
+block_type =  3
 embedding_method =  absolute
-final_norm =  rms
-10.778945 M parameters
+final_norm =  layer
+10.779713 M parameters
 
 Sample: 
  SaVqul&f&&;gSYUCZo-TDuQLg
 qlHHkPkBj!'VOSbUrMynJK.H3BU.nbOMh&MHKHP
-wqkjZe nUReYPV$!DAyC Dbb$Ib&KIGEff.Ca-F$orYHZorCZcV
-owk&u'WP.&vxFxdFhRjI.LIzfmSBQzkma
+wqkjZe nUReYPV$!DAyC Dbu$Ib&KIGEff.Ca-!$orYHZorCZcn
+owk&u'WP.&vxFxdFh,jI.LIzfmSBQzkma
 Ib,sOl
-ErmSEkLcQVL'FsxHmshIbPU!-T'srciwFs?hg.GpakkVcV,KD?R, z?Zyk.DqFB-C:rmt..'JMqsoQ!,$D
+ErmSEkLcQGLNFsxHmshIbPU!-T'srciwFs?hg.GpakkVcV,KD?R, z?Zyk.DqFB-C:rmt..'JMqsoQ!,$D
 ;p lfxSsNlLQm;b
-ofDxto&GEN!:cEsnRC?,kHozPuYWJmiUMF;nIH,DxkGPgLwo.3Io$dAl!B?kUJS$KIrqDJzp
+ofDxto&GEN!:cEsnRC?,kHozPuYWJmiUMF;nIH,DxjGPgLwo.3Io$dAl!B?kUJS$KIrqDJzp
 K!nxWWfYax ,PhtgCAMYn$;?3K!t,z3
-NQF.yEauUDcZ m MSiFxl-$oFj$LldQDqvDsig-.eevDi dm'gokmq$dFt,BxmyVwo-r BHMjwI
-Xyyro; PT.msy-cCUah dMA
-MirDMATVx$yAkVxh$'w
+NQF.yEauUDcZ m MSiFJl-$oFj$xldQDquDsig-.eevDi dm'gokmq$dft,BxmyVwo-r BHMjwI
+Xyyro;
+
+Tumsy-cCUah dMA
+MirDMATVx$yAeVxh$'w
 x$!G3SHiM-Ts,&
 sM 
 
 
-step 0: train loss 4.2207, val loss 4.2283
+step 0: train loss 4.2217, val loss 4.2296
+slurmstepd: error: *** STEP 15585369.0 ON cn4074 CANCELLED AT 2023-12-19T12:28:43 ***
+Traceback (most recent call last):
+  File "/vast/home/ajherman/attention/shakespeare/main.py", line 102, in <module>
+    model = torch.load('transformer_' + str(version) + '.pt')
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vast/home/ajherman/miniconda3/envs/pytorch/lib/python3.11/site-packages/torch/serialization.py", line 809, in load
+    return _load(opened_zipfile, map_location, pickle_module, **pickle_load_args)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vast/home/ajherman/miniconda3/envs/pytorch/lib/python3.11/site-packages/torch/serialization.py", line 1172, in _load
+    result = unpickler.load()
+             ^^^^^^^^^^^^^^^^
+  File "/vast/home/ajherman/miniconda3/envs/pytorch/lib/python3.11/site-packages/torch/serialization.py", line 1142, in persistent_load
+    typed_storage = load_tensor(dtype, nbytes, key, _maybe_decode_ascii(location))
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vast/home/ajherman/miniconda3/envs/pytorch/lib/python3.11/site-packages/torch/serialization.py", line 1116, in load_tensor
+    wrap_storage=restore_location(storage, location),
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vast/home/ajherman/miniconda3/envs/pytorch/lib/python3.11/site-packages/torch/serialization.py", line 217, in default_restore_location
+    result = fn(storage, location)
+             ^^^^^^^^^^^^^^^^^^^^^
+  File "/vast/home/ajherman/miniconda3/envs/pytorch/lib/python3.11/site-packages/torch/serialization.py", line 182, in _cuda_deserialize
+    device = validate_cuda_device(location)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vast/home/ajherman/miniconda3/envs/pytorch/lib/python3.11/site-packages/torch/serialization.py", line 166, in validate_cuda_device
+    raise RuntimeError('Attempting to deserialize object on a CUDA '
+RuntimeError: Attempting to deserialize object on a CUDA device but torch.cuda.is_available() is False. If you are running on a CPU-only machine, please use torch.load with map_location=torch.device('cpu') to map your storages to the CPU.
+10.779713 M parameters
 
 Sample: 
- MCASSICOMPERUCD-HIAMIABRDELASTILLA:A nehapUS:SIb tro be pe sig.DY ANN:Sir,
-Say this thew,ere in fairest!ntless
-atestt land ta the Foffeers art spafckeves:pent geliess as to ra she'.n
-Those never wise patine;nd the . But the with never
-A that fall heasonezardly jevengent!
-And to sprove don, you minds that him it go;
-Up and thinef done entestlike
-Eanst in my ince vepingent.
+ SaVqul&f&&;gSYUCZo-TDuQLg
+qlHHkPkBj!'VOSbUrMynJK.H3BU.nbOMh&MHKHP
+wqkjZe nUReYPV$!DAyC Dbu$Ib&KIGEff.Ca-!$orYHZorCZcn
+owk&u'WP.&vxFxdFh,jI.LIzfmSBQzkma
+Ib,sOl
+ErmSEkLcQGLNFsxHmshIbPU!-T'srciwFs?hg.GpakkVcV,KD?R, z?Zyk.DqFB-C:rmt..'JMqsoQ!,$D
+;p lfxSsNlLQm;b
+ofDxto&GEN!:cEsnRC?,kHozPuYWJmiUMF;nIH,DxjGPgLwo.3Io$dAl!B?kUJS$KIrqDJzp
+K!nxWWfYax ,PhtgCAMYn$;?3K!t,z3
+NQF.yEauUDcZ m MSiFJl-$oFj$xldQDquDsig-.eevDi dm'gokmq$dft,BxmyVwo-r BHMjwI
+Xyyro;
 
-MehErd and lushceive!
-
-LUCIO:
-Omely not am t owand malise-comes senpok, Go, bream'ts houmbests!
-
-SICINIubjestel':
-Sir Fith o 
+Tumsy-cCUah dMA
+MirDMATVx$yAeVxh$'w
+x$!G3SHiM-Ts,&
+sM 
 
 
-step 1000: train loss 1.4961, val loss 1.6925
+step 0: train loss 4.2220, val loss 4.2299
 
 Sample: 
- QUEOMEORFOMERLIANCESTA:Row houe.UMIO:No,US:US:Comller,I know
-CerraczULUS:res we she Thaninesd will ware this chife reve.S You are no be hand: Ca you hnow. The sove Prosperod
-all what he noble: you nay and forsmantness
-Of partice.
+ MERDUDIVAPERTIDLUCAUS:HAMERCA:LLET:My lordore.DUKE VINAS:Und,one he;And is hatposenatiou,e I say,ould and lord
+And to you with a turn a hater we'll's verven thee he sarve,t so she's of hanry owne is hathenour,
+And . But I do my lord'stm that fall heasone.
 
-SenseThis, sir, sir, comes time lack,
-know purn to me; tendness you can that contagle?
+KING LET ENRY:
+Now you kow, sake, you might that hou it go;
+Up insupliase dere entess in thy weop'd,
+Will nor in andeycuah mide hatuy,
+Thumaly atse, whomen of Anging and mal's carm.
+Is a countuarn offuls himmbes; I vent besome,
+And do diestror 
+
+
+step 1000: train loss 1.4847, val loss 1.6870
+
+Sample: 
+ QUEEELORGETR:Tenvong HUMERMETIO:one,Sirrawic:My master:Sole the racious cross there,Telring a willow exhal.Look, were some rofantor; but,and let be while.Leaves for with hadows most
+where him shall be forefuls;andness that I
+provostent thest strens should all scolanter, but kin trial;
+tendned the unternese wings out the vill's soul
+Threceit the scope in theirs blazed rottemnents, doth night
+This bed, not prishafes the foes it
+waster thoued thyself, or thy fleast night abous,
+And being so revenge 
+
+
+step 2000: train loss 1.2541, val loss 1.5259
+
+Sample: 
+ MOPr.ISGLOUCIDWARDIUCHESSCINIUS:ndend mison thank, he was wild and but he prommedised back, still impew us to find it.ourmned distimitus'd
+nothing I will know you, will for the juntitures?
+And you'll deliver cut soffetch is mortunes that we seem
+you, sine Northly of that the worth,
+ompw but both Romeo fours.
+
+POLIXENES:
+I never any venge word:
+The call'd, for these paint, all services.
+
+First Servant:
+The honers him; you know of dom but you.
+
+LEONTES:
+No mocking one: I'll not go marry, and that  
+
+
+step 3000: train loss 1.1413, val loss 1.4967
+
+Sample: 
+ METRUTUS:CiiONIUS:Cepae will, ye'roneou.have we oft-cipans make dower itself a gentless would ye here
+re infered or callies. You were welcome so late a woman of little
+catter than a follower cast the way
+rathery good with stirs and a wretch.
+Thinks your grace vardartes, and prostly on't maid
+Accuseted more households with his liking life,
+Who cries usurp to these worldships deny.
+
+ISABELLA:
+What are replieled what she is liked?
+
+ISABELLA:
+If he be a; a plain honest serry to it do't!
+One him, tha 
+
+
+step 4000: train loss 1.0539, val loss 1.4881
+
+Sample: 
+ DETMGRUMCONIO:ZUS:: velm, weicke a speciely.ou it well are mere-por withrief, you had brave of considers, with
+county Marshio's honour. If I do't, come, and what you have done
+come to Lorw a friend baits of kings out of that is
+viant county-? What come for your voice? you are not continented so,
+you show'd us? shall he pay this will? Thus 'tither 'aged
+Between the bannes.
+
+IUS:
+Farewell! I' dry Nor chide, one remed, here a woman course.
+
+ROMEO:
+What sadness was guifit, my word and heart!
+Thereon 
+
+
+step 5000: train loss 0.9642, val loss 1.5175
+
+Sample: 
+ CEMILLEYBORMEN:nindeed, and there'r warrand in going wit.nBut thou'rt book it to be put in rejest; I spoke it. What woult see of a
+behave virtuous too?
+
+ESCALUS:
+Think his is't not persive.
 
 LUCIO:
-My lord. The hather lecter in theirs of matters empentagestes?
-Moon home. You not prisone, when forth thear they ofe;
-The like of the flesh west enemies of the cheeks are
-Sti 
+Nay, biting but to him and his hie that none'er:
+Let it be hanged in heaven to do such'd affence
+Till he officenced.
+
+ESCALUS:
+Go;
+Hold, good my lord, at the indeed least that will
+must finner shares with him.
+
+DUKE VINCENTIO:
+O, that's enough, no full of hot said that live from me
+fitted of your trib 
 
 
-step 2000: train loss 1.2565, val loss 1.5191
-slurmstepd: error: *** STEP 15585348.1 ON cn4075 CANCELLED AT 2023-12-19T12:24:59 ***
+step 6000: train loss 0.8806, val loss 1.5579
+
+Sample: 
+ FCORGOCALUS:Merr? why, his anbunch.
+
+POMENENENUS:er! What be gone?
+
+SirraS:
+He's toe - elest, Patean, that my fillip is dozen the
+fairr wit.
+
+CAMILLO:
+He cannot piece a counterfeit whence you lay
+ying an it bette supply, still, stand gisteal, cowards.
+Sir, Evermile the unsworn of Butch, worse,
+Such is many father and be trick of gast,
+When when he staged he lid us all with hen?
+And, after such a shorse holy like men.
+
+MERCUTIO:
+In both, troubling, proud with tword causes
+In another wounded womb  
+
+
+step 7000: train loss 0.7946, val loss 1.6008
+
+Sample: 
+ FAMICSenoUCIUS:Fir'.YowBBhRUS:Nircibunes, yeas it to before you.
+CORIOLANUS:
+Why, he comes his unprovided to dignity, before
+our fashion hith aged, cor with his hope is out: this
+ushing she is well hardiced. I prithee in the oath.
+
+MARCIUS:
+Is three thus without of us perpetual door, I am at
+fellow a man or thing for Bohemia and
+expedle.
+
+CORIOLANUS:
+Who is this but sword?
+
+MISCINIUS:
+Well, how now you chance he spake with fixience?
+What, fool! Can you there no singing men: happable
+of a worthy  
+
+
+step 8000: train loss 0.7123, val loss 1.6611
+
+Sample: 
+ SAMPEGGOREMIONE:BuS, becannibald cipne? Why, let play this hands by the tribunes. Camillio, pasado.
+
+DORCAS:
+Faith, I comelane, devise hence waster are not by
+compound.
+
+AUTOLGOUCES:
+What, sir, he more what has been so much manachet.
+
+POMPEY:
+Does this to exchape, sir?
+
+MISTRESS OVERDONE:
+Pray, to me thy husband's to the Tarques of a tell;
+'We shall dissempt it, and we are past to ourselves.
+
+Provost:
+Gentleman, good lady and to tell us  hand,
+When even are cut on these interions,
+Where is he mo 
+
+
+step 9000: train loss 0.6372, val loss 1.7204
+
+Sample: 
+ SARTESCALUDINIUS:Swhen.:UFre you have, wiselve be handselloar, despairahnces no furth.
+
+AUTOLYCUS:
+Well, this is so much it with Comented
+'Pray well when are the falling and cone out a
+man for us!
+
+AUTOLYCUS:
+
+All Commondain of these passages's brother; ay, as the
+which is true, being partely were correcuted.
+I have weary upon a file while we fly;
+yet shall to London co
+Wesle safet in so, the Duke of York.
+
+WARWICK:
+No; the strives one of uncovert.
+
+CLIFFORD:
+These woes are no too trouse but one 
+
+
+step 10000: train loss 0.5687, val loss 1.7946
+
+Sample: 
+ ASLFMONES:Ma:Yoly rain: is a Minnon's 'swal; and as he eas even soldiers a Jamazonies soldiels,
+appent as a freshme, and do new replit, his
+these morst, and never sidifie is a matchors little geyt: if you
+hence carry us to be whipt: if he has has wine as
+ave met true life to his true, it shall served you.
+
+DUKE VINCENTIO:
+But, and aftering that makes you lose the place.
+
+Provost:
+What can you do?
+
+AUTOLYCUS:
+I have been very wyingmen.
+
+LUCIO:
+Year any they say, here is Rome: are you my lord.
+
+IS 
+
+
+step 11000: train loss 0.5078, val loss 1.8386
+
+Sample: 
+ AELDYYCAMILLIS:
+ Sppecesand heave't paten and retue it.
+
+AUTOLY:
+Are your comfortable: you are too lone so unshall abuse
+to earny more for another.
+
+MENENIUS:
+Sir, they have all
+ their general suitors and will if need the worshippes not trought
+heart-cited jeally; for some better than removed
+this father.
+
+MENENIUS:
+Light does not my change: one work, no, good love
+to you, that I may now soung your good vices, you have
+but the degree of this and young Rome, would the
+cause but were it more.
+
+MEN 
+
+
+step 12000: train loss 0.4531, val loss 1.9035
+
+Sample: 
+ SLMOSCMOLYOMERSS:Come YORSA: fomony man, I hope to the nobine-house flowers well. I am gone.
+
+LEORTE:
+Pleasite, Abhover to thee: but thou what's they
+are more, and I am, I am morning.
+
+LEONTES:
+Nay, but that miscine enemy year hath to France
+When my givides and sentence; who, I thranless,
+My unrestness, have becomes me;
+You proud in the view of several metholds,
+Such as he did; you finds it a parame
+To make a wipe own, I'll prove more some again.
+
+PRINCE EDWARD:
+Wife, royall in my enitent then y 
+
+
+step 13000: train loss 0.3990, val loss 1.9686
+
+Sample: 
+ DORCIOMENENIUSCIOLANUS:
+I hum ribbe, to afterweeten two fay, but I am told to
+the power, that I know not what will
+our goose brave millone and my gtone for a leave.
+
+FROTH:
+Sir, I protess me my life and pont a carder
+villain, thou givest me a content axmport my tears:
+And where is my puts by valiant sheelow from my
+face in wintes, I have more humaned like me thankfull:
+what, so I am in law, good time to the king.
+
+HASTINGS:
+On Paulina, chose how I think to her groat,
+And cheer with her his mothe 
+
+
+step 14000: train loss 0.3565, val loss 2.0363
+
+Sample: 
+ MOMESCCINLUS:
+wa'e:' evean mener.
+
+Second Servingman:
+Worth he controves them one.
+
+AUTOLYCUS:
+I'll hanges to the man and see 'em.
+WESCALUS:
+What, no motiong is now, then we have forged you.
+
+POMPEY:
+I thank you, sir, she'll to him worthier. Farewell.
+
+LUCENTIO:
+Go to Pompey, to the language and danger.
+Provost have here.
+
+DUKE VINCENTIO:
+'Tis not this well.
+How now, Friar Lucio! O ho! must I do to thee her from
+till thou seet me shalt be: and she do importune
+is worth this counterfeit of my pea 
+
+
+step 15000: train loss 0.3189, val loss 2.0924
+
+Sample: 
+ SAMPMELBOUSLY:
+Whe was dall enough too?
+
+Sheppherd:
+And fear it before teachery it folly you.
+
+Shepherd:
+No moes if it names of means so men in none of hambers, but either thrush.
+Your next northernners bears themselves; but they
+Shall bear the shreaks within him, for that
+They hate unrseal thee can feeling ambine
+Darest thy voice.
+
+Call:
+Come, sirs, pake;
+Thou strain; for these are what mercy
+That thou betrusted in him: though he perchance
+To this perpetition of his that maid
+Which honour as yo 
+
+
+step 16000: train loss 0.2888, val loss 2.1328
+
+Sample: 
+ CORCAS:SIrvnk:SIry: I diny here in herein, given of charior and the king.
+
+MEONES:
+Now a she of them and not the worstitude with
+a business.
+
+SICINIUS:
+Pray, cannot help.
+
+Citizens:
+I shall be patient as it you are. keep aside; and
+the ptrice man I say dispair.
+
+AEdward Musician:
+Say, sir, he's remediffiend; which would speak,
+it bows my strange sir, follows me of mine honest
+fit.
+
+SICINIUS:
+He look you, Masters, and go how 'em!
+
+BRUTUS:
+I'll like the mans horse of the suith haste
+To be your voi 
+
+
+step 17000: train loss 0.2588, val loss 2.1831
+
+Sample: 
+ SICALULCINIS:S:It the raw I know you for celese
+you might, but we are glast reserversel to cousin, but they
+shall be elself lose, if I know might were not one
+grain to a holy for yourself blood a parase merry,
+He will be a better grown ben than seld.
+
+Shepherd:
+Well, boy;
+I talk not, if you go not?
+
+HASTINGS:
+You worthy daughter had thou betruh'd her 'to o'er
+The Tower, ere Pomfrey than your brother be abroaded.
+
+AUFIDIA:
+O, but not Northumberland, nor fear no less
+Than an histories, are no less 
+
+
+step 18000: train loss 0.2340, val loss 2.2421
+
+Sample: 
+ MCLIFICLFF:SCLAM:
+MICSCLE:
+paie, sir.  my sworn brother, if I did thou swoo'd him. What sayed the sea man?
+
+ROMEO:
+Come, fellow, fortune: year me but the duke.
+
+MERCHARDIO:
+Nay, speak me not a such was yourselves? Take my rest, a
+persent comes un; for the denied I ware not
+Of us to do wear: to safer your houses! If
+you never speak in safegue, I cannot meet you
+Need there.
+
+CORIOLANUS:
+You have no cause. You have spoke home ettain in
+the roger-helments and are now in Cominius.
+
+BRUTUS:
+I see her
+ 
+
+
+step 19000: train loss 0.2161, val loss 2.2787
+
+Sample: 
+ SCCOMMPEGPOMNISIDIUS::
+You speak so hourly that you hear?
+
+MISTRSS SCA:
+But as, you'll know not me again to you, if you shall
+Da't perish, sir, this is my plove for a maid, not
+being the king's, disgrace. Yet have very late
+of great mutiny thich discovereignifies the house,
+to be redeem'd when last; for the hands their heart,
+Which you have judged to have no more tongue,
+Whilst wash'd, and tormuments, to command us life.
+
+First Citizen:
+Ay, so do not so save his natural arms; and, that
+He is all 
+
+
+step 20000: train loss 0.1971, val loss 2.3493
+tensor([[ 0,  0,  0,  ..., 39, 42,  6]], device='cuda:0')
+CICAMILLAD:UFIALL:
+Farthwalls: I have pown son to go bardants in seven
+To cut the man orname:
+And there with such virtues he will write again
+The Roman common of the Servantage, call them
+for the time.
+
+Third Servingman:
+Ay, 't please your honour, at about your heart,
+malice in his son and betides.
+
+AUFIDIUS:
+You seek him! Was't your ancient traitor? And
+Is this true that kindment?
+
+MARCIUS:
+A marval at mercy swears?
+
+CORIOLANUS:
+Things should I consul, to give my subject love:
+And let them awake, show a name, go made us lose.
+Then, embracer: Jupiter, girl; this breast,
+Acquation of death the charmmodes of their stars:
+Thy mourning braze drums before the course,
+And being thus his late is palm to little
+A thirst and waves in your own discourse.
+Now have I permitted him by this prisoner,
+The surnam of his state and gallant.
+Dighton his lips sty by your oath and himself?
+
+KING EDWARD IV:
+Ay, but their knees of hate been lay'd
+To enter wash a downfall: like a certain
+Such as wands to Elbow our houses,
+To make a power am perpetual piece
+Each of nodicing fair as fantaster there.
+
+LEONTES:
+What, the better sixten years of heart
+And made the neglectity of the
+morning, with the noon between but big-toad-s
+caught thee in the morning: something
+that I shall aturter, Angelo I have mingled with
+the dearer, I am say not amen.
+
+DUKE VINCENTIO:
+How was I am, mighing?
+
+LUCIO:
+
+DUKE VINCENTIO:
+At like and policity of him to make
+rnother remember matcher which loved: 'tis very gold
+to recomfort; he must charge it with Lord Angelo.
+
+GLOUCESTER:
+Comment, comend me to preserve me to the prince.
+
+CLARENCE:
+His neighbour: mind in blood of all layy,
+The nobleness of the peoplice are
+Play'd my penitent counsel; and, as thought,
+Most have prevail'd to wail it, yet is an evil
+To well it noto: formed, if the wife,
+We are the strict state for my poor life,
+We must able, 'tis I said, what I subscribe
+Of government causant make a guilty die:
+When then the lion likes wild now
+Which tirke powder to head, what youuth show'd,
+Which livence in arms, and this ungry blood
+That must see my strong on the heart
+And none shall marry hear; for that it is play
+When mile last Richmond and to Montas,
+When they have gall'd my mind of young George,
+And all none in the need by birth,
+Have no Capitol to high self-so blood as
+As to be as an ague?
+
+POLIXENES:
+A French disminurion, and desperately debt
+To salutate the name, for its our part knee:
+One grant conspirate, must hat lives my woes
+Unless and feed to woo. Go, you that this queen in
+That my dash to disgress in my brother's fault,
+And yet I can put urpon this fight,
+What you have behold with another suc
+That have offend such comprement alone.
+If ever he should take him as her lived,
+Ere to right in the sun sease,
+And his body severest is fast arm.
+
+RICHMOND:
+Such high and your grace have smowl'd your ears,
+That your estate requiring all share atons.
+
+KING EDWARD IV:
+Now, Warwick, Warwick! O belike!
+
+BeSHOP OF YORKE:
+As if heaven the hollow be fearful heart:
+Be in thy father will tell thee how.
+
+Second Murderer:
+How canst thou fill our tither crown?
+
+CLARENCE:
+Even when the Earl of Warl debt, irchanced George?
+
+First Murderer:
+Why more have the Duke of Glouces
+Did upon the appeal, and fill'd this usurp'd dog!
+
+CLARENCE:
+Oh, then, I must not stay no madness
+On whom base dest; and strong the world's slavery
+Most infected slips of his treason, their becomes
+Where they have gave leanded to another,
+But such inclination as he is off
+As ever wound.
+
+CLAUDIO:
+I'll ask him hand: for't to seek a foul man.
+See you now, Friar, to the tumble way;
+Do as thought, I walk a fault, though idds fear,
+And ten thours, scandal'st thou usuar
+As the wind of this? If Warwick be of ark
+These seconding indues' ming death,
+Is very late Hastings, now depart.
+But, in good time, good my lord, this gracious neck
+Hath pardicalled friends against my friends,
+And you my deds arbitable.
+
+KING RICHARD III:
+We did ourself industance we so happy
+Over all this bloody of those were create.
+Now, afore God his steed well-spirits,
+Take 'em, and thus this undonne my soul,
+And this devillous exile is die.
+
+ABRUTUS:
+Dismiss the kind of keen: his conserves it,
+But to command, some noble subjects' mind:
+Shall Bolingbroilla, this greater us a fair
+Fell to win the goments to the his speed;
+The world beggar the wear, the soldier storn
+King of England, Clarence in the place:
+I bolden King Henry the Fifth appearl lives,
+In answer the common and the throat of Warwick;
+And in thy nough the queen law to sit France
+And hath this battle come where he hath lost once.
+I, these pardons are opening their men;
+And see all play'd with their weakness who goes
+Even in his that hears off.
+Your uncle birth, follows us to a kingdom.
+
+CLAUDIO:
+That is but fast, meething a little grieva:
+What you have gimposed the bench womb and lets,
+In many revenge it.
+
+Proves gods:
+You brother, here hath fears a month vision.
+And to wive quickly lie by my arbitted
+And helmets to be mad,
