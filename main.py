@@ -136,7 +136,7 @@ if __name__ == '__main__':
         model = Transformer(**args_dict)
     print(sum(p.numel() for p in model.parameters())/1e6, 'M parameters')
     m=model.to(device)
-    optimizer = torch.optim.AdamW(model.parameters(), lr=lr)
+    optimizer = torch.optim.AdamW(model.parameters(), lr=args.lr)
     
     # # Visualize model
     # m.logits_only=True

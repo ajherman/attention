@@ -1,22 +1,50 @@
-  File "/vast/home/ajherman/attention/main.py", line 135
-    model = Transformer(args**)
-                              ^
-SyntaxError: invalid syntax
+dm =  384
+vocab_size =  65
+block_size =  256
+h =  6
+N =  6
+block_type =  0
+embedding_method =  absolute
+final_norm =  rms
 Traceback (most recent call last):
-  File "/vast/home/ajherman/attention/main.py", line 135, in <module>
-    model = Transformer(**args)
-            ^^^^^^^^^^^^^^^^^^^
-TypeError: utils.Transformer() argument after ** must be a mapping, not Namespace
+  File "/vast/home/ajherman/attention/main.py", line 136, in <module>
+    model = Transformer(**args_dict)
+            ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vast/home/ajherman/attention/utils.py", line 374, in __init__
+    apply(_init_weights)
+    ^^^^^
+NameError: name 'apply' is not defined
+dm =  384
+vocab_size =  65
+block_size =  256
+h =  6
+N =  6
+block_type =  0
+embedding_method =  absolute
+final_norm =  rms
+0.123264 M parameters
 Traceback (most recent call last):
-  File "/vast/home/ajherman/attention/main.py", line 135, in <module>
-    model = Transformer(**arg_dict)
-            ^^^^^^^^^^^^^^^^^^^^^^^
-TypeError: Transformer.__init__() got an unexpected keyword argument 'batch_size'
+  File "/vast/home/ajherman/attention/main.py", line 139, in <module>
+    optimizer = torch.optim.AdamW(model.parameters(), lr=lr)
+                                                         ^^
+NameError: name 'lr' is not defined
+dm =  384
+vocab_size =  65
+block_size =  256
+h =  6
+N =  6
+block_type =  0
+embedding_method =  absolute
+final_norm =  rms
+0.123264 M parameters
+Found cached dataset parquet (file:///vast/home/ajherman/attention/datasets/nRuaif___parquet/nRuaif--tinystories-gpt4-69e0c67f20b31c3b/0.0.0/2a3b91fbd88a2c90d1dbbb32b460cf621d31bd5b05b934492fdef7d8d6f236ec)
 Traceback (most recent call last):
-  File "/vast/home/ajherman/attention/main.py", line 135, in <module>
-    model = Transformer(**arg_dict)
-            ^^^^^^^^^^^^^^^^^^^^^^^
-  File "/vast/home/ajherman/attention/utils.py", line 340, in __init__
-    self.__dict__.update(vars(args))
-                              ^^^^
-NameError: name 'args' is not defined. Did you mean: 'kwargs'?
+  File "/vast/home/ajherman/attention/main.py", line 149, in <module>
+    dataset = load_dataset("nRuaif/tinystories-gpt4",cache_dir=data_cache_dir,split='train')
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vast/home/ajherman/miniconda3/envs/pytorch/lib/python3.11/site-packages/datasets/load.py", line 1810, in load_dataset
+    ds = builder_instance.as_dataset(split=split, verification_mode=verification_mode, in_memory=keep_in_memory)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vast/home/ajherman/miniconda3/envs/pytorch/lib/python3.11/site-packages/datasets/builder.py", line 1107, in as_dataset
+    raise NotImplementedError(f"Loading a dataset cached in a {type(self._fs).__name__} is not supported.")
+NotImplementedError: Loading a dataset cached in a LocalFileSystem is not supported.

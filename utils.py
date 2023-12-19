@@ -371,7 +371,7 @@ class Transformer(nn.Module):
 
         lm_head = nn.Linear(dm,vocab_size)
         logits_only=False
-        apply(_init_weights)
+        self.apply(self._init_weights)
     def _init_weights(self, module):
         if isinstance(module, nn.Linear):
             torch.nn.init.normal_(module.weight, mean=0.0, std=0.02)
