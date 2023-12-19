@@ -122,7 +122,8 @@ if __name__ == '__main__':
     parser.add_argument('--filepath', type=str,default='original.csv', help='Specify the file path')
 
     args = parser.parse_args()
-    version = args.version
+    version = args.block_type
+    
     filepath = args.filepath
     # args_dict = vars(args)
     args_dict = {k: v for k, v in vars(args).items() if v is not None}

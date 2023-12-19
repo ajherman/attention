@@ -1,0 +1,33 @@
+Traceback (most recent call last):
+  File "/vast/home/ajherman/attention/main.py", line 125, in <module>
+    version = args.version
+              ^^^^^^^^^^^^
+AttributeError: 'Namespace' object has no attribute 'version'
+dm =  384
+vocab_size =  65
+block_size =  256
+h =  6
+N =  6
+block_type =  3
+embedding_method =  absolute
+final_norm =  rms
+10.778945 M parameters
+
+Sample: 
+ SaVqul&f&&;gSYUCZo-TDuQLg
+qlHHkPkBj!'VOSbUrMynJK.H3BU.nbOMh&MHKHP
+wqkjZe nUReYPV$!DAyC Dbu$Ib&KIGEff.Ca-!$orYHZorCZcn
+owk&u'WP.&vxFxdFh,jI.LIzfmSBQzkma
+Ib,sOl
+ErmSEkLcQGLNFsxHmshIbPU!-T'srciwFs?hg.GpakkVcV,KD?R, z?Zyk.DqFB-C:rmt..'JMqsoQ!,$D
+;p lfxSsNlLQm;b
+ofDxto&GEN!:cEsnRC?,kHozPuYWJmiDMF;nIH,DxkGPgLwo.3Io$dAl!B?kUJS$KIrqDJzp
+K!nxWWfYax ,PhtgCAMYn$;?3K!t,z3
+NQF.yEauUDcZ m MSiFJl-$oFj$LldQDquDsig-.eevDi dm'gokmq$dFt,BxmyVwo-r BHMjwI
+Xyyro; PTumsy-cCUah dMA
+MirDMATVx$yAkVxh$'w
+x$!G3SHiM-Ts,&
+sM 
+
+
+step 0: train loss 4.2203, val loss 4.2278
