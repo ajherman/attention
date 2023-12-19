@@ -121,16 +121,18 @@ if __name__ == '__main__':
 
     parser.add_argument('--version', type=int, default=0, help='Specify the version')
     parser.add_argument('--filepath', type=str,default='original.csv', help='Specify the file path')
+
     args = parser.parse_args()
     version = args.version
     filepath = args.filepath
+    arg_dict = vars(args)
 
     # Make / load model
     if os.path.exists('transformer_' + str(version) + '.pt'):
         model = torch.load('transformer_' + str(version) + '.pt')
     else:
         # model = Transformer(dm=dm, vocab_size=vocab_size,block_size=block_size, h=h, N=N, block_type=version)
-        model = Transformer(args)
+        model = Transformer(args**)
     print(sum(p.numel() for p in model.parameters())/1e6, 'M parameters')
     m=model.to(device)
     optimizer = torch.optim.AdamW(model.parameters(), lr=lr)
@@ -165,14 +167,14 @@ if __name__ == '__main__':
         data = data['input_ids']
         xb,yb = data[:, :-1], data[:, 1:]
 
-        if itr % eval_interval == 0:
+        if itr % args.eval_interval == 0:
             losses = estimate_loss(model)  # Calculate loss
             with open(filepath, 'a', newline='') as csvfile:
                 writer = csv.writer(csvfile)
                 writer.writerow([losses[split] for split in ['train','test']])
-            idx = torch.zeros((1, block_size), device=device, dtype=torch.long)
+            idx = torch.zeros((1, args.block_size), device=device, dtype=torch.long)
             idx = m.generate(idx, 500)
-            print("\nSample: \n", decode(list(idx[0])[block_size:]), '\n\n')
+            print("\nSample: \n", decode(list(idx[0])[args.block_size:]), '\n\n')
             print(f"step {itr}: train loss {losses['train']:.4f}, val loss {losses['test']:.4f}")
             torch.save(m, 'transformer_' + str(version) + '.pt')
         # xb, yb = get_batch('train')
@@ -182,8 +184,8 @@ if __name__ == '__main__':
         loss.backward()
         optimizer.step()
 
-    torch.save(m,'transformer_'+str(version)+'.pt')
+    torch.save(m,'transformer_'+str(args.version)+'.pt')
     idx=torch.zeros((1,block_size),device=device,dtype=torch.long)
     idx=m.generate(idx,5000)
     print(idx)
-    print(decode(list(idx[0])[block_size:]))
+    print(decode(list(idx[0])[args.block_size:]))

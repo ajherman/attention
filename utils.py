@@ -335,31 +335,31 @@ class Block5(nn.Module):
 ###############################################################################################
 # My alternate class using RMS instead of layer norm
 class Transformer(nn.Module):
-    def __init__(self,args) #,dm,vocab_size=0,block_size=256,h=2,N=6,block_type=0,embedding_method='absolute',final_norm='layer'):
+    def __init__(self,args,dm=384,vocab_size=0,block_size=256,h=2,N=6,block_type=0,embedding_method='absolute',final_norm='rms'):
         super().__init__()
         self.__dict__.update(vars(args))
-        self.final_norm = final_norm
-        self.block_size=block_size
-        self.token_embedding_table = nn.Embedding(vocab_size,dm)
-        self.position_embedding_table = nn.Embedding(block_size,dm)
+        # self.final_norm = final_norm
+        # self.block_size=block_size
+        self.token_embedding_table = nn.Embedding(self.vocab_size,self.dm)
+        self.position_embedding_table = nn.Embedding(self.block_size,self.dm)
         if block_type==0:
-            self.blocks = nn.Sequential(*[Block0(dm,h) for _ in range(N)])
+            self.blocks = nn.Sequential(*[Block0(self.dm,self.h) for _ in range(self.N)])
         elif block_type == 1:
-            self.blocks = nn.Sequential(*[Block1(dm,h) for _ in range(N)])
+            self.blocks = nn.Sequential(*[Block1(self.dm, self.h) for _ in range(self.N)])
         elif block_type == 2:
-            self.blocks = nn.Sequential(*[Block2(dm,h) for _ in range(N)])
+            self.blocks = nn.Sequential(*[Block2(self.dm,self.h) for _ in range(self.N)])
         elif block_type == 3:
-            self.blocks = nn.Sequential(*[Block3(dm,h) for _ in range(N)])
+            self.blocks = nn.Sequential(*[Block3(self.dm,self.h) for _ in range(self.N)])
         elif block_type == 4:
-            self.blocks = nn.Sequential(*[Block4(dm,h) for _ in range(N)])
+            self.blocks = nn.Sequential(*[Block4(self.dm,self.h) for _ in range(self.N)])
         if final_norm == 'layer':
-            self.ln = nn.LayerNorm(dm)
+            self.ln = nn.LayerNorm(self.dm)
         elif final_norm == 'rms':
-            self.ln = RMSNorm(dm)
+            self.ln = RMSNorm(self.dm)
         else:   
             assert(0)
 
-        self.lm_head = nn.Linear(dm,vocab_size)
+        self.lm_head = nn.Linear(self.dm,self.vocab_size)
         self.logits_only=False
         self.apply(self._init_weights)
     def _init_weights(self, module):
