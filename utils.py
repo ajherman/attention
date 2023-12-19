@@ -229,20 +229,7 @@ class MultiHeadAttention(nn.Module):
 class FeedForward(nn.Module):
     def __init__(self,dm,dropout=0.2):
         super().__init__()
-        self.ffn = nn.Sequential(class Block0(nn.Module):
-    def __init__(self,dm,h):
-        super().__init__()
-        dk = dm // h
-        dv = dk
-        assert(dk*h==dm) # Check the input/output size of block is same
-        self.mha = MultiHeadAttention(dm,dk,dv,h)
-        self.ffn = FeedForward(dm)
-        self.ln1 = nn.LayerNorm(dm,elementwise_affine=False)
-        self.ln2 = nn.LayerNorm(dm,elementwise_affine=False)
-    def forward(self,x):
-        x = x + self.mha(self.ln1(x))
-        x = x + self.ffn(self.ln2(x))
-        return x
+        self.ffn = nn.Sequential(
         nn.Linear(dm,4*dm),
         nn.ReLU(),
         nn.Linear(4*dm,dm),
@@ -370,6 +357,7 @@ class Transformer(nn.Module):
             self.ln = RMSNorm(dm)
         else:   
             assert(0)
+
         self.lm_head = nn.Linear(dm,vocab_size)
         self.logits_only=False
         self.apply(self._init_weights)
