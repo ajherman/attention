@@ -90,7 +90,7 @@ def estimate_loss(model):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--version', type=int, default=0, help='Specify the version')
-    parser.add_argument('--final-norm', type=str,default='layer', help='What type of norm to use in last layer')
+    parser.add_argument('--final-norm', type=str,default='rms', help='What type of norm to use in last layer')
     parser.add_argument('--filepath', type=str,default='original.csv', help='Specify the file path')
     args = parser.parse_args()
     version = args.version
