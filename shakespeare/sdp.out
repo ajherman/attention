@@ -1,7 +1,0 @@
-Traceback (most recent call last):
-  File "/vast/home/ajherman/attention/shakespeare/main.py", line 11, in <module>
-    from utils import *
-  File "/vast/home/ajherman/attention/shakespeare/../utils.py", line 187
-    if scaled_dot_product
-                         ^
-SyntaxError: expected ':'
