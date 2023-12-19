@@ -237,13 +237,13 @@ class MultiHeadMixing(nn.Module): # This concatenates inputs from mixing heads a
         return out
 
 class MultiHeadAttention(nn.Module):
-    def __init__(self,dm,dk,dv,h,dropout=0.2,project=True,scaled_dot_product=True):
+    def __init__(self,dm,dk,dv,h,dropout=0.2,project=True,scaled_dot_product=True,rectify=False):
         super().__init__()
         self.project=project
         if scaled_dot_product:
-            self.heads = nn.ModuleList([SelfAttentionHead(dm,dk,dv) for i in range(h)])
+            self.heads = nn.ModuleList([SelfAttentionHead(dm,dk,dv,rectify=rectify) for i in range(h)])
         else:
-            self.heads = nn.ModuleList([LearnedSimilarityHead(dm,dk,dv) for i in range(h)])
+            self.heads = nn.ModuleList([LearnedSimilarityHead(dm,dk,dv,rectify=rectify) for i in range(h)])
         if project:
             self.W_o = nn.Linear(dv*h,dm)
         self.dropout = nn.Dropout(dropout)
