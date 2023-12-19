@@ -1,3 +1,11 @@
+dm =  384
+vocab_size =  65
+block_size =  256
+h =  6
+N =  6
+block_type =  0
+embedding_method =  absolute
+final_norm =  layer
 10.779713 M parameters
 
 Sample: 
@@ -20,228 +28,62 @@ sM
 step 0: train loss 4.2222, val loss 4.2301
 
 Sample: 
- GUODUKINCATeFirONTICe:MES:hOn MAMPRDIUS:KO Go,hold ues:So skInch aren!ither delikenbery
-PRIEN Butkener.i
-BUCKIO:Uy speak your pearsnance?nle,eless the Trribman one my man, with drone
-senger,---be good not unat, Adaughtry, cations thered
-Have mone yeal'd shall have Fience in the pretortuate?
+ MCASLMENESERCOD-HIN
+BAHENSISABELLTE:PAPE:Soyer,US:Noy:N'OLONTABELLY;Aw,Eild rath,new,Leweeth them;ulds I tell.
 
-AUTIOLYCUS:
-Camen, my world so suin mut ch fallow,
-Than an king need with moth the son, courthine,
-And that I slive tho peept. Beines it on my lifungs.
-Where't the bose was own brother, and deread live tangu 
+HENRY liedw a you FOF Yea, arewept convest, he gener sarve,
+As here'd of bearsh worling patiner anvapj. But the with no repo this
+Qurelf thou the larm'd no comes freet, on, sake,
+Way mades that horn you, I do not like:
+do, seetss, if youngron'd, nor your from my cuthatio
+Shally cont all haste when inot and more I would.
 
-
-step 1000: train loss 1.4942, val loss 1.6915
-
-Sample: 
- PORANSISAMPETESChDiA
-VELLUCIOLUCIO:he she.o'r he ha-BRy: you shepbook,ne the yenac of a but a husde.a whan it alshed-?et he
-solen.or Cannot;r for so in a hine holer.a 's luck an a band happed.ole no hoomabrabs he dilegance,
-carge this eye stance.
-
-Misent behold Cin should pleases him in quit out, methink many need,
-that the blood is got of suit is peace:
-But never to gize am in my rancle;
-And twenty arm streal breglisgr muticatory,
-May shinks hat fared his mouth edgest,
-Methinke free them supple 
+LADY GRETE:
+I hare you to hast me speak unbest of ull:
+Sid Fith r 
 
 
-step 2000: train loss 1.2535, val loss 1.5206
+step 1000: train loss 1.4928, val loss 1.6898
 
 Sample: 
- AUTGheRIABHHASAMISAF:Gllemenas, an yoy,Sir citinby a more how-hote, himseless give your coulsil? I love boughm.one wishear, you may
-Fare you were gally all; and almost of comfort.
+ ASTOMLOMNESICAGUvLLay:My prahe,qUO:USN:e''Se, so much I keep
+ye nacion.RGILA:'t she sir
+Well'd save be hid.ou'll were some repoplent be ta!o-la
+That ynow,  hold find to them all where be said: you
+name to forsmant as done a fefect lenserses, so fulss out
+As I sonlence, whosek you say; peninted for them confession:
+This no jefore that the vage is comforten of mail,
+It rather that I'll worthy home.
 
-Clown:
-Patience pale pon.
+LORD:
+Ap, such beauty some that where ofe;
+Their will do I clear weet upon end.
 
-BESCALUS:
-What a schesare as I hate you loath of you?
-
-INGELO:
-O rash a' the babed graver in love
-A nothing of that maidence: show me some know
-You are well enemiented: or blessed in casitings
-Hour in befallired-tainials that he spokes them,
-That slanders leave her hard
-Like equal a deeping  
-
-
-step 3000: train loss 1.1429, val loss 1.4884
-
-Sample: 
- MJPIIEMET:on!SICIUS:joe you go bittelbocet, sir.E I would I have paid. A whore more too whip a paaring
-to be a shallonged for who
-hatbaborn she looks? 'Tis  nemy four of mar--
-
-Thy father he in my selk, we'll overhored serve,
-which she had.
-
-VOLUMNIA:
-Contensed.
-
-VOLUMNIA:
-And, good bringimy.
-
-CORIOLANUS:
-Gentlemable match: if you wring think the
-great defend ment.
-
-VOLUMNIA:
-Let the manks
-I sent Aufidius you on your oddess, and fortune
-griegener.
-
-BRUTUSS:
-Matters mellow to proge!
-Will stand yo 
+LEONTES:
+My lies y 
 
 
-step 4000: train loss 1.0521, val loss 1.4906
+step 2000: train loss 1.2569, val loss 1.5186
 
 Sample: 
- CLAIUDENCENIUTANfDIUS: you know cellevel I am set better doary for an an add-new for the
-wound-even me i' ti'  gildly?
+ MERC.IMERSCAnDWLBAY:Y.row he mustdan be pod what that was was as certied.Spares:
+There have you more run else favouring on his
+wears before to ignorance.
 
-Second Senator:
-I'ld to whom you'll be areTed, let my hears, anon;
-In findule before 't.
+Father, thou
+t Citizens: Where your presence deliver
+cents them gone.
 
-ABHOF:
-'JULIET:
-I am doorn'd with any, this penace venory be thus
-Your horse to his plaint that majesty
-Touch'd me for cutting of honour's follows
-Should on his south like for mine, and be no breath
-Accauses to the moon child set blest of my
-Melance twixt you!
-Even for inchasre.
+GLOUCESTER:
+Mark he have pieed frown you that tear to the world muse die.
 
-ISABELLA: 
+Glorer:
+Ay, my lord, I could ever way. Po prison and true they
+things falsel as being down doth young profane.
 
-
-step 5000: train loss 0.9658, val loss 1.5123
-
-Sample: 
- CPATISUCeLUCIS:DY a rel otherDUTIS: and gill twrong tin, once stranger clogeth for his
-drangos for any or angle that Camillo, knock not for
-watransgels, to see how hes accasudory, and think
-We guess his pride frame; love to our place to ope
-Became a prison! who to the cord gentleman did swear;
-So well unshunnited, turning the torth, he was mouer'd!
-To save the bottowomarous daying rove,
-For no which he plays, for he would drown it trouble
-Evassings to our exationg. Who reply so?
-
-LUCIO:
-Yes, my  
+First Murderer: and do you are weep, the gentleman's arn
+annother'd on my brave bready  
 
 
-step 6000: train loss 0.8788, val loss 1.5393
-
-Sample: 
- KUATKISCAMPRICINIUS:
-There hence enou de well prid you do not know the prominatice: and if that
-courn now, is the matter defenant to wast us
-for saying you re a gentleman: no
-know you to the penace of this fantomast to
-our Rome, I say not pound now to strife up in a barn pock.
-
-Nurse:
-Hark, how you pity helps?
-
-Clown:
-Come, sir.
-
-AUTUS:
-I say, sir, let's the Capitol. Wish all man
-venture exaties days malicious would have
-respect into my misery: I think I should do
-ille good wishing, and they be  
-
-
-step 7000: train loss 0.7964, val loss 1.5975
-
-Sample: 
- ThIChhnTellewonhheThlengman:de it lime is not is neveary of foney man is dilleded and no more torio.
-
-BESHOT:
-I have without her, by constance, let him aboard.
-
-AUTOLYCUS:
-Hear not have such recunses in Such person by, with a stay, that offer
-That ever beats he, to say, some and wall;
-Or she was despired an air, that tilther we
-Do wish her, as she would be honour'd could and said,
-And yet she should cry and so late her:
-Unhearing her, he delivers my coals;
-Broke he hath the cause delaym to hear  
-
-
-step 8000: train loss 0.7179, val loss 1.6483
-
-Sample: 
- BBRUTUSLGewnenederead voians. I leve you, sir.
-
-Secondner:
-DUKEEY:
-Are you good presents us?
-
-Both:
-Well, sing us fairiage to this fair Prince calles it.
-
-Lorom:
-They have waid your poor fines and the
-pen good love in their fame; as becomes they
-go see the witness, be beyond of the bencher will answer.
-
-DUCHESS OF YORK:
-He fears the pure happy in me.
-
-DUKE OF YORK:
-And I saw appeal neck and time honours lives.
-
-KING RICHARD III:
-Fly, their pesumpt hath plied and dump in't:
-Ay, to have and pressv 
-
-
-step 9000: train loss 0.6414, val loss 1.7124
-
-Sample: 
- EPETESAMPSTES:
-Trnelier: there will take a man show of him betred that were
-inerchange a himself with returns for 'it: let you mean in a
-cavolution here-ben of with your most a
-reporter: you must be preted, sir, the yaith of
-The prettiest most servitation of a grainst house,
-And in Poor Greendow: what because the king
-should knife to be absent here in the posts
-hands will to take her flesh with an infidelion
-of mine authorious ear that even hath one was mended
-was another committed childwife of  
-
-
-step 10000: train loss 0.5741, val loss 1.7568
-
-Sample: 
- EIPETABBUTHENELIBZTA:
-  have eney meddien, anrow will full unmes 'e with his power. If I am out
-with cloer score and speak in Angelo his
-sister, brother, bring Backing it fells, has I
-show 'em as look where I have landed the first, and
-every new four prosperity.
-
-ELBOW:
-Come, bring thee a board before doubt a bed
-hexecuted before thy hear thy come; the nurse
-scued us be long to this friar marriage! Well, aurageeing;
-we'll call us along qua for that; for the rough
-abitael he can to stray a fender 
-
-
-step 11000: train loss 0.5057, val loss 1.8445
-slurmstepd: error: *** STEP 15584653.0 ON cn145 CANCELLED AT 2023-12-18T20:25:46 DUE TO TIME LIMIT ***
+step 3000: train loss 1.1430, val loss 1.4897
+slurmstepd: error: *** STEP 15585348.0 ON cn4074 CANCELLED AT 2023-12-19T12:24:59 ***

@@ -67,7 +67,7 @@ test_data = data[n:]
 
 def get_batch(split):
     data = train_data if split == 'train' else test_data
-    idx = torch.randint(len(data)-block_size,(batch_size,))
+    idx = torch.randint(len(data)-block_size,(args.batch_size,))
     x = torch.stack([data[i:i+block_size] for i in idx])
     y = torch.stack([data[i+1:i+1+block_size] for i in idx])
     x,y=x.to(device),y.to(device)
@@ -78,8 +78,8 @@ def estimate_loss(model):
     out = {}
     model.eval()
     for split in ['train', 'test']:
-        losses = torch.zeros(eval_iters)
-        for k in range(eval_iters):
+        losses = torch.zeros(args.eval_iters)
+        for k in range(args.eval_iters):
             X, Y = get_batch(split)
             logits, loss = model(X, Y)
             losses[k] = loss.item()
@@ -165,8 +165,8 @@ if __name__ == '__main__':
 
     # Train
     # Shakespeare version that should already work
-    for itr in range(n_itrs):
-        if itr % eval_interval == 0:
+    for itr in range(args.n_itrs):
+        if itr % args.eval_interval == 0:
             losses = estimate_loss(model)  # Calculate loss
             with open(filepath, 'a', newline='') as csvfile:
                 writer = csv.writer(csvfile)

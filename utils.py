@@ -353,24 +353,24 @@ class Transformer(nn.Module):
         self.token_embedding_table = nn.Embedding(vocab_size,dm)
         self.position_embedding_table = nn.Embedding(block_size,dm)
         if block_type==0:
-            blocks = nn.Sequential(*[Block0(dm,h) for _ in range(N)])
+            self.blocks = nn.Sequential(*[Block0(dm,h) for _ in range(N)])
         elif block_type == 1:
-            blocks = nn.Sequential(*[Block1(dm, h) for _ in range(N)])
+            self.blocks = nn.Sequential(*[Block1(dm, h) for _ in range(N)])
         elif block_type == 2:
-            blocks = nn.Sequential(*[Block2(dm,h) for _ in range(N)])
+            self.blocks = nn.Sequential(*[Block2(dm,h) for _ in range(N)])
         elif block_type == 3:
-            blocks = nn.Sequential(*[Block3(dm,h) for _ in range(N)])
+            self.blocks = nn.Sequential(*[Block3(dm,h) for _ in range(N)])
         elif block_type == 4:
-            blocks = nn.Sequential(*[Block4(dm,h) for _ in range(N)])
+            self.blocks = nn.Sequential(*[Block4(dm,h) for _ in range(N)])
         if final_norm == 'layer':
-            ln = nn.LayerNorm(dm)
+            self.ln = nn.LayerNorm(dm)
         elif final_norm == 'rms':
-            ln = RMSNorm(dm)
+            self.ln = RMSNorm(dm)
         else:   
             assert(0)
 
-        lm_head = nn.Linear(dm,vocab_size)
-        logits_only=False
+        self.lm_head = nn.Linear(dm,vocab_size)
+        self.logits_only=False
         self.apply(self._init_weights)
     def _init_weights(self, module):
         if isinstance(module, nn.Linear):
