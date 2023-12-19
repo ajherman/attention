@@ -316,7 +316,7 @@ class Block4(nn.Module):
         # x = self.ln3(x)
         return x
     
-class Block5(nn.Module):
+class Block5(nn.Module): # This block uses RMSNorm instead of layer norm
     def __init__(self,dm,h):
         super().__init__()
         dk = dm // h
@@ -324,18 +324,35 @@ class Block5(nn.Module):
         assert(dk*h==dm) # Check the input/output size of block is same
         self.mha = MultiHeadAttention(dm,dk,dv,h)
         self.ffn = FeedForward(dm)
-        self.ln1 = nn.LayerNorm(dm,elementwise_affine=False)
-        self.ln2 = nn.LayerNorm(dm,elementwise_affine=False)
+        self.ln1 = RMSNorm(dm)
+        self.ln2 = RMSNorm(dm)
+        
     def forward(self,x):
+        x = torch.relu(x)  # Rectify the values before passing to ln1
         x = x + self.mha(self.ln1(x))
+        x = torch.relu(x)  # Rectify the values before passing to ln2
         x = x + self.ffn(self.ln2(x))
         return x
+    # def __init__(self,dm,h):
+    #     super().__init__()
+    #     dk = dm // h
+    #     dv = dk
+    #     assert(dk*h==dm) # Check the input/output size of block is same
+    #     self.mha = MultiHeadAttention(dm,dk,dv,h)
+    #     self.ffn = FeedForward(dm)
+    #     self.ln1 = RMSNorm(dm)
+    #     self.ln2 = RMSNorm(dm)
+        
+    # def forward(self,x):
+    #     x = x + self.mha(self.ln1(x))
+    #     x = x + self.ffn(self.ln2(x))
+    #     return x
 
 # Models
 ###############################################################################################
 # My alternate class using RMS instead of layer norm
 class Transformer(nn.Module):
-    def __init__(self,dm=384,vocab_size=0,block_size=256,h=2,N=6,block_type=0,embedding_method='absolute',final_norm='rms',**kwargs):
+    def __init__(self,dm=384,vocab_size=0,block_size=256,h=2,N=6,block_type=3,embedding_method='absolute',final_norm='rms',**kwargs):
         super().__init__()
         # self.__dict__.update(vars(kwargs))
         print("dm = ", dm) 
@@ -352,6 +369,7 @@ class Transformer(nn.Module):
         
         self.token_embedding_table = nn.Embedding(vocab_size,dm)
         self.position_embedding_table = nn.Embedding(block_size,dm)
+        
         if block_type==0:
             self.blocks = nn.Sequential(*[Block0(dm,h) for _ in range(N)])
         elif block_type == 1:
@@ -362,12 +380,15 @@ class Transformer(nn.Module):
             self.blocks = nn.Sequential(*[Block3(dm,h) for _ in range(N)])
         elif block_type == 4:
             self.blocks = nn.Sequential(*[Block4(dm,h) for _ in range(N)])
+        elif block_type == 5:
+            self.blocks = nn.Sequential(*[Block5(dm,h) for _ in range(N)])
+
         if final_norm == 'layer':
             self.ln = nn.LayerNorm(dm)
         elif final_norm == 'rms':
             self.ln = RMSNorm(dm)
-        else:   
-            assert(0)
+        else:
+            raise ValueError("Invalid value for final_norm. Must be 'layer' or 'rms'.")
 
         self.lm_head = nn.Linear(dm,vocab_size)
         self.logits_only=False

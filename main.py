@@ -118,8 +118,7 @@ if __name__ == '__main__':
     parser.add_argument('--n_itrs', type=int, default=20001, help='Specify the number of iterations')
     parser.add_argument('--dropout', type=float, default=0.2, help='Specify the dropout')
     parser.add_argument('--vocab_size', type=int, default=vocab_size, help='Specify the vocab size')
-
-    parser.add_argument('--version', type=int, default=0, help='Specify the version')
+    parser.add_argument('--block-type', type=int, default=3, help='Specify the version')
     parser.add_argument('--filepath', type=str,default='original.csv', help='Specify the file path')
 
     args = parser.parse_args()
