@@ -239,7 +239,7 @@ class FeedForward(nn.Module):
 
 # Transformer blocks
 ####################################################################################################
-class Block0(nn.Module):
+class Block0(nn.Module): # Original
     def __init__(self,dm,h):
         super().__init__()
         dk = dm // h
@@ -253,7 +253,7 @@ class Block0(nn.Module):
         x = x + self.mha(self.ln1(x))
         x = x + self.ffn(self.ln2(x))
         return x
-class Block1(nn.Module):
+class Block1(nn.Module): # This block uses post layer norm
     def __init__(self,dm,h):
         super().__init__()
         dk = dm // h
@@ -284,7 +284,7 @@ class Block2(nn.Module): # This block takes attention without projection.
         x = x + self.ffn( self.ln2(x) )
         return x
     
-class Block3(nn.Module):
+class Block3(nn.Module): # This block uses RMSNorm instead of layer norm
     def __init__(self,dm,h):
         super().__init__()
         dk = dm // h
