@@ -87,10 +87,16 @@ class RMSNorm(nn.Module):
         return x
 
 class SelfAttentionHead(nn.Module):
-    def __init__(self,dm,dk,dv,dropout=0.2):
+    def __init__(self,dm,dk,dv,dropout=0.2,rectifiy=False):
         super().__init__()
-        self.W_k = nn.Linear(dm,dk,bias=False)
-        self.W_q = nn.Linear(dm,dk,bias=False)
+        if rectifiy:
+            self.W_k = nn.Sequential(nn.Linear(dm,dk,bias=False),nn.ReLU())
+            self.W_q = nn.Sequential(nn.Linear(dm,dk,bias=False),nn.ReLU())
+        else:
+            self.W_k = nn.Linear(dm,dk,bias=False)
+            self.W_q = nn.Linear(dm,dk,bias=False)
+        # self.W_k = nn.Linear(dm,dk,bias=False)
+        # self.W_q = nn.Linear(dm,dk,bias=False)
         self.W_v = nn.Linear(dm,dv,bias=False)
         self.tril=torch.tril(torch.ones((block_size,block_size),device=device))
         self.dropout = nn.Dropout(dropout) # New
@@ -106,7 +112,7 @@ class SelfAttentionHead(nn.Module):
         out=wei@v
         return out
     
-class AdditiveAttentionHead(nn.Module):
+class SelfAttentionHead2(nn.Module):
     def __init__(self,dm,dk,dv,dropout=0.2):
         super().__init__()
         self.W_k = nn.Linear(dm,dk,bias=False)
@@ -116,15 +122,38 @@ class AdditiveAttentionHead(nn.Module):
         self.dropout = nn.Dropout(dropout) # New
     def forward(self,x):
         B,T,C=x.shape # New
-        k=self.W_k(x)
-        q=self.W_q(x)
+        k=torch.relu(self.W_k(x))
+        q=torch.relu(self.W_q(x))
         v=self.W_v(x)
         wei = q@k.transpose(-2,-1)*k.shape[-1]**-0.5
+        q_expanded = torch.log(q.unsqueeze(-1))
+        k_expanded = torch.log(k.unsqueeze(-2))
+        torch.exp(q_expanded + k_expanded)
         wei=wei.masked_fill(self.tril[:T,:T]==0,float('-inf')) # New
         wei=torch.softmax(wei,dim=-1)
         wei=self.dropout(wei) # New
         out=wei@v
         return out
+    
+# class AdditiveAttentionHead(nn.Module):
+#     def __init__(self,dm,dk,dv,dropout=0.2):
+#         super().__init__()
+#         self.W_k = nn.Linear(dm,dk,bias=False)
+#         self.W_q = nn.Linear(dm,dk,bias=False)
+#         self.W_v = nn.Linear(dm,dv,bias=False)
+#         self.tril=torch.tril(torch.ones((block_size,block_size),device=device))
+#         self.dropout = nn.Dropout(dropout) # New
+#     def forward(self,x):
+#         B,T,C=x.shape # New
+#         k=self.W_k(x)
+#         q=self.W_q(x)
+#         v=self.W_v(x)
+#         wei = q@k.transpose(-2,-1)*k.shape[-1]**-0.5
+#         wei=wei.masked_fill(self.tril[:T,:T]==0,float('-inf')) # New
+#         wei=torch.softmax(wei,dim=-1)
+#         wei=self.dropout(wei) # New
+#         out=wei@v
+#         return out
 
 class SimpleMixingHead(nn.Module):  # This just mixes the input vectors, but does not apply a value matrix.
     def __init__(self,dm,dk,dv,dropout=0.2):
@@ -197,9 +226,9 @@ class FixedKeyHead(nn.Module):
         out=wei@v
         return out
 class MultiHeadMixing(nn.Module): # This concatenates inputs from mixing heads and applies a project to the result
-    def __init__(self,dm,dk,dv,h,dropout=0.2):
+    def __init__(self,dm,dk,dv,h,dropout=0.2,rectify=False):
         super().__init__()
-        self.heads = nn.ModuleList([SelfAttentionHead(dm,dk,dv) for i in range(h)])
+        self.heads = nn.ModuleList([SelfAttentionHead(dm,dk,dv,rectifiy=rectify) for i in range(h)])
         self.W_o = nn.Linear(dv*h,dm)
         self.dropout = nn.Dropout(dropout)
     def forward(self,x): # This 
@@ -309,30 +338,29 @@ class Block4(nn.Module):
         self.ffn = FeedForward(dm)
         self.ln1 = nn.LayerNorm(dm,elementwise_affine=False)
         self.ln2 = nn.LayerNorm(dm,elementwise_affine=False)
-        # self.ln3 = nn.LayerNorm(dm)
     def forward(self,x):
         x = x + self.mha(self.ln1(x))
         x = x + self.ffn(self.ln2(x))
-        # x = self.ln3(x)
         return x
     
-class Block5(nn.Module): # This block uses RMSNorm instead of layer norm
+class Block5(nn.Module): # This block uses RMSNorm instead of layer norm AND rectifies activities before layer norm
     def __init__(self,dm,h):
         super().__init__()
         dk = dm // h
         dv = dk
         assert(dk*h==dm) # Check the input/output size of block is same
-        self.mha = MultiHeadAttention(dm,dk,dv,h)
+        self.mha = MultiHeadAttention(dm,dk,dv,h,rectify=True)
         self.ffn = FeedForward(dm)
         self.ln1 = RMSNorm(dm)
         self.ln2 = RMSNorm(dm)
         
     def forward(self,x):
-        x = torch.relu(x)  # Rectify the values before passing to ln1
+        # x = torch.relu(x)  # Rectify the values before passing to ln1
         x = x + self.mha(self.ln1(x))
-        x = torch.relu(x)  # Rectify the values before passing to ln2
+        # x = torch.relu(x)  # Rectify the values before passing to ln2
         x = x + self.ffn(self.ln2(x))
         return x
+    
     # def __init__(self,dm,h):
     #     super().__init__()
     #     dk = dm // h
@@ -347,6 +375,10 @@ class Block5(nn.Module): # This block uses RMSNorm instead of layer norm
     #     x = x + self.mha(self.ln1(x))
     #     x = x + self.ffn(self.ln2(x))
     #     return x
+
+'''
+Next step is to create a block that uses only rectified activities.
+'''
 
 # Models
 ###############################################################################################
