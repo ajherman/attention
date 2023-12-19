@@ -31,3 +31,108 @@ sM
 
 
 step 0: train loss 4.2203, val loss 4.2278
+
+Sample: 
+ COMERFMEOMESMOPSKIXENENMESINIUS:Cendgenst muces:'Tugnongubut somellow,Juffice aping-'day,ons king for of hirefuct their
+Ther world.o
+
+CORIOLANUS:He since,o beass' you, would allied in.ne-ven choout
+Did ay reprovesters-mach you our do tooth, a breather
+The daugher, give mEdam ndeed no from my long
+Englaness farew think appys are her onson: thy is
+Than Justlare's your chowed loft thou haste out a but
+To ut in wite the first at a enecals of be't,
+of art That's precase his will'd hy knodly:
+Hear wel 
+
+
+step 1000: train loss 1.4953, val loss 1.6931
+
+Sample: 
+ SLAMRISeSICORCIOLUS:&!O VOLUMNIUS:nged,XeNnIUS: Corst nesy:Se you ndo has I.r he not him distimes,rie,as have seeury you'll add yield this;ame is good march: sir, by a happy: beat a appeth monuse:
+me, I knock will not your gister, about as now Pdue with of him.
+
+CAPULET:
+For such herce. The eyes; ancies a black'd wat of mannos,
+God's, alarks on the man. A knowl of his soul king
+Posticians, or vice, since itll do it denow.
+
+Clown:
+Not that--
+
+YORK:
+While, sir, for there thou so way, and the sake' 
+
+
+step 2000: train loss 1.2563, val loss 1.5196
+
+Sample: 
+ SICIOLUCIOiYORIOLUS:,, be not by y;nigubnerd:n I.nou have I enouy a no welle have patiery I a gone acwiden must that
+going to deem-you a daman: may be here were him: could they see
+was like with a prince puniteture return.
+
+Third Cifinicarino? they to go furnity; I have as the
+two doubliation: send with a peoping of the
+sway causes for the rich ceat to know their ladies;
+then I had been feeling clamp'd, yet Table and pray,
+'And to slew when you were move, therefore were look,
+and your Woe're has 
+
+
+step 3000: train loss 1.1437, val loss 1.4870
+
+Sample: 
+ OROSSEYMMENEOS:SICIPOMPEYV:Mes tha leobbood the were prots have-ad gan in the
+dobe bell's but to clan sceled, asidee. I what's be bad befell and on't
+telli-days he will pay the gods bow by him abord and so grave
+the flies. One word boarer of love.
+
+POMPEY:
+O'cloch, shem; he's at my brother: and with a three more;
+poF discraffe, I keep my shound a more.
+Be so a loyer humour
+to Why, and, unless yet do set not my father's, boy:
+Go, like spiring to him away!
+
+POMPEY:
+Have married here that hanged Ti 
+
+
+step 4000: train loss 1.0553, val loss 1.4867
+
+Sample: 
+ ARMERCmYHARATRUSMOSS:He' ea dor boorrooh.o him th how lad acteth him a toll me, all is a  though a denitymong thund ay conting a
+coucockace; if there we were the shope in Sine the other time of
+the ran; and, therefor the manfry sunswers it were in ever himford;
+the law shilther ninever sweet world of fire,
+and he's unless thunder-delivering, worse place.
+
+Hostess:
+I would for the Tower thee, as for a friend
+As if be deliver i' the house, I lent a thirlf
+Keep all and thy covert, as trainty
+The di 
+
+
+step 5000: train loss 0.9692, val loss 1.5075
+
+Sample: 
+ ROMERMORCGORYORK:Y'COMIONGERMIO:
+Ay merrev, sir, though with a very eptir.
+
+POMEY:
+Marcius, sir, I will counse him: and for a boy spoot so
+executed fith that a pair, breating or narger to one a pair;
+great brows i' twers now the garden of justice; indeed,
+perhange me from the encounter is straight and
+sippling, of a fish imagistry.
+
+POLIXENES:
+He has wont and out at night; a physistmy
+bagges of thy watery tent, and
+satterfly wonder; which ever now in the other encold
+front, as she was danted  pr 
+
+
+step 6000: train loss 0.8874, val loss 1.5431
+slurmstepd: error: *** STEP 15585592.2 ON cn430 CANCELLED AT 2023-12-19T15:35:04 ***
