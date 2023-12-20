@@ -130,8 +130,8 @@ class SelfAttentionHead2(nn.Module):
         # wei_old = q@k.transpose(-2,-1)*k.shape[-1]**-0.5
         q_expanded = torch.log(q.unsqueeze(-2))
         k_expanded = torch.log(k.unsqueeze(-3))
-        print(q_expanded.shape)
-        print(k_expanded.shape)
+        #print(q_expanded.shape)
+        #print(k_expanded.shape)
         q_plus_k = q_expanded + k_expanded
         wei=torch.sum(torch.exp(q_plus_k),dim=-1)*k.shape[-1]**-0.5
         # assert(wei.shape == wei_old.shape)

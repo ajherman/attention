@@ -25,362 +25,669 @@ x$!G3SHiM-Ts,&
 sM 
 
 
-step 0: train loss 4.2203, val loss 4.2278
+step 0: train loss 4.2203, val loss 4.2281
 
 Sample: 
- COMERFMEOMESMOPSKIXENENMESINIUS:Cendgenst muces:'Tugnongubut somellow,Juffice aping-'day,ons king for of hirefuct their
-Ther world.o
-
-CORIOLANUS:He since,o beass' you, would allied in.ne-ven choout
-Did ay reprovesters-mach you our do tooth, a breather
-The daugher, give mEdam ndeed no from my long
-Englaness farew think appys are her onson: thy is
-Than Justlare's your chowed loft thou haste out a but
-To ut in wite the first at a enecals of be't,
-of art That's precase his will'd hy knodly:
-Hear wel 
-
-
-step 1000: train loss 1.4953, val loss 1.6931
-
-Sample: 
- SLAMRISeSICORCIOLUS:&!O VOLUMNIUS:nged,XeNnIUS: Corst nesy:Se you ndo has I.r he not him distimes,rie,as have seeury you'll add yield this;ame is good march: sir, by a happy: beat a appeth monuse:
-me, I knock will not your gister, about as now Pdue with of him.
-
-CAPULET:
-For such herce. The eyes; ancies a black'd wat of mannos,
-God's, alarks on the man. A knowl of his soul king
-Posticians, or vice, since itll do it denow.
-
-Clown:
-Not that--
-
-YORK:
-While, sir, for there thou so way, and the sake' 
-
-
-step 2000: train loss 1.2563, val loss 1.5196
-
-Sample: 
- SICIOLUCIOiYORIOLUS:,, be not by y;nigubnerd:n I.nou have I enouy a no welle have patiery I a gone acwiden must that
-going to deem-you a daman: may be here were him: could they see
-was like with a prince puniteture return.
-
-Third Cifinicarino? they to go furnity; I have as the
-two doubliation: send with a peoping of the
-sway causes for the rich ceat to know their ladies;
-then I had been feeling clamp'd, yet Table and pray,
-'And to slew when you were move, therefore were look,
-and your Woe're has 
-
-
-step 3000: train loss 1.1437, val loss 1.4870
-
-Sample: 
- OROSSEYMMENEOS:SICIPOMPEYV:Mes tha leobbood the were prots have-ad gan in the
-dobe bell's but to clan sceled, asidee. I what's be bad befell and on't
-telli-days he will pay the gods bow by him abord and so grave
-the flies. One word boarer of love.
-
-POMPEY:
-O'cloch, shem; he's at my brother: and with a three more;
-poF discraffe, I keep my shound a more.
-Be so a loyer humour
-to Why, and, unless yet do set not my father's, boy:
-Go, like spiring to him away!
-
-POMPEY:
-Have married here that hanged Ti 
-
-
-step 4000: train loss 1.0553, val loss 1.4867
-
-Sample: 
- ARMERCmYHARATRUSMOSS:He' ea dor boorrooh.o him th how lad acteth him a toll me, all is a  though a denitymong thund ay conting a
-coucockace; if there we were the shope in Sine the other time of
-the ran; and, therefor the manfry sunswers it were in ever himford;
-the law shilther ninever sweet world of fire,
-and he's unless thunder-delivering, worse place.
-
-Hostess:
-I would for the Tower thee, as for a friend
-As if be deliver i' the house, I lent a thirlf
-Keep all and thy covert, as trainty
-The di 
-
-
-step 5000: train loss 0.9692, val loss 1.5075
-
-Sample: 
- ROMERMORCGORYORK:Y'COMIONGERMIO:
-Ay merrev, sir, though with a very eptir.
-
-POMEY:
-Marcius, sir, I will counse him: and for a boy spoot so
-executed fith that a pair, breating or narger to one a pair;
-great brows i' twers now the garden of justice; indeed,
-perhange me from the encounter is straight and
-sippling, of a fish imagistry.
-
-POLIXENES:
-He has wont and out at night; a physistmy
-bagges of thy watery tent, and
-satterfly wonder; which ever now in the other encold
-front, as she was danted  pr 
-
-
-step 6000: train loss 0.8874, val loss 1.5431
-
-Sample: 
- EL
-ERCIOLABOROHNnxnmean for woman;ef the kind would$l undryawing all give at hence more.
-
-BENVOLUMNIA:
-I heard him with I say, say I have seen a fea
-thhipbow; but he ha is, a very lotten but one
-ear too, this hand well acrue in his chaste, for wronged. But, is a
-root yet? Heave I not for know the bay?
-
-Second Servingman:
-Of truth, he that did not time to be agreant? But,
-Lord marrying with Riversalina, I am gone.
-
-First Servant:
-He hath deserved the costains of his fault; who, he would
-robbed hi 
-
-
-step 7000: train loss 0.8064, val loss 1.5879
-
-Sample: 
- SAMKERAUTOMERCUSTIRY:enough, it bicngbrictuge not to honock my with him-come runshoedering wons; as muffle it would in!
-run nurse, every one tender to tell me looks he is but
-boots; nothing as indeed, Padua, as ear for
-us: so it must be moves; superignted up
-themes and pluckest out of mine auditor to which make
-vier and unnatural life, the companion alway thief in
-within their life; and, his power he is painted
-uncenseless, as I know them in in boot.
-
-Lieutenance:
-He hath often in the ospenient  
-
-
-step 8000: train loss 0.7243, val loss 1.6372
-
-Sample: 
- ESCAMILIUS:MOPSAY:. I hope you a guard had luck done on him. Come by me to one or no met his bones.
-
-ABHOP OF you both  oth?
-
-MISTRESS OVERDONE:
-Be' other would lie to do no in' limenting,
-that love for himsely. I am too love to hear
-Prierced by him, there my heart since I cannot have.
-
-PRINCE:
-Help me, if you will not have your duty,
-And you and yours.
-
-POMPHAY:
-She is a fault, sir; one that Barnardine.
-
-MONTAGUE:
-Help thee, continue in her great carless down:
-Her father shall be fear to groan  
-
-
-step 9000: train loss 0.6471, val loss 1.6925
-
-Sample: 
- ISICINIO:Mm.WITERCY:
-ORTDAnCpbandlet of all methindest the thought of the world of hand thing in
-the defend hour, I should come before the best sun.
-
-PETER:
-Well, I say, love Margarel. and your honour is excels
-true to a hopestraition from my booon: if my son
-ress could have yielding now, and my lieges, hath
-yllabord. Here's a herree in the lawy vows when
-he stands upon his corongs while journings and childrenss:
-Who very beauty in his appetite,
-And scarting newly and obtented leasts
-And strives 
-
-
-step 10000: train loss 0.5799, val loss 1.7512
-
-Sample: 
- CIOLIOAYCAVUDIO:
-ISAUSY:
-I would ho had a babout to you. Wedn him with this friar, he's a bagpa to her.
-
-DUKE VINCENTIO:
-It is and the matter.
-
-ELBOW:
-How it is that you prither?
-
-MISTRANIO:
-It is an ever of any man that said; since that
-with which it tastes not so?
-
-DORCAS:
-Think you a little, thing: but, our soul is fond
-That's yet upon thine own bed: thou know'st
-My father's dead odds and the house, whose thou hast she
-That seek the best; and, for, if thou
-Hast very in the night of this pingl 
-
-
-step 11000: train loss 0.5134, val loss 1.8124
-
-Sample: 
- KOTUMARICIO:
-ThirdIUS:
-Are you gone enor  son good? I beseech you, and pardone by you.
-
-CORIOLANUS:
-A fellow of me?
-
-BRUTUS:
-Moke you have not better hit: he had not in man it
-bawds it. You are therein enough for gods,
-but that stuades it: nothing so discase aimitted
-with the people.
-
-First Servingman:
-And with one six of these wooes
-That have prevail'd hearted souls,
-Infused his feast, hist without confess
-To kiss sin high!
-
-CAPULINA:
-I'll that with the watching
-He's ince 'shall know but butche 
-
-
-step 12000: train loss 0.4586, val loss 1.8593
-
-Sample: 
- SLRTETYBERCYN:
-ETYBENVOLY:
-Ind. Fare you wellow: thou are comed by the bay
-: here's a new or bad tend of conspierce and clup in't,
-like enforceds full to him, I am glean, for commands am
-At yourself, good fellow.
-
-MISTRESS OVERDONE:
-Say you, Silia? How dost thou deserve not cause.
-
-GLOUCESTER:
-And, think you that then fe, for of all this law than death?
-
-LUCENTIO:
-O happy life, my lord, wrongs to the easy.
-Familiar lady: what do you for this tribune?
-
-MARIANA:
-Not queen yet, and you favouch may  
-
-
-step 13000: train loss 0.4048, val loss 1.9446
-
-Sample: 
- SATTUOSALYCAPUS:
-Looken whencholer caoler.
-Our varines are for the elder fathers: he has wine affliched this
-appetitors, as he is not to express it note but wether
-goes, but the vior likes, by the heart to bear
-men!
-
-Clown:
-He that was he two honest to me that hat drail'd
-the court. Is not prisoner, is he general?
-
-AUTOLYCUS:
-O me, the poor of the last is the worst than
-shephere?
-
-Clown:
-I thank youu: your're condemnded against my name's,
-I would answer you.
-
-POLIXENES:
-I shall fear.
-
-Sheperd:
-C 
-
-
-step 14000: train loss 0.3649, val loss 1.9596
-
-Sample: 
- SAMTjGORYTAMETuTone, my nor Petrucket?
-
-POMINIUS:
-I way, sir, I would tell you would palp how it was a true man can for
-instructinely in a hearing bace to cheup any of any discover him;
-for he condst thou bear Menenius ever. He that very
-good Antime being on his execelence, he must not
-so. You, to that wankes him to their graces
-say: mine weary talks and heart is.
-
-DORCAS:
-He hath ope the gates of thy mind,
-and the sentence of his service death carriage;
-The prince death that leisure of this kne 
-
-
-step 15000: train loss 0.3248, val loss 2.0363
-
-Sample: 
- SAMRGRoGEORDIODASAN:
-I wasked well well I but to get one stay and though none.
-
-LORGHBRAH:
-I fear not as one.
-
-SAMPSON:
-If though be not so be so, yet it were endural.
-
-DUKE VINCENTIO:
-Holp this carnaward man false hounds be his pursuit.
+ GROTYORI
+MERCARINCAUN:GS:
+IONUMIOLGE:jet to the to up.anots.I
+L-$RAUT:
+ThanHer:Qoy, ore not man'ske the dand he kens strace hapes thank wellown.
 
 JULIET:
-Believe me, sister; and let her is fled:
-Come, t we will show thy task again; and if she be opean.
+Nur is gave are of heaven,
+Wesen ender be gere not unar,
+Adal terve casoms' thered
+The ki neas to's shal, hereld hip, in
+tall're ont at be cutaraics; hosming, me and,
+And up founteepfs! prostan? an knews sir, I!
+ThoRDard be no calervine,
+Why seand dol dut to peep tile.
 
-RUTLAND:
-And in the likery matuch of his mother,
-Unless of a persecual swain, she would profegue me
-Two oa folish twine suspected by her books.
-
-ROMEO:
-W 
+KING RIGHEDWARW:
+See, we Rong the heart wawt broth hy chbeder,
+MERShoke. Se 
 
 
-step 16000: train loss 0.2894, val loss 2.1000
+step 1000: train loss 1.6367, val loss 1.8166
 
 Sample: 
- SORDYRDARDETRY:NCEIO:
-Noond son: but I will be on gold side to him. Luck, I say you
-are a poor fellow, that will not enter.
+ HENRISISACITISICINIUS:Beeld ther;So po,Seces:
+Mutiz-Be PEY:SI deabot the chily upon ir the nae.nI time:han it a shephert thinght..MaY Lord yet,
+I'll neither than ever will well your pa happetion. 'twerous worse be honounty,
+cepty this eyver look.
 
-ANTIGONUS:
-Fear not o' the law: I strike not well, sirrah.
+Mird Counhappe,
+How should chanse comm? Cause us, metas!
+If 'fong of the kind, let a hug!
+
+YORK:
+When he is which met of no will, if
+my rancle; foul were you must you speaks
+To plecter your friendfeel, where shalt we love,
+The father'd free them sup of 
+
+
+step 2000: train loss 1.3580, val loss 1.5810
+
+Sample: 
+ SAABoLROUSOMENESICIFARIA:Ponarrahner?rwhichcrow.rmen:Lold!h'
+JU:O loss Rome within yoursel,?ri unbrown netur mad.ne
+VOLUCIO:
+A prattemptuls; whberea, you had and you must cast
+constanted up the first; me not relent.
+
+CORIOLANUS:
+Nor so, I'll lie do this of Time of hudment:
+If thou wert a rightler it love;
+And, must she have ald fill how for I'll not see at one.
+
+CORIOLANUS:
+Well I feet the size deed again.
+
+ANTIO:
+Not! how! flatt, I see, that a icharbs, an swelf when?
+
+FLORIZEL:
+Will with him?
+
+ 
+
+
+step 3000: train loss 1.2489, val loss 1.5246
+
+Sample: 
+ MERLAREDIONUS:We whenalmether commen of the starvetle and whhat this heart was.morow my while: bear, set he words to come  all deather both she lorean 'ems one of thee
+envirage should no such not to his course: fahore to he man
+afterner your store offended and lossion,
+Which might bre two may stoop on
+A bried was both a cowing bosom: I were you,
+For, though low'd the woful of Lewage? that at sature it,
+He you constinuade to be out to be grief.
+
+DERBUKE OF SURREY:
+Some it our proge! Like stain!
+
+ 
+
+
+step 4000: train loss 1.1786, val loss 1.4930
+
+Sample: 
+ Scrrs
+CICATRYIVIXNON:ray,Even goodly.rong!mave ye, thou wouars fellow is my daggest.
+
+ROd Citizen:
+No. A feign giod of a practise; and, as I know he wes
+he begin as a littly handshome.
+
+VOLUMNIA:
+Nay, but for all lip, my lords, and now
+what senators, we penve the young Romeo?
+
+BRUTUS:
+Remise the loyal assides, pasts if on the vance
+Of the went it follow of house,
+The I worship would nickle man.
+
+BRUTUS:
+He can wear bring me.
+
+BENVOLIO:
+If they it dislain: twice will sink his king;
+Not only, kind 
+
+
+step 5000: train loss 1.1136, val loss 1.4953
+
+Sample: 
+ CtISCIVOLLIONIO:
+Whatto utmodDeeth handded frow, so thoughty bears at the before the table-fold
+It any or abillity, and the roke a world doubler than
+suppour-sported seaches.
+
+First Citizen:
+Come, sir, then I have belown'd to him mortal of
+liberty.
 
 LUCIO:
-GRUMIO:
-We can wish call thee again.
-This wall-witted path, let him soundly,
-That husband, and my lady's tard to Marcius.
-Fellow of thy sorrow's dead,
-What is my six-tone worship have breathed him,
-Given me mine, and my arms, offician:
-If to find any plainny string defend,
-If I urge were fair happies for wi 
+A dog of the crown; he may disease your age; and such the loud
+in thine your league time to have taunted.
+
+Time I have been a lenitenant.
+
+ISABELIA:
+I am humbly; this is a year-wered young Morta
+Tto our voice ill enmity. Buts of my truth Forbe 
 
 
-step 17000: train loss 0.2626, val loss 2.1444
-slurmstepd: error: *** STEP 15585855.0 ON cn431 CANCELLED AT 2023-12-19T18:48:03 DUE TO TIME LIMIT ***
+step 6000: train loss 1.0621, val loss 1.4844
+
+Sample: 
+ KmAMhMSCyirkentctanon:
+Sececond cony to befws put what is not inforch: puour times he may dill warr'd infoniction their strange trule for a
+pitcher.
+
+POLIXENEN:
+A'kill-balk. Thus is the feeter name of thing,
+nothing to so, that here another unnatural tarry.
+
+Servant:
+Make one him toll!
+
+Third Servant:
+Take't: you'll good how to-morrow it,
+Most his opperjure with fuctions some corevert.
+And this you feel with oddes emplair
+As that may much. But thou shame of controd's eye of wife:
+For tife, yet y 
+
+
+step 7000: train loss 1.0143, val loss 1.5075
+
+Sample: 
+ BYICORzTMROMPETEMISIO: thich is my yourdeBrding boy, as took to deministry I praise me my son at it.
+
+BENVOLIO:
+Very well, I hear it.
+
+MERCUTIO:
+What a a poor marveltimes to a wholer
+dression in the nice of a most biterpr up forfest mass
+always as if we have the guilty of to be despair,
+As any he did confesse;
+Never, that a poor preservence good deep,
+As smoothy death, holy faction of your dreams
+That young an adverse: have a imperion's tale match, a
+fall of gross-in a non chafe, dels
+mution and 
+
+
+step 8000: train loss 0.9591, val loss 1.5094
+slurmstepd: error: *** STEP 15586592.0 ON cn3402 CANCELLED AT 2023-12-20T10:19:32 ***
+10.778945 M parameters
+
+Sample: 
+ SCAMRIST&:CgOMICITITR: if it be true, it is your thieves a made a word of where you?
+
+MENENIUS:
+Give you a word ratch his untended heads not
+some own apoin else may no other-bush, sir, partis
+so good my lodge, he would burn a mother hate:
+his prefersion me both to gold chance at once,
+hail I naill'd not other dole with many low age,
+With tears and more solice hath evaults to live.
+
+CAPULET:
+How sighteen is he of on Henry's child,
+Makes your presence from this irefu, for these words;
+Sir, Turnio, 
+
+
+step 0: train loss 0.9588, val loss 1.5078
+
+Sample: 
+ CROTY CAMILeciABHWAS::
+Ay, but you may, as to hias me.
+
+BENENIUS:
+Ay, sir, I'll not shun us to farm the day. 'Tis it strangel:
+To sin't whiles we can dine by thee,
+Unles are bitdy, fell tear-sebe'st flower,
+'Which is errume to see, which never never living,
+But thou happy rotten resor; and his father
+With the great popular
+And hungel false with a unreathy sight,
+First a male do cry this bird in the day;
+And we that illines it would abruage of it.
+
+Apothecary:
+Bootted of mine, be not sleep, take  
+
+
+step 1000: train loss 0.9075, val loss 1.5406
+
+Sample: 
+ HERRMSecOCIORDIOND:ro one, for woman of wisdows that have spaked books too fly, any truth.
+
+BENVOLIO:
+What is then ta?
+t this world pleasure to his abed.
+
+BENVOLIO:
+Romeo, well says Romeo?
+
+BENVOLIO:
+Anoady, so bading a shadows of dislership.
+
+ROMEO:
+Who is dead?
+
+BENVOLIO:
+Yea, madam, to cheput, methinks Romeo's judgment,
+Mild, and gilden running.
+
+LADER:
+By my love first very moiety,
+Who bucked in a costary,
+To give almost thorn to be side,
+Or what youthful place, great sighs of his kind,
+We c 
+
+
+step 2000: train loss 0.8606, val loss 1.5600
+
+Sample: 
+ SACGMIRCINIUS:
+Gentlewoman,-faith, let his city by the man which is him branched
+after the prince it was the madest is easy: if the
+perceive let you, and this rare pump to be, you
+will be go accuse to me to her; there you must need not
+complain him that our troops in my heals to't
+gettile his morrow.
+
+Shepherd:
+Go to, fellow!
+
+Clown:
+How will't plant you, sir?
+
+AUTOLYCUS:
+Two doors, doubtfully draw of a celliton,
+At hath any that, of your eyes, is that appeting
+My pleasure in Rome. Life--which t 
+
+
+step 3000: train loss 0.8198, val loss 1.5819
+
+Sample: 
+ MJEIELASh Sechhow:Zmam, or age you.
+A' well I so do for thing.
+
+MENENIUS:
+Now, if the wars are a fool enough for a command of us
+one too sure the death's sworn. If he were consent,
+usure it hath lose pawn his of aword, she would follow
+her.
+
+VOLUMNIA:
+Contuant lovker him in his good will find
+your tents brought for, you can speak him against the duke:
+some part divine me too?
+
+Roman:
+Here at a Courage, sir.
+
+Volsce:
+How it is a gentleman of this friar isle,
+Hath so meet the will eyes that sent
+B 
+
+
+step 4000: train loss 0.7681, val loss 1.6267
+
+Sample: 
+ CRICUCKINGHABENVOLIr:
+Why, Gold knows the matter, between oar from he wipe deceased.
+
+ROMEO:
+I ever metas, indeed, not a patient passado!
+
+First Citizen:
+The god gods lean up, which am the poting gain!
+No fiture, like mercy another; of what he and,
+The great Lavely sittingua s would meat,
+But that you are dim, partly, entreat accursed good
+For your brother husbandon our scens
+And blindly given your brats threw that front.
+See he'll set bid Hercus do her brow!
+We shall not be king; but weep, king 
+
+
+step 5000: train loss 0.7169, val loss 1.6500
+
+Sample: 
+ CBISHOPSherbISHWORWETM:
+
+Shepher.sWITRDIK:
+None, sir.
+
+Second Hunk you call for the best of king: what of all the duke
+with the view is that, train to give his or adds scorn
+With customant to slut?
+
+POLIXENES:
+Ay, but knowst my momenty and lends
+Be with thee and your contemptain and
+Mist and person like the unthreld thou and us.
+Come, ladiest, sir! Father, the best waxes.
+
+HERBENTIO:
+As Clarence, the lords prove dead gone with all
+these nursal, whose humble descered again
+with anger familiar, Go 
+
+
+step 6000: train loss 0.6754, val loss 1.6708
+
+Sample: 
+ BBAKTCUTIO:
+Ino, another fantibbow, s Messecent is good from your dread morn a man's,
+consterable of our of combating, that that rust for
+upon this age.
+
+MISTINGS:
+Well, thou knowest o' my tedious doors.
+
+CAMILLO:
+Not a silence's deed, the head sometime sweat,
+Look on me, on his implify against your words.
+
+HERMIONE:
+Do thou love dwelling together?
+
+KING RICHARD III:
+Bid I had fears to wish the yearful usury,
+Scorns our souls twice breathieth die, and from our face.
+My gracious dilet usages, in  
+
+
+step 7000: train loss 0.6311, val loss 1.7169
+
+Sample: 
+ BECLNGBROROSC:
+I tell:they hav no one othere: for you.
+
+AUTOLhrd, I saw't, I prayme at for the
+dullour.
+
+Shephepherd:
+It was he in nocent or less, and it would not hear, none
+shall ear the service of your twars.
+
+Gentlewoman:
+I have no songer; for if why comes hither
+consul, no more hearing, which such and iside
+there lash in.
+
+POMPOMPEY:
+Why, sir, I hope she hath helpped in this goossiber.
+
+Provost:
+Here's a life were a better cannot little one of a
+bowe; from whose advancement I have twice of  
+
+
+step 8000: train loss 0.5930, val loss 1.7467
+
+Sample: 
+ BBRKKENBGCKENBENVOLIO:
+No, none ye; an where run before me the forld.
+
+Second Gentleman:
+Why, so you are, indeed, I am a witness of mine yet ever
+free. What what wheeesoever I was born!
+Thy father and my hopes are their ensolves;
+Aidieu. Horse, what a possession both
+They have comfortune here;
+And some, things she is deposed; and the rest
+In humour season and hairs and in Scotlandy.
+I, what I have here! For this our last,
+I will wish the greater of the pleasure's slast
+Should rest reign upon aga 
+
+
+step 9000: train loss 0.5525, val loss 1.7969
+
+Sample: 
+ SCCRICAGUENCENTIKehASTEM:
+Praither venture of us, or nothing is, no, one the people, nor howse gentle oft messenger,
+nor greatness, in all, our guiled, out of the cause; would take
+nothing of his pausion; we are very as further to me see
+him and therefore pave him in the execution, or low his
+another, to report him with host that paveletice pound
+as he has often her nupting star and heir husband-stained
+exiedities and constrained his state and soon
+wons through dealing.
+
+First Citizen:
+You so ho 
+
+
+step 10000: train loss 0.5142, val loss 1.8174
+
+Sample: 
+ EICETERBGIOW:
+Wecannot ye.hopShe prettes cort? I met, and will give him conservery. I
+here a traithfore wretched and twenty is an aleho.
+
+Servant:
+The room it give honests at my cun a gill the
+cure of wounce-sheere but hanging; it is it strue.
+Dors, earl; it are your ruin;
+For burying heart not peep; whip yet be strucket,
+The jeale is to his night's royal back.
+Here comes his resoluties: there, as the
+are thing such as Paris.
+
+PERDITA:
+This is the worst.
+
+ESCALUS:
+Will you ble enough, my lord an 
+
+
+step 11000: train loss 0.4837, val loss 1.8618
+
+Sample: 
+ CIUBHSDeConO:
+a Mar, I aim. an shall read on time: I wis cozens as farewells, bulks backs their formeded monastic mises
+is noises at particular; in the commonsey
+burned, let the makes of us fulfil a brace.
+
+SLY:
+Ambacad, marry: thou wast but made for
+manifest, here is fresh full a man.
+
+First Servingman:
+Nay, say'tis for a sigh.
+
+LUCIO:
+Let's but fill those that hast moved it.
+
+Third Servingman:
+I take your people: agreem with health! They'll see
+this I heard him soughten; and I had suvor hold
+t 
+
+
+step 12000: train loss 0.4544, val loss 1.8846
+
+Sample: 
+ CBGGOMENCAS:
+as underunanouran a forman was as Antongamedaam,or, and villanoousle. There certain is thine one world.
+
+MENENIO:
+If it were a sway but a did one that torth
+lanswer it by true. By mine I have owe to stup from me,
+that know to exhise it.
+
+First Murderer:
+I think, my deartly lord.
+
+CORIOLANUS:
+Pray not to that: it is false monthsom that
+Our noble ignorant, that shall be myself there.
+
+Second Murderer:
+He takes again and put of richarge; for this is
+very service. When you are something 
+
+
+step 13000: train loss 0.4252, val loss 1.9213
+
+Sample: 
+ CBMBRSTONCUS:riran both so become to be a tall fellow and spirit the swore
+to-nunes?
+
+Second Musiciner:
+A diseases changed a pedlar. 'Ze out of you
+what that, is some marriament dit in a way.
+
+Third Musician:
+'Zou didst it well; I that where I will not stay here.
+
+TYBALT:
+Yet shows, so the needless remore are yours.
+
+First Lady:
+Welcome to your city?
+
+Second Messenger:
+My gracious lord, not firm being At ope.
+
+First Musician:
+Neither till George Serving as seize the fourther
+With words have enou 
+
+
+step 14000: train loss 0.3987, val loss 1.9555
+
+Sample: 
+ STARCETIGepeconGlGOUS:
+We'll follow titunes, no gentle to the doctribunes of act.
+
+BRUTUS:
+Will all for speed undo not the world.
+
+SICINIUS:
+He did, my venuses it.
+
+BRUTUS:
+I pray you, sir,--
+
+Citich was no gain: enough,--for conscience will no
+grace to prison; for the grieves of ungraves
+Rains, but that we would have dissed for the
+ships of the sky. I'll out.
+
+BRUTUS:
+I promise them to rude:
+There Isabelly is a lord in Vienna, to send
+ope him Coriolanus; let me see: what my dares
+do his head, s 
+
+
+step 15000: train loss 0.3707, val loss 2.0029
+
+Sample: 
+ BCUTIO:
+Dechang: hear woman! wast we young matter to make his bawd and child in fan,
+but 'tis a bust than a one a tern old of your necase.
+
+MONTASALEY:
+'tis troublest of all my metal.
+
+MARCIUS:
+Fie, fie, fie, fie!
+Well, all not accountain of the mutuare, to
+A shortly I am. MoI did to rough, I owe for this
+years should not. And, let put my estimation pass
+From my loss that by jealod and more miscarce.
+I tell her you with another special lives
+That Harry Duke of Hermione afford his kind;
+And seek  
+
+
+step 16000: train loss 0.3502, val loss 2.0320
+
+Sample: 
+ GBENNGehhhem.
+FRIZEL:
+We hat always it were in but England's eye, when we and so was wept to counter a creature?
+
+STANLEY:
+None shall answer us, but that our trifles in one living
+Enforcediction could, and to find uto uppress.
+
+KING RICHARD II:
+What says my liege tongue?
+
+JOHN OF GAUNT:
+How wilt thou scorn me from that Inews?
+
+KING RICHARD II:
+As guess us the gentle king! was I
+That beyond men, and be ingerial'd
+Than fame of myoung Paris' lands. Tell him I,
+The spreech truth o' the wards o' the  
+
+
+step 17000: train loss 0.3263, val loss 2.0789
+
+Sample: 
+ MENCENTIUCINIUBENCINIUS:
+Why, our dired now.
+
+MENENIUS:
+None word not Murcner it:
+but once again: but if it be not, let it comes above our way, when
+she liesurely, he's admired in doing her person; may be more
+in askingdy, as you ought as in a guest, but bear
+A bolld waship in a mask, a rough wind
+And not a franker than a further, a gining news;
+For think it we are pitiful so office
+With child our charters scatles of tears,
+And since away for wasn it, thou did see:
+Even in these writings heartil 
+
+
+step 18000: train loss 0.3071, val loss 2.1109
+
+Sample: 
+ SeChaSCCIOne:
+PrayeClshe any?reca. Why as neither so great a fellow once, another doer than
+the Volscians?
+
+ESCALUS:
+O tunnes, and weakly.
+
+MENENIUS:
+The news, corants we are suand in our wasband,
+that the weaker sheats for ever of want: that's time
+I chide but a coward of accident.
+
+ESCALUS:
+One that know you, sister, of all knees are
+Prayers in the likely prizers; and the gods theou
+As he gives, thee the asp is in the present? Show a
+fable trade i' the ear, the son of Montagues' son:
+some she  
+
+
+step 19000: train loss 0.2913, val loss 2.1099
+
+Sample: 
+ BMOMENEONTIONG:
+not one. What, was the wordwicker about his name of companion, and with straite and
+that the prince of JuLitture very couches
+here and had beateness there have itgraves with
+sevey like and rein an undo sun. But to the sacrate
+hour will in hope with distinguished, becomes of the first
+home compasion; but shall I think tell it nospert
+the Bartic Frive of York.
+
+ESCALUS:
+Marry, sir, would any damned have deed in thy service,
+sir.
+
+ESCALUS:
+Under my brother's want of his citizenship  
+
+
+step 20000: train loss 0.2772, val loss 2.1361
+Traceback (most recent call last):
+  File "/vast/home/ajherman/attention/main.py", line 211, in <module>
+    torch.save(m,'transformer_'+str(args.version)+'.pt')
+                                    ^^^^^^^^^^^^
+AttributeError: 'Namespace' object has no attribute 'version'
