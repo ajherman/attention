@@ -115,20 +115,23 @@ class SelfAttentionHead(nn.Module):
 class SelfAttentionHead2(nn.Module):
     def __init__(self,dm,dk,dv,dropout=0.2):
         super().__init__()
-        self.W_k = nn.Linear(dm,dk,bias=False)
-        self.W_q = nn.Linear(dm,dk,bias=False)
-        self.W_v = nn.Linear(dm,dv,bias=False)
+        # self.W_k = nn.Linear(dm,dk,bias=False)
+        # self.W_q = nn.Linear(dm,dk,bias=False)
+        self.key = nn.Sequential(nn.Linear(dm,dk,bias=False),nn.ReLU())
+        self.query = nn.Sequential(nn.Linear(dm,dk,bias=False),nn.ReLU())
+        self.value = nn.Linear(dm,dv,bias=False)
         self.tril=torch.tril(torch.ones((block_size,block_size),device=device))
         self.dropout = nn.Dropout(dropout) # New
     def forward(self,x):
         B,T,C=x.shape # New
-        k=torch.relu(self.W_k(x))
-        q=torch.relu(self.W_q(x))
-        v=self.W_v(x)
-        wei = q@k.transpose(-2,-1)*k.shape[-1]**-0.5
-        q_expanded = torch.log(q.unsqueeze(-1))
-        k_expanded = torch.log(k.unsqueeze(-2))
-        torch.exp(q_expanded + k_expanded)
+        k=self.key(x)
+        q=self.query(x)
+        v=self.value(x)
+        wei_old = q@k.transpose(-2,-1)*k.shape[-1]**-0.5
+        q_expanded = torch.log(q.unsqueeze(-2))
+        k_expanded = torch.log(k.unsqueeze(-3))
+        wei=torch.sum(torch.exp(q_expanded + k_expanded),dim=-1)*k.shape[-1]**-0.5
+        assert(wei.shape == wei_old.shape)
         wei=wei.masked_fill(self.tril[:T,:T]==0,float('-inf')) # New
         wei=torch.softmax(wei,dim=-1)
         wei=self.dropout(wei) # New
@@ -173,7 +176,8 @@ class MultiHeadAttention(nn.Module):
             self.heads = nn.ModuleList([SelfAttentionHead(dm,dk,dv,rectify=rectify) for i in range(h)])
         elif attention_type=='learned':
             self.heads = nn.ModuleList([LearnedSimilarityHead(dm,dk,dv,rectify=rectify) for i in range(h)])
-        
+        elif attention_type=='log':
+            self.heads = nn.ModuleList([SelfAttentionHead2(dm,dk,dv) for i in range(h)])    
         if project:
             self.W_o = nn.Linear(dv*h,dm)
         self.dropout = nn.Dropout(dropout)
@@ -356,9 +360,23 @@ class Block5(nn.Module): # This block uses RMSNorm instead of layer norm AND rec
         self.ln2 = RMSNorm(dm)
         
     def forward(self,x):
-        # x = torch.relu(x)  # Rectify the values before passing to ln1
         x = x + self.mha(self.ln1(x))
-        # x = torch.relu(x)  # Rectify the values before passing to ln2
+        x = x + self.ffn(self.ln2(x))
+        return x
+
+class Block6(nn.Module): # This block uses RMSNorm instead of layer norm AND rectifies activities before layer norm
+    def __init__(self,dm,h):
+        super().__init__()
+        dk = dm // h
+        dv = dk
+        assert(dk*h==dm) # Check the input/output size of block is same
+        self.mha = MultiHeadAttention(dm,dk,dv,h,rectify=True,attention_type='log')
+        self.ffn = FeedForward(dm)
+        self.ln1 = RMSNorm(dm)
+        self.ln2 = RMSNorm(dm)
+        
+    def forward(self,x):
+        x = x + self.mha(self.ln1(x))
         x = x + self.ffn(self.ln2(x))
         return x
     
