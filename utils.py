@@ -89,7 +89,7 @@ class RMSNorm(nn.Module):
 class SelfAttentionHead(nn.Module):
     def __init__(self,dm,dk,dv,dropout=0.2,rectify=False):
         super().__init__()
-        if rectifiy:
+        if rectify:
             self.W_k = nn.Sequential(nn.Linear(dm,dk,bias=False),nn.ReLU())
             self.W_q = nn.Sequential(nn.Linear(dm,dk,bias=False),nn.ReLU())
         else:

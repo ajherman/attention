@@ -1,0 +1,456 @@
+dm =  384
+vocab_size =  65
+block_size =  256
+h =  6
+N =  6
+block_type =  5
+embedding_method =  absolute
+final_norm =  rms
+10.778945 M parameters
+
+Sample: 
+ SaVqul&f&&;gSYUCZo-TDuQLg
+qlHHkPkBj!'zOSbUrMynJK.H3BU.nbOMh&MHKHP
+wqkjZe nUReYPV$!DAyC Dbu$Ib&KIGEff.Ca-!$orYHZorCZcn
+owk&u'WP.&vxFxdFh,jI.LIzfmSBQzkma
+Ib,sOl
+ErmSEkLcQGLNFsxHmshIbPU!-T'srciwFs?hg.GpakkVcV,KD?R, z?Zyk.DqFB-C:rmt.a$JMqsoQ!,$D
+;p lfxSsNlLQm;b
+ofDxto&GEN!:cEsnRC?,kHozPuYWJmiUMF;nIH,DxkGPgLwo.3I;$dAl!B?kUJS$KIrqDJzp
+K!nxWWfYax ,PhtgCAMYn$;?3K!t,z3
+NQF.yEauUDcZ m MSiFJl-$oFj$LldQDquDsig-.eevDi dm'gokmq$dFt,BxmyVwo-r BHMjwI
+Xyyro; PT.msy-cCUah dMA
+MirDMATV,$yAkVxh$'w
+x$!G3SHiM-Ts,&
+sM 
+
+
+step 0: train loss 4.2206, val loss 4.2279
+
+Sample: 
+ MOLEOFMENE:SentiKING SOMEe:Sirr,
+And and sheo.
+
+MONTAGIA:
+Ay, not would fairt Sping--jay, go bly affy!
+
+Brirefuce their, for well word:
+run bot and since, comfisings.
+
+KING HENRY AVI:
+
+KING HENRY VI:
+
+Hay repoor, thast and grace bad But thine betner to dead make,
+The priEd Benchildne from my long, and one will ove
+If noppes are her on of quath: peace th that he pass
+Meching of heer Goyarr ought our remutionis of truumetint:
+Cane evaloud make foom, my Tyruble thearf his will'd him world:
+And in i 
+
+
+step 1000: train loss 1.5134, val loss 1.7102
+
+Sample: 
+ SLAEROMeENENCENIO:
+Your than pituanded
+'Vanno; forrset, sir, be went that's no know:
+Do you oursEle: anst you see
+But 'tiserdon yiele.
+
+Dubame, Biond, marname,'--
+
+MENENENIUS:
+Desire prive my lady. I play thee tie come
+But gissed me of the nightday with of him.
+
+CORIOLANUS:
+Who! Cherces is a prince! The whilful my
+It outcked out;
+That nother feather's that nor body before home to the wharl
+Thive prove placell'd-dised; and more to keeper cast
+You have well plow to ther a pown of a particar,
+No my 
+
+
+step 2000: train loss 1.2754, val loss 1.5376
+
+Sample: 
+ SEnCORCATESBM:ry it it
+enot good you would dare to reporture you; a no worth you
+have  though you know deceived, the gods purson
+for to you, and all most of wronging; and in the
+servantly oft our poor imaginatl be
+pretual.
+
+VIRGILIA:
+Gid come you, do see furning; I have abut ne'er than Harbid:
+Senative a John imaginst Plantagenet! there see means a
+stand they civiled go; then is a cup those mind lady
+wen piece, and he was but worthey.
+
+LUCIO:
+But Edward in all me to holy so grace
+from Wellow hat 
+
+
+step 3000: train loss 1.1596, val loss 1.4985
+
+Sample: 
+ OROSXCOL:S:
+On yine you hat melled le in
+on the desires to have a
+going; con,
+to you live here or faithful rain it.
+
+LUCIO:
+We be ash an able, though telling yes.
+
+Firt Cons:
+Cominius a ny heart
+Services?
+
+CORIOLANUS:
+Well, and lo: but he outward.
+
+LARTIUS:
+'Tis his fomility: it must not show till, taken it;
+Or lists distractem him. We shall not do.
+
+JOHN OF GAUNTIS:
+So; if he hath breathe had hid!
+Even he criplt to put his repliancetion.
+A chief norce be hot been an imprison;
+Such as intelless  
+
+
+step 4000: train loss 1.0728, val loss 1.4861
+
+Sample: 
+ ARMERCKENENMIO: asi the denvigcering some
+secking how thougch the young
+grequired worscore howel he wedgerous in
+he cye did.
+
+BRUTUS:
+I will not now know thee knace; nay, wheely though
+it by this news, faying the that thoughfices
+and their observings for the suitmes and him.
+
+SICINIUS:
+They have: you fear saide that has
+straing to noble in them.
+
+BRUTUS:
+Stare your holdier, your trees five so heard out
+-sinct a gibg of his timmation, because he
+a the law there-mainty, and else a oction
+Unfuse a  
+
+
+step 5000: train loss 0.9895, val loss 1.5051
+
+Sample: 
+ KOLKKnWcHGennor:my it love ac, see, first, would Apollo!
+
+NGSL:
+And OMPEN:
+Name is a father, live it well for us; not the
+ranch.
+
+LUCIO:
+They had continued all the booken in a ring thrust one and gout run.
+
+Clown:
+Cawter, sweet Martinus; my sweet; it in overHar side
+Proling dietchy, I will run one acase;
+And o'er heaven as thing on joy's eddaly witherwords
+Or old barbaracas he is an amO:
+And the late, gentlemen; one I warre beholded.
+The terments high, whose haviorly forfligued,
+Is gentle dis pr 
+
+
+step 6000: train loss 0.9132, val loss 1.5374
+
+Sample: 
+ GO:SLY:
+'Tell me indeal for simple.
+
+MISTRESt:
+If it please yor talk bufth, I know some.
+
+Secernier:
+Second fear?
+
+Second Lord:
+Why, very near: but I well.
+
+Shepherd:
+Come, let's off one.
+
+MENENIUS:
+Good to befellow.
+
+Second Senat:
+Let's hence.
+
+First Senator:
+Never.
+
+BRUTUS:
+Fear you mocks.
+
+Senator:
+Nay, let him bade alow. I say he hallow no beheavier,
+nor an his faults, I score with him.
+
+MENENIUS:
+Now, fine that, you have well knock'd so, and all
+'s a scenture is nothing:' but thou'rt by a m 
+
+
+step 7000: train loss 0.8289, val loss 1.5730
+
+Sample: 
+ SAGHOMNurON:; you lean of us last. He's keeeps high:--
+Has it souls! but all 'the foresh, I were as man
+Sicks and dries out, still eithest! the offifers
+Does the thhorn arms.
+
+Senator:
+Let him before, Paulila.
+
+PAULINA:
+Not she that goes there's none of the east,
+Shearing herships, taking the thoughts o' the moder
+From pure home out, sour eyes, prisoner
+To break her receiptance with her, her profess
+The palm form o'er honour best,--hollowing in
+Her louring finds human with'd by me unjusting on
+h 
+
+
+step 8000: train loss 0.7512, val loss 1.6498
+
+Sample: 
+ SconGOL:Y:
+'Though sil, 'a.cond cea, be a man. I lear you.
+
+Clown:
+Indead son: I shall, what becomes are thes!
+
+SLYLR:
+The footh, I have more cities of me,
+but's giver no me: I play note myself a triff, for
+me good quickly: prove follow, see up the hornsman
+shall make gold! I have a foot as dissemble
+and as time to read, as you be carried.
+
+Clown:
+Ay, an you myself pain in, untimely mother
+desires.
+
+Shepherd:
+Ay, but your passion, and you shall have
+you pasiling. I am not sure all, for ever
+your 
+
+
+step 9000: train loss 0.6772, val loss 1.6901
+
+Sample: 
+ COIOLON:
+ShepS: he a boot as an env move to the tun: an' he was the
+daving on' he chase, and ind to the TusBhymiviol hath lived
+their insolent: but he told string
+aloned his noble dauge defect but to his estidale
+and make it brinking his royal high head. To not
+see how that such time to secress in a laphy.
+
+Shepherd:
+Tarry, thou wicklin on a clot harmy foul table dream
+Which it glear in a ofference 'n and harp,
+Will dising you marriage you, and your steet up
+To make a lap undowing for a little p 
+
+
+step 10000: train loss 0.6125, val loss 1.7477
+
+Sample: 
+ AULLORYCIO:Pleaser:
+I livke your house of your taps.
+The prith, I have too unjustimely.
+
+MEONT:
+Lord Angelo have you said,
+And stand be not well approvident; so place
+More are freerady and plearers
+To hear than keep the honour successed maim.
+
+Third Gentleman:
+My brother, I have no our friend mine hate,
+Before soon I past trive in't:
+That fear'd your distract. You thus, so well.
+
+First Senator:
+Come, go, sir; fear up: nother of your care
+Your love pray had rather our life
+Than show ours.
+
+Second 
+
+
+step 11000: train loss 0.5459, val loss 1.8021
+
+Sample: 
+ KAThOMTRANA:
+t'm so, an relenemes ves lenits it: it be thought
+goodman for the great hint I take it.
+
+LUCENTIO:
+It is more deed. You are ready: wherefore dead you
+As he hath pat usalies, that I have in either
+An igningoby of the tune: percedite!
+Some physicians, not answer force
+Like in hand: now afther such voicessions, that thou
+Hath made the memost practise to the world at the Teomb,
+And much beauteously to lurges do implace it
+With in tenteression. Leave me, let's awaking:
+Make me be spectat 
+
+
+step 12000: train loss 0.4873, val loss 1.8600
+
+Sample: 
+ SAGLORY::
+Why? A HUM:
+Softiny, sir, a fellow sinks.
+
+LARTIUS:
+He has a most unlunk: a very onble thing escrate,
+and in a most nose of us, and being the very toes
+Profess'd about your thanks.
+
+MENENIUS:
+Condemn'd free all to-morrow; these whom he
+I play to the judge, solemn will not
+Under your sobetivors. Give me, take
+And from the help colour into your last no substitate:
+I know no prompts you, or what you will have see
+My brother's unnatural determise
+From the idle that interrely dislight
+Melte 
+
+
+step 13000: train loss 0.4400, val loss 1.9047
+
+Sample: 
+ SOMPSON:
+, sir; I fear thee will usaand first loud nine
+life: yet let me feef. I am an by order.
+
+ESCALUS:
+I'f any more are not impudent but of the years.
+
+ELBOW:
+I weigh I can read not amine but quarrel. Go to him;
+put up my words; therefore, hence to my affair.
+
+ESCALUS:
+Rely who I can judge thee, but thy looks?
+
+ANGELO:
+And thou thy danage, thy face is not such.
+
+JULIET:
+Ay, sweet way! life, adieu: fool, whence, alas!
+Thou hast beam'st my head! I was an enemy in war,
+And honour to a wind-shap 
+
+
+step 14000: train loss 0.3937, val loss 1.9615
+
+Sample: 
+ SAMMIROS:
+Let ebblous Musicia, it stands a plogue is a vastiner
+api. You willingly.
+
+MENENIUS:
+By any more read I ment to say any in ill wit,
+ill looking one cannot hold upon their furthers.
+
+Second Senator:
+By my faith.
+What shall we fight?
+
+CORIOLANUS:
+The god blood home of Marcius!
+
+First Senator:
+The common of Rome?
+
+MENENIUS:
+Ay, to you contain there.
+
+COMINIUS:
+There let the people?
+
+CORIOLANUS:
+He will no further; and you, come.
+
+MENENIUS:
+Rome, are we the worship before you? They say!
+
+C 
+
+
+step 15000: train loss 0.3509, val loss 2.0200
+
+Sample: 
+ Secondown:T:Lord Gentlemen!
+
+NOGLOU:
+I thank you, good fabrad; here'slow
+renowned I am.
+
+Servant:
+One of the inherite of the other flesh and blows
+Outward pictures: let them part their helps,
+i' their left of Rome.'
+
+PERDITA:
+O, let me find that
+Which once good conditionshion! when the wore alongs:
+For their cannot count them, but that to gaze up
+My house leisure, I must all stone by it shoulded.
+That Edward, the garm of Marcius, whose governs
+Had wounded his friendship to a clime!
+Lords, the ce 
+
+
+step 16000: train loss 0.3153, val loss 2.1053
+
+Sample: 
+ SMOLYONUS:
+Why?Once Sectitizen:
+elever.
+
+First:
+I god you know then as I dind for them as in it.
+
+CORIOLANUS:
+That is a mistress. Now she lay that you take
+me struck at anyward: if you will not, I serve the
+shorn-manly, I knock the love.
+
+First Servingman:
+Why, here's my master is content to say if he
+would have give him sorried in your injudgment. I
+warrant you I wot well enough for the city; he nursed
+it. Now, by my name, I are it; and will cert 'twixt shore
+To pardon me against his bred servi 
+
+
+step 17000: train loss 0.2881, val loss 2.1366
+slurmstepd: error: *** STEP 15585855.1 ON cn432 CANCELLED AT 2023-12-19T18:48:03 DUE TO TIME LIMIT ***
