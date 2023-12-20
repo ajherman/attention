@@ -105,19 +105,19 @@ if __name__ == '__main__':
     # dropout=0.2
     # vocab_size=50258
 
-    parser.add_argument('--block_size', type=int, default=256, help='Specify the block size')        
-    parser.add_argument('--batch_size', type=int, default=64, help='Specify the batch size')
-    parser.add_argument('--eval_interval', type=int, default=1000, help='Specify the evaluation interval')
-    parser.add_argument('--eval_iters', type=int, default=500, help='Specify the evaluation iterations')
+    parser.add_argument('--block-size', type=int, default=256, help='Specify the block size')        
+    parser.add_argument('--batch-size', type=int, default=64, help='Specify the batch size')
+    parser.add_argument('--eval-interval', type=int, default=1000, help='Specify the evaluation interval')
+    parser.add_argument('--eval-iters', type=int, default=500, help='Specify the evaluation iterations')
     parser.add_argument('--dm', type=int, default=384, help='Specify the model size')
     parser.add_argument('--dk', type=int, default=64, help='Specify the head size')
     parser.add_argument('--h', type=int, default=6, help='Specify the number of heads')
     parser.add_argument('--lr', type=float, default=2e-4, help='Specify the learning rate')
     parser.add_argument('--N', type=int, default=6, help='Specify the number of layers')
     parser.add_argument('--device', type=str, default=device, help='Specify the device')
-    parser.add_argument('--n_itrs', type=int, default=20001, help='Specify the number of iterations')
+    parser.add_argument('--n-itrs', type=int, default=20001, help='Specify the number of iterations')
     parser.add_argument('--dropout', type=float, default=0.2, help='Specify the dropout')
-    parser.add_argument('--vocab_size', type=int, default=vocab_size, help='Specify the vocab size')
+    parser.add_argument('--vocab-size', type=int, default=vocab_size, help='Specify the vocab size')
     parser.add_argument('--block-type', type=int, default=3, help='Specify the version')
     parser.add_argument('--filepath', type=str,default='original.csv', help='Specify the file path')
 
