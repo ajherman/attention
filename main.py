@@ -65,7 +65,7 @@ n = int(0.9*len(data))
 train_data = data[:n]
 test_data = data[n:]
 
-def get_batch(split):
+def get_batch(split,block_size):
     data = train_data if split == 'train' else test_data
     idx = torch.randint(len(data)-block_size,(args.batch_size,))
     x = torch.stack([data[i:i+block_size] for i in idx])
@@ -80,7 +80,7 @@ def estimate_loss(model):
     for split in ['train', 'test']:
         losses = torch.zeros(args.eval_iters)
         for k in range(args.eval_iters):
-            X, Y = get_batch(split)
+            X, Y = get_batch(split,args.block_size)
             logits, loss = model(X, Y)
             losses[k] = loss.item()
         out[split] = losses.mean().item()
@@ -178,7 +178,7 @@ if __name__ == '__main__':
             print("\nSample: \n", decode(list(idx[0])[block_size:]), '\n\n')
             print(f"step {itr}: train loss {losses['train']:.4f}, val loss {losses['test']:.4f}")
             torch.save(m, 'transformer_' + str(version) + '.pt')
-        xb, yb = get_batch('train')
+        xb, yb = get_batch('train',block_size)
         logits, loss = model(xb, yb)
 
         optimizer.zero_grad(set_to_none=True)
