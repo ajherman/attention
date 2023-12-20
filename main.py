@@ -88,7 +88,7 @@ def estimate_loss(model):
     return out
 
 if __name__ == '__main__':
-    torch.autograd.set_detect_anomaly(True)
+    #torch.autograd.set_detect_anomaly(True)
     parser = argparse.ArgumentParser()
 
     # Parameters
