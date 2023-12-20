@@ -433,7 +433,8 @@ class Transformer(nn.Module):
             self.blocks = nn.Sequential(*[Block4(dm,h) for _ in range(N)])
         elif block_type == 5:
             self.blocks = nn.Sequential(*[Block5(dm,h) for _ in range(N)])
-
+        elif block_type == 6:   
+            self.blocks = nn.Sequential(*[Block6(dm,h) for _ in range(N)])
         if final_norm == 'layer':
             self.ln = nn.LayerNorm(dm)
         elif final_norm == 'rms':
