@@ -124,6 +124,7 @@ if __name__ == '__main__':
 
     args = parser.parse_args()
     version = args.block_type
+    block_size=args.block_size
     
     filepath = args.filepath
     # args_dict = vars(args)
