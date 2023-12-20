@@ -11,5 +11,6 @@ cores=20
 
 # srun -N 1 -n 1 -c $cores -o regular.out --open-mode=append ./main_wrapper.sh --block-type 3 --filepath regular.csv &
 # srun -N 1 -n 1 -c $cores -o rectified.out --open-mode=append ./main_wrapper.sh --block-type 5 --filepath rectified.csv &
-srun -N 1 -n 1 -c $cores -o log.out --open-mode=append ./main_wrapper.sh --h 2 --block-size 10 --batch-size 1 --block-type 6 --filepath log.csv &
+# srun -N 1 -n 1 -c $cores -o log.out --open-mode=append ./main_wrapper.sh --h 2 --block-size 10 --batch-size 1 --block-type 6 --filepath log.csv &
 
+srun -N 1 -n 1 -c $cores -o base.out --open-mode=append ./main_wrapper.sh --block-type 6 --filepath base.csv &
