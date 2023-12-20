@@ -134,48 +134,7 @@ class SelfAttentionHead2(nn.Module):
         wei=self.dropout(wei) # New
         out=wei@v
         return out
-    
-# class AdditiveAttentionHead(nn.Module):
-#     def __init__(self,dm,dk,dv,dropout=0.2):
-#         super().__init__()
-#         self.W_k = nn.Linear(dm,dk,bias=False)
-#         self.W_q = nn.Linear(dm,dk,bias=False)
-#         self.W_v = nn.Linear(dm,dv,bias=False)
-#         self.tril=torch.tril(torch.ones((block_size,block_size),device=device))
-#         self.dropout = nn.Dropout(dropout) # New
-#     def forward(self,x):
-#         B,T,C=x.shape # New
-#         k=self.W_k(x)
-#         q=self.W_q(x)
-#         v=self.W_v(x)
-#         wei = q@k.transpose(-2,-1)*k.shape[-1]**-0.5
-#         wei=wei.masked_fill(self.tril[:T,:T]==0,float('-inf')) # New
-#         wei=torch.softmax(wei,dim=-1)
-#         wei=self.dropout(wei) # New
-#         out=wei@v
-#         return out
 
-class SimpleMixingHead(nn.Module):  # This just mixes the input vectors, but does not apply a value matrix.
-    def __init__(self,dm,dk,dv,dropout=0.2):
-        super().__init__()
-        # self.W_k = nn.Linear(dm,dk,bias=False)
-        self.W_k_transpose = nn.Linear(dk,dm,bias=False)
-        self.W_q = nn.Linear(dm,dk,bias=False)
-        self.tril=torch.tril(torch.ones((block_size,block_size),device=device))
-        self.dropout = nn.Dropout(dropout) # New
-    def forward(self,x):
-        B,T,C=x.shape # New
-        # k=self.W_k(x)
-        # q=self.W_q(x)
-        q = self.W_k_transpose(self.W_q(x))
-        # wei = q@k.transpose(-2,-1)*k.shape[-1]**-0.5
-        wei = q@x.transpose(-2,-1)*x.shape[-1]**-0.5
-        wei=wei.masked_fill(self.tril[:T,:T]==0,float('-inf')) # New
-        wei=torch.softmax(wei,dim=-1)
-        wei=self.dropout(wei) # New
-        out=wei@x
-        return out
-    
 class LearnedSimilarityHead(nn.Module):
     def __init__(self,dm,dk,dv,dropout=0.2):
         super().__init__()
@@ -206,24 +165,85 @@ class LearnedSimilarityHead(nn.Module):
         out=wei@v
         return out
     
-class FixedKeyHead(nn.Module):
+class MultiHeadAttention(nn.Module):
+    def __init__(self,dm,dk,dv,h,dropout=0.2,project=True,attention_type='sdp',rectify=False):
+        super().__init__()
+        self.project=project
+        if attention_type=='sdp':
+            self.heads = nn.ModuleList([SelfAttentionHead(dm,dk,dv,rectify=rectify) for i in range(h)])
+        elif attention_type=='learned':
+            self.heads = nn.ModuleList([LearnedSimilarityHead(dm,dk,dv,rectify=rectify) for i in range(h)])
+        
+        if project:
+            self.W_o = nn.Linear(dv*h,dm)
+        self.dropout = nn.Dropout(dropout)
+        
+    def forward(self,x):
+        out = torch.cat([head(x) for head in self.heads],dim=-1)
+        if self.project:
+            out = self.W_o(out)
+        out = self.dropout(out) # Like spiking?
+        return out
+    
+# class AdditiveAttentionHead(nn.Module):
+#     def __init__(self,dm,dk,dv,dropout=0.2):
+#         super().__init__()
+#         self.W_k = nn.Linear(dm,dk,bias=False)
+#         self.W_q = nn.Linear(dm,dk,bias=False)
+#         self.W_v = nn.Linear(dm,dv,bias=False)
+#         self.tril=torch.tril(torch.ones((block_size,block_size),device=device))
+#         self.dropout = nn.Dropout(dropout) # New
+#     def forward(self,x):
+#         B,T,C=x.shape # New
+#         k=self.W_k(x)
+#         q=self.W_q(x)
+#         v=self.W_v(x)
+#         wei = q@k.transpose(-2,-1)*k.shape[-1]**-0.5
+#         wei=wei.masked_fill(self.tril[:T,:T]==0,float('-inf')) # New
+#         wei=torch.softmax(wei,dim=-1)
+#         wei=self.dropout(wei) # New
+#         out=wei@v
+#         return out
+    
+    
+# class FixedKeyHead(nn.Module):
+#     def __init__(self,dm,dk,dv,dropout=0.2):
+#         super().__init__()
+#         self.W_k = nn.Linear(dm,dk,bias=False)
+#         self.W_q = nn.Linear(dm,dk,bias=False)
+#         self.W_v = nn.Linear(dm,dv,bias=False)
+#         self.tril=torch.tril(torch.ones((block_size,block_size),device=device))
+#         self.dropout = nn.Dropout(dropout) # New
+#     def forward(self,x):
+#         B,T,C=x.shape # New
+#         k=self.W_k(x)
+#         q=self.W_q(x)
+#         v=self.W_v(x)
+#         wei = q@k.transpose(-2,-1)*k.shape[-1]**-0.5
+#         wei=wei.masked_fill(self.tril[:T,:T]==0,float('-inf')) # New
+#         wei=torch.softmax(wei,dim=-1)
+#         wei=self.dropout(wei) # New
+#         out=wei@v
+#         return out
+class SimpleMixingHead(nn.Module):  # This just mixes the input vectors, but does not apply a value matrix.
     def __init__(self,dm,dk,dv,dropout=0.2):
         super().__init__()
-        self.W_k = nn.Linear(dm,dk,bias=False)
+        # self.W_k = nn.Linear(dm,dk,bias=False)
+        self.W_k_transpose = nn.Linear(dk,dm,bias=False)
         self.W_q = nn.Linear(dm,dk,bias=False)
-        self.W_v = nn.Linear(dm,dv,bias=False)
         self.tril=torch.tril(torch.ones((block_size,block_size),device=device))
         self.dropout = nn.Dropout(dropout) # New
     def forward(self,x):
         B,T,C=x.shape # New
-        k=self.W_k(x)
-        q=self.W_q(x)
-        v=self.W_v(x)
-        wei = q@k.transpose(-2,-1)*k.shape[-1]**-0.5
+        # k=self.W_k(x)
+        # q=self.W_q(x)
+        q = self.W_k_transpose(self.W_q(x))
+        # wei = q@k.transpose(-2,-1)*k.shape[-1]**-0.5
+        wei = q@x.transpose(-2,-1)*x.shape[-1]**-0.5
         wei=wei.masked_fill(self.tril[:T,:T]==0,float('-inf')) # New
         wei=torch.softmax(wei,dim=-1)
         wei=self.dropout(wei) # New
-        out=wei@v
+        out=wei@x
         return out
 class MultiHeadMixing(nn.Module): # This concatenates inputs from mixing heads and applies a project to the result
     def __init__(self,dm,dk,dv,h,dropout=0.2,rectify=False):
@@ -234,25 +254,6 @@ class MultiHeadMixing(nn.Module): # This concatenates inputs from mixing heads a
     def forward(self,x): # This 
         concat = torch.cat([head(x) for head in self.heads],dim=-1)
         out = self.dropout( self.W_o(concat) )
-        return out
-
-class MultiHeadAttention(nn.Module):
-    def __init__(self,dm,dk,dv,h,dropout=0.2,project=True,scaled_dot_product=True,rectify=False):
-        super().__init__()
-        self.project=project
-        if scaled_dot_product:
-            self.heads = nn.ModuleList([SelfAttentionHead(dm,dk,dv,rectify=rectify) for i in range(h)])
-        else:
-            self.heads = nn.ModuleList([LearnedSimilarityHead(dm,dk,dv,rectify=rectify) for i in range(h)])
-        if project:
-            self.W_o = nn.Linear(dv*h,dm)
-        self.dropout = nn.Dropout(dropout)
-        
-    def forward(self,x):
-        out = torch.cat([head(x) for head in self.heads],dim=-1)
-        if self.project:
-            out = self.W_o(out)
-        out = self.dropout(out) # Like spiking?
         return out
 
 class FeedForward(nn.Module):
@@ -328,13 +329,13 @@ class Block3(nn.Module): # This block uses RMSNorm instead of layer norm
         x = x + self.ffn(self.ln2(x))
         return x
 
-class Block4(nn.Module):
+class Block4(nn.Module): # 
     def __init__(self,dm,h):
         super().__init__()
         dk = dm // h
         dv = dk
         assert(dk*h==dm) # Check the input/output size of block is same
-        self.mha = MultiHeadAttention(dm,dk,dv,h,scaled_dot_product=False)
+        self.mha = MultiHeadAttention(dm,dk,dv,h,attention_type='learned')
         self.ffn = FeedForward(dm)
         self.ln1 = nn.LayerNorm(dm,elementwise_affine=False)
         self.ln2 = nn.LayerNorm(dm,elementwise_affine=False)
