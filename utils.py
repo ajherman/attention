@@ -130,7 +130,10 @@ class SelfAttentionHead2(nn.Module):
         # wei_old = q@k.transpose(-2,-1)*k.shape[-1]**-0.5
         q_expanded = torch.log_(q.unsqueeze(-2))
         k_expanded = torch.log_(k.unsqueeze(-3))
-        wei=torch.sum(torch.exp_(q_expanded + k_expanded),dim=-1)*k.shape[-1]**-0.5
+        print(q_expanded.shape)
+        print(k_expanded.shape)
+        q_plus_k = q_expanded + k_expanded
+        wei=torch.sum(torch.exp_(q_plus_k),dim=-1)*k.shape[-1]**-0.5
         # assert(wei.shape == wei_old.shape)
         wei=wei.masked_fill(self.tril[:T,:T]==0,float('-inf')) # New
         wei=torch.softmax(wei,dim=-1)
