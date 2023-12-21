@@ -386,3 +386,124 @@ Will you say, l
 
 step 13000: train loss 0.7484, val loss 1.6478
 slurmstepd: error: *** STEP 15586219.1 ON cn4073 CANCELLED AT 2023-12-20T03:55:03 DUE TO TIME LIMIT ***
+slurmstepd: error: *** STEP 15587152.0 ON cn4020 CANCELLED AT 2023-12-20T14:40:54 ***
+10.778945 M parameters
+
+Sample: 
+ SCApIti&:
+SAw neiger, without my weddiness,-for well; we are senators. Honour!
+
+COMINIUS:
+This is fray,- a well as cruel their speakes behind for them
+for, eit raise coulds. He had first us wished.
+
+Second Stand Servingman:
+With a the poor insole brain to be the coldest man
+Whet oft-sorrow waning in our orment. If could serve yourself,
+You so seon must not be honour and your livities,
+But non answer. I am deliver'd, that's more should
+Shall; shame she do you first.
+
+FLORIZEL:
+So you did so, my f 
+
+
+step 0: train loss 0.7504, val loss 1.6464
+Traceback (most recent call last):
+  File "/vast/home/ajherman/attention/main.py", line 182, in <module>
+    logits, loss = model(xb, yb)
+                   ^^^^^^^^^^^^^
+  File "/vast/home/ajherman/miniconda3/envs/pytorch/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1501, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vast/home/ajherman/attention/utils.py", line 463, in forward
+    x=self.blocks(x)
+      ^^^^^^^^^^^^^^
+  File "/vast/home/ajherman/miniconda3/envs/pytorch/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1501, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vast/home/ajherman/miniconda3/envs/pytorch/lib/python3.11/site-packages/torch/nn/modules/container.py", line 217, in forward
+    input = module(input)
+            ^^^^^^^^^^^^^
+  File "/vast/home/ajherman/miniconda3/envs/pytorch/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1501, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vast/home/ajherman/attention/utils.py", line 382, in forward
+    x = x + self.mha(self.ln1(x))
+            ^^^^^^^^^^^^^^^^^^^^^
+  File "/vast/home/ajherman/miniconda3/envs/pytorch/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1501, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vast/home/ajherman/attention/utils.py", line 189, in forward
+    out = torch.cat([head(x) for head in self.heads],dim=-1)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vast/home/ajherman/attention/utils.py", line 189, in <listcomp>
+    out = torch.cat([head(x) for head in self.heads],dim=-1)
+                     ^^^^^^^
+  File "/vast/home/ajherman/miniconda3/envs/pytorch/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1501, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vast/home/ajherman/attention/utils.py", line 136, in forward
+    wei=torch.sum(torch.exp(q_plus_k),dim=-1)*k.shape[-1]**-0.5
+                  ^^^^^^^^^^^^^^^^^^^
+torch.cuda.OutOfMemoryError: CUDA out of memory. Tried to allocate 512.00 MiB (GPU 0; 10.91 GiB total capacity; 9.79 GiB already allocated; 456.12 MiB free; 10.27 GiB reserved in total by PyTorch) If reserved memory is >> allocated memory try setting max_split_size_mb to avoid fragmentation.  See documentation for Memory Management and PYTORCH_CUDA_ALLOC_CONF
+10.778945 M parameters
+
+Sample: 
+ SCApIti&:
+SAw neiger, without my weddiness,-for well; we are senators. Honour!
+
+COMINIUS:
+This is fray,- a well as cruel their speakes behind for them
+for, eit raise coulds. He had first us wished.
+
+Second Stand Servingman:
+With a the poor insole brain to be the coldest man
+Whet oft-sorrow waning in our orment. If could serve yourself,
+You so seon must not be honour and your livities,
+But non answer. I am deliver'd, that's more should
+Shall; shame she do you first.
+
+FLORIZEL:
+So you did so, my f 
+
+
+step 0: train loss 0.7504, val loss 1.6464
+Traceback (most recent call last):
+  File "/vast/home/ajherman/attention/main.py", line 182, in <module>
+    logits, loss = model(xb, yb)
+                   ^^^^^^^^^^^^^
+  File "/vast/home/ajherman/miniconda3/envs/pytorch/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1501, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vast/home/ajherman/attention/utils.py", line 463, in forward
+    x=self.blocks(x)
+      ^^^^^^^^^^^^^^
+  File "/vast/home/ajherman/miniconda3/envs/pytorch/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1501, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vast/home/ajherman/miniconda3/envs/pytorch/lib/python3.11/site-packages/torch/nn/modules/container.py", line 217, in forward
+    input = module(input)
+            ^^^^^^^^^^^^^
+  File "/vast/home/ajherman/miniconda3/envs/pytorch/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1501, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vast/home/ajherman/attention/utils.py", line 382, in forward
+    x = x + self.mha(self.ln1(x))
+            ^^^^^^^^^^^^^^^^^^^^^
+  File "/vast/home/ajherman/miniconda3/envs/pytorch/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1501, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vast/home/ajherman/attention/utils.py", line 189, in forward
+    out = torch.cat([head(x) for head in self.heads],dim=-1)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vast/home/ajherman/attention/utils.py", line 189, in <listcomp>
+    out = torch.cat([head(x) for head in self.heads],dim=-1)
+                     ^^^^^^^
+  File "/vast/home/ajherman/miniconda3/envs/pytorch/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1501, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vast/home/ajherman/attention/utils.py", line 136, in forward
+    wei=torch.sum(torch.exp(q_plus_k),dim=-1)*k.shape[-1]**-0.5
+                  ^^^^^^^^^^^^^^^^^^^
+torch.cuda.OutOfMemoryError: CUDA out of memory. Tried to allocate 512.00 MiB (GPU 0; 10.91 GiB total capacity; 9.79 GiB already allocated; 456.12 MiB free; 10.27 GiB reserved in total by PyTorch) If reserved memory is >> allocated memory try setting max_split_size_mb to avoid fragmentation.  See documentation for Memory Management and PYTORCH_CUDA_ALLOC_CONF
