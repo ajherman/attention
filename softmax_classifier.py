@@ -5,24 +5,29 @@ from torchvision import datasets, transforms
 
 # Define the neural network architecture
 class Classifier(nn.Module):
-    def __init__(self, input_size, hidden_size, num_classes):
+    def __init__(self, input_size, hidden_size, num_classes, activation='relu'):
         super(Classifier, self).__init__()
         self.fc1 = nn.Linear(input_size, hidden_size)
-        self.relu = nn.ReLU()
-        self.softmax = nn.Softmax(dim=1)
-        self.fc2 = nn.Linear(hidden_size, num_classes)
-        self.final = nn.Softmax(dim=1)
-    def forward(self, x, activation='relu'):
-        out = self.fc1(x)
         if activation == 'relu':
-            out = self.relu(out)
+            self.activation = nn.ReLU()
         elif activation == 'softmax':
-            out = self.softmax(out)
+            self.activation = nn.Softmax(dim=1)
         else:
             raise ValueError("Invalid activation: {}".format(activation))
+        self.fc2 = nn.Linear(hidden_size, num_classes)
+        self.softmax = nn.Softmax(dim=1)
+    def forward(self, x):
+        out = self.fc1(x)
+        out = self.activation(out)
+        # if activation == 'relu':
+        #     out = self.relu(out)
+        # elif activation == 'softmax':
+        #     out = self.softmax(out)
+        # else:
+        #     raise ValueError("Invalid activation: {}".format(activation))
         
         out = self.fc2(out)
-        out = self.final(out)
+        out = self.softmax(out)
         return out
 
 # Set device
