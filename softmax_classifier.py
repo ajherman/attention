@@ -6,12 +6,12 @@ from torchvision import datasets, transforms
 # Define the neural network architecture
 class Classifier(nn.Module):
     def __init__(self, input_size, hidden_size, num_classes):
-        super(TwoLayerNet, self).__init__()
+        super(Classifier, self).__init__()
         self.fc1 = nn.Linear(input_size, hidden_size)
         self.relu = nn.ReLU()
         self.softmax = nn.Softmax(dim=1)
         self.fc2 = nn.Linear(hidden_size, num_classes)
-
+        self.final = nn.Softmax(dim=1)
     def forward(self, x, activation='relu'):
         out = self.fc1(x)
         if activation == 'relu':
@@ -22,6 +22,7 @@ class Classifier(nn.Module):
             raise ValueError("Invalid activation: {}".format(activation))
         
         out = self.fc2(out)
+        out = self.final(out)
         return out
 
 # Set device
@@ -44,7 +45,7 @@ train_loader = torch.utils.data.DataLoader(dataset=train_dataset, batch_size=bat
 test_loader = torch.utils.data.DataLoader(dataset=test_dataset, batch_size=batch_size, shuffle=False)
 
 # Initialize the model
-model = TwoLayerNet(input_size, hidden_size, num_classes).to(device)
+model = Classifier(input_size, hidden_size, num_classes).to(device)
 
 # Loss function and optimizer
 criterion = nn.CrossEntropyLoss()
