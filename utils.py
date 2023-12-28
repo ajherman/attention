@@ -9,17 +9,7 @@ import argparse
 
 # Parameters
 block_size = 256
-# batch_size = 64
-# eval_interval=500
-# eval_iters=500
-# dm = 384 # Model / embedding size
-# dk=64 # Head size
-# h=6 # Number of heads in multihead attn
-# lr=3e-4 # Learning rate
-# N=6 # Number of layers
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-# n_itrs=5001
-# dropout=0.2
 
 # Set seed
 torch.manual_seed(1337)
@@ -252,6 +242,22 @@ class MultiHeadAttention(nn.Module):
             out = self.W_o(out)
         out = self.dropout(out) # Like spiking?
         return out
+
+# class MultiHeadAttention(nn.Module):    # Trying to consolidate
+#     def __init__(self,dm,dk,dv,h,dropout=0.2,project=True,attention_type='sdp',rectify=False):
+#         super().__init__()
+#         self.project=project
+#         self.heads = nn.ModuleList([SelfAttentionHead(dm,dk,dv,sim=attention_type) for i in range(h)])
+#         if project:
+#             self.W_o = nn.Linear(dv*h,dm)
+#         self.dropout = nn.Dropout(dropout)
+        
+#     def forward(self,x):
+#         out = torch.cat([head(x) for head in self.heads],dim=-1)
+#         if self.project:
+#             out = self.W_o(out)
+#         out = self.dropout(out) # Like spiking?
+#         return out
     
 # class AdditiveAttentionHead(nn.Module):
 #     def __init__(self,dm,dk,dv,dropout=0.2):
