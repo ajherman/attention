@@ -3,4 +3,5 @@
 *.png
 *.zip
 *.raw
+*.out
 datasets/

@@ -86,8 +86,52 @@ class RMSNorm(nn.Module):
         x = x/torch.sqrt(torch.mean(x**2,dim=-1,keepdim=True))
         return x
 
+# # Trying to make this class cover all cases...
+# class SelfAttentionHead(nn.Module):
+#     def __init__(self,dm,dk,dv,dropout=0.2,rectify=False,sim='sdp'):
+#         super().__init__()
+#         self.sim=sim
+#         self.W_k = nn.Linear(dm,dk,bias=False)
+#         self.W_q = nn.Linear(dm,dk,bias=False)
+#         self.W_v = nn.Linear(dm,dv,bias=False)
+#         self.tril=torch.tril(torch.ones((block_size,block_size),device=device))
+#         self.dropout = nn.Dropout(dropout) # New
+#     def forward(self,x):
+#         B,T,C=x.shape # New
+#         k=self.W_k(x)
+#         q=self.W_q(x)
+#         v=self.W_v(x)
+
+#         if self.sim=='sdp': # Original version
+#             wei = q@k.transpose(-2,-1)*k.shape[-1]**-0.5
+#             wei=wei.masked_fill(self.tril[:T,:T]==0,float('-inf')) # New
+#             wei=torch.softmax(wei,dim=-1)
+#         elif self.sim=='rdp': # Rectified dot product
+#             q_rect = torch.relu(q)
+#             k_rect = torch.relu(k)
+#             wei = q_rect@k_rect.transpose(-2,-1)*k.shape[-1]**-0.5
+#             wei=wei.masked_fill(self.tril[:T,:T]==0,float('-inf')) # New
+#             wei=torch.softmax(wei,dim=-1)
+#         elif self.sim=='log': # Should be equivalent to rectified version
+#             q_expanded = torch.log(torch.relu(q.unsqueeze(-2)))
+#             k_expanded = torch.log(torch.relu(k.unsqueeze(-3)))
+#             q_plus_k = q_expanded + k_expanded
+#             wei=torch.sum(torch.exp(q_plus_k),dim=-1)*k.shape[-1]**-0.5
+#             wei=wei.masked_fill(self.tril[:T,:T]==0,float('-inf')) # New
+#             wei=torch.softmax(wei,dim=-1)
+#         elif self.sim=='log2': # Like above but no log and no softmax
+#             q_expanded = torch.relu(q.unsqueeze(-2))
+#             k_expanded = torch.relu(k.unsqueeze(-3))
+#             q_plus_k = q_expanded + k_expanded
+#             wei=torch.sum(torch.exp(q_plus_k),dim=-1)*k.shape[-1]**-0.5
+#             wei=wei.masked_fill(self.tril[:T,:T]==0,float('-inf')) # New
+#             wei=nn.functional.normalize(wei,p=1,dim=-1) # Just scale, rather than softmax
+
+#         wei=self.dropout(wei) # New
+#         out=wei@v
+#         return out
 class SelfAttentionHead(nn.Module):
-    def __init__(self,dm,dk,dv,dropout=0.2,rectify=False):
+    def __init__(self,dm,dk,dv,dropout=0.2,rectify=False,sim='sdp'):
         super().__init__()
         if rectify:
             self.W_k = nn.Sequential(nn.Linear(dm,dk,bias=False),nn.ReLU())
@@ -95,8 +139,6 @@ class SelfAttentionHead(nn.Module):
         else:
             self.W_k = nn.Linear(dm,dk,bias=False)
             self.W_q = nn.Linear(dm,dk,bias=False)
-        # self.W_k = nn.Linear(dm,dk,bias=False)
-        # self.W_q = nn.Linear(dm,dk,bias=False)
         self.W_v = nn.Linear(dm,dv,bias=False)
         self.tril=torch.tril(torch.ones((block_size,block_size),device=device))
         self.dropout = nn.Dropout(dropout) # New

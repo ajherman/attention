@@ -15,21 +15,6 @@ from transformers import GPT2Tokenizer, GPT2Model
 
 data_cache_dir = "datasets" #"/home/ari/Desktop"
 
-# # Parameters
-# block_size = 256
-# batch_size = 64
-# eval_interval= 200 #1000
-# eval_iters=500
-# dm = 100 #384 # Model / embedding size
-# dk=64 # Head size
-# h=2 #6 # Number of heads in multihead attn
-# lr=2e-4 # Learning rate
-# N=2 #6 # Number of layers
-# device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-# n_itrs=20001
-# dropout=0.2
-# vocab_size=50258
-
 # Set seed
 torch.manual_seed(1337)
 
@@ -92,18 +77,8 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
 
     # Parameters
-    # block_size = 256
-    # batch_size = 64
     # eval_interval= 200 #1000
-    # eval_iters=500
-    # dm = 100 #384 # Model / embedding size
-    # dk=64 # Head size
-    # h=2 #6 # Number of heads in multihead attn
-    # lr=2e-4 # Learning rate
-    # N=2 #6 # Number of layers
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-    # n_itrs=20001
-    # dropout=0.2
     # vocab_size=50258
 
     parser.add_argument('--block-size', type=int, default=256, help='Specify the block size')        
