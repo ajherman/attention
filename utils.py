@@ -185,7 +185,8 @@ class SelfAttentionHead3(nn.Module):
         q_plus_k = q_expanded + k_expanded
         wei=torch.sum(torch.exp(q_plus_k),dim=-1)*k.shape[-1]**-0.5
         wei=wei.masked_fill(self.tril[:T,:T]==0,float('-inf')) # New
-        wei=torch.softmax(wei,dim=-1)
+        # wei=torch.softmax(wei,dim=-1)
+        wei=nn.functional.normalize(wei,p=1,dim=-1) # Just scale, rather than softmax
         wei=self.dropout(wei) # New
         out=wei@v
         return out
