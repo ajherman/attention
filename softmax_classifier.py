@@ -35,9 +35,9 @@ device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 # Hyperparameters
 input_size = 784
-hidden_size = 128
+hidden_size = 1024
 num_classes = 10
-learning_rate = 0.001
+learning_rate = 0.05
 batch_size = 64
 num_epochs = 10
 
@@ -50,7 +50,7 @@ train_loader = torch.utils.data.DataLoader(dataset=train_dataset, batch_size=bat
 test_loader = torch.utils.data.DataLoader(dataset=test_dataset, batch_size=batch_size, shuffle=False)
 
 # Initialize the model
-model = Classifier(input_size, hidden_size, num_classes).to(device)
+model = Classifier(input_size, hidden_size, num_classes,activation='softmax').to(device)
 
 # Loss function and optimizer
 criterion = nn.CrossEntropyLoss()
