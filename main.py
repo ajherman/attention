@@ -126,22 +126,9 @@ if __name__ == '__main__':
 
     dataset = load_dataset("nRuaif/tinystories-gpt4",cache_dir=data_cache_dir,split='train')
     dataloader = DataLoader(dataset, batch_size=64)
-    # dataset = load_dataset("nRuaif/tinystories-gpt4",cache_dir=data_cache_dir,split='train')
-    # dataloader = DataLoader(dataset, batch_size=64)
-    # print(dataset)
     tokenizer = GPT2Tokenizer.from_pretrained('gpt2')
     tokenizer.add_special_tokens({'pad_token': '[PAD]'})
 
-    
-    # def tokenization(example):
-        # return tokenizer(example["text"])
-
-    # for i,x in enumerate(dataloader):
-    #     # print(type(x['text'][0]))
-    #     data = tokenizer(x['text'],padding="max_length",truncation=True,max_length=block_size,return_tensors="pt")        
-    #     print(data['input_ids'].size())
-    #     if i>1:
-    #         assert(0)
 
     # # Train
     # # Shakespeare version that should already work
