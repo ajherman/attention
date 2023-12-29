@@ -13,7 +13,8 @@ from datasets import load_dataset
 from tokenizers import Tokenizer
 from transformers import GPT2Tokenizer, GPT2Model
 
-data_cache_dir = "datasets" #"/home/ari/Desktop"
+# data_cache_dir = "datasets" #"/home/ari/Desktop"
+data_cache_dir = "/ram/tmp" #"/home/ari/Desktop"
 
 # Set seed
 torch.manual_seed(1337)
@@ -125,10 +126,12 @@ if __name__ == '__main__':
 
     dataset = load_dataset("nRuaif/tinystories-gpt4",cache_dir=data_cache_dir,split='train')
     dataloader = DataLoader(dataset, batch_size=64)
+    # dataset = load_dataset("nRuaif/tinystories-gpt4",cache_dir=data_cache_dir,split='train')
+    # dataloader = DataLoader(dataset, batch_size=64)
     # print(dataset)
     tokenizer = GPT2Tokenizer.from_pretrained('gpt2')
     tokenizer.add_special_tokens({'pad_token': '[PAD]'})
-    
+
     
     # def tokenization(example):
         # return tokenizer(example["text"])
