@@ -18,9 +18,12 @@ for idx,f_name in enumerate(args.files):
     if not os.path.exists(file_path):
         print(f"File '{file_path}' does not exist. Skipping...")
     else:
-        data = np.genfromtxt(file_path, delimiter=',')
-        plt.plot(data[:,0], label=f_name+' train',linestyle='--',color=colors[idx])
-        plt.plot(data[:,1], label=f_name+' test',color=colors[idx])
+        try:
+            data = np.genfromtxt(file_path, delimiter=',')
+            plt.plot(data[:,0], label=f_name+' train',linestyle='--',color=colors[idx])
+            plt.plot(data[:,1], label=f_name+' test',color=colors[idx])
+        except:
+            print(f"Could not plot '{file_path}'")
 
 
 # # Read the CSV files

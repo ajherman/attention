@@ -123,11 +123,11 @@ if __name__ == '__main__':
     # writer.close()
     # m.logits_only=False
 
-    # dataset = load_dataset("nRuaif/tinystories-gpt4",cache_dir=data_cache_dir,split='train')
-    # dataloader = DataLoader(dataset, batch_size=64)
-    # # print(dataset)
-    # tokenizer = GPT2Tokenizer.from_pretrained('gpt2')
-    # tokenizer.add_special_tokens({'pad_token': '[PAD]'})
+    dataset = load_dataset("nRuaif/tinystories-gpt4",cache_dir=data_cache_dir,split='train')
+    dataloader = DataLoader(dataset, batch_size=64)
+    # print(dataset)
+    tokenizer = GPT2Tokenizer.from_pretrained('gpt2')
+    tokenizer.add_special_tokens({'pad_token': '[PAD]'})
     
     
     # def tokenization(example):
@@ -140,48 +140,48 @@ if __name__ == '__main__':
     #     if i>1:
     #         assert(0)
 
-    # Train
-    # Shakespeare version that should already work
-    for itr in range(args.n_itrs):
-        if itr % args.eval_interval == 0:
-            losses = estimate_loss(model)  # Calculate loss
-            with open(filepath, 'a', newline='') as csvfile:
-                writer = csv.writer(csvfile)
-                writer.writerow([losses[split] for split in ['train','test']])
-            idx = torch.zeros((1, block_size), device=device, dtype=torch.long)
-            idx = m.generate(idx, 500)
-            print("\nSample: \n", decode(list(idx[0])[block_size:]), '\n\n')
-            print(f"step {itr}: train loss {losses['train']:.4f}, val loss {losses['test']:.4f}")
-            torch.save(m, 'transformer_' + str(version) + '.pt')
-        xb, yb = get_batch('train',block_size)
-        logits, loss = model(xb, yb)
-
-        optimizer.zero_grad(set_to_none=True)
-        loss.backward()
-        optimizer.step()
-
-    # TinyStories version that I am currently working on
-    # for itr,batch in enumerate(dataloader):
-    #     data = tokenizer(batch['text'],padding="max_length",truncation=True,max_length=block_size,return_tensors="pt")        
-    #     data = data['input_ids']
-    #     xb,yb = data[:, :-1], data[:, 1:]
-
+    # # Train
+    # # Shakespeare version that should already work
+    # for itr in range(args.n_itrs):
     #     if itr % args.eval_interval == 0:
     #         losses = estimate_loss(model)  # Calculate loss
     #         with open(filepath, 'a', newline='') as csvfile:
     #             writer = csv.writer(csvfile)
     #             writer.writerow([losses[split] for split in ['train','test']])
-    #         idx = torch.zeros((1, args.block_size), device=device, dtype=torch.long)
+    #         idx = torch.zeros((1, block_size), device=device, dtype=torch.long)
     #         idx = m.generate(idx, 500)
-    #         print("\nSample: \n", decode(list(idx[0])[args.block_size:]), '\n\n')
+    #         print("\nSample: \n", decode(list(idx[0])[block_size:]), '\n\n')
     #         print(f"step {itr}: train loss {losses['train']:.4f}, val loss {losses['test']:.4f}")
     #         torch.save(m, 'transformer_' + str(version) + '.pt')
-    #     # xb, yb = get_batch('train')
+    #     xb, yb = get_batch('train',block_size)
     #     logits, loss = model(xb, yb)
 
     #     optimizer.zero_grad(set_to_none=True)
     #     loss.backward()
     #     optimizer.step()
+
+    # TinyStories version that I am currently working on
+    for itr,batch in enumerate(dataloader):
+        data = tokenizer(batch['text'],padding="max_length",truncation=True,max_length=block_size,return_tensors="pt")        
+        data = data['input_ids']
+        xb,yb = data[:, :-1], data[:, 1:]
+
+        if itr % args.eval_interval == 0:
+            losses = estimate_loss(model)  # Calculate loss
+            with open(filepath, 'a', newline='') as csvfile:
+                writer = csv.writer(csvfile)
+                writer.writerow([losses[split] for split in ['train','test']])
+            idx = torch.zeros((1, args.block_size), device=device, dtype=torch.long)
+            idx = m.generate(idx, 500)
+            print("\nSample: \n", decode(list(idx[0])[args.block_size:]), '\n\n')
+            print(f"step {itr}: train loss {losses['train']:.4f}, val loss {losses['test']:.4f}")
+            torch.save(m, 'transformer_' + str(version) + '.pt')
+        # xb, yb = get_batch('train')
+        logits, loss = model(xb, yb)
+
+        optimizer.zero_grad(set_to_none=True)
+        loss.backward()
+        optimizer.step()
 
     torch.save(m,'transformer_'+str(args.version)+'.pt')
     idx=torch.zeros((1,block_size),device=device,dtype=torch.long)
