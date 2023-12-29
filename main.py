@@ -167,6 +167,7 @@ if __name__ == '__main__':
     for itr,batch in enumerate(dataloader):
         data = tokenizer(batch['text'],padding="max_length",truncation=True,max_length=block_size,return_tensors="pt")        
         data = data['input_ids']
+        data = data.to(device)
         xb,yb = data[:, :-1], data[:, 1:]
 
         if itr % args.eval_interval == 0:
