@@ -107,7 +107,7 @@ if __name__ == '__main__':
     args_dict = {k: v for k, v in vars(args).items() if v is not None}
 
     # Make / load model
-    if os.path.exists('transformer_' + str(version) + '.pt'):
+    if 0 and os.path.exists('transformer_' + str(version) + '.pt'):
         model = torch.load('transformer_' + str(version) + '.pt')
     else:
         # model = Transformer(dm=dm, vocab_size=vocab_size,block_size=block_size, h=h, N=N, block_type=version)
