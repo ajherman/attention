@@ -80,7 +80,7 @@ if __name__ == '__main__':
     # Parameters
     # eval_interval= 200 #1000
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-    # vocab_size=50258
+    vocab_size=50258
 
     parser.add_argument('--block-size', type=int, default=256, help='Specify the block size')        
     parser.add_argument('--batch-size', type=int, default=64, help='Specify the batch size')
