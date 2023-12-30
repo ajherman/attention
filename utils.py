@@ -501,7 +501,7 @@ class Transformer(nn.Module):
         print("block_type = ", block_type)
         print("embedding_method = ", embedding_method)
         print("final_norm = ", final_norm)
-        
+        self.vocab_size=vocab_size
         self.final_norm = final_norm
         self.block_size=block_size
         
@@ -552,7 +552,7 @@ class Transformer(nn.Module):
         if targets is None:
             loss=None
         else:
-            flat_logits=logits.view(-1,vocab_size)
+            flat_logits=logits.view(-1,self.vocab_size)
             flat_targets=targets.view(-1)
             loss=F.cross_entropy(flat_logits,flat_targets)
         if self.logits_only:
