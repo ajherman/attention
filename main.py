@@ -156,7 +156,8 @@ if __name__ == '__main__':
         data = data['input_ids']
         data = data.to(device)
         xb,yb = data[:, :-1], data[:, 1:]
-
+        #print(xb.shape)
+        #assert(0)
         if itr % args.eval_interval == 0:
             losses = estimate_loss(model)  # Calculate loss
             with open(filepath, 'a', newline='') as csvfile:
