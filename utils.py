@@ -121,7 +121,7 @@ class RMSNorm(nn.Module):
 #         out=wei@v
 #         return out
 class SelfAttentionHead(nn.Module):
-    def __init__(self,dm,dk,dv,dropout=0.2,rectify=False,sim='sdp'):
+    def __init__(self,dm,dk,dv,dropout=0.2,rectify=False,sim='sdp',block_size=256):
         super().__init__()
         if rectify:
             self.W_k = nn.Sequential(nn.Linear(dm,dk,bias=False),nn.ReLU())
@@ -145,7 +145,7 @@ class SelfAttentionHead(nn.Module):
         return out
     
 class SelfAttentionHead2(nn.Module):
-    def __init__(self,dm,dk,dv,dropout=0.2):
+    def __init__(self,dm,dk,dv,dropout=0.2,block_size=256):
         super().__init__()
         self.key = nn.Sequential(nn.Linear(dm,dk,bias=False),nn.ReLU())
         self.query = nn.Sequential(nn.Linear(dm,dk,bias=False),nn.ReLU())
@@ -168,7 +168,7 @@ class SelfAttentionHead2(nn.Module):
         return out
 
 class SelfAttentionHead3(nn.Module):
-    def __init__(self,dm,dk,dv,dropout=0.2):
+    def __init__(self,dm,dk,dv,dropout=0.2,block_size=256):
         super().__init__()
         self.key = nn.Sequential(nn.Linear(dm,dk,bias=False),nn.ReLU())
         self.query = nn.Sequential(nn.Linear(dm,dk,bias=False),nn.ReLU())
@@ -192,7 +192,7 @@ class SelfAttentionHead3(nn.Module):
         return out
 
 class LearnedSimilarityHead(nn.Module):
-    def __init__(self,dm,dk,dv,dropout=0.2):
+    def __init__(self,dm,dk,dv,dropout=0.2,block_size=256):
         super().__init__()
         self.W_k = nn.Linear(dm,dk,bias=False)
         self.W_q = nn.Linear(dm,dk,bias=False)
@@ -222,17 +222,17 @@ class LearnedSimilarityHead(nn.Module):
         return out
     
 class MultiHeadAttention(nn.Module):
-    def __init__(self,dm,dk,dv,h,dropout=0.2,project=True,attention_type='sdp',rectify=False):
+    def __init__(self,dm,dk,dv,h,dropout=0.2,project=True,attention_type='sdp',rectify=False,block_size=256):
         super().__init__()
         self.project=project
         if attention_type=='sdp':
-            self.heads = nn.ModuleList([SelfAttentionHead(dm,dk,dv,rectify=rectify) for i in range(h)])
+            self.heads = nn.ModuleList([SelfAttentionHead(dm,dk,dv,rectify=rectify,block_size=block_size) for i in range(h)])
         elif attention_type=='learned':
-            self.heads = nn.ModuleList([LearnedSimilarityHead(dm,dk,dv,rectify=rectify) for i in range(h)])
+            self.heads = nn.ModuleList([LearnedSimilarityHead(dm,dk,dv,rectify=rectify,block_size=block_size) for i in range(h)])
         elif attention_type=='log':
-            self.heads = nn.ModuleList([SelfAttentionHead2(dm,dk,dv) for i in range(h)])    
+            self.heads = nn.ModuleList([SelfAttentionHead2(dm,dk,dv,block_size=block_size) for i in range(h)])    
         elif attention_type=='mine':
-            self.heads = nn.ModuleList([SelfAttentionHead3(dm,dk,dv) for i in range(h)])
+            self.heads = nn.ModuleList([SelfAttentionHead3(dm,dk,dv,block_size=block_size) for i in range(h)])
         if project:
             self.W_o = nn.Linear(dv*h,dm)
         self.dropout = nn.Dropout(dropout)
@@ -301,7 +301,7 @@ class MultiHeadAttention(nn.Module):
 #         out=wei@v
 #         return out
 class SimpleMixingHead(nn.Module):  # This just mixes the input vectors, but does not apply a value matrix.
-    def __init__(self,dm,dk,dv,dropout=0.2):
+    def __init__(self,dm,dk,dv,dropout=0.2,block_size=256):
         super().__init__()
         # self.W_k = nn.Linear(dm,dk,bias=False)
         self.W_k_transpose = nn.Linear(dk,dm,bias=False)
@@ -321,9 +321,9 @@ class SimpleMixingHead(nn.Module):  # This just mixes the input vectors, but doe
         out=wei@x
         return out
 class MultiHeadMixing(nn.Module): # This concatenates inputs from mixing heads and applies a project to the result
-    def __init__(self,dm,dk,dv,h,dropout=0.2,rectify=False):
+    def __init__(self,dm,dk,dv,h,dropout=0.2,rectify=False,block_size=256):
         super().__init__()
-        self.heads = nn.ModuleList([SelfAttentionHead(dm,dk,dv,rectifiy=rectify) for i in range(h)])
+        self.heads = nn.ModuleList([SelfAttentionHead(dm,dk,dv,rectifiy=rectify,block_size=block_size) for i in range(h)])
         self.W_o = nn.Linear(dv*h,dm)
         self.dropout = nn.Dropout(dropout)
     def forward(self,x): # This 
@@ -345,7 +345,7 @@ class FeedForward(nn.Module):
 # Transformer blocks
 ####################################################################################################
 class Block0(nn.Module): # Original
-    def __init__(self,dm,h):
+    def __init__(self,dm,h,block_size=256):
         super().__init__()
         dk = dm // h
         dv = dk
@@ -359,7 +359,7 @@ class Block0(nn.Module): # Original
         x = x + self.ffn(self.ln2(x))
         return x
 class Block1(nn.Module): # This block uses post layer norm
-    def __init__(self,dm,h):
+    def __init__(self,dm,h,block_size=256):
         super().__init__()
         dk = dm // h
         dv = dk
@@ -374,7 +374,7 @@ class Block1(nn.Module): # This block uses post layer norm
         return x
     
 class Block2(nn.Module): # This block takes attention without projection. 
-    def __init__(self,dm,h):
+    def __init__(self,dm,h,block_size=256):
         super().__init__()
         dk = dm // h
         dv = dk
@@ -390,7 +390,7 @@ class Block2(nn.Module): # This block takes attention without projection.
         return x
     
 class Block3(nn.Module): # This block uses RMSNorm instead of layer norm
-    def __init__(self,dm,h):
+    def __init__(self,dm,h,block_size=256):
         super().__init__()
         dk = dm // h
         dv = dk
@@ -405,7 +405,7 @@ class Block3(nn.Module): # This block uses RMSNorm instead of layer norm
         return x
 
 class Block4(nn.Module): # 
-    def __init__(self,dm,h):
+    def __init__(self,dm,h,block_size=256):
         super().__init__()
         dk = dm // h
         dv = dk
@@ -420,7 +420,7 @@ class Block4(nn.Module): #
         return x
     
 class Block5(nn.Module): # This block uses RMSNorm instead of layer norm AND rectifies activities before layer norm
-    def __init__(self,dm,h):
+    def __init__(self,dm,h,block_size=256):
         super().__init__()
         dk = dm // h
         dv = dk
@@ -436,7 +436,7 @@ class Block5(nn.Module): # This block uses RMSNorm instead of layer norm AND rec
         return x
 
 class Block6(nn.Module): # This block uses RMSNorm instead of layer norm AND rectifies activities before layer norm
-    def __init__(self,dm,h):
+    def __init__(self,dm,h,block_size=256):
         super().__init__()
         dk = dm // h
         dv = dk
@@ -452,7 +452,7 @@ class Block6(nn.Module): # This block uses RMSNorm instead of layer norm AND rec
         return x
     
 class Block7(nn.Module): # This block uses RMSNorm instead of layer norm AND rectifies activities before layer norm
-    def __init__(self,dm,h):
+    def __init__(self,dm,h,block_size=256):
         super().__init__()
         dk = dm // h
         dv = dk
@@ -509,21 +509,21 @@ class Transformer(nn.Module):
         self.position_embedding_table = nn.Embedding(block_size,dm)
         
         if block_type==0:
-            self.blocks = nn.Sequential(*[Block0(dm,h) for _ in range(N)])
+            self.blocks = nn.Sequential(*[Block0(dm,h,block_size=block_size) for _ in range(N)])
         elif block_type == 1:
-            self.blocks = nn.Sequential(*[Block1(dm, h) for _ in range(N)])
+            self.blocks = nn.Sequential(*[Block1(dm, h,block_size=block_size) for _ in range(N)])
         elif block_type == 2:
-            self.blocks = nn.Sequential(*[Block2(dm,h) for _ in range(N)])
+            self.blocks = nn.Sequential(*[Block2(dm,h,block_size=block_size) for _ in range(N)])
         elif block_type == 3:
-            self.blocks = nn.Sequential(*[Block3(dm,h) for _ in range(N)])
+            self.blocks = nn.Sequential(*[Block3(dm,h,block_size=block_size) for _ in range(N)])
         elif block_type == 4:
-            self.blocks = nn.Sequential(*[Block4(dm,h) for _ in range(N)])
+            self.blocks = nn.Sequential(*[Block4(dm,h,block_size=block_size) for _ in range(N)])
         elif block_type == 5:
-            self.blocks = nn.Sequential(*[Block5(dm,h) for _ in range(N)])
+            self.blocks = nn.Sequential(*[Block5(dm,h,block_size=block_size) for _ in range(N)])
         elif block_type == 6:   
-            self.blocks = nn.Sequential(*[Block6(dm,h) for _ in range(N)])
+            self.blocks = nn.Sequential(*[Block6(dm,h,block_size=block_size) for _ in range(N)])
         elif block_type == 7:   
-            self.blocks = nn.Sequential(*[Block7(dm,h) for _ in range(N)])
+            self.blocks = nn.Sequential(*[Block7(dm,h,block_size=block_size) for _ in range(N)])
         if final_norm == 'layer':
             self.ln = nn.LayerNorm(dm)
         elif final_norm == 'rms':
