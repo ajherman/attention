@@ -73,6 +73,7 @@ if dataset == 'shakespeare':
         return out
     
 elif dataset == 'stories':
+    vocab_size=50258
     train_set = load_dataset("nRuaif/tinystories-gpt4",cache_dir=data_cache_dir,split='train')
     train_loader = DataLoader(train_set, batch_size=64)
     test_set = load_dataset("nRuaif/tinystories-gpt4",cache_dir=data_cache_dir,split='test')
@@ -123,7 +124,6 @@ if __name__ == '__main__':
     # Parameters
     # eval_interval= 200 #1000
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-    vocab_size=50258
 
     parser.add_argument('--block-size', type=int, default=256, help='Specify the block size')        
     parser.add_argument('--batch-size', type=int, default=64, help='Specify the batch size')
