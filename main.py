@@ -80,7 +80,7 @@ elif dataset == 'stories':
     test_loader = DataLoader(test_set, batch_size=64)
     tokenizer = GPT2Tokenizer.from_pretrained('gpt2')
     tokenizer.add_special_tokens({'pad_token': '[PAD]'})
-
+    decode = tokenizer.decode
     # def get_batch(split,block_size):
     #     data = tokenizer(batch['text'],padding="max_length",truncation=True,max_length=block_size,return_tensors="pt")        
     #     data = data['input_ids']
