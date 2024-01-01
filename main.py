@@ -115,7 +115,7 @@ elif dataset == 'stories':
             losses.append(loss.item())
         losses=torch.tensor(losses)
         out['test'] = losses.mean().item()
-        out['train'] = 'NaN'
+        out['train'] = 0
         model.train()
         return out
 
