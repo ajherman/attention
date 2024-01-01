@@ -94,6 +94,7 @@ elif dataset == 'stories':
         out = {}
         model.eval()
         losses=[]
+        # losses = torch.zeros(args.eval_iters)
         for itr,batch in enumerate(test_loader):
             data = tokenizer(batch['text'],padding="max_length",truncation=True,max_length=block_size,return_tensors="pt")        
             data = data['input_ids']
@@ -112,6 +113,7 @@ elif dataset == 'stories':
             # # xb, yb = get_batch('train')
             logits, loss = model(xb, yb)
             losses.append(loss.item())
+        losses=torch.tensor(losses)
         out['test'] = losses.mean().item()
         out['train'] = 'NaN'
         model.train()
