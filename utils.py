@@ -554,9 +554,12 @@ class Transformer(nn.Module):
         else:
             print(logits.shape)
             print(targets.shape)
-            assert(0)
+            #assert(0)
             flat_logits=logits.view(-1,self.vocab_size)
-            flat_targets=targets.view(-1)
+            print(flat_logits.shape) 
+            flat_targets=targets.contiguous().view(-1)
+            print(flat_logits.shape) 
+
             loss=F.cross_entropy(flat_logits,flat_targets)
         if self.logits_only:
             return logits
