@@ -78,7 +78,8 @@ elif dataset == 'stories':
     train_loader = DataLoader(train_set, batch_size=64)
     test_set = load_dataset("nRuaif/tinystories-gpt4",cache_dir=data_cache_dir,split='test')
     test_loader = DataLoader(test_set, batch_size=64)
-    tokenizer = GPT2Tokenizer.from_pretrained('gpt2')
+    # tokenizer = GPT2Tokenizer.from_pretrained('gpt2')
+    tokenizer = AutoTokenizer.from_pretrained("georgeyw/TinyStories-tokenizer-10k")
     tokenizer.add_special_tokens({'pad_token': '[PAD]'})
     decode = tokenizer.decode
     # def get_batch(split,block_size):
