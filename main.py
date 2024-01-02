@@ -50,7 +50,7 @@ if dataset == 'shakespeare':
     train_data = data[:n]
     test_data = data[n:]
 
-    dataset = ShakespeareData()
+    #dataset = ShakespeareData()
 
 
     def get_batch(split,block_size):
