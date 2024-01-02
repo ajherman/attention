@@ -83,41 +83,39 @@ elif dataset == 'stories':
     tokenizer.add_special_tokens({'pad_token': '[PAD]'})
     vocab_size=len(tokenizer)
     decode = tokenizer.decode
-    # def get_batch(split,block_size):
-    #     data = tokenizer(batch['text'],padding="max_length",truncation=True,max_length=block_size,return_tensors="pt")        
-    #     data = data['input_ids']
-    #     data = data.to(device)
-    #     x,y = data[:, :-1], data[:, 1:]
-    #     x,y =x.to(device),y.to(device)
-    #     return x,y
 
     @torch.no_grad()
     def estimate_loss(model):
         out = {}
         model.eval()
-        losses=[]
-        # losses = torch.zeros(args.eval_iters)
+        # Test loss
+        losses=torch.zeros(args.eval_iters)
         for itr,batch in enumerate(test_loader):
             data = tokenizer(batch['text'],padding="max_length",truncation=True,max_length=block_size,return_tensors="pt")        
             data = data['input_ids']
             data = data.to(device)
             xb,yb = data[:, :-1], data[:, 1:]
-            # if itr % args.eval_interval == 0:
-            #     losses = estimate_loss(model)  # Calculate loss
-            #     with open(filepath, 'a', newline='') as csvfile:
-            #         writer = csv.writer(csvfile)
-            #         writer.writerow([losses[split] for split in ['train','test']])
-            #     idx = torch.zeros((1, args.block_size), device=device, dtype=torch.long)
-            #     idx = m.generate(idx, 500)
-            #     print("\nSample: \n", decode(list(idx[0])[args.block_size:]), '\n\n')
-            #     print(f"step {itr}: train loss {losses['train']:.4f}, val loss {losses['test']:.4f}")
-            #     torch.save(m, 'transformer_' + str(version) + '.pt')
-            # # xb, yb = get_batch('train')
             logits, loss = model(xb, yb)
             losses.append(loss.item())
-        losses=torch.tensor(losses)
+            if itr==args.eval_iters:
+                break
+        # losses=torch.tensor(losses)
         out['test'] = losses.mean().item()
-        out['train'] = 0
+
+        # Train loss
+        losses=torch.zeros(args.eval_iters)
+        for itr,batch in enumerate(train_loader):
+            data = tokenizer(batch['text'],padding="max_length",truncation=True,max_length=block_size,return_tensors="pt")        
+            data = data['input_ids']
+            data = data.to(device)
+            xb,yb = data[:, :-1], data[:, 1:]
+            logits, loss = model(xb, yb)
+            losses.append(loss.item())
+            if itr==args.eval_iters:
+                break
+        # losses=torch.tensor(losses)
+        out['train'] = losses.mean().item()
+        # out['train'] = 0
         model.train()
         return out
 
