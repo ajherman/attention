@@ -14,7 +14,7 @@ from tokenizers import Tokenizer
 from transformers import GPT2Tokenizer, GPT2Model, AutoTokenizer
 
 data_cache_dir = "/ram/tmp"
-dataset = 'shakespeare'
+dataset ='stories'# 'shakespeare'
 
 # Set seed
 torch.manual_seed(1337)
@@ -77,6 +77,9 @@ if dataset == 'shakespeare':
     
 elif dataset == 'stories':
     train_set = load_dataset("nRuaif/tinystories-gpt4",cache_dir=data_cache_dir,split='train')
+    print(train_set.keys())
+    print(type(train_set))
+    assert(0)
     train_loader = DataLoader(train_set, batch_size=64)
     test_set = load_dataset("nRuaif/tinystories-gpt4",cache_dir=data_cache_dir,split='test')
     test_loader = DataLoader(test_set, batch_size=64)
@@ -197,6 +200,9 @@ if __name__ == '__main__':
     elif dataset == 'stories':
         # TinyStories version that I am currently working on
         for itr,batch in enumerate(train_loader):
+            print(batch)
+            print(batch.keys())
+            print(len(batch['text']))
             data = tokenizer(batch['text'],padding="max_length",truncation=True,max_length=block_size,return_tensors="pt")        
             print(data)
             data = data['input_ids']
