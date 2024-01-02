@@ -50,6 +50,8 @@ if dataset == 'shakespeare':
     train_data = data[:n]
     test_data = data[n:]
 
+    class ShakespeareData
+
     def get_batch(split,block_size):
         data = train_data if split == 'train' else test_data
         idx = torch.randint(len(data)-block_size,(args.batch_size,))
