@@ -91,28 +91,30 @@ elif dataset == 'stories':
         # Test loss
         losses=torch.zeros(args.eval_iters)
         for itr,batch in enumerate(test_loader):
+            if itr==args.eval_iters:
+                break
             data = tokenizer(batch['text'],padding="max_length",truncation=True,max_length=block_size,return_tensors="pt")        
             data = data['input_ids']
             data = data.to(device)
             xb,yb = data[:, :-1], data[:, 1:]
             logits, loss = model(xb, yb)
             losses[itr]=loss.item()
-            if itr==args.eval_iters:
-                break
+
         # losses=torch.tensor(losses)
         out['test'] = losses.mean().item()
 
         # Train loss
         losses=torch.zeros(args.eval_iters)
         for itr,batch in enumerate(train_loader):
+            if itr==args.eval_iters:
+                break
             data = tokenizer(batch['text'],padding="max_length",truncation=True,max_length=block_size,return_tensors="pt")        
             data = data['input_ids']
             data = data.to(device)
             xb,yb = data[:, :-1], data[:, 1:]
             logits, loss = model(xb, yb)
             losses[itr]=loss.item()
-            if itr==args.eval_iters:
-                break
+
         # losses=torch.tensor(losses)
         out['train'] = losses.mean().item()
         # out['train'] = 0
