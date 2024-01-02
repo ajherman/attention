@@ -197,10 +197,11 @@ if __name__ == '__main__':
     elif dataset == 'stories':
         # TinyStories version that I am currently working on
         for itr,batch in enumerate(train_loader):
+            data = tokenizer(batch['text'],padding="max_length",truncation=True,max_length=block_size,return_tensors="pt")        
+            print(data)
+            data = data['input_ids']
             print(data)
             assert(0)
-            data = tokenizer(batch['text'],padding="max_length",truncation=True,max_length=block_size,return_tensors="pt")        
-            data = data['input_ids']
             data = data.to(device)
             xb,yb = data[:, :-1], data[:, 1:]
             # xb,yb = get_batch('train',block_size)
