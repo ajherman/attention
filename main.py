@@ -96,7 +96,7 @@ elif dataset == 'stories':
             data = data.to(device)
             xb,yb = data[:, :-1], data[:, 1:]
             logits, loss = model(xb, yb)
-            losses.append(loss.item())
+            losses[itr]=loss.item()
             if itr==args.eval_iters:
                 break
         # losses=torch.tensor(losses)
@@ -110,7 +110,7 @@ elif dataset == 'stories':
             data = data.to(device)
             xb,yb = data[:, :-1], data[:, 1:]
             logits, loss = model(xb, yb)
-            losses.append(loss.item())
+            losses[itr]=loss.item()
             if itr==args.eval_iters:
                 break
         # losses=torch.tensor(losses)
