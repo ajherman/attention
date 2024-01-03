@@ -51,7 +51,7 @@ if dataset == 'shakespeare':
     test_data = data[n:]
     # print(chars)
     shakespeare_dataset = ShakespeareData()
-    shakespeare_loader = DataLoader(shakespeare_dataset, batch_size=64, shuffle=True)
+    train_loader = DataLoader(shakespeare_dataset, batch_size=64, shuffle=True)
     # for itr,batch in enumerate(train_loader):
     #     print(batch)
     #     # print(idx)
@@ -190,17 +190,17 @@ if __name__ == '__main__':
         # Train
         # Shakespeare version that should already work
         # print(train_loader[5])
-        for itr,batch in enumerate(shakespeare_loader):
+        for itr,batch in enumerate(train_loader):
             print(batch)
-            assert(0)
+            # assert(0)
             data = tokenizer(batch['text'],padding=True,truncation=True,max_length=block_size,return_tensors="pt")        
             data = data['input_ids']
             data = data.to(device)
             xb,yb = data[:, :-1], data[:, 1:]
-            # print(data)
+            print(data)
             # print(xb)
             # print(yb)
-            # assert(0)
+            assert(0)
 
         for itr in range(args.n_itrs):
             if itr % args.eval_interval == 0:
