@@ -93,8 +93,8 @@ class CharacterTokenizer:
 
         return token_ids
     
-    def __call__(self, text,padding=None,max_length=None,truncation=False):
-        return self.tokenize(text,padding=padding,max_length=max_length,truncation=truncation)
+    def __call__(self, text,padding=None,max_length=None,truncation=False,return_tensors=None):
+        return self.tokenize(text,padding=padding,max_length=max_length,truncation=truncation,return_tensors=return_tensors)
 
     def convert_ids_to_tokens(self, ids):
         id_to_char = self.char_list # {id: char for char, id in self.char_to_id.items()}
