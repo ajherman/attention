@@ -76,7 +76,7 @@ class CharacterTokenizer:
         self.decode = lambda l: ''.join([i2s[i] for i in l])
         self.pad_token_id = 0
 
-    def tokenize(self, text,padding=None,max_length=None,truncation=False,return_tensors=None):
+    def tokenize(self, text,padding=None,max_length=None,truncation=False):
         token_ids = [self.encode(c) for c in text]
         
         # Truncate if necessary
@@ -98,8 +98,13 @@ class CharacterTokenizer:
         return token_ids
     
     def __call__(self, text,padding=None,max_length=None,truncation=False,return_tensors=None):
-        return self.tokenize(text,padding=padding,max_length=max_length,truncation=truncation,return_tensors=return_tensors)
-
+        out = []
+        for line in text:
+            token_ids = self.tokenize(line,padding=padding,max_length=max_length,truncation=truncation)
+            out.append(token_ids)
+        if return_tensors=='pt':
+            out = torch.stack(out)
+        return out
     def convert_ids_to_tokens(self, ids):
         id_to_char = self.char_list # {id: char for char, id in self.char_to_id.items()}
         return [id_to_char.get(id, '?') for id in ids]  # Use '?' to represent unknown characters
