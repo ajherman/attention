@@ -191,15 +191,16 @@ if __name__ == '__main__':
         # Shakespeare version that should already work
         # print(train_loader[5])
         for itr,batch in enumerate(train_loader):
-            print(batch)
+            # print(batch)
             # assert(0)
             data = tokenizer(batch,padding=True,truncation=True,max_length=block_size,return_tensors="pt")        
             # data = data['input_ids']
             data = data.to(device)
             xb,yb = data[:, :-1], data[:, 1:]
-            print(data)
+            # print(data)
             # print(xb)
             # print(yb)
+            print(data.shape)
             assert(0)
 
         for itr in range(args.n_itrs):
