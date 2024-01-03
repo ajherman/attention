@@ -61,9 +61,11 @@ class ShakespeareData(Dataset):
         chunk_size = 500
         self.data = [self.text[i:i + chunk_size] for i in range(0, len(self.text), chunk_size)]
     def __getitem__(self,idx):
-        return self.data[idx]
+        # return self.data[idx]
+        return self.text[idx*20:idx*20+500]
     def __len__(self):
-        return len(self.data)
+        # return len(self.data)
+        return (len(self.text)-500)//20
     
 class CharacterTokenizer:
     def __init__(self):
