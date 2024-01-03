@@ -254,7 +254,7 @@ if __name__ == '__main__':
             optimizer.zero_grad(set_to_none=True)
             loss.backward()
             optimizer.step()
-    print("Finished training"")
+    print("Finished training")
     torch.save(m,'transformer_'+str(version)+'.pt')
     idx=torch.zeros((1,block_size),device=device,dtype=torch.long)
     idx=m.generate(idx,5000)
