@@ -77,7 +77,7 @@ class CharacterTokenizer:
         self.pad_token_id = 0
 
     def tokenize(self, text,padding=None,max_length=None,truncation=False,return_tensors=None):
-        token_ids = self.encode(text)
+        token_ids = [self.encode(c) for c in text]
         
         # Truncate if necessary
         if truncation and max_length is not None and len(token_ids) > max_length:
