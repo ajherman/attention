@@ -76,7 +76,7 @@ class CharacterTokenizer:
         self.decode = lambda l: ''.join([i2s[i] for i in l])
         self.pad_token_id = 0
 
-    def tokenize(self, text,padding=None,max_length=None,truncation=False):
+    def tokenize(self, text,padding=None,max_length=None,truncation=False,return_tensors=None):
         token_ids = self.encode(text)
         
         # Truncate if necessary
@@ -87,6 +87,9 @@ class CharacterTokenizer:
         if padding and max_length is not None and len(token_ids) < max_length:
             padding_length = max_length - len(token_ids)
             token_ids+=[self.pad_token_id] * padding_length
+
+        if return_tensors=='pt':
+            token_ids = torch.tensor(token_ids).unsqueeze(0)
 
         return token_ids
     
