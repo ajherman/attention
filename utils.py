@@ -87,14 +87,6 @@ class CharacterTokenizer:
         if padding and max_length is not None and len(token_ids) < max_length:
             padding_length = max_length - len(token_ids)
             token_ids+=[self.pad_token_id] * padding_length
-
-        # if return_tensors=='pt':
-        #     print(type(token_ids))
-        #     print(token_ids)
-        #     print(type(token_ids[0]))
-        #     # assert(0)
-        #     token_ids = torch.tensor(token_ids)#.unsqueeze(0)
-
         return token_ids
     
     def __call__(self, text,padding=None,max_length=None,truncation=False,return_tensors=None):
@@ -103,7 +95,7 @@ class CharacterTokenizer:
             token_ids = self.tokenize(line,padding=padding,max_length=max_length,truncation=truncation)
             out.append(token_ids)
         if return_tensors=='pt':
-            out = torch.tensor(out)
+            out = torch.tensor(out).squeeze()
         return out
     def convert_ids_to_tokens(self, ids):
         id_to_char = self.char_list # {id: char for char, id in self.char_to_id.items()}
