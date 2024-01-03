@@ -51,6 +51,8 @@ if dataset == 'shakespeare':
     test_data = data[n:]
     shakespeare_dataset = ShakespeareData()
     train_loader = DataLoader(shakespeare_dataset, batch_size=64, shuffle=True)
+    print(len(train_loader))
+    #assert(0)
     tokenizer = CharacterTokenizer()
 
     def get_batch(split,block_size):
