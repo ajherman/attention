@@ -37,12 +37,12 @@ if dataset == 'shakespeare':
     chars = sorted(list(set(text)))
     vocab_size = len(chars)
 
-    # # Define encoding and decoding functions
-    # s2i = {ch:i for i,ch in enumerate(chars)}
-    # i2s = chars
+    # Define encoding and decoding functions
+    s2i = {ch:i for i,ch in enumerate(chars)}
+    i2s = chars
 
-    # encode = lambda s: [s2i[c] for c in s]
-    # decode = lambda l: ''.join([i2s[i] for i in l])
+    encode = lambda s: [s2i[c] for c in s]
+    decode = lambda l: ''.join([i2s[i] for i in l])
 
     # Make tokenized datasets
     data = torch.tensor(encode(text),dtype=torch.long)

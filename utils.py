@@ -97,7 +97,7 @@ class CharacterTokenizer:
             token_ids = self.tokenize(line,padding=padding,max_length=max_length,truncation=truncation)
             out.append(token_ids)
         if return_tensors=='pt':
-            out = torch.tensor(out).squeeze()
+            out = torch.tensor(out,dtype=torch.long).squeeze()
         return out
     def convert_ids_to_tokens(self, ids):
         id_to_char = self.char_list # {id: char for char, id in self.char_to_id.items()}
