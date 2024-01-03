@@ -88,12 +88,12 @@ class CharacterTokenizer:
             padding_length = max_length - len(token_ids)
             token_ids+=[self.pad_token_id] * padding_length
 
-        if return_tensors=='pt':
-            print(type(token_ids))
-            print(token_ids)
-            print(type(token_ids[0]))
-            # assert(0)
-            token_ids = torch.tensor(token_ids)#.unsqueeze(0)
+        # if return_tensors=='pt':
+        #     print(type(token_ids))
+        #     print(token_ids)
+        #     print(type(token_ids[0]))
+        #     # assert(0)
+        #     token_ids = torch.tensor(token_ids)#.unsqueeze(0)
 
         return token_ids
     
