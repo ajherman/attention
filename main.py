@@ -52,7 +52,10 @@ if dataset == 'shakespeare':
     # print(chars)
     shakespeare_dataset = ShakespeareData()
     train_loader = DataLoader(shakespeare_dataset, batch_size=64, shuffle=True)
-    # for itr,batch in enumerate(train_loader):
+    print(len(train_loader))
+    for itr,batch in enumerate(train_loader):
+        print(itr)
+    assert(0)
     #     print(batch)
     #     # print(idx)
     #     # print(batch.shape)
