@@ -52,10 +52,10 @@ if dataset == 'shakespeare':
     # print(chars)
     shakespeare_dataset = ShakespeareData()
     train_loader = DataLoader(shakespeare_dataset, batch_size=64, shuffle=True)
-    print(len(train_loader))
-    for itr,batch in enumerate(train_loader):
-        print(itr)
-    assert(0)
+    # print(len(train_loader))
+    # for itr,batch in enumerate(train_loader):
+    #     print(itr)
+    # assert(0)
     #     print(batch)
     #     # print(idx)
     #     # print(batch.shape)
@@ -193,26 +193,27 @@ if __name__ == '__main__':
         # Train
         # Shakespeare version that should already work
         # print(train_loader[5])
-        for itr,batch in enumerate(train_loader):
-            data = tokenizer(batch,padding=True,truncation=True,max_length=block_size,return_tensors="pt")        
-            data = data.to(device)
-            xb,yb = data[:, :-1], data[:, 1:]
-            if itr % args.eval_interval == 0:
-                losses = estimate_loss(model)  # Calculate loss
-                with open(filepath, 'a', newline='') as csvfile:
-                    writer = csv.writer(csvfile)
-                    writer.writerow([losses[split] for split in ['train','test']])
-                idx = torch.zeros((1, block_size), device=device, dtype=torch.long)
-                idx = m.generate(idx, 499)
-                print("\nSample: \n", decode(list(idx[0])[block_size:]), '\n\n')
-                print(f"step {itr}: train loss {losses['train']:.4f}, val loss {losses['test']:.4f}")
-                torch.save(m, 'transformer_' + str(version) + '.pt')
-            # xb, yb = get_batch('train',block_size)
-            logits, loss = model(xb, yb)
+        for epoch in range(10):
+            for itr,batch in enumerate(train_loader):
+                data = tokenizer(batch,padding=True,truncation=True,max_length=block_size,return_tensors="pt")        
+                data = data.to(device)
+                xb,yb = data[:, :-1], data[:, 1:]
+                if itr % args.eval_interval == 0:
+                    losses = estimate_loss(model)  # Calculate loss
+                    with open(filepath, 'a', newline='') as csvfile:
+                        writer = csv.writer(csvfile)
+                        writer.writerow([losses[split] for split in ['train','test']])
+                    idx = torch.zeros((1, block_size), device=device, dtype=torch.long)
+                    idx = m.generate(idx, 499)
+                    print("\nSample: \n", decode(list(idx[0])[block_size:]), '\n\n')
+                    print(f"step {itr}: train loss {losses['train']:.4f}, val loss {losses['test']:.4f}")
+                    torch.save(m, 'transformer_' + str(version) + '.pt')
+                # xb, yb = get_batch('train',block_size)
+                logits, loss = model(xb, yb)
 
-            optimizer.zero_grad(set_to_none=True)
-            loss.backward()
-            optimizer.step()
+                optimizer.zero_grad(set_to_none=True)
+                loss.backward()
+                optimizer.step()
 
 
         # for itr in range(args.n_itrs):
