@@ -182,6 +182,8 @@ if __name__ == '__main__':
         # Train
         # Shakespeare version that should already work
         for itr,batch in enumerate(train_loader):
+            print(batch)
+            assert(0)
             data = tokenizer(batch['text'],padding=True,truncation=True,max_length=block_size,return_tensors="pt")        
             data = data['input_ids']
             data = data.to(device)
