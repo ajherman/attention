@@ -51,8 +51,14 @@ if dataset == 'shakespeare':
     test_data = data[n:]
     # print(chars)
     dataset = ShakespeareData()
-    train_loader = DataLoader(dataset, batch_size=64, shuffle=True)
-    print(dataset[5])
+    train_loader = DataLoader(dataset, batch_size=1, shuffle=True)
+    for batch,idx in train_loader:
+        print(batch)
+        print(idx)
+        print(batch.shape)
+        print(idx.shape)
+        assert(0)
+    # print(dataset[5])
     print("check")
     assert(0)
     tokenizer = CharacterTokenizer()
