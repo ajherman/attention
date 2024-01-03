@@ -14,7 +14,7 @@ from tokenizers import Tokenizer
 from transformers import GPT2Tokenizer, GPT2Model, AutoTokenizer
 
 data_cache_dir = "/ram/tmp"
-dataset ='stories'# 'shakespeare'
+dataset ='shakespeare'
 
 # Set seed
 torch.manual_seed(1337)
@@ -49,9 +49,10 @@ if dataset == 'shakespeare':
     n = int(0.9*len(data))
     train_data = data[:n]
     test_data = data[n:]
-
-    #dataset = ShakespeareData()
-
+    print(chars)
+    dataset = ShakespeareData()
+    train_loader = DataLoader(dataset, batch_size=64, shuffle=True)
+    assert(0)
 
     def get_batch(split,block_size):
         data = train_data if split == 'train' else test_data
@@ -77,9 +78,9 @@ if dataset == 'shakespeare':
     
 elif dataset == 'stories':
     train_set = load_dataset("nRuaif/tinystories-gpt4",cache_dir=data_cache_dir,split='train')
-    print(train_set.keys())
-    print(type(train_set))
-    assert(0)
+    # print(train_set.keys())
+    # print(type(train_set))
+    # assert(0)
     train_loader = DataLoader(train_set, batch_size=64)
     test_set = load_dataset("nRuaif/tinystories-gpt4",cache_dir=data_cache_dir,split='test')
     test_loader = DataLoader(test_set, batch_size=64)
@@ -200,14 +201,14 @@ if __name__ == '__main__':
     elif dataset == 'stories':
         # TinyStories version that I am currently working on
         for itr,batch in enumerate(train_loader):
-            print(batch)
-            print(batch.keys())
-            print(len(batch['text']))
+            # print(batch)
+            # print(batch.keys())
+            # print(len(batch['text']))
             data = tokenizer(batch['text'],padding="max_length",truncation=True,max_length=block_size,return_tensors="pt")        
-            print(data)
+            # print(data)
             data = data['input_ids']
-            print(data)
-            assert(0)
+            # print(data)
+            # assert(0)
             data = data.to(device)
             xb,yb = data[:, :-1], data[:, 1:]
             # xb,yb = get_batch('train',block_size)

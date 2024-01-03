@@ -54,27 +54,26 @@ with open(file_path,'r',encoding='utf-8') as f:
 
 # Datasets
 class ShakespeareData(Dataset):
-    def __init__(self,block_size=None,file_path='shakespeare.txt'):
+    def __init__(self,file_path='shakespeare.txt'):
         super().__init__()
         with open(file_path,'r',encoding='utf-8') as f:
             self.text = f.read()
-        self.data = torch.tensor(encode(self.text))
-        self.block_size=block_size
+        chunk_size = 500
+        self.data = [self.text[i:i + chunk_size] for i in range(0, len(self.text), chunk_size)]
     def __getitem__(self,idx):
-        x = self.data[idx:idx+self.block_size]
-        y = self.data[idx+1:idx+1+self.block_size]
-        return x,y
+        return self.data[idx]
     def __len__(self):
-        return len(self.data)-self.block_size
-class TokenDataset(Dataset):
-    def __init__(self, encodings):
-        self.encodings = encodings
+        return len(self.data)
+    
+# class TokenDataset(Dataset):
+#     def __init__(self, encodings):
+#         self.encodings = encodings
 
-    def __getitem__(self, idx):
-        return {key: val[idx] for key, val in self.encodings.items()}
+#     def __getitem__(self, idx):
+#         return {key: val[idx] for key, val in self.encodings.items()}
 
-    def __len__(self):
-        return len(self.encodings.input_ids)
+#     def __len__(self):
+#         return len(self.encodings.input_ids)
 
 
 # Basic components
