@@ -49,10 +49,11 @@ if dataset == 'shakespeare':
     n = int(0.9*len(data))
     train_data = data[:n]
     test_data = data[n:]
-    print(chars)
+    # print(chars)
     dataset = ShakespeareData()
     train_loader = DataLoader(dataset, batch_size=64, shuffle=True)
-    assert(0)
+    # assert(0)
+    tokenizer = CharacterTokenizer()
 
     def get_batch(split,block_size):
         data = train_data if split == 'train' else test_data
@@ -180,6 +181,16 @@ if __name__ == '__main__':
     if dataset == 'shakespeare':
         # Train
         # Shakespeare version that should already work
+        for itr,batch in enumerate(train_loader):
+            data = tokenizer(batch['text'],padding=True,truncation=True,max_length=block_size,return_tensors="pt")        
+            data = data['input_ids']
+            data = data.to(device)
+            xb,yb = data[:, :-1], data[:, 1:]
+            print(data)
+            print(xb)
+            print(yb)
+            assert(0)
+
         for itr in range(args.n_itrs):
             if itr % args.eval_interval == 0:
                 losses = estimate_loss(model)  # Calculate loss
@@ -187,7 +198,7 @@ if __name__ == '__main__':
                     writer = csv.writer(csvfile)
                     writer.writerow([losses[split] for split in ['train','test']])
                 idx = torch.zeros((1, block_size), device=device, dtype=torch.long)
-                idx = m.generate(idx, 500)
+                idx = m.generate(idx, 499)
                 print("\nSample: \n", decode(list(idx[0])[block_size:]), '\n\n')
                 print(f"step {itr}: train loss {losses['train']:.4f}, val loss {losses['test']:.4f}")
                 torch.save(m, 'transformer_' + str(version) + '.pt')

@@ -65,6 +65,37 @@ class ShakespeareData(Dataset):
     def __len__(self):
         return len(self.data)
     
+class CharacterTokenizer:
+    def __init__(self):
+        self.char_list = ['\n', ' ', '!', '$', '&', "'", ',', '-', '.', '3', ':', ';', '?', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
+        # self.char_to_id = char_to_id
+        # self.unknown_id = unknown_id
+        s2i = {ch:i for i,ch in enumerate(self.char_list)}
+        i2s = self.char_list
+        self.encode = lambda s: [s2i[c] for c in s]
+        self.decode = lambda l: ''.join([i2s[i] for i in l])
+        self.pad_token_id = 0
+
+    def tokenize(self, text,padding=None,max_length=None,truncation=False):
+        token_ids = self.encode(text)
+        
+        # Truncate if necessary
+        if truncation and max_length is not None and len(token_ids) > max_length:
+            token_ids = token_ids[:max_length]
+
+        # Pad if necessary
+        if padding and max_length is not None and len(token_ids) < max_length:
+            padding_length = max_length - len(token_ids)
+            token_ids+=[self.pad_token_id] * padding_length
+
+        return token_ids
+
+    def convert_ids_to_tokens(self, ids):
+        id_to_char = self.char_list # {id: char for char, id in self.char_to_id.items()}
+        return [id_to_char.get(id, '?') for id in ids]  # Use '?' to represent unknown characters
+
+
+    
 # class TokenDataset(Dataset):
 #     def __init__(self, encodings):
 #         self.encodings = encodings
