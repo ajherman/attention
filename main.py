@@ -50,8 +50,8 @@ if dataset == 'shakespeare':
     train_data = data[:n]
     test_data = data[n:]
     # print(chars)
-    dataset = ShakespeareData()
-    shakespeare_loader = DataLoader(dataset, batch_size=64, shuffle=True)
+    shakespeare_dataset = ShakespeareData()
+    shakespeare_loader = DataLoader(shakespeare_dataset, batch_size=64, shuffle=True)
     # for itr,batch in enumerate(train_loader):
     #     print(batch)
     #     # print(idx)
