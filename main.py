@@ -52,7 +52,7 @@ if dataset == 'shakespeare':
     # print(chars)
     dataset = ShakespeareData()
     train_loader = DataLoader(dataset, batch_size=64, shuffle=True)
-    print(train_loader[5])
+    print(dataset[5])
     print("check")
     assert(0)
     tokenizer = CharacterTokenizer()
