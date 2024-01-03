@@ -194,7 +194,7 @@ if __name__ == '__main__':
             print(batch)
             # assert(0)
             data = tokenizer(batch,padding=True,truncation=True,max_length=block_size,return_tensors="pt")        
-            data = data['input_ids']
+            # data = data['input_ids']
             data = data.to(device)
             xb,yb = data[:, :-1], data[:, 1:]
             print(data)
