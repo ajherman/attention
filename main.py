@@ -242,7 +242,7 @@ if __name__ == '__main__':
             loss.backward()
             optimizer.step()
 
-    torch.save(m,'transformer_'+str(args.version)+'.pt')
+    torch.save(m,'transformer_'+str(version)+'.pt')
     idx=torch.zeros((1,block_size),device=device,dtype=torch.long)
     idx=m.generate(idx,5000)
     print(idx)
