@@ -37,12 +37,12 @@ if dataset == 'shakespeare':
     chars = sorted(list(set(text)))
     vocab_size = len(chars)
 
-    # Define encoding and decoding functions
-    s2i = {ch:i for i,ch in enumerate(chars)}
-    i2s = chars
+    # # Define encoding and decoding functions
+    # s2i = {ch:i for i,ch in enumerate(chars)}
+    # i2s = chars
 
-    encode = lambda s: [s2i[c] for c in s]
-    decode = lambda l: ''.join([i2s[i] for i in l])
+    # encode = lambda s: [s2i[c] for c in s]
+    # decode = lambda l: ''.join([i2s[i] for i in l])
 
     # Make tokenized datasets
     data = torch.tensor(encode(text),dtype=torch.long)
@@ -51,9 +51,10 @@ if dataset == 'shakespeare':
     test_data = data[n:]
     shakespeare_dataset = ShakespeareData()
     train_loader = DataLoader(shakespeare_dataset, batch_size=64, shuffle=True)
-    print(len(train_loader))
+    # print(len(train_loader))
     #assert(0)
     tokenizer = CharacterTokenizer()
+    decode = tokenizer.decode
 
     def get_batch(split,block_size):
         data = train_data if split == 'train' else test_data
@@ -192,7 +193,7 @@ if __name__ == '__main__':
                         writer = csv.writer(csvfile)
                         writer.writerow([losses[split] for split in ['train','test']])
                     idx = torch.zeros((1, block_size), device=device, dtype=torch.long)
-                    idx = m.generate(idx, 255)
+                    idx = m.generate(idx, 500)
                     print("\nSample: \n", decode(list(idx[0])[block_size:]), '\n\n')
                     print(f"step {itr}: train loss {losses['train']:.4f}, val loss {losses['test']:.4f}")
                     torch.save(m, 'transformer_' + str(version) + '.pt')
