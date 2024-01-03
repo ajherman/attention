@@ -181,6 +181,7 @@ if __name__ == '__main__':
     if dataset == 'shakespeare':
         # Train
         # Shakespeare version that should already work
+        print(train_loader[5])
         for itr,batch in enumerate(train_loader):
             print(batch)
             assert(0)
@@ -214,19 +215,11 @@ if __name__ == '__main__':
     elif dataset == 'stories':
         # TinyStories version that I am currently working on
         for itr,batch in enumerate(train_loader):
-            # print(batch)
-            # print(batch.keys())
-            # print(len(batch['text']))
             data = tokenizer(batch['text'],padding="max_length",truncation=True,max_length=block_size,return_tensors="pt")        
-            # print(data)
             data = data['input_ids']
-            # print(data)
-            # assert(0)
             data = data.to(device)
             xb,yb = data[:, :-1], data[:, 1:]
-            # xb,yb = get_batch('train',block_size)
-            #print(xb.shape)
-            #assert(0)
+
             if itr % args.eval_interval == 0:
                 losses = estimate_loss(model)  # Calculate loss
                 with open(filepath, 'a', newline='') as csvfile:
