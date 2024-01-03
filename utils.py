@@ -58,14 +58,14 @@ class ShakespeareData(Dataset):
         super().__init__()
         with open(file_path,'r',encoding='utf-8') as f:
             self.text = f.read()
-        chunk_size = 500
-        self.data = [self.text[i:i + chunk_size] for i in range(0, len(self.text), chunk_size)]
+        # chunk_size = 500
+        # self.data = [self.text[i:i + chunk_size] for i in range(0, len(self.text), chunk_size)]
     def __getitem__(self,idx):
         # return self.data[idx]
-        return self.text[idx*20:idx*20+500]
+        return self.text[idx*32:idx*32+256]
     def __len__(self):
         # return len(self.data)
-        return (len(self.text)-500)//20
+        return (len(self.text)-256)//32
     
 class CharacterTokenizer:
     def __init__(self):
