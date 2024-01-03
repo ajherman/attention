@@ -191,19 +191,9 @@ if __name__ == '__main__':
         # Shakespeare version that should already work
         # print(train_loader[5])
         for itr,batch in enumerate(train_loader):
-            # print(batch)
-            # assert(0)
             data = tokenizer(batch,padding=True,truncation=True,max_length=block_size,return_tensors="pt")        
-            # data = data['input_ids']
             data = data.to(device)
             xb,yb = data[:, :-1], data[:, 1:]
-            # print(data)
-            # print(xb)
-            # print(yb)
-            print(data.shape)
-            assert(0)
-
-        for itr in range(args.n_itrs):
             if itr % args.eval_interval == 0:
                 losses = estimate_loss(model)  # Calculate loss
                 with open(filepath, 'a', newline='') as csvfile:
@@ -214,12 +204,31 @@ if __name__ == '__main__':
                 print("\nSample: \n", decode(list(idx[0])[block_size:]), '\n\n')
                 print(f"step {itr}: train loss {losses['train']:.4f}, val loss {losses['test']:.4f}")
                 torch.save(m, 'transformer_' + str(version) + '.pt')
-            xb, yb = get_batch('train',block_size)
+            # xb, yb = get_batch('train',block_size)
             logits, loss = model(xb, yb)
 
             optimizer.zero_grad(set_to_none=True)
             loss.backward()
             optimizer.step()
+
+
+        # for itr in range(args.n_itrs):
+        #     if itr % args.eval_interval == 0:
+        #         losses = estimate_loss(model)  # Calculate loss
+        #         with open(filepath, 'a', newline='') as csvfile:
+        #             writer = csv.writer(csvfile)
+        #             writer.writerow([losses[split] for split in ['train','test']])
+        #         idx = torch.zeros((1, block_size), device=device, dtype=torch.long)
+        #         idx = m.generate(idx, 499)
+        #         print("\nSample: \n", decode(list(idx[0])[block_size:]), '\n\n')
+        #         print(f"step {itr}: train loss {losses['train']:.4f}, val loss {losses['test']:.4f}")
+        #         torch.save(m, 'transformer_' + str(version) + '.pt')
+        #     xb, yb = get_batch('train',block_size)
+        #     logits, loss = model(xb, yb)
+
+        #     optimizer.zero_grad(set_to_none=True)
+        #     loss.backward()
+        #     optimizer.step()
 
     elif dataset == 'stories':
         # TinyStories version that I am currently working on
