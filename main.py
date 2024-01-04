@@ -194,10 +194,10 @@ if __name__ == '__main__':
         # Train
         # Shakespeare version that should already work
         for itr,batch in enumerate(train_loader):
-            print(batch)
-            print(len(batch))
-            print(len(batch[0]))
-            assert(0)
+            # print(batch)
+            # print(len(batch))
+            # print(len(batch[0]))
+            # assert(0)
             if itr % args.eval_interval == 0:
                 losses = estimate_loss(model)  # Calculate loss
                 with open(filepath, 'a', newline='') as csvfile:
@@ -209,7 +209,9 @@ if __name__ == '__main__':
                 print(f"step {itr}: train loss {losses['train']:.4f}, val loss {losses['test']:.4f}")
                 torch.save(m, 'transformer_' + str(version) + '.pt')
             
-            xb, yb = get_batch('train',block_size)
+            data = torch.stack([torch.tensor(encode(s),dtype=torch.long) for s in batch])
+            xb,yb = data[:,:-1],data[:,1:]
+            # xb, yb = get_batch('train',block_size)
             logits, loss = model(xb, yb)
 
             optimizer.zero_grad(set_to_none=True)
