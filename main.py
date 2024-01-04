@@ -210,6 +210,7 @@ if __name__ == '__main__':
                 torch.save(m, 'transformer_' + str(version) + '.pt')
             
             data = torch.stack([torch.tensor(encode(s),dtype=torch.long) for s in batch])
+            data = data.to(device)
             xb,yb = data[:,:-1],data[:,1:]
             # xb, yb = get_batch('train',block_size)
             logits, loss = model(xb, yb)
