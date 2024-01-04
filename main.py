@@ -71,6 +71,19 @@ if dataset == 'shakespeare':
             x = self.data[idx:idx+self.block_size]
             # y = self.data[idx+1:idx+1+self.block_size]
             return x
+        
+    class CharacterTokenizer(Tokenizer):
+        def __init__(self, block_size, **kwargs):
+            super().__init__(**kwargs)
+            self.block_size = block_size
+        def _tokenize(self, text): # Takes string and returns list of tokens
+            return encode(text)
+        def __call__(self, text, **kwargs):
+            batch = torch.stack([torch.tensor(encode(s),dtype=torch.long) for s in text])
+            batch = batch.to(device)
+            return batch        
+    # data = torch.stack([torch.tensor(encode(s),dtype=torch.long) for s in batch])
+    # data = data.to(device)
 
     @torch.no_grad()
     def estimate_loss(model):
@@ -167,7 +180,8 @@ if __name__ == '__main__':
     if args.dataset == 'shakespeare':
         shakespeare_data = TextDataFromFile(block_size=block_size+1)
         train_loader = DataLoader(shakespeare_data, batch_size=args.batch_size, shuffle=True)
-    
+        tokenizer = CharacterTokenizer(blokc_size=block_size+1)
+
     filepath = args.filepath
     # args_dict = vars(args)
     args_dict = {k: v for k, v in vars(args).items() if v is not None}
@@ -209,8 +223,10 @@ if __name__ == '__main__':
                 print(f"step {itr}: train loss {losses['train']:.4f}, val loss {losses['test']:.4f}")
                 torch.save(m, 'transformer_' + str(version) + '.pt')
             
-            data = torch.stack([torch.tensor(encode(s),dtype=torch.long) for s in batch])
-            data = data.to(device)
+            # data = torch.stack([torch.tensor(encode(s),dtype=torch.long) for s in batch])
+            # data = data.to(device)
+            data = tokenizer(batch,padding="max_length",truncation=True,max_length=block_size,return_tensors="pt")
+            
             xb,yb = data[:,:-1],data[:,1:]
             # xb, yb = get_batch('train',block_size)
             logits, loss = model(xb, yb)
