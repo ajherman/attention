@@ -29,58 +29,58 @@ if dataset == 'shakespeare':
         with open(file_path, 'w') as file:
             file.write(response.text)
 
-    # Read in text file
-    with open(file_path,'r',encoding='utf-8') as f:
-        text = f.read()
+    # # Read in text file
+    # with open(file_path,'r',encoding='utf-8') as f:
+    #     text = f.read()
 
-    # Get char list
-    chars = sorted(list(set(text)))
-    vocab_size = len(chars)
+    # # Get char list
+    # chars = sorted(list(set(text)))
+    # vocab_size = len(chars)
 
-    # Define encoding and decoding functions
-    s2i = {ch:i for i,ch in enumerate(chars)}
-    i2s = chars
+    # # Define encoding and decoding functions
+    # s2i = {ch:i for i,ch in enumerate(chars)}
+    # i2s = chars
 
-    encode = lambda s: [s2i[c] for c in s]
-    decode = lambda l: ''.join([i2s[i] for i in l])
+    # encode = lambda s: [s2i[c] for c in s]
+    # decode = lambda l: ''.join([i2s[i] for i in l])
 
-    # Make tokenized datasets
-    data = torch.tensor(encode(text),dtype=torch.long)
-    n = int(0.9*len(data))
-    train_data = data[:n]
-    test_data = data[n:]
+    # # Make tokenized datasets
+    # data = torch.tensor(encode(text),dtype=torch.long)
+    # n = int(0.9*len(data))
+    # train_data = data[:n]
+    # test_data = data[n:]
 
-    def get_batch(split,block_size):
-        data = train_data if split == 'train' else test_data
-        idx = torch.randint(len(data)-block_size,(args.batch_size,))
-        x = torch.stack([data[i:i+block_size] for i in idx])
-        y = torch.stack([data[i+1:i+1+block_size] for i in idx])
-        x,y=x.to(device),y.to(device)
-        return x,y
+    # def get_batch(split,block_size):
+    #     data = train_data if split == 'train' else test_data
+    #     idx = torch.randint(len(data)-block_size,(args.batch_size,))
+    #     x = torch.stack([data[i:i+block_size] for i in idx])
+    #     y = torch.stack([data[i+1:i+1+block_size] for i in idx])
+    #     x,y=x.to(device),y.to(device)
+    #     return x,y
 
-    class TextDataFromFile(Dataset):
-        def __init__(self,block_size,filepath='datasets/shakespeare.txt'):
-            self.block_size = block_size
-            with open(file_path,'r',encoding='utf-8') as f:
-                self.text = f.read()
-            self.data = self.text #torch.tensor(encode(self.text),dtype=torch.long)
-        def __len__(self):
-            return len(self.data) - self.block_size
+    # class TextDataFromFile(Dataset):
+    #     def __init__(self,block_size,filepath='datasets/shakespeare.txt'):
+    #         self.block_size = block_size
+    #         with open(file_path,'r',encoding='utf-8') as f:
+    #             self.text = f.read()
+    #         self.data = self.text #torch.tensor(encode(self.text),dtype=torch.long)
+    #     def __len__(self):
+    #         return len(self.data) - self.block_size
 
-        def __getitem__(self, idx):
-            x = self.data[idx:idx+self.block_size]
-            return x
+    #     def __getitem__(self, idx):
+    #         x = self.data[idx:idx+self.block_size]
+    #         return x
         
-    class CharacterTokenizer:
-        def __init__(self, block_size, **kwargs):
-            super().__init__(**kwargs)
-            self.block_size = block_size
-        def _tokenize(self, text): # Takes string and returns list of tokens
-            return encode(text)
-        def __call__(self, text, **kwargs):
-            batch = torch.stack([torch.tensor(encode(s),dtype=torch.long) for s in text])
-            batch = batch.to(device)
-            return batch        
+    # class CharacterTokenizer:
+    #     def __init__(self, block_size, **kwargs):
+    #         super().__init__(**kwargs)
+    #         self.block_size = block_size
+    #     def _tokenize(self, text): # Takes string and returns list of tokens
+    #         return encode(text)
+    #     def __call__(self, text, **kwargs):
+    #         batch = torch.stack([torch.tensor(encode(s),dtype=torch.long) for s in text])
+    #         batch = batch.to(device)
+    #         return batch        
 
     @torch.no_grad()
     def estimate_loss(model):
