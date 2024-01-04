@@ -1,7 +1,7 @@
 import torch
 import torch.nn as nn
 from torch.nn import functional as F
-from torch.utils.data import Dataset, DataLoader
+from torch.utils.data import Dataset, DataLoader, Subset
 import requests
 import os
 import csv
@@ -212,9 +212,11 @@ if __name__ == '__main__':
 
     if args.dataset == 'shakespeare':
         shakespeare_data = TextDataFromFile(block_size=block_size+1)
-        m = int(len(shakespeare_data)*0.9)
-        train_loader = DataLoader(shakespeare_data[:n], batch_size=args.batch_size, shuffle=True)
-        train_loader = DataLoader(shakespeare_data[n:], batch_size=args.batch_size, shuffle=True)
+        N = len(shakespeare_data)
+        test_set = Subset(shakespeare_data, [i for i in range(N) if i % 10 == 0])
+        train_set = Subset(shakespeare_data, [i for i in range(N) if i % 10 != 0])
+        test_loader = DataLoader(test_data, batch_size=args.batch_size, shuffle=True)
+        train_loader = DataLoader(train_data, batch_size=args.batch_size, shuffle=True)
         tokenizer = CharacterTokenizer(block_size=block_size+1)
 
     filepath = args.filepath
