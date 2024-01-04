@@ -58,6 +58,20 @@ if dataset == 'shakespeare':
         x,y=x.to(device),y.to(device)
         return x,y
 
+    class TextDataFromFile(Dataset):
+        def __init__(self,block_size,filepath='datasets/shakespeare.txt'):
+            self.block_size = block_size
+            with open(file_path,'r',encoding='utf-8') as f:
+                self.text = f.read()
+            self.data = torch.tensor(encode(self.text),dtype=torch.long)
+        def __len__(self):
+            return len(self.data) - self.block_size
+
+        def __getitem__(self, idx):
+            x = self.data[idx:idx+self.block_size]
+            # y = self.data[idx+1:idx+1+self.block_size]
+            return x
+
     @torch.no_grad()
     def estimate_loss(model):
         out = {}
@@ -144,10 +158,15 @@ if __name__ == '__main__':
     parser.add_argument('--vocab-size', type=int, default=vocab_size, help='Specify the vocab size')
     parser.add_argument('--block-type', type=int, default=3, help='Specify the version')
     parser.add_argument('--filepath', type=str,default='original.csv', help='Specify the file path')
+    parser.add_argument('--dataset', type=str,default='shakespeare', help='Specify the dataset')
 
     args = parser.parse_args()
     version = args.block_type
     block_size=args.block_size
+
+    if args.dataset == 'shakespeare':
+        shakespeare_data = TextDataFromFile(block_size=block_size)
+        train_loader = DataLoader(shakespeare_data, batch_size=args.batch_size, shuffle=True)
     
     filepath = args.filepath
     # args_dict = vars(args)
@@ -171,7 +190,7 @@ if __name__ == '__main__':
     # writer.close()
     # m.logits_only=False
 
-    if dataset == 'shakespeare':
+    if args.dataset == 'shakespeare':
         # Train
         # Shakespeare version that should already work
         for itr in range(args.n_itrs):
@@ -185,6 +204,7 @@ if __name__ == '__main__':
                 print("\nSample: \n", decode(list(idx[0])[block_size:]), '\n\n')
                 print(f"step {itr}: train loss {losses['train']:.4f}, val loss {losses['test']:.4f}")
                 torch.save(m, 'transformer_' + str(version) + '.pt')
+            
             xb, yb = get_batch('train',block_size)
             logits, loss = model(xb, yb)
 
@@ -192,16 +212,13 @@ if __name__ == '__main__':
             loss.backward()
             optimizer.step()
 
-    elif dataset == 'stories':
+    elif args.dataset == 'stories':
         # TinyStories version that I am currently working on
         for itr,batch in enumerate(train_loader):
             data = tokenizer(batch['text'],padding="max_length",truncation=True,max_length=block_size,return_tensors="pt")        
             data = data['input_ids']
             data = data.to(device)
             xb,yb = data[:, :-1], data[:, 1:]
-            # xb,yb = get_batch('train',block_size)
-            #print(xb.shape)
-            #assert(0)
             if itr % args.eval_interval == 0:
                 losses = estimate_loss(model)  # Calculate loss
                 with open(filepath, 'a', newline='') as csvfile:
