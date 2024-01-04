@@ -69,7 +69,6 @@ if dataset == 'shakespeare':
 
         def __getitem__(self, idx):
             x = self.data[idx:idx+self.block_size]
-            # y = self.data[idx+1:idx+1+self.block_size]
             return x
         
     class CharacterTokenizer:
@@ -82,8 +81,43 @@ if dataset == 'shakespeare':
             batch = torch.stack([torch.tensor(encode(s),dtype=torch.long) for s in text])
             batch = batch.to(device)
             return batch        
-    # data = torch.stack([torch.tensor(encode(s),dtype=torch.long) for s in batch])
-    # data = data.to(device)
+
+    # @torch.no_grad()
+    # def estimate_loss(model):
+    #     out = {}
+    #     model.eval()
+    #     # Test loss
+    #     losses=torch.zeros(args.eval_iters)
+    #     for itr,batch in enumerate(test_loader):
+    #         if itr==args.eval_iters:
+    #             break
+    #         data = tokenizer(batch,padding="max_length",truncation=True,max_length=block_size,return_tensors="pt")        
+    #         # data = data['input_ids']
+    #         data = data.to(device)
+    #         xb,yb = data[:, :-1], data[:, 1:]
+    #         logits, loss = model(xb, yb)
+    #         losses[itr]=loss.item()
+
+    #     # losses=torch.tensor(losses)
+    #     out['test'] = losses.mean().item()
+
+    #     # Train loss
+    #     losses=torch.zeros(args.eval_iters)
+    #     for itr,batch in enumerate(train_loader):
+    #         if itr==args.eval_iters:
+    #             break
+    #         data = tokenizer(batch,padding="max_length",truncation=True,max_length=block_size,return_tensors="pt")        
+    #         # data = data['input_ids']
+    #         data = data.to(device)
+    #         xb,yb = data[:, :-1], data[:, 1:]
+    #         logits, loss = model(xb, yb)
+    #         losses[itr]=loss.item()
+
+    #     # losses=torch.tensor(losses)
+    #     out['train'] = losses.mean().item()
+    #     # out['train'] = 0
+    #     model.train()
+    #     return out
 
     @torch.no_grad()
     def estimate_loss(model):
@@ -127,7 +161,6 @@ elif dataset == 'stories':
             logits, loss = model(xb, yb)
             losses[itr]=loss.item()
 
-        # losses=torch.tensor(losses)
         out['test'] = losses.mean().item()
 
         # Train loss
@@ -179,7 +212,9 @@ if __name__ == '__main__':
 
     if args.dataset == 'shakespeare':
         shakespeare_data = TextDataFromFile(block_size=block_size+1)
-        train_loader = DataLoader(shakespeare_data, batch_size=args.batch_size, shuffle=True)
+        m = int(len(shakespeare_data)*0.9)
+        train_loader = DataLoader(shakespeare_data[:n], batch_size=args.batch_size, shuffle=True)
+        train_loader = DataLoader(shakespeare_data[n:], batch_size=args.batch_size, shuffle=True)
         tokenizer = CharacterTokenizer(block_size=block_size+1)
 
     filepath = args.filepath
@@ -208,10 +243,9 @@ if __name__ == '__main__':
         # Train
         # Shakespeare version that should already work
         for itr,batch in enumerate(train_loader):
-            # print(batch)
-            # print(len(batch))
-            # print(len(batch[0]))
-            # assert(0)
+            data = tokenizer(batch,padding="max_length",truncation=True,max_length=block_size,return_tensors="pt")    
+            xb,yb = data[:,:-1],data[:,1:]
+            logits, loss = model(xb, yb)
             if itr % args.eval_interval == 0:
                 losses = estimate_loss(model)  # Calculate loss
                 with open(filepath, 'a', newline='') as csvfile:
@@ -222,36 +256,9 @@ if __name__ == '__main__':
                 print("\nSample: \n", decode(list(idx[0])[block_size:]), '\n\n')
                 print(f"step {itr}: train loss {losses['train']:.4f}, val loss {losses['test']:.4f}")
                 torch.save(m, 'transformer_' + str(version) + '.pt')
-            
-            # data = torch.stack([torch.tensor(encode(s),dtype=torch.long) for s in batch])
-            # data = data.to(device)
-            data = tokenizer(batch,padding="max_length",truncation=True,max_length=block_size,return_tensors="pt")
-            
-            xb,yb = data[:,:-1],data[:,1:]
-            # xb, yb = get_batch('train',block_size)
-            logits, loss = model(xb, yb)
-
             optimizer.zero_grad(set_to_none=True)
             loss.backward()
             optimizer.step()
-        # for itr in range(args.n_itrs):
-        #     if itr % args.eval_interval == 0:
-        #         losses = estimate_loss(model)  # Calculate loss
-        #         with open(filepath, 'a', newline='') as csvfile:
-        #             writer = csv.writer(csvfile)
-        #             writer.writerow([losses[split] for split in ['train','test']])
-        #         idx = torch.zeros((1, block_size), device=device, dtype=torch.long)
-        #         idx = m.generate(idx, 500)
-        #         print("\nSample: \n", decode(list(idx[0])[block_size:]), '\n\n')
-        #         print(f"step {itr}: train loss {losses['train']:.4f}, val loss {losses['test']:.4f}")
-        #         torch.save(m, 'transformer_' + str(version) + '.pt')
-            
-        #     xb, yb = get_batch('train',block_size)
-        #     logits, loss = model(xb, yb)
-
-        #     optimizer.zero_grad(set_to_none=True)
-        #     loss.backward()
-        #     optimizer.step()
 
     elif args.dataset == 'stories':
         # TinyStories version that I am currently working on
@@ -270,7 +277,6 @@ if __name__ == '__main__':
                 print("\nSample: \n", decode(list(idx[0])[args.block_size:]), '\n\n')
                 print(f"step {itr}: train loss {losses['train']:.4f}, val loss {losses['test']:.4f}")
                 torch.save(m, 'transformer_' + str(version) + '.pt')
-            # xb, yb = get_batch('train')
             logits, loss = model(xb, yb)
 
             optimizer.zero_grad(set_to_none=True)
