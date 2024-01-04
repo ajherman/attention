@@ -72,7 +72,7 @@ if dataset == 'shakespeare':
             # y = self.data[idx+1:idx+1+self.block_size]
             return x
         
-    class CharacterTokenizer(Tokenizer):
+    class CharacterTokenizer:
         def __init__(self, block_size, **kwargs):
             super().__init__(**kwargs)
             self.block_size = block_size
@@ -180,7 +180,7 @@ if __name__ == '__main__':
     if args.dataset == 'shakespeare':
         shakespeare_data = TextDataFromFile(block_size=block_size+1)
         train_loader = DataLoader(shakespeare_data, batch_size=args.batch_size, shuffle=True)
-        tokenizer = CharacterTokenizer(blokc_size=block_size+1)
+        tokenizer = CharacterTokenizer(block_size=block_size+1)
 
     filepath = args.filepath
     # args_dict = vars(args)
