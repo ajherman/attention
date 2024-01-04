@@ -215,8 +215,8 @@ if __name__ == '__main__':
         N = len(shakespeare_data)
         test_set = Subset(shakespeare_data, [i for i in range(N) if i % 10 == 0])
         train_set = Subset(shakespeare_data, [i for i in range(N) if i % 10 != 0])
-        test_loader = DataLoader(test_data, batch_size=args.batch_size, shuffle=True)
-        train_loader = DataLoader(train_data, batch_size=args.batch_size, shuffle=True)
+        test_loader = DataLoader(test_set, batch_size=args.batch_size, shuffle=True)
+        train_loader = DataLoader(train_set, batch_size=args.batch_size, shuffle=True)
         tokenizer = CharacterTokenizer(block_size=block_size+1)
 
     filepath = args.filepath
