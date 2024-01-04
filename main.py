@@ -82,56 +82,56 @@ if dataset == 'shakespeare':
             batch = batch.to(device)
             return batch        
 
-    # @torch.no_grad()
-    # def estimate_loss(model):
-    #     out = {}
-    #     model.eval()
-    #     # Test loss
-    #     losses=torch.zeros(args.eval_iters)
-    #     for itr,batch in enumerate(test_loader):
-    #         if itr==args.eval_iters:
-    #             break
-    #         data = tokenizer(batch,padding="max_length",truncation=True,max_length=block_size,return_tensors="pt")        
-    #         # data = data['input_ids']
-    #         data = data.to(device)
-    #         xb,yb = data[:, :-1], data[:, 1:]
-    #         logits, loss = model(xb, yb)
-    #         losses[itr]=loss.item()
-
-    #     # losses=torch.tensor(losses)
-    #     out['test'] = losses.mean().item()
-
-    #     # Train loss
-    #     losses=torch.zeros(args.eval_iters)
-    #     for itr,batch in enumerate(train_loader):
-    #         if itr==args.eval_iters:
-    #             break
-    #         data = tokenizer(batch,padding="max_length",truncation=True,max_length=block_size,return_tensors="pt")        
-    #         # data = data['input_ids']
-    #         data = data.to(device)
-    #         xb,yb = data[:, :-1], data[:, 1:]
-    #         logits, loss = model(xb, yb)
-    #         losses[itr]=loss.item()
-
-    #     # losses=torch.tensor(losses)
-    #     out['train'] = losses.mean().item()
-    #     # out['train'] = 0
-    #     model.train()
-    #     return out
-
     @torch.no_grad()
     def estimate_loss(model):
         out = {}
         model.eval()
-        for split in ['train', 'test']:
-            losses = torch.zeros(args.eval_iters)
-            for k in range(args.eval_iters):
-                X, Y = get_batch(split,args.block_size)
-                logits, loss = model(X, Y)
-                losses[k] = loss.item()
-            out[split] = losses.mean().item()
+        # Test loss
+        losses=torch.zeros(args.eval_iters)
+        for itr,batch in enumerate(test_loader):
+            if itr==args.eval_iters:
+                break
+            data = tokenizer(batch,padding="max_length",truncation=True,max_length=block_size,return_tensors="pt")        
+            # data = data['input_ids']
+            data = data.to(device)
+            xb,yb = data[:, :-1], data[:, 1:]
+            logits, loss = model(xb, yb)
+            losses[itr]=loss.item()
+
+        # losses=torch.tensor(losses)
+        out['test'] = losses.mean().item()
+
+        # Train loss
+        losses=torch.zeros(args.eval_iters)
+        for itr,batch in enumerate(train_loader):
+            if itr==args.eval_iters:
+                break
+            data = tokenizer(batch,padding="max_length",truncation=True,max_length=block_size,return_tensors="pt")        
+            # data = data['input_ids']
+            data = data.to(device)
+            xb,yb = data[:, :-1], data[:, 1:]
+            logits, loss = model(xb, yb)
+            losses[itr]=loss.item()
+
+        # losses=torch.tensor(losses)
+        out['train'] = losses.mean().item()
+        # out['train'] = 0
         model.train()
         return out
+
+    # @torch.no_grad()
+    # def estimate_loss(model):
+    #     out = {}
+    #     model.eval()
+    #     for split in ['train', 'test']:
+    #         losses = torch.zeros(args.eval_iters)
+    #         for k in range(args.eval_iters):
+    #             X, Y = get_batch(split,args.block_size)
+    #             logits, loss = model(X, Y)
+    #             losses[k] = loss.item()
+    #         out[split] = losses.mean().item()
+    #     model.train()
+    #     return out
     
 elif dataset == 'stories':
     # vocab_size=50258
