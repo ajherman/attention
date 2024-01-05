@@ -201,7 +201,7 @@ if __name__ == '__main__':
     parser.add_argument('--device', type=str, default=device, help='Specify the device')
     parser.add_argument('--n-itrs', type=int, default=20001, help='Specify the number of iterations')
     parser.add_argument('--dropout', type=float, default=0.2, help='Specify the dropout')
-    # parser.add_argument('--vocab-size', type=int, default=vocab_size, help='Specify the vocab size')
+    parser.add_argument('--vocab-size', type=int, default=vocab_size, help='Specify the vocab size')
     parser.add_argument('--block-type', type=int, default=3, help='Specify the version')
     parser.add_argument('--filepath', type=str,default='original.csv', help='Specify the file path')
     parser.add_argument('--dataset', type=str,default='shakespeare', help='Specify the dataset')
@@ -218,8 +218,8 @@ if __name__ == '__main__':
         test_loader = DataLoader(test_set, batch_size=args.batch_size, shuffle=True)
         train_loader = DataLoader(train_set, batch_size=args.batch_size, shuffle=True)
         tokenizer = CharacterTokenizer(block_size=block_size+1)
-        decode = tokenizer.decode
-        vocab_size=len(tokenizer)
+        # decode = tokenizer.decode
+        # vocab_size=len(tokenizer)
 
     filepath = args.filepath
     # args_dict = vars(args)
