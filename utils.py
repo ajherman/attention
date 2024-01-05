@@ -68,39 +68,39 @@ class ShakespeareData(Dataset):
         return len(self.data)-self.block_size
     
 
-# class TextDataFromFile(Dataset):
-#     def __init__(self,block_size,filepath='datasets/shakespeare.txt'):
-#         self.block_size = block_size
-#         with open(file_path,'r',encoding='utf-8') as f:
-#             self.text = f.read()
-#         self.data = self.text #torch.tensor(encode(self.text),dtype=torch.long)
-#     def __len__(self):
-#         return len(self.data) - self.block_size
+class TextDataFromFile(Dataset):
+    def __init__(self,block_size,filepath='datasets/shakespeare.txt'):
+        self.block_size = block_size
+        with open(file_path,'r',encoding='utf-8') as f:
+            self.text = f.read()
+        self.data = self.text #torch.tensor(encode(self.text),dtype=torch.long)
+    def __len__(self):
+        return len(self.data) - self.block_size
 
-#     def __getitem__(self, idx):
-#         x = self.data[idx:idx+self.block_size]
-#         return x
+    def __getitem__(self, idx):
+        x = self.data[idx:idx+self.block_size]
+        return x
 
-# class CharacterTokenizer:
-#     def __init__(self, block_size, **kwargs):
-#         super().__init__(**kwargs)
-#         # Get char list
-#         self.chars = ['\n', ' ', '!', '$', '&', "'", ',', '-', '.', '3', ':', ';', '?', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
-#         # chars = sorted(list(set(text)))
-#         # Define encoding and decoding functions
-#         s2i = {ch:i for i,ch in enumerate(self.chars)}
-#         i2s = self.chars
-#         self.encode = lambda s: [s2i[c] for c in s]
-#         self.decode = lambda l: ''.join([i2s[i] for i in l])
-#         self.block_size = block_size
-#     def _tokenize(self, text): # Takes string and returns list of tokens
-#         return encode(text)
-#     def __call__(self, text, **kwargs):
-#         batch = torch.stack([torch.tensor(self.encode(s),dtype=torch.long) for s in text])
-#         batch = batch.to(device)
-#         return batch    
-#     def __len__(self):
-#         return len(self.chars)
+class CharacterTokenizer:
+    def __init__(self, block_size, **kwargs):
+        super().__init__(**kwargs)
+        # Get char list
+        self.chars = ['\n', ' ', '!', '$', '&', "'", ',', '-', '.', '3', ':', ';', '?', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
+        # chars = sorted(list(set(text)))
+        # Define encoding and decoding functions
+        s2i = {ch:i for i,ch in enumerate(self.chars)}
+        i2s = self.chars
+        self.encode = lambda s: [s2i[c] for c in s]
+        self.decode = lambda l: ''.join([i2s[i] for i in l])
+        self.block_size = block_size
+    def _tokenize(self, text): # Takes string and returns list of tokens
+        return encode(text)
+    def __call__(self, text, **kwargs):
+        batch = torch.stack([torch.tensor(self.encode(s),dtype=torch.long) for s in text])
+        batch = batch.to(device)
+        return batch    
+    def __len__(self):
+        return len(self.chars)
 # Basic components
 ####################################################################################
 class RMSNorm(nn.Module):
