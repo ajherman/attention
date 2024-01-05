@@ -14,7 +14,7 @@ from tokenizers import Tokenizer
 from transformers import GPT2Tokenizer, GPT2Model, AutoTokenizer
 
 data_cache_dir = "/ram/tmp"
-dataset = 'shakespeare'
+dataset = 'stories' #'shakespeare'
 
 # Set seed
 torch.manual_seed(1337)
@@ -154,7 +154,7 @@ elif dataset == 'stories':
         for itr,batch in enumerate(test_loader):
             if itr==args.eval_iters:
                 break
-            data = tokenizer(batch['text'],padding="max_length",truncation=True,max_length=block_size,return_tensors="pt")        
+            data = tokenizer(batch['text'],padding="max_length",truncation=True,max_length=block_size+1,return_tensors="pt")        
             data = data['input_ids']
             data = data.to(device)
             xb,yb = data[:, :-1], data[:, 1:]
@@ -168,7 +168,7 @@ elif dataset == 'stories':
         for itr,batch in enumerate(train_loader):
             if itr==args.eval_iters:
                 break
-            data = tokenizer(batch['text'],padding="max_length",truncation=True,max_length=block_size,return_tensors="pt")        
+            data = tokenizer(batch['text'],padding="max_length",truncation=True,max_length=block_size+1,return_tensors="pt")        
             data = data['input_ids']
             data = data.to(device)
             xb,yb = data[:, :-1], data[:, 1:]
@@ -238,7 +238,7 @@ if __name__ == '__main__':
         #tokenizer = GPT2Tokenizer.from_pretrained('gpt2')
         tokenizer = AutoTokenizer.from_pretrained("georgeyw/TinyStories-tokenizer-10k")
         tokenizer.add_special_tokens({'pad_token': '[PAD]'})
-        
+
     vocab_size=len(tokenizer)
     decode = tokenizer.decode
 
@@ -289,7 +289,7 @@ if __name__ == '__main__':
     elif args.dataset == 'stories':
         # TinyStories version that I am currently working on
         for itr,batch in enumerate(train_loader):
-            data = tokenizer(batch['text'],padding="max_length",truncation=True,max_length=block_size,return_tensors="pt")        
+            data = tokenizer(batch['text'],padding="max_length",truncation=True,max_length=block_size+1,return_tensors="pt")        
             data = data['input_ids']
             data = data.to(device)
             xb,yb = data[:, :-1], data[:, 1:]
