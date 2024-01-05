@@ -34,9 +34,9 @@ if dataset == 'shakespeare':
         text = f.read()
 
     # Get char list
-    chars = sorted(list(set(text)))
-    print(chars)
-    assert(0)
+    # chars = sorted(list(set(text)))
+    # print(chars)
+    # assert(0)
     # vocab_size = len(chars)
 
     # # Define encoding and decoding functions
