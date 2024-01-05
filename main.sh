@@ -17,8 +17,8 @@ cores=20
 
 # For TinyStories version
 srun -N 1 -n 1 -c $cores -o base.out --open-mode=append ./main_wrapper.sh --block-type 0 --block-size 128 --eval-interval 50 --batch-size 64 --dm 512 --h 6 --N 6 --lr 5e-4 --dataset stories --filepath base.csv & #--vocab-size 50258 &
-srun -N 1 -n 1 -c $cores -o base.out --open-mode=append ./main_wrapper.sh --block-type 3 --block-size 128 --eval-interval 50 --batch-size 64 --dm 512 --h 6 --N 6 --lr 5e-4 --dataset stories --filepath base.csv & #--vocab-size 50258 &
-srun -N 1 -n 1 -c $cores -o base.out --open-mode=append ./main_wrapper.sh --block-type 5 --block-size 128 --eval-interval 50 --batch-size 64 --dm 512 --h 6 --N 6 --lr 5e-4 --dataset stories --filepath base.csv & #--vocab-size 50258 &
+srun -N 1 -n 1 -c $cores -o rms.out --open-mode=append ./main_wrapper.sh --block-type 3 --block-size 128 --eval-interval 50 --batch-size 64 --dm 512 --h 6 --N 6 --lr 5e-4 --dataset stories --filepath rms.csv & #--vocab-size 50258 &
+srun -N 1 -n 1 -c $cores -o rectified.out --open-mode=append ./main_wrapper.sh --block-type 5 --block-size 128 --eval-interval 50 --batch-size 64 --dm 512 --h 6 --N 6 --lr 5e-4 --dataset stories --filepath rectified.csv & #--vocab-size 50258 &
 
 #srun -N 1 -n 1 -c $cores -o base.out --open-mode=append ./main_wrapper.sh --block-type 0 --block-size 100 --dm 384 --h 8 --lr 5e-4 --filepath base.csv #--vocab-size 50258 &
 
