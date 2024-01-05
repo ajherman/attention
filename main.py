@@ -58,18 +58,18 @@ if dataset == 'shakespeare':
     #     x,y=x.to(device),y.to(device)
     #     return x,y
 
-    # class TextDataFromFile(Dataset):
-    #     def __init__(self,block_size,filepath='datasets/shakespeare.txt'):
-    #         self.block_size = block_size
-    #         with open(file_path,'r',encoding='utf-8') as f:
-    #             self.text = f.read()
-    #         self.data = self.text #torch.tensor(encode(self.text),dtype=torch.long)
-    #     def __len__(self):
-    #         return len(self.data) - self.block_size
+    class TextDataFromFile(Dataset):
+        def __init__(self,block_size,filepath='datasets/shakespeare.txt'):
+            self.block_size = block_size
+            with open(file_path,'r',encoding='utf-8') as f:
+                self.text = f.read()
+            self.data = self.text #torch.tensor(encode(self.text),dtype=torch.long)
+        def __len__(self):
+            return len(self.data) - self.block_size
 
-    #     def __getitem__(self, idx):
-    #         x = self.data[idx:idx+self.block_size]
-    #         return x
+        def __getitem__(self, idx):
+            x = self.data[idx:idx+self.block_size]
+            return x
         
     class CharacterTokenizer:
         def __init__(self, block_size, **kwargs):
