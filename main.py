@@ -12,6 +12,7 @@ from datasets import load_dataset
 #from torch.utils.tensorboard import SummaryWriter
 from tokenizers import Tokenizer
 from transformers import GPT2Tokenizer, GPT2Model, AutoTokenizer
+import time
 
 data_cache_dir = "/ram/tmp"
 dataset = 'stories' #'shakespeare'
@@ -143,7 +144,8 @@ if __name__ == '__main__':
         test_set = load_dataset("nRuaif/tinystories-gpt4",cache_dir=data_cache_dir,split='test')
         test_loader = DataLoader(test_set, batch_size=64)
         #tokenizer = GPT2Tokenizer.from_pretrained('gpt2')
-        tokenizer = AutoTokenizer.from_pretrained("georgeyw/TinyStories-tokenizer-10k")
+        # tokenizer = AutoTokenizer.from_pretrained("georgeyw/TinyStories-tokenizer-10k")
+        tokenizer = AutoTokenizer.from_pretrained("georgeyw/TinyStories-tokenizer-5k")
         tokenizer.add_special_tokens({'pad_token': '[PAD]'})
 
     vocab_size=len(tokenizer)
@@ -194,6 +196,7 @@ if __name__ == '__main__':
             optimizer.step()
 
     elif args.dataset == 'stories':
+        tic = time.time()
         # TinyStories version that I am currently working on
         for itr,batch in enumerate(train_loader):
             data = tokenizer(batch['text'],padding="max_length",truncation=True,max_length=block_size+1,return_tensors="pt")        
@@ -201,6 +204,8 @@ if __name__ == '__main__':
             data = data.to(device)
             xb,yb = data[:, :-1], data[:, 1:]
             if itr % args.eval_interval == 0:
+                elapsed, tic = time.time() - tic, time.time()
+                print(f"step {itr}: {elapsed:.2f} seconds")
                 losses = estimate_loss(model)  # Calculate loss
                 with open(filepath, 'a', newline='') as csvfile:
                     writer = csv.writer(csvfile)
