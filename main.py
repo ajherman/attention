@@ -20,35 +20,35 @@ dataset = 'shakespeare'
 torch.manual_seed(1337)
 
 if dataset == 'shakespeare':
-    # Download a sample text file (e.g., "The Complete Works of William Shakespeare")
-    url = "https://raw.githubusercontent.com/karpathy/char-rnn/master/data/tinyshakespeare/input.txt"
-    file_path = "datasets/shakespeare.txt"
+    # # Download a sample text file (e.g., "The Complete Works of William Shakespeare")
+    # url = "https://raw.githubusercontent.com/karpathy/char-rnn/master/data/tinyshakespeare/input.txt"
+    # file_path = "datasets/shakespeare.txt"
 
-    if not os.path.exists(file_path):
-        response = requests.get(url)
-        with open(file_path, 'w') as file:
-            file.write(response.text)
+    # if not os.path.exists(file_path):
+    #     response = requests.get(url)
+    #     with open(file_path, 'w') as file:
+    #         file.write(response.text)
 
-    # Read in text file
-    with open(file_path,'r',encoding='utf-8') as f:
-        text = f.read()
+    # # Read in text file
+    # with open(file_path,'r',encoding='utf-8') as f:
+    #     text = f.read()
 
-    # Get char list
-    chars = sorted(list(set(text)))
-    vocab_size = len(chars)
+    # # Get char list
+    # chars = sorted(list(set(text)))
+    # vocab_size = len(chars)
 
-    # Define encoding and decoding functions
-    s2i = {ch:i for i,ch in enumerate(chars)}
-    i2s = chars
+    # # Define encoding and decoding functions
+    # s2i = {ch:i for i,ch in enumerate(chars)}
+    # i2s = chars
 
-    encode = lambda s: [s2i[c] for c in s]
-    decode = lambda l: ''.join([i2s[i] for i in l])
+    # encode = lambda s: [s2i[c] for c in s]
+    # decode = lambda l: ''.join([i2s[i] for i in l])
 
-    # Make tokenized datasets
-    data = torch.tensor(encode(text),dtype=torch.long)
-    n = int(0.9*len(data))
-    train_data = data[:n]
-    test_data = data[n:]
+    # # Make tokenized datasets
+    # data = torch.tensor(encode(text),dtype=torch.long)
+    # n = int(0.9*len(data))
+    # train_data = data[:n]
+    # test_data = data[n:]
 
     # def get_batch(split,block_size):
     #     data = train_data if split == 'train' else test_data
@@ -134,16 +134,16 @@ if dataset == 'shakespeare':
     #     return out
     
 elif dataset == 'stories':
-    # vocab_size=50258
-    train_set = load_dataset("nRuaif/tinystories-gpt4",cache_dir=data_cache_dir,split='train')
-    train_loader = DataLoader(train_set, batch_size=64)
-    test_set = load_dataset("nRuaif/tinystories-gpt4",cache_dir=data_cache_dir,split='test')
-    test_loader = DataLoader(test_set, batch_size=64)
-    #tokenizer = GPT2Tokenizer.from_pretrained('gpt2')
-    tokenizer = AutoTokenizer.from_pretrained("georgeyw/TinyStories-tokenizer-10k")
-    tokenizer.add_special_tokens({'pad_token': '[PAD]'})
-    vocab_size=len(tokenizer)
-    decode = tokenizer.decode
+    # # vocab_size=50258
+    # train_set = load_dataset("nRuaif/tinystories-gpt4",cache_dir=data_cache_dir,split='train')
+    # train_loader = DataLoader(train_set, batch_size=64)
+    # test_set = load_dataset("nRuaif/tinystories-gpt4",cache_dir=data_cache_dir,split='test')
+    # test_loader = DataLoader(test_set, batch_size=64)
+    # #tokenizer = GPT2Tokenizer.from_pretrained('gpt2')
+    # tokenizer = AutoTokenizer.from_pretrained("georgeyw/TinyStories-tokenizer-10k")
+    # tokenizer.add_special_tokens({'pad_token': '[PAD]'})
+    # vocab_size=len(tokenizer)
+    # decode = tokenizer.decode
 
     @torch.no_grad()
     def estimate_loss(model):
@@ -211,15 +211,36 @@ if __name__ == '__main__':
     block_size=args.block_size
 
     if args.dataset == 'shakespeare':
-        shakespeare_data = TextDataFromFile(block_size=block_size+1)
+        # Download a sample text file (e.g., "The Complete Works of William Shakespeare")
+        url = "https://raw.githubusercontent.com/karpathy/char-rnn/master/data/tinyshakespeare/input.txt"
+        file_path = "datasets/shakespeare.txt"
+
+        if not os.path.exists(file_path):
+            response = requests.get(url)
+            with open(file_path, 'w') as file:
+                file.write(response.text)
+
+        shakespeare_data = TextDataFromFile(block_size=block_size+1,filepath=file_path)
         N = len(shakespeare_data)
         test_set = Subset(shakespeare_data, [i for i in range(N) if i % 10 == 0])
         train_set = Subset(shakespeare_data, [i for i in range(N) if i % 10 != 0])
         test_loader = DataLoader(test_set, batch_size=args.batch_size, shuffle=True)
         train_loader = DataLoader(train_set, batch_size=args.batch_size, shuffle=True)
         tokenizer = CharacterTokenizer(block_size=block_size+1)
-        decode = tokenizer.decode
-        vocab_size=len(tokenizer)
+        # decode = tokenizer.decode
+        # vocab_size=len(tokenizer)
+    elif args.dataset == 'stories':
+        # vocab_size=50258
+        train_set = load_dataset("nRuaif/tinystories-gpt4",cache_dir=data_cache_dir,split='train')
+        train_loader = DataLoader(train_set, batch_size=64)
+        test_set = load_dataset("nRuaif/tinystories-gpt4",cache_dir=data_cache_dir,split='test')
+        test_loader = DataLoader(test_set, batch_size=64)
+        #tokenizer = GPT2Tokenizer.from_pretrained('gpt2')
+        tokenizer = AutoTokenizer.from_pretrained("georgeyw/TinyStories-tokenizer-10k")
+        tokenizer.add_special_tokens({'pad_token': '[PAD]'})
+        
+    vocab_size=len(tokenizer)
+    decode = tokenizer.decode
 
     filepath = args.filepath
     # args_dict = vars(args)
