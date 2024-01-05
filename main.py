@@ -218,7 +218,7 @@ if __name__ == '__main__':
         test_loader = DataLoader(test_set, batch_size=args.batch_size, shuffle=True)
         train_loader = DataLoader(train_set, batch_size=args.batch_size, shuffle=True)
         tokenizer = CharacterTokenizer(block_size=block_size+1)
-        vocab_size=len(tokenizer)
+        # vocab_size=len(tokenizer)
 
     filepath = args.filepath
     # args_dict = vars(args)
