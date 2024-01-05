@@ -14,7 +14,7 @@ from tokenizers import Tokenizer
 from transformers import GPT2Tokenizer, GPT2Model, AutoTokenizer
 
 data_cache_dir = "/ram/tmp"
-dataset = 'shakespeare'
+dataset = 'stories' #'shakespeare'
 
 # Set seed
 torch.manual_seed(1337)
