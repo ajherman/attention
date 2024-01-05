@@ -144,7 +144,8 @@ if __name__ == '__main__':
         test_set = load_dataset("nRuaif/tinystories-gpt4",cache_dir=data_cache_dir,split='test')
         test_loader = DataLoader(test_set, batch_size=64)
         #tokenizer = GPT2Tokenizer.from_pretrained('gpt2')
-        tokenizer = AutoTokenizer.from_pretrained("georgeyw/TinyStories-tokenizer-10k")
+        # tokenizer = AutoTokenizer.from_pretrained("georgeyw/TinyStories-tokenizer-10k")
+        tokenizer = AutoTokenizer.from_pretrained("georgeyw/TinyStories-tokenizer-5k")
         tokenizer.add_special_tokens({'pad_token': '[PAD]'})
 
     vocab_size=len(tokenizer)
