@@ -14,43 +14,18 @@ device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 # Set seed
 torch.manual_seed(1337)
 
-# Download a sample text file (e.g., "The Complete Works of William Shakespeare")
-url = "https://raw.githubusercontent.com/karpathy/char-rnn/master/data/tinyshakespeare/input.txt"
-file_path = "shakespeare.txt"
+# # Download a sample text file (e.g., "The Complete Works of William Shakespeare")
+# url = "https://raw.githubusercontent.com/karpathy/char-rnn/master/data/tinyshakespeare/input.txt"
+# file_path = "shakespeare.txt"
 
-if not os.path.exists(file_path):
-    response = requests.get(url)
-    with open(file_path, 'w') as file:
-        file.write(response.text)
+# if not os.path.exists(file_path):
+#     response = requests.get(url)
+#     with open(file_path, 'w') as file:
+#         file.write(response.text)
 
-# Read in text file
-with open(file_path,'r',encoding='utf-8') as f:
-    text = f.read()
-
-# # Get char list
-# chars = sorted(list(set(text)))
-# vocab_size = len(chars)
-
-# # Define encoding and decoding functions
-# s2i = {ch:i for i,ch in enumerate(chars)}
-# i2s = chars
-
-# encode = lambda s: [s2i[c] for c in s]
-# decode = lambda l: ''.join([i2s[i] for i in l])
-
-# # Make tokenized datasets
-# data = torch.tensor(encode(text))
-# n = int(0.9*len(data))
-# train_data = data[:n]
-# test_data = data[n:]
-
-# def get_batch(split):
-#     data = train_data if split == 'train' else test_data
-#     idx = torch.randint(len(data)-block_size,(batch_size,))
-#     x = torch.stack([data[i:i+block_size] for i in idx])
-#     y = torch.stack([data[i+1:i+1+block_size] for i in idx])
-#     x,y=x.to(device),y.to(device)
-#     return x,y
+# # Read in text file
+# with open(file_path,'r',encoding='utf-8') as f:
+#     text = f.read()
 
 # Datasets
 class ShakespeareData(Dataset):
