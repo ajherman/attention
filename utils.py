@@ -28,21 +28,20 @@ torch.manual_seed(1337)
 #     text = f.read()
 
 # Datasets
-class ShakespeareData(Dataset):
-    def __init__(self,block_size=None,file_path='shakespeare.txt'):
-        super().__init__()
-        with open(file_path,'r',encoding='utf-8') as f:
-            self.text = f.read()
-        self.data = torch.tensor(encode(self.text))
-        self.block_size=block_size
-    def __getitem__(self,idx):
-        x = self.data[idx:idx+self.block_size]
-        y = self.data[idx+1:idx+1+self.block_size]
-        return x,y
-    def __len__(self):
-        return len(self.data)-self.block_size
+# class ShakespeareData(Dataset):
+#     def __init__(self,block_size=None,file_path='shakespeare.txt'):
+#         super().__init__()
+#         with open(file_path,'r',encoding='utf-8') as f:
+#             self.text = f.read()
+#         self.data = torch.tensor(encode(self.text))
+#         self.block_size=block_size
+#     def __getitem__(self,idx):
+#         x = self.data[idx:idx+self.block_size]
+#         y = self.data[idx+1:idx+1+self.block_size]
+#         return x,y
+#     def __len__(self):
+#         return len(self.data)-self.block_size
     
-
 class TextDataFromFile(Dataset):
     def __init__(self,block_size,filepath):
         self.block_size = block_size
@@ -61,8 +60,6 @@ class CharacterTokenizer:
         super().__init__(**kwargs)
         # Get char list
         self.chars = ['\n', ' ', '!', '$', '&', "'", ',', '-', '.', '3', ':', ';', '?', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
-        # chars = sorted(list(set(text)))
-        # Define encoding and decoding functions
         s2i = {ch:i for i,ch in enumerate(self.chars)}
         i2s = self.chars
         self.encode = lambda s: [s2i[c] for c in s]
