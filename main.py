@@ -29,12 +29,14 @@ if dataset == 'shakespeare':
         with open(file_path, 'w') as file:
             file.write(response.text)
 
-    # # Read in text file
-    # with open(file_path,'r',encoding='utf-8') as f:
-    #     text = f.read()
+    # Read in text file
+    with open(file_path,'r',encoding='utf-8') as f:
+        text = f.read()
 
-    # # Get char list
-    # chars = sorted(list(set(text)))
+    # Get char list
+    chars = sorted(list(set(text)))
+    print(chars)
+    assert(0)
     # vocab_size = len(chars)
 
     # # Define encoding and decoding functions
