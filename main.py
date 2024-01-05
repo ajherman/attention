@@ -218,8 +218,8 @@ if __name__ == '__main__':
         test_loader = DataLoader(test_set, batch_size=args.batch_size, shuffle=True)
         train_loader = DataLoader(train_set, batch_size=args.batch_size, shuffle=True)
         tokenizer = CharacterTokenizer(block_size=block_size+1)
-        # decode = tokenizer.decode
-        vocab_size=len(targs.vokenizer)
+        decode = tokenizer.decode
+        vocab_size=len(args.tokenizer)
 
     filepath = args.filepath
     # args_dict = vars(args)
