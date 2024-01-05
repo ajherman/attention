@@ -69,7 +69,7 @@ class ShakespeareData(Dataset):
     
 
 class TextDataFromFile(Dataset):
-    def __init__(self,block_size,filepath='datasets/shakespeare.txt'):
+    def __init__(self,block_size,filepath):
         self.block_size = block_size
         with open(file_path,'r',encoding='utf-8') as f:
             self.text = f.read()
