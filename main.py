@@ -34,23 +34,21 @@ if dataset == 'shakespeare':
         text = f.read()
 
     # Get char list
-    # chars = sorted(list(set(text)))
-    # print(chars)
-    # assert(0)
-    # vocab_size = len(chars)
+    chars = sorted(list(set(text)))
+    vocab_size = len(chars)
 
-    # # Define encoding and decoding functions
-    # s2i = {ch:i for i,ch in enumerate(chars)}
-    # i2s = chars
+    # Define encoding and decoding functions
+    s2i = {ch:i for i,ch in enumerate(chars)}
+    i2s = chars
 
-    # encode = lambda s: [s2i[c] for c in s]
-    # decode = lambda l: ''.join([i2s[i] for i in l])
+    encode = lambda s: [s2i[c] for c in s]
+    decode = lambda l: ''.join([i2s[i] for i in l])
 
-    # # Make tokenized datasets
-    # data = torch.tensor(encode(text),dtype=torch.long)
-    # n = int(0.9*len(data))
-    # train_data = data[:n]
-    # test_data = data[n:]
+    # Make tokenized datasets
+    data = torch.tensor(encode(text),dtype=torch.long)
+    n = int(0.9*len(data))
+    train_data = data[:n]
+    test_data = data[n:]
 
     # def get_batch(split,block_size):
     #     data = train_data if split == 'train' else test_data
@@ -73,16 +71,16 @@ if dataset == 'shakespeare':
     #         x = self.data[idx:idx+self.block_size]
     #         return x
         
-    # class CharacterTokenizer:
-    #     def __init__(self, block_size, **kwargs):
-    #         super().__init__(**kwargs)
-    #         self.block_size = block_size
-    #     def _tokenize(self, text): # Takes string and returns list of tokens
-    #         return encode(text)
-    #     def __call__(self, text, **kwargs):
-    #         batch = torch.stack([torch.tensor(encode(s),dtype=torch.long) for s in text])
-    #         batch = batch.to(device)
-    #         return batch        
+    class CharacterTokenizer:
+        def __init__(self, block_size, **kwargs):
+            super().__init__(**kwargs)
+            self.block_size = block_size
+        def _tokenize(self, text): # Takes string and returns list of tokens
+            return encode(text)
+        def __call__(self, text, **kwargs):
+            batch = torch.stack([torch.tensor(encode(s),dtype=torch.long) for s in text])
+            batch = batch.to(device)
+            return batch        
 
     @torch.no_grad()
     def estimate_loss(model):
