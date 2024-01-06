@@ -473,20 +473,6 @@ class Block7(nn.Module): # This block uses RMSNorm instead of layer norm AND rec
         x = x + self.ffn(self.ln2(x))
         return x
     
-    # def __init__(self,dm,h):
-    #     super().__init__()
-    #     dk = dm // h
-    #     dv = dk
-    #     assert(dk*h==dm) # Check the input/output size of block is same
-    #     self.mha = MultiHeadAttention(dm,dk,dv,h)
-    #     self.ffn = FeedForward(dm)
-    #     self.ln1 = RMSNorm(dm)
-    #     self.ln2 = RMSNorm(dm)
-        
-    # def forward(self,x):
-    #     x = x + self.mha(self.ln1(x))
-    #     x = x + self.ffn(self.ln2(x))
-    #     return x
 
 '''
 Next step is to create a block that uses only rectified activities.
@@ -558,25 +544,19 @@ class Transformer(nn.Module):
         if targets is None:
             loss=None
         else:
-            # print(logits.shape)
-            # print(targets.shape)
-            #assert(0)
             flat_logits=logits.view(-1,self.vocab_size)
-            # print(flat_logits.shape) 
             flat_targets=targets.contiguous().view(-1)
-            # print(flat_logits.shape) 
-
             loss=F.cross_entropy(flat_logits,flat_targets)
         if self.logits_only:
             return logits
         else:
             return logits,loss
-    def generate(self,idx,max_new_tokens):
+    def generate(self,idx,max_new_tokens,beta=1.0):
         for _ in range(max_new_tokens):
             context_idx=idx[:,-self.block_size:]
             logits,_=self(context_idx)
             last_logits=logits[:,-1,:] # Only care about next word prediction
-            probs=F.softmax(last_logits,dim=-1)
+            probs=F.softmax(beta*last_logits,dim=-1)
             idx_next=torch.multinomial(probs,num_samples=1)
             idx=torch.cat((idx,idx_next),dim=1)
         return idx

@@ -211,7 +211,7 @@ if __name__ == '__main__':
                     writer = csv.writer(csvfile)
                     writer.writerow([losses[split] for split in ['train','test']])
                 idx = torch.zeros((1, args.block_size), device=device, dtype=torch.long)
-                idx = m.generate(idx, 500)
+                idx = m.generate(idx, 500,beta=2.0)
                 print("\nSample: \n", decode(list(idx[0])[args.block_size:]), '\n\n')
                 print(f"step {itr}: train loss {losses['train']:.4f}, val loss {losses['test']:.4f}")
                 torch.save(m, 'transformer_' + str(version) + '.pt')
