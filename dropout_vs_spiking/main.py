@@ -10,7 +10,7 @@ from utils import *
 parser = argparse.ArgumentParser()
 parser.add_argument('--dataset', type=str, default='mnist', help='Dataset name')
 parser.add_argument('--device', type=str, default='cpu', help='Device to train on')
-parser.add_argument('--data-dir', type=str, default='./data', help='Directory to store data')
+parser.add_argument('--data-dir', type=str, default='~/datasets', help='Directory to store data')
 parser.add_argument('--csv-file', type=str, default='data.csv', help='CSV file location')
 
 args = parser.parse_args()

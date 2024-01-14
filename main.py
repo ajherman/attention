@@ -14,7 +14,7 @@ from tokenizers import Tokenizer
 from transformers import GPT2Tokenizer, GPT2Model, AutoTokenizer
 import time
 
-data_cache_dir = "/ram/tmp"
+data_cache_dir = "~/datasets" #"/ram/tmp"
 dataset = 'stories' #'shakespeare'
 
 # Set seed
