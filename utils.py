@@ -75,6 +75,52 @@ class CharacterTokenizer:
         return len(self.chars)
 # Basic components
 ####################################################################################
+
+# # Activation functions
+# def gelu(x):
+#     return 0.5*x*(1+torch.tanh(0.7978845608*x*(1+0.044715*x*x)))    
+
+# def swish(x):
+#     return x*torch.sigmoid(x)       
+
+# def mish(x):        
+#     return x*torch.tanh(F.softplus(x))
+
+# def identity(x):
+#     return x
+
+# Similiarity functions
+class sdp(nn.Module):
+    def __init__(self,dropout=0.2):
+        super().__init__()
+        self.softmax = nn.Softmax(dim=-1)
+        self.dropout = nn.Dropout(dropout) # New
+        
+    def forward(self,q,k,T,block_size):
+        # B,T,C = q.shape # New
+        tril=torch.tril(torch.ones((block_size,block_size),device=device))
+        out = torch.matmul(q,k.transpose(-2,-1))*k.shape[-1]**-0.5
+        out = out.masked_fill(tril[:T,:T]==0,float('-inf')) # New
+        out = self.softmax(out)
+        out = self.dropout(out) # New
+        return out
+    
+class log(nn.Module):
+    def __init__(self,dropout=0.2):
+        super().__init__()
+        self.dropout = nn.Dropout(dropout) # New
+        self.softmax = nn.Softmax(dim=-1)
+    def forward(self,q,k,T,block_size):
+        # B,T,C = q.shape # New
+        q_expanded = torch.log(q.unsqueeze(-2))
+        k_expanded = torch.log(k.unsqueeze(-3))
+        q_plus_k = q_expanded + k_expanded
+        out = torch.sum(torch.exp(q_plus_k),dim=-1)*k.shape[-1]**-0.5
+        out = out.masked_fill(tril[:T,:T]==0,float('-inf')) # New
+        out = self.softmax(out)
+        out = self.dropout(out) # New
+        return out
+   
 class RMSNorm(nn.Module):
     def __init__(self,dm):
         super().__init__()
@@ -82,50 +128,26 @@ class RMSNorm(nn.Module):
         x = x/torch.sqrt(torch.mean(x**2,dim=-1,keepdim=True))
         return x
 
-# # Trying to make this class cover all cases...
-# class SelfAttentionHead(nn.Module):
-#     def __init__(self,dm,dk,dv,dropout=0.2,rectify=False,sim='sdp'):
-#         super().__init__()
-#         self.sim=sim
-#         self.W_k = nn.Linear(dm,dk,bias=False)
-#         self.W_q = nn.Linear(dm,dk,bias=False)
-#         self.W_v = nn.Linear(dm,dv,bias=False)
-#         self.tril=torch.tril(torch.ones((block_size,block_size),device=device))
-#         self.dropout = nn.Dropout(dropout) # New
-#     def forward(self,x):
-#         B,T,C=x.shape # New
-#         k=self.W_k(x)
-#         q=self.W_q(x)
-#         v=self.W_v(x)
+# !!!! Under construction !!!!
+class SelfAttentionHeadNew(nn.Module):
+    def __init__(self,dm,dk,dv,dropout=0.2,ActFun=nn.Identity(),Similarity=sdp(),block_size=256):
+        super().__init__()
+        self.block_size=block_size
+        self.key = nn.Sequential(nn.Linear(dm,dk,bias=False),ActFun)
+        self.query = nn.Sequential(nn.Linear(dm,dk,bias=False),ActFun)
+        self.value = nn.Linear(dm,dv,bias=False)
+        self.tril=torch.tril(torch.ones((block_size,block_size),device=device))
+        self.dropout = nn.Dropout(dropout) 
+        self.sim = Similarity # Calculate similarity scores
+    def forward(self,x):
+        B,T,C=x.shape # New
+        k=self.key(x)
+        q=self.query(x)
+        v=self.value(x)
+        wei=self.sim(q,k,T,self.block_size)
+        out=wei@v
+        return out
 
-#         if self.sim=='sdp': # Original version
-#             wei = q@k.transpose(-2,-1)*k.shape[-1]**-0.5
-#             wei=wei.masked_fill(self.tril[:T,:T]==0,float('-inf')) # New
-#             wei=torch.softmax(wei,dim=-1)
-#         elif self.sim=='rdp': # Rectified dot product
-#             q_rect = torch.relu(q)
-#             k_rect = torch.relu(k)
-#             wei = q_rect@k_rect.transpose(-2,-1)*k.shape[-1]**-0.5
-#             wei=wei.masked_fill(self.tril[:T,:T]==0,float('-inf')) # New
-#             wei=torch.softmax(wei,dim=-1)
-#         elif self.sim=='log': # Should be equivalent to rectified version
-#             q_expanded = torch.log(torch.relu(q.unsqueeze(-2)))
-#             k_expanded = torch.log(torch.relu(k.unsqueeze(-3)))
-#             q_plus_k = q_expanded + k_expanded
-#             wei=torch.sum(torch.exp(q_plus_k),dim=-1)*k.shape[-1]**-0.5
-#             wei=wei.masked_fill(self.tril[:T,:T]==0,float('-inf')) # New
-#             wei=torch.softmax(wei,dim=-1)
-#         elif self.sim=='log2': # Like above but no log and no softmax
-#             q_expanded = torch.relu(q.unsqueeze(-2))
-#             k_expanded = torch.relu(k.unsqueeze(-3))
-#             q_plus_k = q_expanded + k_expanded
-#             wei=torch.sum(torch.exp(q_plus_k),dim=-1)*k.shape[-1]**-0.5
-#             wei=wei.masked_fill(self.tril[:T,:T]==0,float('-inf')) # New
-#             wei=nn.functional.normalize(wei,p=1,dim=-1) # Just scale, rather than softmax
-
-#         wei=self.dropout(wei) # New
-#         out=wei@v
-#         return out
 class SelfAttentionHead(nn.Module):
     def __init__(self,dm,dk,dv,dropout=0.2,rectify=False,sim='sdp',block_size=256):
         super().__init__()
@@ -228,7 +250,7 @@ class LearnedSimilarityHead(nn.Module):
         return out
     
 class MultiHeadAttention(nn.Module):
-    def __init__(self,dm,dk,dv,h,dropout=0.2,project=True,attention_type='sdp',rectify=False,block_size=256):
+    def __init__(self,dm,dk,dv,h,dropout=0.2,project=True,attention_type='sdp',rectify=False,block_size=256,ActFun=None,Similarity=None):
         super().__init__()
         self.project=project
         if attention_type=='sdp':
@@ -239,6 +261,8 @@ class MultiHeadAttention(nn.Module):
             self.heads = nn.ModuleList([SelfAttentionHead2(dm,dk,dv,block_size=block_size) for i in range(h)])    
         elif attention_type=='mine':
             self.heads = nn.ModuleList([SelfAttentionHead3(dm,dk,dv,block_size=block_size) for i in range(h)])
+        elif attention_type=='new':
+            self.heads = nn.ModuleList([SelfAttentionHeadNew(dm,dk,dv,block_size=block_size,ActFun=ActFun,Similarity=Similarity) for i in range(h)])
         if project:
             self.W_o = nn.Linear(dv*h,dm)
         self.dropout = nn.Dropout(dropout)
@@ -474,9 +498,21 @@ class Block7(nn.Module): # This block uses RMSNorm instead of layer norm AND rec
         return x
     
 
-'''
-Next step is to create a block that uses only rectified activities.
-'''
+class Block8(nn.Module): # This block uses RMSNorm instead of layer norm
+    def __init__(self,dm,h,block_size=256,ActFun=nn.ReLU(),Similarity=sdp()):
+        super().__init__()
+        dk = dm // h
+        dv = dk
+        assert(dk*h==dm) # Check the input/output size of block is same
+        self.mha = MultiHeadAttention(dm,dk,dv,h,attention_type='new',block_size=block_size,ActFun=ActFun,Similarity=Similarity)
+        self.ffn = FeedForward(dm)
+        self.ln1 = RMSNorm(dm)
+        self.ln2 = RMSNorm(dm)
+    def forward(self,x):
+        x = x + self.mha(self.ln1(x))
+        x = x + self.ffn(self.ln2(x))
+        return x
+
 
 # Models
 ###############################################################################################
@@ -516,6 +552,8 @@ class Transformer(nn.Module):
             self.blocks = nn.Sequential(*[Block6(dm,h,block_size=block_size) for _ in range(N)])
         elif block_type == 7:   
             self.blocks = nn.Sequential(*[Block7(dm,h,block_size=block_size) for _ in range(N)])
+        elif block_type == 8:
+            self.blocks = nn.Sequential(*[Block8(dm,h,block_size=block_size) for _ in range(N)])
         if final_norm == 'layer':
             self.ln = nn.LayerNorm(dm)
         elif final_norm == 'rms':
