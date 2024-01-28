@@ -481,7 +481,7 @@ class Block8(nn.Module): # This block uses RMSNorm instead of layer norm
 ###############################################################################################
 # My alternate class using RMS instead of layer norm
 class Transformer(nn.Module):
-    def __init__(self,dm=384,vocab_size=0,block_size=256,h=2,N=6,block_type=3,embedding_method='absolute',final_norm='rms',norm_type='layer', post_norm=False, project=True,**kwargs):
+    def __init__(self,dm=384,dk=64,dv=64,vocab_size=0,block_size=256,h=2,N=6,block_type=3,embedding_method='absolute',final_norm='rms',norm_type='layer', post_norm=False, project=True,**kwargs):
         super().__init__()
         # self.__dict__.update(vars(kwargs))
         print("dm = ", dm) 
@@ -499,7 +499,7 @@ class Transformer(nn.Module):
         self.token_embedding_table = nn.Embedding(vocab_size,dm)
         self.position_embedding_table = nn.Embedding(block_size,dm)
 
-        self.blocks = nn.Sequential(*[Block(dm,h,block_size=block_size,norm_type='layer', post_norm=False, project=True) for _ in range(N)])
+        self.blocks = nn.Sequential(*[Block(dm,dk,dv,h,block_size=block_size,norm_type='layer', post_norm=False, project=True) for _ in range(N)])
         
         # if block_type==0:
         #     self.blocks = nn.Sequential(*[Block0(dm,h,block_size=block_size) for _ in range(N)])
