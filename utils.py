@@ -73,21 +73,9 @@ class CharacterTokenizer:
         return batch    
     def __len__(self):
         return len(self.chars)
+    
 # Basic components
 ####################################################################################
-
-# # Activation functions
-# def gelu(x):
-#     return 0.5*x*(1+torch.tanh(0.7978845608*x*(1+0.044715*x*x)))    
-
-# def swish(x):
-#     return x*torch.sigmoid(x)       
-
-# def mish(x):        
-#     return x*torch.tanh(F.softplus(x))
-
-# def identity(x):
-#     return x
 
 # Similiarity functions
 class sdp(nn.Module):
@@ -129,24 +117,24 @@ class RMSNorm(nn.Module):
         return x
 
 # !!!! Under construction !!!!
-class SelfAttentionHeadNew(nn.Module):
-    def __init__(self,dm,dk,dv,dropout=0.2,ActFun=nn.Identity(),Similarity=sdp(),block_size=256):
-        super().__init__()
-        self.block_size=block_size
-        self.key = nn.Sequential(nn.Linear(dm,dk,bias=False),ActFun)
-        self.query = nn.Sequential(nn.Linear(dm,dk,bias=False),ActFun)
-        self.value = nn.Linear(dm,dv,bias=False)
-        self.tril=torch.tril(torch.ones((block_size,block_size),device=device))
-        self.dropout = nn.Dropout(dropout) 
-        self.sim = Similarity # Calculate similarity scores
-    def forward(self,x):
-        B,T,C=x.shape # New
-        k=self.key(x)
-        q=self.query(x)
-        v=self.value(x)
-        wei=self.sim(q,k,T,self.block_size)
-        out=wei@v
-        return out
+# class SelfAttentionHeadNew(nn.Module):
+#     def __init__(self,dm,dk,dv,dropout=0.2,ActFun=nn.Identity(),Similarity=sdp(),block_size=256):
+#         super().__init__()
+#         self.block_size=block_size
+#         self.key = nn.Sequential(nn.Linear(dm,dk,bias=False),ActFun)
+#         self.query = nn.Sequential(nn.Linear(dm,dk,bias=False),ActFun)
+#         self.value = nn.Linear(dm,dv,bias=False)
+#         self.tril=torch.tril(torch.ones((block_size,block_size),device=device))
+#         self.dropout = nn.Dropout(dropout) 
+#         self.sim = Similarity # Calculate similarity scores
+#     def forward(self,x):
+#         B,T,C=x.shape # New
+#         k=self.key(x)
+#         q=self.query(x)
+#         v=self.value(x)
+#         wei=self.sim(q,k,T,self.block_size)
+#         out=wei@v
+#         return out
 
 class SelfAttentionHead(nn.Module):
     def __init__(self,dm,dk,dv,dropout=0.2,rectify=False,sim='sdp',block_size=256):
@@ -218,92 +206,25 @@ class SelfAttentionHead3(nn.Module):
         wei=self.dropout(wei) # New
         out=wei@v
         return out
-
-# class LearnedSimilarityHead(nn.Module):
-#     def __init__(self,dm,dk,dv,dropout=0.2,block_size=256):
-#         super().__init__()
-#         self.W_k = nn.Linear(dm,dk,bias=False)
-#         self.W_q = nn.Linear(dm,dk,bias=False)
-#         self.W_v = nn.Linear(dm,dv,bias=False)
-#         self.W_h = nn.Linear(2*dk,dk)
-#         self.W_s = nn.Linear(dk,1)
-#         self.tril=torch.tril(torch.ones((block_size,block_size),device=device))
-#         self.dropout = nn.Dropout(dropout) # New
-#         self.dropout_hid = nn.Dropout(dropout) # New
-#     def forward(self,x):
-#         B,T,C=x.shape # New
-#         k=self.W_k(x)
-#         q=self.W_q(x)
-#         z = torch.concat([k,q],dim=-1)
-#         z = self.W_h(z)
-#         z = torch.tanh(z)
-#         z = self.dropout_hid(z)
-#         z = self.W_s(z)
-#         wei = z #torch.tanh(z)
-#         #wei = self.W_s(z)
-#         v=self.W_v(x)
-#         # wei = q@k.transpose(-2,-1)*k.shape[-1]**-0.5
-#         wei=wei.masked_fill(self.tril[:T,:T]==0,float('-inf')) # New
-#         wei=torch.softmax(wei,dim=-1)
-#         wei=self.dropout(wei) # New
-#         out=wei@v
-#         return out
-    
 class MultiHeadAttention(nn.Module):
-    def __init__(self,dm,dk,dv,h,dropout=0.2,project=True,attention_type='sdp',rectify=False,block_size=256,ActFun=None,Similarity=None):
+    def __init__(self,dm,dk,dv,h,dropout=0.2,attention_type='sdp',rectify=False,block_size=256):
         super().__init__()
-        self.project=project
+        
         if attention_type=='sdp':
             self.heads = nn.ModuleList([SelfAttentionHead(dm,dk,dv,rectify=rectify,block_size=block_size) for i in range(h)])
-        # elif attention_type=='learned':
-        #     self.heads = nn.ModuleList([LearnedSimilarityHead(dm,dk,dv,rectify=rectify,block_size=block_size) for i in range(h)])
         elif attention_type=='log':
             self.heads = nn.ModuleList([SelfAttentionHead2(dm,dk,dv,block_size=block_size) for i in range(h)])    
         elif attention_type=='mine':
             self.heads = nn.ModuleList([SelfAttentionHead3(dm,dk,dv,block_size=block_size) for i in range(h)])
         elif attention_type=='new':
             self.heads = nn.ModuleList([SelfAttentionHeadNew(dm,dk,dv,block_size=block_size,ActFun=ActFun,Similarity=Similarity) for i in range(h)])
-        if project:
-            self.W_o = nn.Linear(dv*h,dm)
-        self.dropout = nn.Dropout(dropout)
         
     def forward(self,x):
         out = torch.cat([head(x) for head in self.heads],dim=-1)
-        if self.project:
-            out = self.W_o(out)
-        out = self.dropout(out) # Like spiking?
+        # if self.project:
+        #     out = self.W_o(out)
+        # out = self.dropout(out) # Like spiking?
         return out
-
-# class SimpleMixingHead(nn.Module):  # This just mixes the input vectors, but does not apply a value matrix.
-#     def __init__(self,dm,dk,dv,dropout=0.2,block_size=256):
-#         super().__init__()
-#         # self.W_k = nn.Linear(dm,dk,bias=False)
-#         self.W_k_transpose = nn.Linear(dk,dm,bias=False)
-#         self.W_q = nn.Linear(dm,dk,bias=False)
-#         self.tril=torch.tril(torch.ones((block_size,block_size),device=device))
-#         self.dropout = nn.Dropout(dropout) # New
-#     def forward(self,x):
-#         B,T,C=x.shape # New
-#         # k=self.W_k(x)
-#         # q=self.W_q(x)
-#         q = self.W_k_transpose(self.W_q(x))
-#         # wei = q@k.transpose(-2,-1)*k.shape[-1]**-0.5
-#         wei = q@x.transpose(-2,-1)*x.shape[-1]**-0.5
-#         wei=wei.masked_fill(self.tril[:T,:T]==0,float('-inf')) # New
-#         wei=torch.softmax(wei,dim=-1)
-#         wei=self.dropout(wei) # New
-#         out=wei@x
-#         return out
-# class MultiHeadMixing(nn.Module): # This concatenates inputs from mixing heads and applies a project to the result
-#     def __init__(self,dm,dk,dv,h,dropout=0.2,rectify=False,block_size=256):
-#         super().__init__()
-#         self.heads = nn.ModuleList([SelfAttentionHead(dm,dk,dv,rectifiy=rectify,block_size=block_size) for i in range(h)])
-#         self.W_o = nn.Linear(dv*h,dm)
-#         self.dropout = nn.Dropout(dropout)
-#     def forward(self,x): # This 
-#         concat = torch.cat([head(x) for head in self.heads],dim=-1)
-#         out = self.dropout( self.W_o(concat) )
-#         return out
 
 class FeedForward(nn.Module):
     def __init__(self,dm,dropout=0.2):
@@ -320,12 +241,12 @@ class FeedForward(nn.Module):
 ####################################################################################################
 
 class Block(nn.Module):
-    def __init__(self, dm, dk, dv, h, block_size=256, norm_type='layer', post_norm=False, project=True, rectify=False,attention_type='sdp'):
+    def __init__(self, dm, dk, dv, h, block_size=256, norm_type='layer', post_norm=False, rectify=False,attention_type='sdp'):
         super().__init__()
         # dk = dm // h
         # dv = dk
         # assert(dk * h == dm)  # Check the input/output size of block is same
-        self.mha = MultiHeadAttention(dm, dk, dv, h, project=project,rectify=rectify,attention_type=attention_type)
+        self.mha = MultiHeadAttention(dm, dk, dv, h,rectify=rectify,attention_type=attention_type)
         self.ffn = FeedForward(dm)
         self.post_norm = post_norm
 
@@ -336,18 +257,27 @@ class Block(nn.Module):
             self.ln1 = RMSNorm(dm)
             self.ln2 = RMSNorm(dm)
 
-        if not project:
-            self.W_o = nn.Linear(dv * h, dm)
+        # if not project:
+        self.W_o = nn.Linear(dv * h, dm)
+
+        # From MHA
+        # if project:
+        #     self.W_o = nn.Linear(dv*h,dm)
+        # self.dropout = nn.Dropout(dropout)
 
     def forward(self, x):
         if self.post_norm:
-            x = self.ln1(x + self.mha(x))
+            x = self.ln1(x + self.W_o(self.mha(x)))
             x = self.ln2(x + self.ffn(x))
         else:
-            x = x + self.mha(self.ln1(x))
-            if not self.mha.project:
-                x = self.W_o(x)
+            x = x + self.W_o(self.mha(self.ln1(x)))
+            # if not self.mha.project:
+            # x = self.W_o(x)
             x = x + self.ffn(self.ln2(x))
+
+        # if self.project:
+        #     out = self.W_o(out)
+        # out = self.dropout(out) # Like spiking?
         return x
 
 
@@ -381,21 +311,21 @@ class Block(nn.Module):
 #         x = self.ln2(x + self.ffn(x))
 #         return x
     
-class Block2(nn.Module): # This block takes attention without projection. 
-    def __init__(self,dm,h,block_size=256):
-        super().__init__()
-        dk = dm // h
-        dv = dk
-        assert(dk*h==dm) # Check the input/output size of block is same
-        self.mha = MultiHeadAttention(dm,dk,dv,h,project=False)
-        self.W_o = nn.Linear(dv*h,dm)
-        self.ffn = FeedForward(dm)
-        self.ln1 = nn.LayerNorm(dm,elementwise_affine=False)
-        self.ln2 = nn.LayerNorm(dm,elementwise_affine=False)
-    def forward(self,x):
-        x = x + self.W_o( self.mha( self.ln1(x) ))
-        x = x + self.ffn( self.ln2(x) )
-        return x
+# class Block2(nn.Module): # This block takes attention without projection. 
+#     def __init__(self,dm,h,block_size=256):
+#         super().__init__()
+#         dk = dm // h
+#         dv = dk
+#         assert(dk*h==dm) # Check the input/output size of block is same
+#         self.mha = MultiHeadAttention(dm,dk,dv,h,project=False)
+#         self.W_o = nn.Linear(dv*h,dm)
+#         self.ffn = FeedForward(dm)
+#         self.ln1 = nn.LayerNorm(dm,elementwise_affine=False)
+#         self.ln2 = nn.LayerNorm(dm,elementwise_affine=False)
+#     def forward(self,x):
+#         x = x + self.W_o( self.mha( self.ln1(x) ))
+#         x = x + self.ffn( self.ln2(x) )
+#         return x
     
 # class Block3(nn.Module): # This block uses RMSNorm instead of layer norm
 #     def __init__(self,dm,h,block_size=256):
@@ -461,27 +391,27 @@ class Block2(nn.Module): # This block takes attention without projection.
 #         return x
     
 
-class Block8(nn.Module): # This block uses RMSNorm instead of layer norm
-    def __init__(self,dm,h,block_size=256,ActFun=nn.ReLU(),Similarity=sdp()):
-        super().__init__()
-        dk = dm // h
-        dv = dk
-        assert(dk*h==dm) # Check the input/output size of block is same
-        self.mha = MultiHeadAttention(dm,dk,dv,h,attention_type='new',block_size=block_size,ActFun=ActFun,Similarity=Similarity)
-        self.ffn = FeedForward(dm)
-        self.ln1 = RMSNorm(dm)
-        self.ln2 = RMSNorm(dm)
-    def forward(self,x):
-        x = x + self.mha(self.ln1(x))
-        x = x + self.ffn(self.ln2(x))
-        return x
+# class Block8(nn.Module): # This block uses RMSNorm instead of layer norm
+#     def __init__(self,dm,h,block_size=256,ActFun=nn.ReLU(),Similarity=sdp()):
+#         super().__init__()
+#         dk = dm // h
+#         dv = dk
+#         assert(dk*h==dm) # Check the input/output size of block is same
+#         self.mha = MultiHeadAttention(dm,dk,dv,h,attention_type='new',block_size=block_size,ActFun=ActFun,Similarity=Similarity)
+#         self.ffn = FeedForward(dm)
+#         self.ln1 = RMSNorm(dm)
+#         self.ln2 = RMSNorm(dm)
+#     def forward(self,x):
+#         x = x + self.mha(self.ln1(x))
+#         x = x + self.ffn(self.ln2(x))
+#         return x
 
 
 # Models
 ###############################################################################################
 # My alternate class using RMS instead of layer norm
 class Transformer(nn.Module):
-    def __init__(self,dm=384,dk=64,dv=64,vocab_size=0,block_size=256,h=2,N=6,block_type=3,embedding_method='absolute',final_norm='rms',norm_type='layer', post_norm=False, project=True,**kwargs):
+    def __init__(self,dm=384,dk=64,dv=64,vocab_size=0,block_size=256,h=2,N=6,block_type=3,embedding_method='absolute',final_norm='rms',norm_type='layer', post_norm=False,**kwargs):
         super().__init__()
         # self.__dict__.update(vars(kwargs))
         print("dm = ", dm) 
@@ -499,7 +429,7 @@ class Transformer(nn.Module):
         self.token_embedding_table = nn.Embedding(vocab_size,dm)
         self.position_embedding_table = nn.Embedding(block_size,dm)
 
-        self.blocks = nn.Sequential(*[Block(dm,dk,dv,h,block_size=block_size,norm_type='layer', post_norm=False, project=True) for _ in range(N)])
+        self.blocks = nn.Sequential(*[Block(dm,dk,dv,h,block_size=block_size,norm_type='layer', post_norm=False) for _ in range(N)])
         
         # if block_type==0:
         #     self.blocks = nn.Sequential(*[Block0(dm,h,block_size=block_size) for _ in range(N)])
@@ -519,6 +449,7 @@ class Transformer(nn.Module):
         #     self.blocks = nn.Sequential(*[Block7(dm,h,block_size=block_size) for _ in range(N)])
         # elif block_type == 8:
         #     self.blocks = nn.Sequential(*[Block8(dm,h,block_size=block_size) for _ in range(N)])
+
         if final_norm == 'layer':
             self.ln = nn.LayerNorm(dm)
         elif final_norm == 'rms':
