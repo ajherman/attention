@@ -149,10 +149,10 @@ if __name__ == '__main__':
         tokenizer = CharacterTokenizer(block_size=block_size+1)
     elif args.dataset == 'stories':
         # vocab_size=50258
-        train_set = load_dataset("nRuaif/tinystories-gpt4",cache_dir=data_cache_dir,split='train')
-        train_loader = DataLoader(test_set, batch_size=64)
-        test_set = load_dataset("nRuaif/tinystories-gpt4",cache_dir=data_cache_dir,split='test')
-        test_loader = DataLoader(train_set, batch_size=64)
+        train_set = load_dataset("nRuaif/tinystories-gpt4",cache_dir=data_cache_dir,split='test')
+        train_loader = DataLoader(train_set, batch_size=64)
+        test_set = load_dataset("nRuaif/tinystories-gpt4",cache_dir=data_cache_dir,split='train')
+        test_loader = DataLoader(test_set, batch_size=64)
         #tokenizer = GPT2Tokenizer.from_pretrained('gpt2')
         # tokenizer = AutoTokenizer.from_pretrained("georgeyw/TinyStories-tokenizer-10k")
         tokenizer = AutoTokenizer.from_pretrained("georgeyw/TinyStories-tokenizer-5k")
