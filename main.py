@@ -127,6 +127,7 @@ if __name__ == '__main__':
     parser.add_argument('--version', type=int,default=0, help='For saving the model with distinct names')
     args = parser.parse_args()
     # version = args.block_type
+    version = args.version
     block_size=args.block_size
 
     if args.dataset == 'shakespeare':
