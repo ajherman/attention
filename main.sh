@@ -24,6 +24,6 @@ cores=20
 
 srun -N 1 -n 1 -c $cores -o base.out --open-mode=append ./main_wrapper.sh --block-size 128 --eval-interval 50 --filepath base.csv & #--vocab-size 50258 &
 srun -N 1 -n 1 -c $cores -o rms.out --open-mode=append ./main_wrapper.sh --block-size 128 --eval-interval 50 --norm-type rms --filepath rms.csv & #--vocab-size 50258 &
-srun -N 1 -n 1 -c $cores -o rectified.out --open-mode=append ./main_wrapper.sh --block-size 128 --eval-interval 50 --norm-type rms --rectified True --filepath rectified.csv & #--vocab-size 50258 &
+srun -N 1 -n 1 -c $cores -o rectified.out --open-mode=append ./main_wrapper.sh --block-size 128 --eval-interval 50 --norm-type rms --rectify True --filepath rectified.csv & #--vocab-size 50258 &
 # srun -N 1 -n 1 -c $cores -o new.out --open-mode=append ./main_wrapper.sh --block-size 128 --eval-interval 50 --filepath new.csv & #--vocab-size 50258 &
 
