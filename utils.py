@@ -216,8 +216,8 @@ class MultiHeadAttention(nn.Module):
             self.heads = nn.ModuleList([SelfAttentionHead2(dm,dk,dv,block_size=block_size) for i in range(h)])    
         elif attention_type=='mine':
             self.heads = nn.ModuleList([SelfAttentionHead3(dm,dk,dv,block_size=block_size) for i in range(h)])
-        elif attention_type=='new':
-            self.heads = nn.ModuleList([SelfAttentionHeadNew(dm,dk,dv,block_size=block_size,ActFun=ActFun,Similarity=Similarity) for i in range(h)])
+        # elif attention_type=='new':
+        #     self.heads = nn.ModuleList([SelfAttentionHeadNew(dm,dk,dv,block_size=block_size,ActFun=ActFun,Similarity=Similarity) for i in range(h)])
         
     def forward(self,x):
         out = torch.cat([head(x) for head in self.heads],dim=-1)
@@ -227,12 +227,12 @@ class MultiHeadAttention(nn.Module):
         return out
 
 class FeedForward(nn.Module):
-    def __init__(self,dm,dropout=0.2):
+    def __init__(self,input_size,hidden_size,output_size,dropout=0.2):
         super().__init__()
         self.ffn = nn.Sequential(
-        nn.Linear(dm,4*dm),
+        nn.Linear(input_size,hidden_size),
         nn.ReLU(),
-        nn.Linear(4*dm,dm),
+        nn.Linear(hidden_size,output_size),
         nn.Dropout(dropout))
     def forward(self,x):
         return self.ffn(x)
@@ -241,13 +241,14 @@ class FeedForward(nn.Module):
 ####################################################################################################
 
 class Block(nn.Module):
-    def __init__(self, dm, dk, dv, h, block_size=256, norm_type='layer', post_norm=False, rectify=False,attention_type='sdp'):
+    def __init__(self, dm, dk, dv, h, block_size=256, norm_type='layer', post_norm=False, rectify=False, attention_type='sdp'):
         super().__init__()
         # dk = dm // h
         # dv = dk
         # assert(dk * h == dm)  # Check the input/output size of block is same
         self.mha = MultiHeadAttention(dm, dk, dv, h,rectify=rectify,attention_type=attention_type)
-        self.ffn = FeedForward(dm)
+        # self.ffn = FeedForward(input_size=dm,hidden_size=4*dm,output_size=dm) # Original version
+        self.ffn = FeedForward(input_size=dm,hidden_size=4*dm,output_size=dm) # Original version
         self.post_norm = post_norm
 
         if norm_type == 'layer':
