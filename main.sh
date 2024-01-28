@@ -22,8 +22,22 @@ cores=20
 # srun -N 1 -n 1 -c $cores -o new.out --open-mode=append ./main_wrapper.sh --block-type 8 --block-size 128 --eval-interval 50 --batch-size 64 --dm 512 --h 8 --N 6 --lr 5e-4 --dataset stories --filepath new.csv & #--vocab-size 50258 &
 
 
-srun -N 1 -n 1 -c $cores -o base.out --open-mode=append ./main_wrapper.sh --block-size 128 --eval-interval 50 --filepath base.csv & #--vocab-size 50258 &
-srun -N 1 -n 1 -c $cores -o rms.out --open-mode=append ./main_wrapper.sh --block-size 128 --eval-interval 50 --norm-type rms --filepath rms.csv & #--vocab-size 50258 &
-srun -N 1 -n 1 -c $cores -o rectified.out --open-mode=append ./main_wrapper.sh --block-size 128 --eval-interval 50 --norm-type rms --rectify True --filepath rectified.csv & #--vocab-size 50258 &
-# srun -N 1 -n 1 -c $cores -o new.out --open-mode=append ./main_wrapper.sh --block-size 128 --eval-interval 50 --filepath new.csv & #--vocab-size 50258 &
 
+
+# srun -N 1 -n 1 -c $cores -o base.out --open-mode=append ./main_wrapper.sh --block-size 128 --eval-interval 50 --filepath base.csv & #--vocab-size 50258 &
+# srun -N 1 -n 1 -c $cores -o rms.out --open-mode=append ./main_wrapper.sh --block-size 128 --eval-interval 50 --norm-type rms --filepath rms.csv & #--vocab-size 50258 &
+# srun -N 1 -n 1 -c $cores -o rectified.out --open-mode=append ./main_wrapper.sh --block-size 128 --eval-interval 50 --norm-type rms --rectify True --filepath rectified.csv & #--vocab-size 50258 &
+
+for norm_type in {layer,rms}
+do
+for rectify in {True,False}
+do
+for post_norm in {True,False}
+do
+
+name="model_norm_type=$norm_type-rectify=$rectify-post_norm=$post_norm"
+srun -N 1 -n 1 -c $cores -o $name.out --open-mode=append ./main_wrapper.sh --block-size 128 --eval-interval 50 --norm-type $norm_type --rectify $rectify --post-norm $post_norm --filepath $name.csv & 
+
+done
+done
+done
