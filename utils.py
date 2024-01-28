@@ -260,7 +260,7 @@ class Block(nn.Module):
 
         # if not project:
         self.W_o = nn.Linear(dv * h, dm)
-
+        self.dropout = nn.Dropout(0.2)
         # From MHA
         # if project:
         #     self.W_o = nn.Linear(dv*h,dm)
@@ -268,10 +268,11 @@ class Block(nn.Module):
 
     def forward(self, x):
         if self.post_norm:
-            x = self.ln1(x + self.W_o(self.mha(x)))
+            # attn = self.dropout(self.W_o(self.mha(x)))
+            x = self.ln1(x + self.dropout(self.W_o(self.mha(x))))
             x = self.ln2(x + self.ffn(x))
         else:
-            x = x + self.W_o(self.mha(self.ln1(x)))
+            x = x + self.dropout(self.W_o(self.mha(self.ln1(x))))
             # if not self.mha.project:
             # x = self.W_o(x)
             x = x + self.ffn(self.ln2(x))
