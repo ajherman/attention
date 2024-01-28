@@ -35,7 +35,7 @@ do
 for post_norm in {True,False}
 do
 
-name="model_norm=$norm_type_rectify=$rectify_post_norm=$post_norm"
+name="norm_${norm_type}_rectify_${rectify}_post_norm_${post_norm}"
 srun -N 1 -n 1 -c $cores -o $name.out --open-mode=append ./main_wrapper.sh --block-size 128 --eval-interval 50 --norm-type $norm_type --rectify $rectify --post-norm $post_norm --filepath $name.csv & 
 
 done
