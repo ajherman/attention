@@ -105,10 +105,10 @@ if __name__ == '__main__':
     parser.add_argument('--batch-size', type=int, default=64, help='Specify the batch size')
     parser.add_argument('--eval-interval', type=int, default=1000, help='Specify the evaluation interval')
     parser.add_argument('--eval-iters', type=int, default=500, help='Specify the evaluation iterations')
-    parser.add_argument('--dm', type=int, default=384, help='Specify embedding dimension')
+    parser.add_argument('--dm', type=int, default=512, help='Specify embedding dimension')
     parser.add_argument('--dk', type=int, default=64, help='Specify dimension of key/query vectors')
     parser.add_argument('--dv', type=int, default=64, help='Specify dimension of value vectors')
-    parser.add_argument('--h', type=int, default=6, help='Specify the number of heads')
+    parser.add_argument('--h', type=int, default=8, help='Specify the number of heads')
     
     parser.add_argument('--block_size', type=int, default=256, help='Block size for the transformer block')
     parser.add_argument('--norm-type', type=str, default='layer', help='Type of normalization layer to use ("layer" for LayerNorm, "rms" for RMSNorm)')

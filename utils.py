@@ -417,13 +417,17 @@ class Transformer(nn.Module):
         super().__init__()
         # self.__dict__.update(vars(kwargs))
         print("dm = ", dm) 
+        print("dk = ", dk)
+        print("dv = ", dv)
         print("vocab_size = ", vocab_size)
         print("block_size = ", block_size)
         print("h = ", h)
         print("N = ", N)
-        print("block_type = ", block_type)
+        #print("block_type = ", block_type)
         print("embedding_method = ", embedding_method)
         print("final_norm = ", final_norm)
+        print("norm type = ", norm_type, " norm")
+        print("Post norm = ", post_norm)
         self.vocab_size=vocab_size
         self.final_norm = final_norm
         self.block_size=block_size
