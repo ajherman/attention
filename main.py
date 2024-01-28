@@ -104,7 +104,7 @@ if __name__ == '__main__':
     parser.add_argument('--batch-size', type=int, default=64, help='Specify the batch size')
     parser.add_argument('--eval-interval', type=int, default=1000, help='Specify the evaluation interval')
     parser.add_argument('--eval-iters', type=int, default=500, help='Specify the evaluation iterations')
-    parser.add_argument('--dm', type=int, default=512, help='Specify embedding dimension')
+    parser.add_argument('--dm', type=int, default=384, help='Specify embedding dimension')
     parser.add_argument('--dk', type=int, default=64, help='Specify dimension of key/query vectors')
     parser.add_argument('--dv', type=int, default=64, help='Specify dimension of value vectors')
     parser.add_argument('--h', type=int, default=6, help='Specify the number of heads')
@@ -124,9 +124,9 @@ if __name__ == '__main__':
     parser.add_argument('--block-type', type=int, default=3, help='Specify the version')
     parser.add_argument('--filepath', type=str,default='original.csv', help='Specify the file path')
     parser.add_argument('--dataset', type=str,default='stories', help='Specify the dataset')
-
+    parser.add_argument('--version', type=int,default=0, help='For saving the model with distinct names')
     args = parser.parse_args()
-    version = args.block_type
+    # version = args.block_type
     block_size=args.block_size
 
     if args.dataset == 'shakespeare':

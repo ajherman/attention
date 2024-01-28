@@ -28,6 +28,8 @@ cores=20
 # srun -N 1 -n 1 -c $cores -o rms.out --open-mode=append ./main_wrapper.sh --block-size 128 --eval-interval 50 --norm-type rms --filepath rms.csv & #--vocab-size 50258 &
 # srun -N 1 -n 1 -c $cores -o rectified.out --open-mode=append ./main_wrapper.sh --block-size 128 --eval-interval 50 --norm-type rms --rectify True --filepath rectified.csv & #--vocab-size 50258 &
 
+version=0
+
 for norm_type in {layer,rms}
 do
 for rectify in {True,False}
@@ -36,8 +38,8 @@ for post_norm in {True,False}
 do
 
 name="norm_${norm_type}_rectify_${rectify}_post_norm_${post_norm}"
-srun -N 1 -n 1 -c $cores -o $name.out --open-mode=append ./main_wrapper.sh --block-size 128 --eval-interval 50 --norm-type $norm_type --rectify $rectify --post-norm $post_norm --filepath $name.csv & 
-
+srun -N 1 -n 1 -c $cores -o $name.out --open-mode=append ./main_wrapper.sh --block-size 200  --version $version --eval-interval 50 --norm-type $norm_type --rectify $rectify --post-norm $post_norm --filepath $name.csv & 
+version=$((version+1))
 done
 done
 done

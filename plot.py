@@ -6,10 +6,15 @@ import os
 parser = argparse.ArgumentParser()
 parser.add_argument('--dir',type=str,default='.', help='Directory of CSV files')
 parser.add_argument('--files', nargs='+', help='List of CSV files')
-parser.add_argument('--save-name',type=str, help='Where to save the plots')
-# parser.add_argument('--save-name',type=str, help='Name of the plot')
+parser.add_argument('--save-name',type=str, default='compare_results',help='Where to save the plots')
 colors=['blue','red','green','orange','purple','brown','pink','gray','olive','cyan']
 args = parser.parse_args()
+
+if args.files is None:     # Find all CSV files in the current directory
+    args.files = []
+    for file_name in os.listdir(args.dir):
+        if file_name.endswith('.csv'):
+            args.files.append(file_name[:-4])
 
 for idx,f_name in enumerate(args.files):
     if f_name.endswith('.csv'):
@@ -20,24 +25,10 @@ for idx,f_name in enumerate(args.files):
     else:
         try:
             data = np.genfromtxt(file_path, delimiter=',')
-            plt.plot(data[:,0], label=f_name+' train',linestyle='--',color=colors[idx])
-            plt.plot(data[:,1], label=f_name+' test',color=colors[idx])
+            plt.plot(data[:,0]+0.005*np.random.normal(), label=f_name+' train', linestyle='--', color=colors[idx], linewidth=0.5)
+            plt.plot(data[:,1]+0.005*np.random.normal(), label=f_name+' test',color=colors[idx], linewidth=0.5)
         except:
             print(f"Could not plot '{file_path}'")
-
-
-# # Read the CSV files
-# original = np.genfromtxt('original.csv', delimiter=',')
-# rms = np.genfromtxt('rms.csv', delimiter=',')
-# mix = np.genfromtxt('mix.csv', delimiter=',')
-
-# # # Plot the data
-# plt.plot(original[:,0], label='Original train',color='blue')
-# plt.plot(original[:,1], linestyle='--', label='Original test',color='blue')
-# plt.plot(rms[:,0], label='RMS train',color='red')
-# plt.plot(rms[:,1], linestyle='--', label='RMS test',color='red')
-# plt.plot(mix[:,0], label='Mix train',color='green')
-# plt.plot(mix[:,1], linestyle='--', label='Mix test',color='green')
 
 # Label the axes
 plt.xlabel('time')
@@ -45,7 +36,7 @@ plt.ylabel('error')
 plt.title('Error vs Time')
 
 # Add a legend
-plt.legend()
+plt.legend(fontsize='small')
 
 # Save the figure
 plt.savefig(args.dir+'/'+args.save_name+'.png')
