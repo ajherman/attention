@@ -13,6 +13,7 @@ from datasets import load_dataset
 from tokenizers import Tokenizer
 from transformers import GPT2Tokenizer, GPT2Model, AutoTokenizer
 import time
+import numpy as np
 
 data_cache_dir = "~/datasets" #"/ram/tmp"
 dataset = 'stories' #'shakespeare'
@@ -61,7 +62,7 @@ elif dataset == 'stories':
         out = {}
         model.eval()
         # Test loss
-        losses=torch.zeros(args.eval_iters)
+        losses=[]
         for itr,batch in enumerate(test_loader):
             if itr==args.eval_iters:
                 break
@@ -70,12 +71,12 @@ elif dataset == 'stories':
             data = data.to(device)
             xb,yb = data[:, :-1], data[:, 1:]
             logits, loss = model(xb, yb)
-            losses[itr]=loss.item()
+            losses.append(loss.item())
 
-        out['test'] = losses.mean().item()
+        out['test'] = np.mean(losses)
 
         # Train loss
-        losses=torch.zeros(args.eval_iters)
+        losses=[]
         for itr,batch in enumerate(train_loader):
             if itr==args.eval_iters:
                 break
@@ -84,10 +85,10 @@ elif dataset == 'stories':
             data = data.to(device)
             xb,yb = data[:, :-1], data[:, 1:]
             logits, loss = model(xb, yb)
-            losses[itr]=loss.item()
+            losses.append(loss.item())
 
         # losses=torch.tensor(losses)
-        out['train'] = losses.mean().item()
+        out['train'] = np.mean(losses)
         # out['train'] = 0
         model.train()
         return out
