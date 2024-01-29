@@ -150,8 +150,8 @@ if __name__ == '__main__':
         print("total length of text is ", n)
         test_text = text[:n//10]
         train_text = text[n//10:] 
-        shakespeare_train_data = TextDataFromFile(train_text,block_size=block_size+1)
-        shakespeare_test_data = TextDataFromFile(test_text,block_size=block_size+1)
+        shakespeare_train_data = TextDataFromFile(text=train_text,block_size=block_size+1)
+        shakespeare_test_data = TextDataFromFile(text=test_text,block_size=block_size+1)
         test_loader = DataLoader(shakespeare_test_data, batch_size=args.batch_size, shuffle=False)
         train_loader = DataLoader(shakespeare_train_data, batch_size=args.batch_size, shuffle=True)
         tokenizer = CharacterTokenizer(block_size=block_size+1)
