@@ -16,7 +16,7 @@ import time
 import numpy as np
 
 data_cache_dir = "~/datasets" #"/ram/tmp"
-dataset = 'stories' #'shakespeare'
+dataset = 'shakespeare'
 
 # Set seed
 torch.manual_seed(1337)
