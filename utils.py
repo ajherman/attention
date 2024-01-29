@@ -241,7 +241,7 @@ class FeedForward(nn.Module):
 ####################################################################################################
 
 class Block(nn.Module):
-    def __init__(self, dm, dk, dv, h, block_size=256, norm_type='layer', post_norm=False, rectify=False, attention_type='sdp'):
+    def __init__(self, dm, dk, dv, h, block_size=256, norm_type='layer', post_norm=False, rectify=False, attention_type='sdp',dropout_rate=0.2):
         super().__init__()
         # dk = dm // h
         # dv = dk
@@ -260,7 +260,7 @@ class Block(nn.Module):
 
         # if not project:
         self.W_o = nn.Linear(dv * h, dm)
-        self.dropout = nn.Dropout(0.2)
+        self.dropout = nn.Dropout(dropout_rate)
         # From MHA
         # if project:
         #     self.W_o = nn.Linear(dv*h,dm)
@@ -424,6 +424,7 @@ class Transformer(nn.Module):
         print("block_type = ", block_type)
         print("embedding_method = ", embedding_method)
         print("final_norm = ", final_norm)
+        print("Dropout = ", kwargs['dropout'])
         self.vocab_size=vocab_size
         self.final_norm = final_norm
         self.block_size=block_size
