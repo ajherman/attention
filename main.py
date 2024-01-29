@@ -141,7 +141,7 @@ if __name__ == '__main__':
             with open(file_path, 'w') as file:
                 file.write(response.text)
 
-        shakespeare_data = TextDataFromFile(block_size=block_size+1,filepath=file_path)
+        shakespeare_data = TextDataFromFile(block_size=block_size+1,file_path=file_path)
         N = len(shakespeare_data)
         test_set = Subset(shakespeare_data, [i for i in range(N) if i % 10 == 0])
         train_set = Subset(shakespeare_data, [i for i in range(N) if i % 10 != 0])
