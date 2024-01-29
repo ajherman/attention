@@ -38,7 +38,7 @@ for post_norm in {True,False}
 do
 
 name="norm_${norm_type}_rectify_${rectify}_post_norm_${post_norm}"
-srun -N 1 -n 1 -c $cores -o $name.out --open-mode=append ./main_wrapper.sh --block-size 200  --version $version --eval-interval 50 --norm-type $norm_type --rectify $rectify --post-norm $post_norm --filepath --dataset shakespeare $name.csv & 
+srun -N 1 -n 1 -c $cores -o $name.out --open-mode=append ./main_wrapper.sh --block-size 200  --version $version --eval-interval 50 --norm-type $norm_type --rectify $rectify --post-norm $post_norm --dataset shakespeare --filepath $name.csv & 
 version=$((version+1))
 done
 done
