@@ -28,26 +28,21 @@ torch.manual_seed(1337)
 #     text = f.read()
 
 # Datasets
-# class ShakespeareData(Dataset):
-#     def __init__(self,block_size=None,file_path='shakespeare.txt'):
-#         super().__init__()
-#         with open(file_path,'r',encoding='utf-8') as f:
-#             self.text = f.read()
-#         self.data = torch.tensor(encode(self.text))
-#         self.block_size=block_size
-#     def __getitem__(self,idx):
-#         x = self.data[idx:idx+self.block_size]
-#         y = self.data[idx+1:idx+1+self.block_size]
-#         return x,y
-#     def __len__(self):
-#         return len(self.data)-self.block_size
     
 class TextDataFromFile(Dataset):
-    def __init__(self,block_size,file_path):
+    def __init__(self, block_size, file_path=None, text=None):
+        
         self.block_size = block_size
-        with open(file_path,'r',encoding='utf-8') as f:
-            self.text = f.read()
-        self.data = self.text #torch.tensor(encode(self.text),dtype=torch.long)
+        
+        if file_path is not None and text is None:
+            with open(file_path, 'r', encoding='utf-8') as f:
+                self.text = f.read()
+        elif file_path is None and text is not None:
+            self.text = text
+        else:
+            raise ValueError("Must specify exactly one of file_path or text.")
+        
+        self.data = self.text 
     def __len__(self):
         return len(self.data) - self.block_size
 
@@ -415,7 +410,6 @@ class Block(nn.Module):
 class Transformer(nn.Module):
     def __init__(self,dm=384,dk=64,dv=64,vocab_size=0,block_size=256,h=2,N=6,block_type=3,embedding_method='absolute',final_norm='rms',norm_type='layer', post_norm=False,**kwargs):
         super().__init__()
-        # self.__dict__.update(vars(kwargs))
         print("dm = ", dm) 
         print("vocab_size = ", vocab_size)
         print("block_size = ", block_size)
@@ -433,25 +427,6 @@ class Transformer(nn.Module):
         self.position_embedding_table = nn.Embedding(block_size,dm)
 
         self.blocks = nn.Sequential(*[Block(dm,dk,dv,h,block_size=block_size,norm_type='layer', post_norm=False) for _ in range(N)])
-        
-        # if block_type==0:
-        #     self.blocks = nn.Sequential(*[Block0(dm,h,block_size=block_size) for _ in range(N)])
-        # elif block_type == 1:
-        #     self.blocks = nn.Sequential(*[Block1(dm, h,block_size=block_size) for _ in range(N)])
-        # elif block_type == 2:
-        #     self.blocks = nn.Sequential(*[Block2(dm,h,block_size=block_size) for _ in range(N)])
-        # elif block_type == 3:
-        #     self.blocks = nn.Sequential(*[Block3(dm,h,block_size=block_size) for _ in range(N)])
-        # elif block_type == 4:
-        #     self.blocks = nn.Sequential(*[Block4(dm,h,block_size=block_size) for _ in range(N)])
-        # elif block_type == 5:
-        #     self.blocks = nn.Sequential(*[Block5(dm,h,block_size=block_size) for _ in range(N)])
-        # elif block_type == 6:   
-        #     self.blocks = nn.Sequential(*[Block6(dm,h,block_size=block_size) for _ in range(N)])
-        # elif block_type == 7:   
-        #     self.blocks = nn.Sequential(*[Block7(dm,h,block_size=block_size) for _ in range(N)])
-        # elif block_type == 8:
-        #     self.blocks = nn.Sequential(*[Block8(dm,h,block_size=block_size) for _ in range(N)])
 
         if final_norm == 'layer':
             self.ln = nn.LayerNorm(dm)

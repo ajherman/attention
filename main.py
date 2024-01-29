@@ -36,10 +36,10 @@ if dataset == 'shakespeare':
             data = data.to(device)
             xb,yb = data[:, :-1], data[:, 1:]
             logits, loss = model(xb, yb)
-            losses[itr]=loss.item()
+            losses.append(loss.item())
 
         # losses=torch.tensor(losses)
-        out['test'] = losses.mean().item()
+        out['test'] = np.mean(losses)
 
         # Train loss
         losses=torch.zeros(args.eval_iters)
@@ -51,8 +51,8 @@ if dataset == 'shakespeare':
             data = data.to(device)
             xb,yb = data[:, :-1], data[:, 1:]
             logits, loss = model(xb, yb)
-            losses[itr]=loss.item()
-        out['train'] = losses.mean().item()
+            losses.append(loss.item())
+        out['train'] = np.mean(losses)
         model.train()
         return out
     
@@ -141,13 +141,29 @@ if __name__ == '__main__':
             with open(file_path, 'w') as file:
                 file.write(response.text)
 
-        shakespeare_data = TextDataFromFile(block_size=block_size+1,file_path=file_path)
-        N = len(shakespeare_data)
-        test_set = Subset(shakespeare_data, [i for i in range(N) if i % 10 == 0])
-        train_set = Subset(shakespeare_data, [i for i in range(N) if i % 10 != 0])
-        test_loader = DataLoader(test_set, batch_size=args.batch_size, shuffle=True)
-        train_loader = DataLoader(train_set, batch_size=args.batch_size, shuffle=True)
+        # Read in text file
+        with open(file_path,'r',encoding='utf-8') as f:
+            text = f.read()
+
+        # Split up text
+        n = len(text)
+        print("total length of text is ", n)
+        test_text = text[:n//10]
+        train_text = text[n//10:] 
+        shakespeare_train_data = TextDataFromFile(train_text,block_size=block_size+1)
+        shakespeare_test_data = TextDataFromFile(test_text,block_size=block_size+1)
+        test_loader = DataLoader(shakespeare_test_data, batch_size=args.batch_size, shuffle=False)
+        train_loader = DataLoader(shakespeare_train_data, batch_size=args.batch_size, shuffle=True)
         tokenizer = CharacterTokenizer(block_size=block_size+1)
+
+
+        # shakespeare_data = TextDataFromFile(block_size=block_size+1,file_path=file_path)
+        # N = len(shakespeare_data)
+        # test_set = Subset(shakespeare_data, [i for i in range(N) if i % 10 == 0])
+        # train_set = Subset(shakespeare_data, [i for i in range(N) if i % 10 != 0])
+        # test_loader = DataLoader(test_set, batch_size=args.batch_size, shuffle=False)
+        # train_loader = DataLoader(train_set, batch_size=args.batch_size, shuffle=True)
+        # tokenizer = CharacterTokenizer(block_size=block_size+1)
     elif args.dataset == 'stories':
         # vocab_size=50258
         train_set = load_dataset("nRuaif/tinystories-gpt4",cache_dir=data_cache_dir,split='train')
