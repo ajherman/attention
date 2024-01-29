@@ -27,7 +27,7 @@ if dataset == 'shakespeare':
         out = {}
         model.eval()
         # Test loss
-        losses=torch.zeros(args.eval_iters)
+        losses=[]
         for itr,batch in enumerate(test_loader):
             if itr==args.eval_iters:
                 break
@@ -42,7 +42,7 @@ if dataset == 'shakespeare':
         out['test'] = np.mean(losses)
 
         # Train loss
-        losses=torch.zeros(args.eval_iters)
+        losses=[]
         for itr,batch in enumerate(train_loader):
             if itr==args.eval_iters:
                 break
