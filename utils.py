@@ -111,28 +111,8 @@ class RMSNorm(nn.Module):
         x = x/torch.sqrt(torch.mean(x**2,dim=-1,keepdim=True))
         return x
 
-# !!!! Under construction !!!!
-# class SelfAttentionHeadNew(nn.Module):
-#     def __init__(self,dm,dk,dv,dropout=0.2,ActFun=nn.Identity(),Similarity=sdp(),block_size=256):
-#         super().__init__()
-#         self.block_size=block_size
-#         self.key = nn.Sequential(nn.Linear(dm,dk,bias=False),ActFun)
-#         self.query = nn.Sequential(nn.Linear(dm,dk,bias=False),ActFun)
-#         self.value = nn.Linear(dm,dv,bias=False)
-#         self.tril=torch.tril(torch.ones((block_size,block_size),device=device))
-#         self.dropout = nn.Dropout(dropout) 
-#         self.sim = Similarity # Calculate similarity scores
-#     def forward(self,x):
-#         B,T,C=x.shape # New
-#         k=self.key(x)
-#         q=self.query(x)
-#         v=self.value(x)
-#         wei=self.sim(q,k,T,self.block_size)
-#         out=wei@v
-#         return out
-
 class SelfAttentionHead(nn.Module):
-    def __init__(self,dm,dk,dv,dropout=0.2,rectify=False,sim='sdp',block_size=256):
+    def __init__(self,dm,dk,dv,dropout=0.2,rectify=0,sim='sdp',block_size=256):
         super().__init__()
         if rectify:
             self.W_k = nn.Sequential(nn.Linear(dm,dk,bias=False),nn.ReLU())
@@ -202,7 +182,7 @@ class SelfAttentionHead3(nn.Module):
         out=wei@v
         return out
 class MultiHeadAttention(nn.Module):
-    def __init__(self,dm,dk,dv,h,dropout=0.2,attention_type='sdp',rectify=False,block_size=256):
+    def __init__(self,dm,dk,dv,h,dropout=0.2,attention_type='sdp',rectify=0,block_size=256):
         super().__init__()
         
         if attention_type=='sdp':
@@ -236,15 +216,13 @@ class FeedForward(nn.Module):
 ####################################################################################################
 
 class Block(nn.Module):
-    def __init__(self, dm, dk, dv, h, block_size=256, norm_type='layer', post_norm=False, rectify=False, attention_type='sdp',dropout_rate=0.2):
+    def __init__(self, dm, dk, dv, h, block_size=256, norm_type='layer', post_norm=1, rectify=0, attention_type='sdp',dropout_rate=0.2):
         super().__init__()
-        # dk = dm // h
-        # dv = dk
-        # assert(dk * h == dm)  # Check the input/output size of block is same
+
         self.mha = MultiHeadAttention(dm, dk, dv, h,rectify=rectify,attention_type=attention_type)
-        # self.ffn = FeedForward(input_size=dm,hidden_size=4*dm,output_size=dm) # Original version
         self.ffn = FeedForward(input_size=dm,hidden_size=4*dm,output_size=dm) # Original version
         self.post_norm = post_norm
+        self.block_architecture = block_architecture
 
         if norm_type == 'layer':
             self.ln1 = nn.LayerNorm(dm, elementwise_affine=False)
@@ -253,176 +231,44 @@ class Block(nn.Module):
             self.ln1 = RMSNorm(dm)
             self.ln2 = RMSNorm(dm)
 
-        # if not project:
         self.W_o = nn.Linear(dv * h, dm)
         self.dropout = nn.Dropout(dropout_rate)
-        # From MHA
-        # if project:
-        #     self.W_o = nn.Linear(dv*h,dm)
-        # self.dropout = nn.Dropout(dropout)
 
     def forward(self, x):
-        if self.post_norm:
-            # attn = self.dropout(self.W_o(self.mha(x)))
-            x = self.ln1(x + self.dropout(self.W_o(self.mha(x))))
-            x = self.ln2(x + self.ffn(x))
-        else:
-            x = x + self.dropout(self.W_o(self.mha(self.ln1(x))))
-            # if not self.mha.project:
-            # x = self.W_o(x)
-            x = x + self.ffn(self.ln2(x))
+        if self.block_architecture == 'series':
+            if self.post_norm:
+                x = self.ln1(x + self.dropout(self.W_o(self.mha(x))))
+                x = self.ln2(x + self.ffn(x))
+            else:
+                x = x + self.dropout(self.W_o(self.mha(self.ln1(x))))
+                x = x + self.ffn(self.ln2(x))
 
-        # if self.project:
-        #     out = self.W_o(out)
-        # out = self.dropout(out) # Like spiking?
+        elif self.block_architecture == 'parallel':
+            if self.post_norm:
+                x = self.ln1(x + self.ffn(x) + self.dropout(self.W_o(self.mha(x))))
+            else:
+                y = self.ln1(x)
+                x = x + self.ffn(y) + self.dropout(self.W_o(self.mha(y)))
         return x
-
-
-
-# class Block0(nn.Module): # Original
-#     def __init__(self,dm,h,block_size=256):
-#         super().__init__()
-#         dk = dm // h
-#         dv = dk
-#         assert(dk*h==dm) # Check the input/output size of block is same
-#         self.mha = MultiHeadAttention(dm,dk,dv,h)
-#         self.ffn = FeedForward(dm)
-#         self.ln1 = nn.LayerNorm(dm,elementwise_affine=False)
-#         self.ln2 = nn.LayerNorm(dm,elementwise_affine=False)
-#     def forward(self,x):
-#         x = x + self.mha(self.ln1(x))
-#         x = x + self.ffn(self.ln2(x))
-        # return x
-# class Block1(nn.Module): # This block uses post layer norm
-#     def __init__(self,dm,h,block_size=256):
-#         super().__init__()
-#         dk = dm // h
-#         dv = dk
-#         assert(dk*h==dm) # Check the input/output size of block is same
-#         self.mha = MultiHeadAttention(dm,dk,dv,h)
-#         self.ffn = FeedForward(dm)
-#         self.ln1 = nn.LayerNorm(dm,elementwise_affine=False)
-#         self.ln2 = nn.LayerNorm(dm,elementwise_affine=False)
-#     def forward(self,x):
-#         x = self.ln1(x + self.mha(x))
-#         x = self.ln2(x + self.ffn(x))
-#         return x
-    
-# class Block2(nn.Module): # This block takes attention without projection. 
-#     def __init__(self,dm,h,block_size=256):
-#         super().__init__()
-#         dk = dm // h
-#         dv = dk
-#         assert(dk*h==dm) # Check the input/output size of block is same
-#         self.mha = MultiHeadAttention(dm,dk,dv,h,project=False)
-#         self.W_o = nn.Linear(dv*h,dm)
-#         self.ffn = FeedForward(dm)
-#         self.ln1 = nn.LayerNorm(dm,elementwise_affine=False)
-#         self.ln2 = nn.LayerNorm(dm,elementwise_affine=False)
-#     def forward(self,x):
-#         x = x + self.W_o( self.mha( self.ln1(x) ))
-#         x = x + self.ffn( self.ln2(x) )
-#         return x
-    
-# class Block3(nn.Module): # This block uses RMSNorm instead of layer norm
-#     def __init__(self,dm,h,block_size=256):
-#         super().__init__()
-#         dk = dm // h
-#         dv = dk
-#         assert(dk*h==dm) # Check the input/output size of block is same
-#         self.mha = MultiHeadAttention(dm,dk,dv,h)
-#         self.ffn = FeedForward(dm)
-#         self.ln1 = RMSNorm(dm)
-#         self.ln2 = RMSNorm(dm)
-#     def forward(self,x):
-#         x = x + self.mha(self.ln1(x))
-#         x = x + self.ffn(self.ln2(x))
-#         return x
-    
-# class Block5(nn.Module): # This block uses RMSNorm instead of layer norm AND rectifies activities before layer norm
-#     def __init__(self,dm,h,block_size=256):
-#         super().__init__()
-#         dk = dm // h
-#         dv = dk
-#         assert(dk*h==dm) # Check the input/output size of block is same
-#         self.mha = MultiHeadAttention(dm,dk,dv,h,rectify=True)
-#         self.ffn = FeedForward(dm)
-#         self.ln1 = RMSNorm(dm)
-#         self.ln2 = RMSNorm(dm)
-        
-#     def forward(self,x):
-#         x = x + self.mha(self.ln1(x))
-#         x = x + self.ffn(self.ln2(x))
-#         return x
-
-# class Block6(nn.Module): # This block uses RMSNorm instead of layer norm AND rectifies activities before layer norm
-#     def __init__(self,dm,h,block_size=256):
-#         super().__init__()
-#         dk = dm // h
-#         dv = dk
-#         assert(dk*h==dm) # Check the input/output size of block is same
-#         self.mha = MultiHeadAttention(dm,dk,dv,h,rectify=True,attention_type='log')
-#         self.ffn = FeedForward(dm)
-#         self.ln1 = RMSNorm(dm)
-#         self.ln2 = RMSNorm(dm)
-        
-#     def forward(self,x):
-#         x = x + self.mha(self.ln1(x))
-#         x = x + self.ffn(self.ln2(x))
-#         return x
-    
-# class Block7(nn.Module): # This block uses RMSNorm instead of layer norm AND rectifies activities before layer norm
-#     def __init__(self,dm,h,block_size=256):
-#         super().__init__()
-#         dk = dm // h
-#         dv = dk
-#         assert(dk*h==dm) # Check the input/output size of block is same
-#         self.mha = MultiHeadAttention(dm,dk,dv,h,rectify=True,attention_type='mine')
-#         self.ffn = FeedForward(dm)
-#         self.ln1 = RMSNorm(dm)
-#         self.ln2 = RMSNorm(dm)
-        
-#     def forward(self,x):
-#         x = x + self.mha(self.ln1(x))
-#         x = x + self.ffn(self.ln2(x))
-#         return x
-    
-
-# class Block8(nn.Module): # This block uses RMSNorm instead of layer norm
-#     def __init__(self,dm,h,block_size=256,ActFun=nn.ReLU(),Similarity=sdp()):
-#         super().__init__()
-#         dk = dm // h
-#         dv = dk
-#         assert(dk*h==dm) # Check the input/output size of block is same
-#         self.mha = MultiHeadAttention(dm,dk,dv,h,attention_type='new',block_size=block_size,ActFun=ActFun,Similarity=Similarity)
-#         self.ffn = FeedForward(dm)
-#         self.ln1 = RMSNorm(dm)
-#         self.ln2 = RMSNorm(dm)
-#     def forward(self,x):
-#         x = x + self.mha(self.ln1(x))
-#         x = x + self.ffn(self.ln2(x))
-#         return x
 
 
 # Models
 ###############################################################################################
 # My alternate class using RMS instead of layer norm
-class Transformer(nn.Module):
-    def __init__(self,dm=384,dk=64,dv=64,vocab_size=0,block_size=256,h=2,N=6,dropout=0.2,final_norm='rms',norm_type='layer', post_norm=0, rectify=0):
+class Transformer(nn.Module): # Defaults here should be from Karpathy's tutorial
+    def __init__(self,dm=384,dk=64,dv=64,vocab_size=0,block_size=256,h=2,N=6,dropout=0.2,final_norm='rms',norm_type='layer', post_norm=1, rectify=0,attention_type='sdp',block_architecture='series'):
         super().__init__()
         print("dm = ", dm) 
         print("vocab_size = ", vocab_size)
         print("block_size = ", block_size)
         print("h = ", h)
         print("N = ", N)
-        # print("block_type = ", block_type)
-        # print("embedding_method = ", embedding_method)
         print("final_norm = ", final_norm)
         print("Dropout = ", dropout)
         print("norm type = ",norm_type)
         print("post norm = ",post_norm)
         print("rectify = ",rectify)
-        # print(kwargs)
+
         self.vocab_size=vocab_size
         self.final_norm = final_norm
         self.block_size=block_size
@@ -430,7 +276,7 @@ class Transformer(nn.Module):
         self.token_embedding_table = nn.Embedding(vocab_size,dm)
         self.position_embedding_table = nn.Embedding(block_size,dm)
 
-        self.blocks = nn.Sequential(*[Block(dm,dk,dv,h,block_size=block_size,rectify=rectify,norm_type=norm_type, post_norm=post_norm) for _ in range(N)])
+        self.blocks = nn.Sequential(*[Block(dm,dk,dv,h,block_size=block_size,rectify=rectify,norm_type=norm_type, post_norm=post_norm, block_architecture=block_architecture) for _ in range(N)])
 
         if final_norm == 'layer':
             self.ln = nn.LayerNorm(dm)

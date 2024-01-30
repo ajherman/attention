@@ -25,8 +25,8 @@ for idx,f_name in enumerate(args.files):
     else:
         try:
             data = np.genfromtxt(file_path, delimiter=',')
-            plt.plot(data[:,0]+0.005*np.random.normal(), label=f_name+' train', linestyle='--', color=colors[idx], linewidth=0.5)
-            plt.plot(data[:,1]+0.005*np.random.normal(), label=f_name+' test',color=colors[idx], linewidth=0.5)
+            plt.plot(data[:,0]+0.05*np.random.normal(), label=f_name+' train', linestyle='--', color=colors[idx], linewidth=0.5)
+            plt.plot(data[:,1]+0.05*np.random.normal(), label=f_name+' test',color=colors[idx], linewidth=0.5)
         except:
             print(f"Could not plot '{file_path}'")
 
