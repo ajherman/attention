@@ -16,7 +16,7 @@ import time
 import numpy as np
 
 data_cache_dir = "~/datasets" #"/ram/tmp"
-dataset = 'shakespeare'
+dataset = 'stories'
 
 # Set seed
 torch.manual_seed(1337)
@@ -117,7 +117,7 @@ if __name__ == '__main__':
     parser.add_argument('--rectify', type=bool, default=False, help='Whether to use rectified attention')
     parser.add_argument('--attention-type', type=str, default='sdp', help='Type of attention to use ("sdp" for scaled dot product, "other" for other types)')
 
-    parser.add_argument('--lr', type=float, default=5e-4, help='Specify the learning rate')
+    parser.add_argument('--lr', type=float, default=1e-3, help='Specify the learning rate')
     parser.add_argument('--N', type=int, default=6, help='Specify the number of layers')
     parser.add_argument('--device', type=str, default=device, help='Specify the device')
     parser.add_argument('--n-itrs', type=int, default=20001, help='Specify the number of iterations')
