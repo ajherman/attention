@@ -127,6 +127,8 @@ if __name__ == '__main__':
     parser.add_argument('--dataset', type=str,default='stories', help='Specify the dataset')
     parser.add_argument('--version', type=int,default=0, help='For saving the model with distinct names')
     args = parser.parse_args()
+    print(args.rectify)
+    print(args.post_norm)
     # version = args.block_type
     version = args.version
     block_size=args.block_size
