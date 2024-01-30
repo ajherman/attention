@@ -421,7 +421,7 @@ class Transformer(nn.Module):
         print("Dropout = ", kwargs['dropout'])
         print("norm type = ",norm_type)
         print("post norm = ",post_norm)
-        print("rectify = ",kwargs['rectify'])
+        print("rectify = ",rectify)
         print(kwargs)
         self.vocab_size=vocab_size
         self.final_norm = final_norm
