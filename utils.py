@@ -408,7 +408,7 @@ class Block(nn.Module):
 ###############################################################################################
 # My alternate class using RMS instead of layer norm
 class Transformer(nn.Module):
-    def __init__(self,dm=384,dk=64,dv=64,vocab_size=0,block_size=256,h=2,N=6,final_norm='rms',norm_type='layer', post_norm=0, rectify=0):
+    def __init__(self,dm=384,dk=64,dv=64,vocab_size=0,block_size=256,h=2,N=6,dropout=0.2,final_norm='rms',norm_type='layer', post_norm=0, rectify=0):
         super().__init__()
         print("dm = ", dm) 
         print("vocab_size = ", vocab_size)
@@ -418,7 +418,7 @@ class Transformer(nn.Module):
         # print("block_type = ", block_type)
         # print("embedding_method = ", embedding_method)
         print("final_norm = ", final_norm)
-        print("Dropout = ", kwargs['dropout'])
+        print("Dropout = ", dropout)
         print("norm type = ",norm_type)
         print("post norm = ",post_norm)
         print("rectify = ",rectify)
