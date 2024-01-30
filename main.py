@@ -188,6 +188,9 @@ if __name__ == '__main__':
         model = torch.load('transformer_' + str(version) + '.pt')
     else:
         # model = Transformer(dm=dm, vocab_size=vocab_size,block_size=block_size, h=h, N=N, block_type=version)
+        print(args_dict['rectify'])
+        print(args_dict['post_norm'])
+        assert(0)
         model = Transformer(**args_dict)
     print(sum(p.numel() for p in model.parameters())/1e6, 'M parameters')
     m=model.to(device)
