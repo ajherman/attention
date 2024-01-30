@@ -32,9 +32,9 @@ version=0
 
 for norm_type in {layer,rms}
 do
-for rectify in {False,}
+for rectify in {0,1}
 do
-for post_norm in {False,}
+for post_norm in {0,1}
 do
 
 name="norm_${norm_type}_rectify_${rectify}_post_norm_${post_norm}"
