@@ -408,7 +408,7 @@ class Block(nn.Module):
 ###############################################################################################
 # My alternate class using RMS instead of layer norm
 class Transformer(nn.Module):
-    def __init__(self,dm=384,dk=64,dv=64,vocab_size=0,block_size=256,h=2,N=6,block_type=3,embedding_method='absolute',final_norm='rms',norm_type='layer', post_norm=False,**kwargs):
+    def __init__(self,dm=384,dk=64,dv=64,vocab_size=0,block_size=256,h=2,N=6,block_type=3,embedding_method='absolute',final_norm='rms',norm_type='layer', post_norm=0,rectify=0,**kwargs):
         super().__init__()
         print("dm = ", dm) 
         print("vocab_size = ", vocab_size)
@@ -430,7 +430,7 @@ class Transformer(nn.Module):
         self.token_embedding_table = nn.Embedding(vocab_size,dm)
         self.position_embedding_table = nn.Embedding(block_size,dm)
 
-        self.blocks = nn.Sequential(*[Block(dm,dk,dv,h,block_size=block_size,norm_type='layer', post_norm=False) for _ in range(N)])
+        self.blocks = nn.Sequential(*[Block(dm,dk,dv,h,block_size=block_size,rectify=rectify,norm_type=norm_type, post_norm=post_norm) for _ in range(N)])
 
         if final_norm == 'layer':
             self.ln = nn.LayerNorm(dm)
