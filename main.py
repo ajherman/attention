@@ -112,9 +112,9 @@ if __name__ == '__main__':
     
     parser.add_argument('--block_size', type=int, default=256, help='Block size for the transformer block')
     parser.add_argument('--norm-type', type=str, default='layer', help='Type of normalization layer to use ("layer" for LayerNorm, "rms" for RMSNorm)')
-    parser.add_argument('--post-norm', type=bool, default=False, help='Whether to use post layer normalization')
-    parser.add_argument('--project', type=bool, default=True, help='Whether to use projection in the multi-head attention layer')
-    parser.add_argument('--rectify', type=bool, default=False, help='Whether to use rectified attention')
+    parser.add_argument('--post-norm', type=int, default=0, help='Whether to use post layer normalization')
+    parser.add_argument('--project', type=int, default=1, help='Whether to use projection in the multi-head attention layer')
+    parser.add_argument('--rectify', type=int, default=0, help='Whether to use rectified attention')
     parser.add_argument('--attention-type', type=str, default='sdp', help='Type of attention to use ("sdp" for scaled dot product, "other" for other types)')
 
     parser.add_argument('--lr', type=float, default=1e-3, help='Specify the learning rate')
