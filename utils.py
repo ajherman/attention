@@ -419,6 +419,10 @@ class Transformer(nn.Module):
         print("embedding_method = ", embedding_method)
         print("final_norm = ", final_norm)
         print("Dropout = ", kwargs['dropout'])
+        print("norm type = ",norm_type)
+        print("post norm = ",post_norm)
+        print("rectify = ",kwargs['rectify'])
+        print(kwargs)
         self.vocab_size=vocab_size
         self.final_norm = final_norm
         self.block_size=block_size
