@@ -101,32 +101,36 @@ if __name__ == '__main__':
     # Parameters
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
-    parser.add_argument('--block-size', type=int, default=256, help='Specify the block size')        
     parser.add_argument('--batch-size', type=int, default=64, help='Specify the batch size')
     parser.add_argument('--eval-interval', type=int, default=1000, help='Specify the evaluation interval')
     parser.add_argument('--eval-iters', type=int, default=500, help='Specify the evaluation iterations')
+
+    parser.add_argument('--block-size', type=int, default=256, help='Specify the block size')        
     parser.add_argument('--dm', type=int, default=512, help='Specify embedding dimension')
     parser.add_argument('--dk', type=int, default=64, help='Specify dimension of key/query vectors')
     parser.add_argument('--dv', type=int, default=64, help='Specify dimension of value vectors')
     parser.add_argument('--h', type=int, default=8, help='Specify the number of heads')
+    parser.add_argument('--N', type=int, default=6, help='Specify the number of layers')
     
-    parser.add_argument('--block_size', type=int, default=256, help='Block size for the transformer block')
     parser.add_argument('--norm-type', type=str, default='layer', help='Type of normalization layer to use ("layer" for LayerNorm, "rms" for RMSNorm)')
     parser.add_argument('--post-norm', type=int, default=0, help='Whether to use post layer normalization')
-    parser.add_argument('--project', type=int, default=1, help='Whether to use projection in the multi-head attention layer')
+    parser.add_argument('--final-norm', type=str, default='layer', help='Norm to use in final layer ("layer" for LayerNorm, "rms" for RMSNorm)')
+    # parser.add_argument('--project', type=int, default=1, help='Whether to use projection in the multi-head attention layer')
     parser.add_argument('--rectify', type=int, default=0, help='Whether to use rectified attention')
+    parser.add_argument('--dropout', type=float, default=0.2, help='Specify the dropout')
     parser.add_argument('--attention-type', type=str, default='sdp', help='Type of attention to use ("sdp" for scaled dot product, "other" for other types)')
 
     parser.add_argument('--lr', type=float, default=1e-3, help='Specify the learning rate')
-    parser.add_argument('--N', type=int, default=6, help='Specify the number of layers')
     parser.add_argument('--device', type=str, default=device, help='Specify the device')
     parser.add_argument('--n-itrs', type=int, default=20001, help='Specify the number of iterations')
-    parser.add_argument('--dropout', type=float, default=0.2, help='Specify the dropout')
-    parser.add_argument('--block-type', type=int, default=3, help='Specify the version')
+    # parser.add_argument('--block-type', type=int, default=3, help='Specify the version')
     parser.add_argument('--filepath', type=str,default='original.csv', help='Specify the file path')
     parser.add_argument('--dataset', type=str,default='stories', help='Specify the dataset')
     parser.add_argument('--version', type=int,default=0, help='For saving the model with distinct names')
     args = parser.parse_args()
+
+        #dm=384,dk=64,dv=64,vocab_size=0,block_size=256,h=2,N=6,block_type=3,embedding_method='absolute',final_norm='rms',norm_type='layer', post_norm=0, rectify=0, **kwargs):
+# Exceptions: batch_size, 
 
     # version = args.block_type
     version = args.version
@@ -190,6 +194,17 @@ if __name__ == '__main__':
     else:
         # model = Transformer(dm=dm, vocab_size=vocab_size,block_size=block_size, h=h, N=N, block_type=version)
         model = Transformer(**args_dict)
+
+    parser.add_argument('--block-size', type=int, default=256, help='Specify the block size')        
+    parser.add_argument('--dm', type=int, default=512, help='Specify embedding dimension')
+    parser.add_argument('--dk', type=int, default=64, help='Specify dimension of key/query vectors')
+    parser.add_argument('--dv', type=int, default=64, help='Specify dimension of value vectors')
+    parser.add_argument('--h', type=int, default=8, help='Specify the number of heads')
+    parser.add_argument('--N', type=int, default=6, help='Specify the number of layers')
+
+        model = Transformer(vocab_size=vocab_size,dm=args.dm,dk=args.dk,dv=args.dv,block_size=args.block_size,h=args.h,N=args.N,final_norm=args.final_norm,norm_type=args.norm_type, post_norm=args.post_norm, rectify=args.rectify):
+ 
+
     print(sum(p.numel() for p in model.parameters())/1e6, 'M parameters')
     m=model.to(device)
     optimizer = torch.optim.AdamW(model.parameters(), lr=args.lr)
