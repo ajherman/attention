@@ -216,7 +216,7 @@ class FeedForward(nn.Module):
 ####################################################################################################
 
 class Block(nn.Module):
-    def __init__(self, dm, dk, dv, h, block_size=256, norm_type='layer', post_norm=1, rectify=0, attention_type='sdp',dropout_rate=0.2):
+    def __init__(self, dm, dk, dv, h, block_size=256, norm_type='layer', post_norm=1, rectify=0, attention_type='sdp',dropout_rate=0.2,block_architecture='series'):
         super().__init__()
 
         self.mha = MultiHeadAttention(dm, dk, dv, h,rectify=rectify,attention_type=attention_type)
