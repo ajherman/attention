@@ -37,7 +37,7 @@ do
 for block_architecture in {series,parallel}
 do
 
-name="norm_${norm_type}_rectify_${rectify}_post_norm_${post_norm}"
+name="norm_${norm_type}_rectify_${rectify}_arch_${block_architecture}"
 srun -N 1 -n 1 -c $cores -o $name.out --open-mode=append ./main_wrapper.sh --block-size 200  --version $version --eval-interval 50 --norm-type $norm_type --rectify $rectify --block-architecture $block_architecture --dataset stories --filepath $name.csv & 
 version=$((version+1))
 
