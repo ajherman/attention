@@ -15,9 +15,9 @@ for dataset in {shakespeare,stories,wikitext2,wikitext103}
 do
 
 name="test_${dataset}"
-# srun -N 1 -n 1 -c $cores -o $name.out --open-mode=append ./main_wrapper.sh --block-size 200 --eval-interval 50 --dataset $dataset --stream-data --filepath $name.csv & 
+srun -N 1 -n 1 -c $cores -o $name.out --open-mode=append ./main_wrapper.sh --block-size 200 --eval-interval 50 --dataset $dataset --stream-data --filepath $name.csv & 
 
-python main.py --batch-size 2 --block-size 200 --eval-interval 50 --dataset $dataset --filepath $name.csv > $name.out 2>&1 
+#python main.py --batch-size 2 --block-size 200 --eval-interval 50 --dataset $dataset --filepath $name.csv > $name.out 2>&1 
 
 done
 
