@@ -206,6 +206,7 @@ if __name__ == '__main__':
         if args.dataset not in ['shakespeare','ptb','cbt']:
             data = data['input_ids']
         print(data)
+        assert(0)
         data = data.to(device)
         xb,yb = data[:, :-1], data[:, 1:]
 
