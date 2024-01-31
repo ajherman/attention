@@ -21,7 +21,7 @@ dataset = 'stories' # This still needs to be set manually
 # Set seed
 torch.manual_seed(1337)
 
-if dataset == 'shakespeare':
+if 0: #dataset == 'shakespeare':
     @torch.no_grad()
     def estimate_loss(model):
         out = {}
@@ -31,7 +31,7 @@ if dataset == 'shakespeare':
         for itr,batch in enumerate(test_loader):
             if itr==args.eval_iters:
                 break
-            data = tokenizer(batch,padding="max_length",truncation=True,max_length=block_size,return_tensors="pt")        
+            data = tokenizer(batch,padding="max_length",truncation=True,max_length=block_size+1,return_tensors="pt")        
             # data = data['input_ids']
             data = data.to(device)
             xb,yb = data[:, :-1], data[:, 1:]
@@ -44,7 +44,7 @@ if dataset == 'shakespeare':
         for itr,batch in enumerate(train_loader):
             if itr==args.eval_iters:
                 break
-            data = tokenizer(batch,padding="max_length",truncation=True,max_length=block_size,return_tensors="pt")        
+            data = tokenizer(batch,padding="max_length",truncation=True,max_length=block_size+1,return_tensors="pt")        
             # data = data['input_ids']
             data = data.to(device)
             xb,yb = data[:, :-1], data[:, 1:]
@@ -64,8 +64,12 @@ elif dataset == 'stories':
         for itr,batch in enumerate(test_loader):
             if itr==args.eval_iters:
                 break
+            if args.dataset not in ['shakespeare','ptb','cbt']:
+                batch = batch['text']
             data = tokenizer(batch['text'],padding="max_length",truncation=True,max_length=block_size+1,return_tensors="pt")        
-            data = data['input_ids']
+            if args.dataset not in ['shakespeare','ptb','cbt']:
+                data = data['input_ids']
+            # data = data['input_ids']
             data = data.to(device)
             xb,yb = data[:, :-1], data[:, 1:]
             logits, loss = model(xb, yb)
@@ -78,8 +82,12 @@ elif dataset == 'stories':
         for itr,batch in enumerate(train_loader):
             if itr==args.eval_iters:
                 break
+            if args.dataset not in ['shakespeare','ptb','cbt']:
+                batch = batch['text']
             data = tokenizer(batch['text'],padding="max_length",truncation=True,max_length=block_size+1,return_tensors="pt")        
-            data = data['input_ids']
+            if args.dataset not in ['shakespeare','ptb','cbt']:
+                data = data['input_ids']
+            # data = data['input_ids']
             data = data.to(device)
             xb,yb = data[:, :-1], data[:, 1:]
             logits, loss = model(xb, yb)
@@ -310,7 +318,8 @@ if __name__ == '__main__':
             if args.dataset not in ['shakespeare','ptb','cbt']:
                 batch = batch['text']
             data = tokenizer(batch,padding="max_length",truncation=True,max_length=block_size+1,return_tensors="pt")        
-            data = data['input_ids']
+            if args.dataset not in ['shakespeare','ptb','cbt']:
+                data = data['input_ids']
             data = data.to(device)
             xb,yb = data[:, :-1], data[:, 1:]
 
