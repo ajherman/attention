@@ -288,64 +288,40 @@ if __name__ == '__main__':
     # writer.close()
     # m.logits_only=False
 
-    # Diffs: Index batch with 'text', move to device, 
+    tic = time.time()
+    # TinyStories version that I am currently working on
+    for itr,batch in enumerate(train_loader):
+        if args.dataset not in ['shakespeare','ptb','cbt']:
+            batch = batch['text']
+        data = tokenizer(batch,padding="max_length",truncation=True,max_length=block_size+1,return_tensors="pt")        
+        if args.dataset not in ['shakespeare','ptb','cbt']:
+            data = data['input_ids']
+        data = data.to(device)
+        xb,yb = data[:, :-1], data[:, 1:]
 
-    if False: #args.dataset in ['shakespeare','ptb','cbt']:
-        # Train
-        for itr,batch in enumerate(train_loader):
-            data = tokenizer(batch,padding="max_length",truncation=True,max_length=block_size+1,return_tensors="pt")    
-            xb,yb = data[:,:-1],data[:,1:]
-            logits, loss = model(xb, yb)
-            if itr % args.eval_interval == 0:
-                losses = estimate_loss(model)  # Calculate loss
-                with open(filepath, 'a', newline='') as csvfile:
-                    writer = csv.writer(csvfile)
-                    writer.writerow([losses[split] for split in ['train','test']])
-                idx = torch.zeros((1, block_size), device=device, dtype=torch.long)
-                idx = m.generate(idx, 500)
-                print("\nSample: \n", decode(list(idx[0])[block_size:]), '\n\n')
-                print(f"step {itr}: train loss {losses['train']:.4f}, val loss {losses['test']:.4f}")
-                torch.save(m, 'transformer_' + str(version) + '.pt')
-            optimizer.zero_grad(set_to_none=True)
-            loss.backward()
-            optimizer.step()
+        if itr == 0:
+            text = tokenizer.decode(xb[0])
+            print("Example from training set: ",text)
 
-    # elif args.dataset == 'stories':
-    else:
-        tic = time.time()
-        # TinyStories version that I am currently working on
-        for itr,batch in enumerate(train_loader):
-            if args.dataset not in ['shakespeare','ptb','cbt']:
-                batch = batch['text']
-            data = tokenizer(batch,padding="max_length",truncation=True,max_length=block_size+1,return_tensors="pt")        
-            if args.dataset not in ['shakespeare','ptb','cbt']:
-                data = data['input_ids']
-            data = data.to(device)
-            xb,yb = data[:, :-1], data[:, 1:]
-
-            if itr == 0:
-                text = tokenizer.decode(xb[0])
-                print(text)
-
-            if itr % args.eval_interval == 0:
-                elapsed, tic = time.time() - tic, time.time()
-                print(f"step {itr}: {elapsed:.2f} seconds")
-                losses = estimate_loss(model)  # Calculate loss
-                with open(filepath, 'a', newline='') as csvfile:
-                    writer = csv.writer(csvfile)
-                    writer.writerow([losses[split] for split in ['train','test']])
-                idx = torch.zeros((1, args.block_size), device=device, dtype=torch.long)
-                idx = m.generate(idx, 200) # Set beta = 2?
-                print("\nSample: \n", decode(list(idx[0])[args.block_size:]), '\n\n')
-                print(f"step {itr}: train loss {losses['train']:.4f}, val loss {losses['test']:.4f}")
-                torch.save(m, 'transformer_' + str(version) + '.pt')
-            logits, loss = model(xb, yb)
-            optimizer.zero_grad(set_to_none=True)
-            loss.backward()
-            optimizer.step()
+        if itr % args.eval_interval == 0:
+            elapsed, tic = time.time() - tic, time.time()
+            print(f"step {itr}: {elapsed:.2f} seconds")
+            losses = estimate_loss(model)  # Calculate loss
+            with open(filepath, 'a', newline='') as csvfile:
+                writer = csv.writer(csvfile)
+                writer.writerow([losses[split] for split in ['train','test']])
+            idx = torch.zeros((1, args.block_size), device=device, dtype=torch.long)
+            idx = m.generate(idx, 200) # Set beta = 2?
+            print("\nSample: \n", decode(list(idx[0])[args.block_size:]), '\n\n')
+            print(f"step {itr}: train loss {losses['train']:.4f}, val loss {losses['test']:.4f}")
+            torch.save(m, 'transformer_' + str(version) + '.pt')
+        logits, loss = model(xb, yb)
+        optimizer.zero_grad(set_to_none=True)
+        loss.backward()
+        optimizer.step()
 
     torch.save(m,'transformer_'+str(args.version)+'.pt')
     idx=torch.zeros((1,block_size),device=device,dtype=torch.long)
     idx=m.generate(idx,5000)
-    print(idx)
-    print(decode(list(idx[0])[args.block_size:]))
+    # print(idx)
+    # print(decode(list(idx[0])[args.block_size:]))
