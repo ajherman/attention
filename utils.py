@@ -13,19 +13,7 @@ device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 # Set seed
 torch.manual_seed(1337)
-
-# # Download a sample text file (e.g., "The Complete Works of William Shakespeare")
-# url = "https://raw.githubusercontent.com/karpathy/char-rnn/master/data/tinyshakespeare/input.txt"
-# file_path = "shakespeare.txt"
-
-# if not os.path.exists(file_path):
-#     response = requests.get(url)
-#     with open(file_path, 'w') as file:
-#         file.write(response.text)
-
-# # Read in text file
-# with open(file_path,'r',encoding='utf-8') as f:
-#     text = f.read()
+torch.cuda.manual_seed(1337)
 
 # Datasets
     
@@ -321,18 +309,18 @@ class Transformer(nn.Module): # Defaults here should be from Karpathy's tutorial
             flat_logits = logits.view(-1, self.vocab_size)
             flat_targets = targets.contiguous().view(-1)
             
-            if 0: 
+            if 1: 
                 # Create a mask to ignore PAD tokens
                 pad_token_id = 0
                 mask = (flat_targets != pad_token_id).float()
-                print(mask.shape)
-                assert(0)
+                # print(mask.shape)
+                # assert(0)
                 # Apply the mask to logits and targets
                 masked_logits = flat_logits[mask]
                 masked_targets = flat_targets[mask]
                 
-                loss = F.cross_entropy(masked_logits, masked_targets,reduction='none')
-                loss = loss*mask.view(-1)
+                loss = F.cross_entropy(masked_logits, masked_targets)
+                # loss = loss*mask.view(-1)
             else:
                 loss=F.cross_entropy(flat_logits,flat_targets)
 
