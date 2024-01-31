@@ -307,7 +307,7 @@ if __name__ == '__main__':
         tic = time.time()
         # TinyStories version that I am currently working on
         for itr,batch in enumerate(train_loader):
-            if args.dataset in ['shakespeare','ptb','cbt']:
+            if args.dataset not in ['shakespeare','ptb','cbt']:
                 batch = batch['text']
             data = tokenizer(batch,padding="max_length",truncation=True,max_length=block_size+1,return_tensors="pt")        
             data = data['input_ids']
