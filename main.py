@@ -219,18 +219,14 @@ if __name__ == '__main__':
         # dataset = load_dataset("wikitext", "wikitext-2-v1")
         train_set = load_dataset("wikitext",'wikitext-2-v1',cache_dir=data_cache_dir,split='train',streaming=args.stream_data)
         test_set = load_dataset("wikitext",'wikitext-2-v1',cache_dir=data_cache_dir,split='test',streaming=args.stream_data)
-    elif args.dataset == "simple_wiki": # There is not test split...
-        # train_set = load_dataset("wikipedia",'20200501.simple',cache_dir=data_cache_dir,split='train',streaming=args.stream_data)
-        # test_set = load_dataset("wikipedia",'20200501.simple',cache_dir=data_cache_dir,split='test',streaming=args.stream_data)
-        train_test_split_percentage = 0.8  # 80% for training, 20% for testing
-
-# Split the dataset
-        full_set = load_dataset("wikipedia","20220301.en",trust_remote_code=True,cache_dir=data_cache_dir,split='train',streaming=args.stream_data)
-        full_set = full_set.train_test_split(train_size=train_test_split_percentage)
-        train_set = full_set['train']
-        test_set = full_set['test']        
-        # train_set = load_dataset("wikipedia","20220301.en",trust_remote_code=True,cache_dir=data_cache_dir,split='train',streaming=args.stream_data)
-        # test_set = load_dataset("wikipedia","20220301.en",trust_remote_code=True,cache_dir=data_cache_dir,split='train',streaming=args.stream_data)
+    # elif args.dataset == "simple_wiki": # There is not test split, can't get working
+    #     train_test_split_percentage = 0.8  # 80% for training, 20% for testing
+    #     full_set = load_dataset("wikipedia","20220301.en",trust_remote_code=True,cache_dir=data_cache_dir,split='train',streaming=args.stream_data)
+    #     full_set = full_set.train_test_split(train_size=train_test_split_percentage)
+    #     train_set = full_set['train']
+    #     test_set = full_set['test']        
+    #     # train_set = load_dataset("wikipedia","20220301.en",trust_remote_code=True,cache_dir=data_cache_dir,split='train',streaming=args.stream_data)
+    #     # test_set = load_dataset("wikipedia","20220301.en",trust_remote_code=True,cache_dir=data_cache_dir,split='train',streaming=args.stream_data)
     elif args.dataset == "cbt":
         # dataset = load_dataset("cbt", "CN")
         train_set = load_dataset("cbt",'CN',cache_dir=data_cache_dir,split='train',streaming=args.stream_data)
@@ -249,11 +245,8 @@ if __name__ == '__main__':
         tokenizer = AutoTokenizer.from_pretrained("bert-base-uncased")
     elif args.dataset in ["ptb","wikitext103"]:
         tokenizer = AutoTokenizer.from_pretrained("gpt2")  # GPT-2 tokenizer works well with PTB
-    elif args.dataset == "brown":
-        tokenizer = AutoTokenizer.from_pretrained("roberta-base")
     elif args.dataset == "stories":
         tokenizer = AutoTokenizer.from_pretrained("georgeyw/TinyStories-tokenizer-5k")
-        # tokenizer.add_special_tokens({'pad_token': '[PAD]'})
     elif args.dataset == "shakespeare":
         tokenizer = CharacterTokenizer(block_size=block_size+1)
     
