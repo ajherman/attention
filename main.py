@@ -222,8 +222,15 @@ if __name__ == '__main__':
     elif args.dataset == "simple_wiki": # There is not test split...
         # train_set = load_dataset("wikipedia",'20200501.simple',cache_dir=data_cache_dir,split='train',streaming=args.stream_data)
         # test_set = load_dataset("wikipedia",'20200501.simple',cache_dir=data_cache_dir,split='test',streaming=args.stream_data)
-        train_set = load_dataset("wikipedia","20220301.en",cache_dir=data_cache_dir,split='train',streaming=args.stream_data)
-        test_set = load_dataset("wikipedia","20220301.en",cache_dir=data_cache_dir,split='train',streaming=args.stream_data)
+        train_test_split_percentage = 0.8  # 80% for training, 20% for testing
+
+# Split the dataset
+        full_set = load_dataset("wikipedia","20220301.en",trust_remote_code=True,cache_dir=data_cache_dir,streaming=args.stream_data)
+        full_set = full_set.train_test_split(train_size=train_test_split_percentage)
+        train_set = full_set['train']
+        test_set = full_set['test']        
+        # train_set = load_dataset("wikipedia","20220301.en",trust_remote_code=True,cache_dir=data_cache_dir,split='train',streaming=args.stream_data)
+        # test_set = load_dataset("wikipedia","20220301.en",trust_remote_code=True,cache_dir=data_cache_dir,split='train',streaming=args.stream_data)
     elif args.dataset == "cbt":
         # dataset = load_dataset("cbt", "CN")
         train_set = load_dataset("cbt",'CN',cache_dir=data_cache_dir,split='train',streaming=args.stream_data)
