@@ -312,7 +312,7 @@ class Transformer(nn.Module): # Defaults here should be from Karpathy's tutorial
             if 1: 
                 # Create a mask to ignore PAD tokens
                 pad_token_id = 0
-                mask = (flat_targets != pad_token_id).float()
+                mask = (flat_targets != pad_token_id)
                 # print(mask.shape)
                 # assert(0)
                 # Apply the mask to logits and targets
