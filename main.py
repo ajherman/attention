@@ -230,8 +230,8 @@ if __name__ == '__main__':
         test_set = load_dataset("cbt",'CN',cache_dir=data_cache_dir,split='test',streaming=args.stream_data)
     elif args.dataset == "ptb":
         # dataset = load_dataset("ptb_text_only")
-        train_set = load_dataset("ptb_text_only",'train',cache_dir=data_cache_dir,streaming=args.stream_data)
-        test_set = load_dataset("ptb_text_only",'test',cache_dir=data_cache_dir,streaming=args.stream_data)
+        train_set = load_dataset("ptb_text_only",'penn_treebank',cache_dir=data_cache_dir,spit='train',streaming=args.stream_data)
+        test_set = load_dataset("ptb_text_only",'penn_treebank',cache_dir=data_cache_dir,split='test',streaming=args.stream_data)
  
     # Make dataloaders
     train_loader = DataLoader(train_set, batch_size=args.batch_size) # shuffle=True
