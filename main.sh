@@ -11,13 +11,13 @@ cores=20
 
 ############################################################
 
-for dataset in {shakespeare,stories,wikitext103,wikitext2,simple_wiki,cbt}
+for dataset in {shakespeare,simple_wiki,cbt}
 do
 
 name="test_${dataset}"
-# srun -N 1 -n 1 -c $cores -o $name.out --open-mode=append ./main_wrapper.sh --block-size 200 --eval-interval 50 --dataset $dataset --stream-data --filepath $name.csv & 
+srun -N 1 -n 1 -c $cores -o $name.out --open-mode=append ./main_wrapper.sh --block-size 200 --eval-interval 50 --dataset $dataset --stream-data --filepath $name.csv & 
 
-python main.py --block-size 200 --eval-interval 50 --dataset $dataset --stream-data --filepath $name.csv 2> $name.out & 
+# python main.py --block-size 200 --eval-interval 50 --dataset $dataset --stream-data --filepath $name.csv 2> $name.out & 
 
 done
 
