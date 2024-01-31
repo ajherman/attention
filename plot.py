@@ -12,7 +12,7 @@ args = parser.parse_args()
 
 if args.files is None:     # Find all CSV files in the current directory
     args.files = []
-    for file_name in os.listdir(args.dir):
+    for file_name in sorted(os.listdir(args.dir)):
         if file_name.endswith('.csv'):
             args.files.append(file_name[:-4])
 
@@ -25,8 +25,9 @@ for idx,f_name in enumerate(args.files):
     else:
         try:
             data = np.genfromtxt(file_path, delimiter=',')
-            plt.plot(data[:,0]+0.05*np.random.normal(), label=f_name+' train', linestyle='--', color=colors[idx], linewidth=0.5)
-            plt.plot(data[:,1]+0.05*np.random.normal(), label=f_name+' test',color=colors[idx], linewidth=0.5)
+            noise = 0.0*np.random.normal()
+            # plt.plot(data[:,0]+noise, label=f_name+' train', linestyle='--', color=colors[idx], linewidth=0.5)
+            plt.plot(data[:,1]+noise, label=f_name+' test',color=colors[idx], linewidth=0.5)
         except:
             print(f"Could not plot '{file_path}'")
 
@@ -36,7 +37,7 @@ plt.ylabel('error')
 plt.title('Error vs Time')
 
 # Add a legend
-plt.legend(fontsize='small')
+plt.legend(fontsize=7) 
 
 # Save the figure
 plt.savefig(args.dir+'/'+args.save_name+'.png')

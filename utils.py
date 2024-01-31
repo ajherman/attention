@@ -123,11 +123,25 @@ class SelfAttentionHead(nn.Module):
         self.W_v = nn.Linear(dm,dv,bias=False)
         self.tril=torch.tril(torch.ones((block_size,block_size),device=device))
         self.dropout = nn.Dropout(dropout) # New
+
+        # n_fixed_keys = 10
+        # self.fixed_k = torch.randn(dk, n_fixed_keys, requires_grad=True)
+        # self.fixed_k = nn.Parameter(self.fixed_k, requires_grad=True)
+
+        # self.fixed_v = torch.randn(dk, n_fixed_keys, requires_grad=True)
+        # self.fixed_v = nn.Parameter(self.fixed_v, requires_grad=True)
+        
     def forward(self,x):
         B,T,C=x.shape # New
         k=self.W_k(x)
         q=self.W_q(x)
         v=self.W_v(x)
+
+        # Not sure if this works yet, and may need to adjust next segment as well
+        # # Concatenate self.fixed_k with k along the batch dimension
+        # fixed_k = self.fixed_k.unsqueeze(0).expand(B, -1, -1)
+        # k = torch.cat([k, fixed_k], dim=1)
+
         wei = q@k.transpose(-2,-1)*k.shape[-1]**-0.5
         wei=wei.masked_fill(self.tril[:T,:T]==0,float('-inf')) # New
         wei=torch.softmax(wei,dim=-1)
@@ -191,14 +205,9 @@ class MultiHeadAttention(nn.Module):
             self.heads = nn.ModuleList([SelfAttentionHead2(dm,dk,dv,block_size=block_size) for i in range(h)])    
         elif attention_type=='mine':
             self.heads = nn.ModuleList([SelfAttentionHead3(dm,dk,dv,block_size=block_size) for i in range(h)])
-        # elif attention_type=='new':
-        #     self.heads = nn.ModuleList([SelfAttentionHeadNew(dm,dk,dv,block_size=block_size,ActFun=ActFun,Similarity=Similarity) for i in range(h)])
-        
+ 
     def forward(self,x):
         out = torch.cat([head(x) for head in self.heads],dim=-1)
-        # if self.project:
-        #     out = self.W_o(out)
-        # out = self.dropout(out) # Like spiking?
         return out
 
 class FeedForward(nn.Module):

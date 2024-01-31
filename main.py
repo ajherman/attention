@@ -122,6 +122,7 @@ if __name__ == '__main__':
     parser.add_argument('--n-itrs', type=int, default=20001, help='Specify the number of iterations')
     parser.add_argument('--filepath', type=str,default='original.csv', help='Specify the file path')
     parser.add_argument('--dataset', type=str,default='stories', help='Specify the dataset')
+    parser.add_argument('--stream-data',action='store_true', help='Whether to stream data from disk')
     parser.add_argument('--version', type=int,default=0, help='For saving the model with distinct names')
     args = parser.parse_args()
 
@@ -129,6 +130,62 @@ if __name__ == '__main__':
     version = args.version
     block_size=args.block_size
 
+    # if args.dataset == 'shakespeare':
+    #     # Download a sample text file (e.g., "The Complete Works of William Shakespeare")
+    #     url = "https://raw.githubusercontent.com/karpathy/char-rnn/master/data/tinyshakespeare/input.txt"
+    #     file_path = "datasets/shakespeare.txt"
+
+    #     if not os.path.exists(file_path):
+    #         response = requests.get(url)
+    #         with open(file_path, 'w') as file:
+    #             file.write(response.text)
+
+    #     # Read in text file
+    #     with open(file_path,'r',encoding='utf-8') as f:
+    #         text = f.read()
+
+    #     # Split up text
+    #     n = len(text)
+    #     print("total length of text is ", n)
+    #     test_text = text[:n//10]
+    #     train_text = text[n//10:] 
+    #     shakespeare_train_data = TextDataFromFile(text=train_text,block_size=block_size+1)
+    #     shakespeare_test_data = TextDataFromFile(text=test_text,block_size=block_size+1)
+    #     test_loader = DataLoader(shakespeare_test_data, batch_size=args.batch_size, shuffle=False)
+    #     train_loader = DataLoader(shakespeare_train_data, batch_size=args.batch_size, shuffle=True)
+    #     tokenizer = CharacterTokenizer(block_size=block_size+1)
+
+    #     # shakespeare_data = TextDataFromFile(block_size=block_size+1,file_path=file_path)
+    #     # N = len(shakespeare_data)
+    #     # test_set = Subset(shakespeare_data, [i for i in range(N) if i % 10 == 0])
+    #     # train_set = Subset(shakespeare_data, [i for i in range(N) if i % 10 != 0])
+    #     # test_loader = DataLoader(test_set, batch_size=args.batch_size, shuffle=False)
+    #     # train_loader = DataLoader(train_set, batch_size=args.batch_size, shuffle=True)
+    #     # tokenizer = CharacterTokenizer(block_size=block_size+1)
+
+    # elif args.dataset == 'stories':
+    #     # vocab_size=50258
+    #     train_set = load_dataset("nRuaif/tinystories-gpt4",cache_dir=data_cache_dir,split='train')
+    #     train_loader = DataLoader(train_set, batch_size=64)
+    #     test_set = load_dataset("nRuaif/tinystories-gpt4",cache_dir=data_cache_dir,split='test')
+    #     test_loader = DataLoader(test_set, batch_size=64)
+    #     # tokenizer = AutoTokenizer.from_pretrained("georgeyw/TinyStories-tokenizer-10k")
+    #     tokenizer = AutoTokenizer.from_pretrained("georgeyw/TinyStories-tokenizer-5k")
+    #     tokenizer.add_special_tokens({'pad_token': '[PAD]'})
+
+    # elif args.dataset == 'wikitext103':
+    #     train_set = load_dataset("wikitext",'wikitext-103-v1',cache_dir=data_cache_dir,split='train')
+    #     train_loader = DataLoader(train_set, batch_size=64)
+    #     test_set = load_dataset("wikitext",'wikitext-103-v1',cache_dir=data_cache_dir,split='test')
+    #     test_loader = DataLoader(test_set, batch_size=64)
+    #     tokenizer = AutoTokenizer.from_pretrained("gpt2")
+######################################################################
+
+    # from torch.nn.utils.rnn import pad_sequence
+
+    # Choose the dataset
+
+    # Load the dataset
     if args.dataset == 'shakespeare':
         # Download a sample text file (e.g., "The Complete Works of William Shakespeare")
         url = "https://raw.githubusercontent.com/karpathy/char-rnn/master/data/tinyshakespeare/input.txt"
@@ -148,30 +205,76 @@ if __name__ == '__main__':
         print("total length of text is ", n)
         test_text = text[:n//10]
         train_text = text[n//10:] 
-        shakespeare_train_data = TextDataFromFile(text=train_text,block_size=block_size+1)
-        shakespeare_test_data = TextDataFromFile(text=test_text,block_size=block_size+1)
-        test_loader = DataLoader(shakespeare_test_data, batch_size=args.batch_size, shuffle=False)
-        train_loader = DataLoader(shakespeare_train_data, batch_size=args.batch_size, shuffle=True)
-        tokenizer = CharacterTokenizer(block_size=block_size+1)
-
-        # shakespeare_data = TextDataFromFile(block_size=block_size+1,file_path=file_path)
-        # N = len(shakespeare_data)
-        # test_set = Subset(shakespeare_data, [i for i in range(N) if i % 10 == 0])
-        # train_set = Subset(shakespeare_data, [i for i in range(N) if i % 10 != 0])
-        # test_loader = DataLoader(test_set, batch_size=args.batch_size, shuffle=False)
-        # train_loader = DataLoader(train_set, batch_size=args.batch_size, shuffle=True)
-        # tokenizer = CharacterTokenizer(block_size=block_size+1)
-
+        train_set = TextDataFromFile(text=train_text,block_size=block_size+1)
+        test_set = TextDataFromFile(text=test_text,block_size=block_size+1)
     elif args.dataset == 'stories':
-        # vocab_size=50258
-        train_set = load_dataset("nRuaif/tinystories-gpt4",cache_dir=data_cache_dir,split='train')
-        train_loader = DataLoader(train_set, batch_size=64)
-        test_set = load_dataset("nRuaif/tinystories-gpt4",cache_dir=data_cache_dir,split='test')
-        test_loader = DataLoader(test_set, batch_size=64)
+        train_set = load_dataset("nRuaif/tinystories-gpt4",cache_dir=data_cache_dir,split='train',streaming=args.stream_data)
+        test_set = load_dataset("nRuaif/tinystories-gpt4",cache_dir=data_cache_dir,split='test',streaming=args.stream_data)
         # tokenizer = AutoTokenizer.from_pretrained("georgeyw/TinyStories-tokenizer-10k")
+        # tokenizer.add_special_tokens({'pad_token': '[PAD]'})
+    elif args.dataset == 'wikitext103':
+        train_set = load_dataset("wikitext",'wikitext-103-v1',cache_dir=data_cache_dir,split='train',streaming=args.stream_data)
+        test_set = load_dataset("wikitext",'wikitext-103-v1',cache_dir=data_cache_dir,split='test',streaming=args.stream_data)
+    elif args.dataset == "wikitext2":
+        # dataset = load_dataset("wikitext", "wikitext-2-v1")
+        train_set = load_dataset("wikitext",'wikitext-2-v1',cache_dir=data_cache_dir,split='train',streaming=args.stream_data)
+        test_set = load_dataset("wikitext",'wikitext-2-v1',cache_dir=data_cache_dir,split='test',streaming=args.stream_data)
+    elif args.dataset == "simple_wiki":
+        # dataset = load_dataset("wikipedia", "20200501.simple")
+        train_set = load_dataset("wikipedia",'20200501.simple',cache_dir=data_cache_dir,split='train',streaming=args.stream_data)
+        test_set = load_dataset("wikipedia",'20200501.simple',cache_dir=data_cache_dir,split='test',streaming=args.stream_data)
+    elif args.dataset == "cbt":
+        # dataset = load_dataset("cbt", "CN")
+        train_set = load_dataset("cbt",'CN',cache_dir=data_cache_dir,split='train',streaming=args.stream_data)
+        test_set = load_dataset("cbt",'CN',cache_dir=data_cache_dir,split='test',streaming=args.stream_data)
+    elif args.dataset == "ptb":
+        # dataset = load_dataset("ptb_text_only")
+        train_set = load_dataset("ptb_text_only",'train',cache_dir=data_cache_dir,streaming=args.stream_data)
+        test_set = load_dataset("ptb_text_only",'test',cache_dir=data_cache_dir,streaming=args.stream_data)
+    elif args.dataset == "brown":
+        # dataset = load_dataset("brown")
+        train_set = load_dataset("brown",'train',cache_dir=data_cache_dir,streaming=args.stream_data)
+        test_set = load_dataset("brown",'test',cache_dir=data_cache_dir,streaming=args.stream_data)
+
+    # Make dataloaders
+    train_loader = DataLoader(train_set, batch_size=args.batch_size, shuffle=True)
+    test_loader = DataLoader(test_set, batch_size=args.batch_size, shuffle=False)
+
+    # Select an appropriate tokenizer
+    if args.dataset in ["wikitext-2", "simple_wiki", "cbt"]:
+        tokenizer = AutoTokenizer.from_pretrained("bert-base-uncased")
+    elif args.dataset in ["ptb","wikitext103"]:
+        tokenizer = AutoTokenizer.from_pretrained("gpt2")  # GPT-2 tokenizer works well with PTB
+    elif args.dataset == "brown":
+        tokenizer = AutoTokenizer.from_pretrained("roberta-base")
+    elif args.dataset == "stories":
         tokenizer = AutoTokenizer.from_pretrained("georgeyw/TinyStories-tokenizer-5k")
         tokenizer.add_special_tokens({'pad_token': '[PAD]'})
+    elif args.dataset == "shakespeare":
+        tokenizer = CharacterTokenizer(block_size=block_size+1)
 
+    # # Tokenize the dataset
+    # def tokenize_function(examples):
+    #     return tokenizer(examples["text"], padding="max_length", truncation=True, max_length=512)
+
+    # tokenized_datasets = dataset.map(tokenize_function, batched=True)
+
+    # # Create a DataLoader
+    # def collate_fn(batch):
+    #     input_ids = [item["input_ids"] for item in batch]
+    #     input_ids = pad_sequence([torch.tensor(ids) for ids in input_ids], batch_first=True, padding_value=tokenizer.pad_token_id)
+    #     attention_mask = [item["attention_mask"] for item in batch]
+    #     attention_mask = pad_sequence([torch.tensor(mask) for mask in attention_mask], batch_first=True, padding_value=0)
+    #     return {"input_ids": input_ids, "attention_mask": attention_mask}
+
+    # dataloader = DataLoader(tokenized_datasets["train"], batch_size=32, collate_fn=collate_fn)
+
+    # # Example: Iterate over the dataloader
+    # for batch in dataloader:
+    #     print(batch)
+    #     break  # Remove this line to iterate over the entire dataloader
+
+    ##################################################################
     vocab_size=len(tokenizer)
     decode = tokenizer.decode
 
@@ -220,7 +323,8 @@ if __name__ == '__main__':
             loss.backward()
             optimizer.step()
 
-    elif args.dataset == 'stories':
+    # elif args.dataset == 'stories':
+    else:
         tic = time.time()
         # TinyStories version that I am currently working on
         for itr,batch in enumerate(train_loader):
@@ -241,7 +345,6 @@ if __name__ == '__main__':
                 print(f"step {itr}: train loss {losses['train']:.4f}, val loss {losses['test']:.4f}")
                 torch.save(m, 'transformer_' + str(version) + '.pt')
             logits, loss = model(xb, yb)
-
             optimizer.zero_grad(set_to_none=True)
             loss.backward()
             optimizer.step()
