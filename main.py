@@ -232,11 +232,7 @@ if __name__ == '__main__':
         # dataset = load_dataset("ptb_text_only")
         train_set = load_dataset("ptb_text_only",'train',cache_dir=data_cache_dir,streaming=args.stream_data)
         test_set = load_dataset("ptb_text_only",'test',cache_dir=data_cache_dir,streaming=args.stream_data)
-    # elif args.dataset == "brown":
-    #     # dataset = load_dataset("brown")
-    #     train_set = load_dataset("brown",'train',cache_dir=data_cache_dir,streaming=args.stream_data)
-    #     test_set = load_dataset("brown",'test',cache_dir=data_cache_dir,streaming=args.stream_data)
-
+ 
     # Make dataloaders
     train_loader = DataLoader(train_set, batch_size=args.batch_size) # shuffle=True
     test_loader = DataLoader(test_set, batch_size=args.batch_size) # shuffle=False
