@@ -225,7 +225,7 @@ if __name__ == '__main__':
         train_test_split_percentage = 0.8  # 80% for training, 20% for testing
 
 # Split the dataset
-        full_set = load_dataset("wikipedia","20220301.en",trust_remote_code=True,cache_dir=data_cache_dir,streaming=args.stream_data)
+        full_set = load_dataset("wikipedia","20220301.en",trust_remote_code=True,cache_dir=data_cache_dir,split='train',streaming=args.stream_data)
         full_set = full_set.train_test_split(train_size=train_test_split_percentage)
         train_set = full_set['train']
         test_set = full_set['test']        
@@ -260,7 +260,7 @@ if __name__ == '__main__':
     if args.dataset != "shakespeare":
         tokenizer.add_special_tokens({'pad_token': '[PAD]'})
 
-    assert(0)
+    #assert(0)
     # # Tokenize the dataset
     # def tokenize_function(examples):
     #     return tokenizer(examples["text"], padding="max_length", truncation=True, max_length=512)
