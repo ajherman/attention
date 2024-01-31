@@ -15,88 +15,54 @@ from transformers import GPT2Tokenizer, GPT2Model, AutoTokenizer
 import time
 import numpy as np
 
-data_cache_dir = "~/datasets" #"/ram/tmp"
-dataset = 'stories' # This still needs to be set manually
+data_cache_dir = "/ram/tmp" #"~/datasets" #"/ram/tmp"
+# dataset = 'stories' # This still needs to be set manually
 
 # Set seed
 torch.manual_seed(1337)
 
-if 0: #dataset == 'shakespeare':
-    @torch.no_grad()
-    def estimate_loss(model):
-        out = {}
-        model.eval()
-        # Test loss
-        losses=[]
-        for itr,batch in enumerate(test_loader):
-            if itr==args.eval_iters:
-                break
-            data = tokenizer(batch,padding="max_length",truncation=True,max_length=block_size+1,return_tensors="pt")        
-            # data = data['input_ids']
-            data = data.to(device)
-            xb,yb = data[:, :-1], data[:, 1:]
-            logits, loss = model(xb, yb)
-            losses.append(loss.item())
-        out['test'] = np.mean(losses)
+@torch.no_grad()
+def estimate_loss(model):
+    out = {}
+    model.eval()
+    # Test loss
+    losses=[]
+    for itr,batch in enumerate(test_loader):
+        if itr==args.eval_iters:
+            break
+        if args.dataset not in ['shakespeare','ptb','cbt']:
+            batch = batch['text']
+        data = tokenizer(batch,padding="max_length",truncation=True,max_length=block_size+1,return_tensors="pt")        
+        if args.dataset not in ['shakespeare','ptb','cbt']:
+            data = data['input_ids']
+        # data = data['input_ids']
+        data = data.to(device)
+        xb,yb = data[:, :-1], data[:, 1:]
+        logits, loss = model(xb, yb)
+        losses.append(loss.item())
 
-        # Train loss
-        losses=[]
-        for itr,batch in enumerate(train_loader):
-            if itr==args.eval_iters:
-                break
-            data = tokenizer(batch,padding="max_length",truncation=True,max_length=block_size+1,return_tensors="pt")        
-            # data = data['input_ids']
-            data = data.to(device)
-            xb,yb = data[:, :-1], data[:, 1:]
-            logits, loss = model(xb, yb)
-            losses.append(loss.item())
-        out['train'] = np.mean(losses)
-        model.train()
-        return out
-    
-elif 1 or dataset == 'stories':
-    @torch.no_grad()
-    def estimate_loss(model):
-        out = {}
-        model.eval()
-        # Test loss
-        losses=[]
-        for itr,batch in enumerate(test_loader):
-            if itr==args.eval_iters:
-                break
-            if args.dataset not in ['shakespeare','ptb','cbt']:
-                batch = batch['text']
-            data = tokenizer(batch,padding="max_length",truncation=True,max_length=block_size+1,return_tensors="pt")        
-            if args.dataset not in ['shakespeare','ptb','cbt']:
-                data = data['input_ids']
-            # data = data['input_ids']
-            data = data.to(device)
-            xb,yb = data[:, :-1], data[:, 1:]
-            logits, loss = model(xb, yb)
-            losses.append(loss.item())
+    out['test'] = np.mean(losses)
 
-        out['test'] = np.mean(losses)
+    # Train loss
+    losses=[]
+    for itr,batch in enumerate(train_loader):
+        if itr==args.eval_iters:
+            break
+        if args.dataset not in ['shakespeare','ptb','cbt']:
+            batch = batch['text']
+        data = tokenizer(batch,padding="max_length",truncation=True,max_length=block_size+1,return_tensors="pt")        
+        if args.dataset not in ['shakespeare','ptb','cbt']:
+            data = data['input_ids']
+        # data = data['input_ids']
+        data = data.to(device)
+        xb,yb = data[:, :-1], data[:, 1:]
+        logits, loss = model(xb, yb)
+        losses.append(loss.item())
 
-        # Train loss
-        losses=[]
-        for itr,batch in enumerate(train_loader):
-            if itr==args.eval_iters:
-                break
-            if args.dataset not in ['shakespeare','ptb','cbt']:
-                batch = batch['text']
-            data = tokenizer(batch,padding="max_length",truncation=True,max_length=block_size+1,return_tensors="pt")        
-            if args.dataset not in ['shakespeare','ptb','cbt']:
-                data = data['input_ids']
-            # data = data['input_ids']
-            data = data.to(device)
-            xb,yb = data[:, :-1], data[:, 1:]
-            logits, loss = model(xb, yb)
-            losses.append(loss.item())
-
-        out['train'] = np.mean(losses)
-        # out['train'] = 0
-        model.train()
-        return out
+    out['train'] = np.mean(losses)
+    # out['train'] = 0
+    model.train()
+    return out
 
 
 if __name__ == '__main__':
@@ -137,61 +103,6 @@ if __name__ == '__main__':
     # version = args.block_type
     version = args.version
     block_size=args.block_size
-
-    # if args.dataset == 'shakespeare':
-    #     # Download a sample text file (e.g., "The Complete Works of William Shakespeare")
-    #     url = "https://raw.githubusercontent.com/karpathy/char-rnn/master/data/tinyshakespeare/input.txt"
-    #     file_path = "datasets/shakespeare.txt"
-
-    #     if not os.path.exists(file_path):
-    #         response = requests.get(url)
-    #         with open(file_path, 'w') as file:
-    #             file.write(response.text)
-
-    #     # Read in text file
-    #     with open(file_path,'r',encoding='utf-8') as f:
-    #         text = f.read()
-
-    #     # Split up text
-    #     n = len(text)
-    #     print("total length of text is ", n)
-    #     test_text = text[:n//10]
-    #     train_text = text[n//10:] 
-    #     shakespeare_train_data = TextDataFromFile(text=train_text,block_size=block_size+1)
-    #     shakespeare_test_data = TextDataFromFile(text=test_text,block_size=block_size+1)
-    #     test_loader = DataLoader(shakespeare_test_data, batch_size=args.batch_size, shuffle=False)
-    #     train_loader = DataLoader(shakespeare_train_data, batch_size=args.batch_size, shuffle=True)
-    #     tokenizer = CharacterTokenizer(block_size=block_size+1)
-
-    #     # shakespeare_data = TextDataFromFile(block_size=block_size+1,file_path=file_path)
-    #     # N = len(shakespeare_data)
-    #     # test_set = Subset(shakespeare_data, [i for i in range(N) if i % 10 == 0])
-    #     # train_set = Subset(shakespeare_data, [i for i in range(N) if i % 10 != 0])
-    #     # test_loader = DataLoader(test_set, batch_size=args.batch_size, shuffle=False)
-    #     # train_loader = DataLoader(train_set, batch_size=args.batch_size, shuffle=True)
-    #     # tokenizer = CharacterTokenizer(block_size=block_size+1)
-
-    # elif args.dataset == 'stories':
-    #     # vocab_size=50258
-    #     train_set = load_dataset("nRuaif/tinystories-gpt4",cache_dir=data_cache_dir,split='train')
-    #     train_loader = DataLoader(train_set, batch_size=64)
-    #     test_set = load_dataset("nRuaif/tinystories-gpt4",cache_dir=data_cache_dir,split='test')
-    #     test_loader = DataLoader(test_set, batch_size=64)
-    #     # tokenizer = AutoTokenizer.from_pretrained("georgeyw/TinyStories-tokenizer-10k")
-    #     tokenizer = AutoTokenizer.from_pretrained("georgeyw/TinyStories-tokenizer-5k")
-    #     tokenizer.add_special_tokens({'pad_token': '[PAD]'})
-
-    # elif args.dataset == 'wikitext103':
-    #     train_set = load_dataset("wikitext",'wikitext-103-v1',cache_dir=data_cache_dir,split='train')
-    #     train_loader = DataLoader(train_set, batch_size=64)
-    #     test_set = load_dataset("wikitext",'wikitext-103-v1',cache_dir=data_cache_dir,split='test')
-    #     test_loader = DataLoader(test_set, batch_size=64)
-    #     tokenizer = AutoTokenizer.from_pretrained("gpt2")
-######################################################################
-
-    # from torch.nn.utils.rnn import pad_sequence
-
-    # Choose the dataset
 
     # Load the dataset
     if args.dataset == 'shakespeare':
