@@ -253,22 +253,29 @@ class Block(nn.Module):
 ###############################################################################################
 # My alternate class using RMS instead of layer norm
 class Transformer(nn.Module): # Defaults here should be from Karpathy's tutorial
-    def __init__(self,dm=384,dk=64,dv=64,vocab_size=0,block_size=256,h=2,N=6,dropout=0.2,final_norm='rms',norm_type='layer', post_norm=1, rectify=0,attention_type='sdp',block_architecture='series'):
+    def __init__(self,dm=384,dk=64,dv=64,vocab_size=0,block_size=256,h=2,N=6,dropout=0.2,final_norm='rms',norm_type='layer', post_norm=1, rectify=0,attention_type='sdp',block_architecture='series',pad_token_id=0):
         super().__init__()
+
+        # Print parameters
         print("dm = ", dm) 
+        print("dk = ", dk)
+        print("dv = ", dv)
         print("vocab_size = ", vocab_size)
         print("block_size = ", block_size)
         print("h = ", h)
         print("N = ", N)
         print("final_norm = ", final_norm)
-        print("Dropout = ", dropout)
+        print("Dropout rate = ", dropout)
         print("norm type = ",norm_type)
         print("post norm = ",post_norm)
         print("rectify = ",rectify)
+        print("attention type = ",attention_type)
+        print("block architecture = ",block_architecture)
 
         self.vocab_size=vocab_size
         self.final_norm = final_norm
         self.block_size=block_size
+        self.pad_token_id=pad_token_id
         
         self.token_embedding_table = nn.Embedding(vocab_size,dm)
         self.position_embedding_table = nn.Embedding(block_size,dm)
@@ -311,16 +318,10 @@ class Transformer(nn.Module): # Defaults here should be from Karpathy's tutorial
             
             if 1: 
                 # Create a mask to ignore PAD tokens
-                pad_token_id = 0
-                mask = (flat_targets != pad_token_id)
-                # print(mask.shape)
-                # assert(0)
-                # Apply the mask to logits and targets
+                mask = (flat_targets != self.pad_token_id)
                 masked_logits = flat_logits[mask]
-                masked_targets = flat_targets[mask]
-                
+                masked_targets = flat_targets[mask]                
                 loss = F.cross_entropy(masked_logits, masked_targets)
-                # loss = loss*mask.view(-1)
             else:
                 loss=F.cross_entropy(flat_logits,flat_targets)
 
