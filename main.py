@@ -40,7 +40,6 @@ def estimate_loss(model):
         xb,yb = data[:, :-1], data[:, 1:]
         logits, loss = model(xb, yb)
         losses.append(loss.item())
-
     out['test'] = np.mean(losses)
 
     # Train loss
@@ -60,7 +59,6 @@ def estimate_loss(model):
         losses.append(loss.item())
 
     out['train'] = np.mean(losses)
-    # out['train'] = 0
     model.train()
     return out
 
@@ -207,6 +205,7 @@ if __name__ == '__main__':
         data = tokenizer(batch,padding="max_length",truncation=True,max_length=block_size+1,return_tensors="pt")        
         if args.dataset not in ['shakespeare','ptb','cbt']:
             data = data['input_ids']
+        print(data)
         data = data.to(device)
         xb,yb = data[:, :-1], data[:, 1:]
 
