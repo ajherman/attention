@@ -220,9 +220,11 @@ if __name__ == '__main__':
         train_set = load_dataset("wikitext",'wikitext-2-v1',cache_dir=data_cache_dir,split='train',streaming=args.stream_data)
         test_set = load_dataset("wikitext",'wikitext-2-v1',cache_dir=data_cache_dir,split='test',streaming=args.stream_data)
     elif args.dataset == "simple_wiki":
-        # dataset = load_dataset("wikipedia", "20200501.simple")
-        train_set = load_dataset("wikipedia",'20200501.simple',cache_dir=data_cache_dir,split='train',streaming=args.stream_data)
-        test_set = load_dataset("wikipedia",'20200501.simple',cache_dir=data_cache_dir,split='test',streaming=args.stream_data)
+        # train_set = load_dataset("wikipedia",'20200501.simple',cache_dir=data_cache_dir,split='train',streaming=args.stream_data)
+        # test_set = load_dataset("wikipedia",'20200501.simple',cache_dir=data_cache_dir,split='test',streaming=args.stream_data)
+        train_set = load_dataset("wikipedia",'20220301.aa',cache_dir=data_cache_dir,split='train',streaming=args.stream_data)
+        test_set = load_dataset("wikipedia",'20220301.aa',cache_dir=data_cache_dir,split='test',streaming=args.stream_data)
+    
     elif args.dataset == "cbt":
         # dataset = load_dataset("cbt", "CN")
         train_set = load_dataset("cbt",'CN',cache_dir=data_cache_dir,split='train',streaming=args.stream_data)
@@ -231,14 +233,14 @@ if __name__ == '__main__':
         # dataset = load_dataset("ptb_text_only")
         train_set = load_dataset("ptb_text_only",'train',cache_dir=data_cache_dir,streaming=args.stream_data)
         test_set = load_dataset("ptb_text_only",'test',cache_dir=data_cache_dir,streaming=args.stream_data)
-    elif args.dataset == "brown":
-        # dataset = load_dataset("brown")
-        train_set = load_dataset("brown",'train',cache_dir=data_cache_dir,streaming=args.stream_data)
-        test_set = load_dataset("brown",'test',cache_dir=data_cache_dir,streaming=args.stream_data)
+    # elif args.dataset == "brown":
+    #     # dataset = load_dataset("brown")
+    #     train_set = load_dataset("brown",'train',cache_dir=data_cache_dir,streaming=args.stream_data)
+    #     test_set = load_dataset("brown",'test',cache_dir=data_cache_dir,streaming=args.stream_data)
 
     # Make dataloaders
-    train_loader = DataLoader(train_set, batch_size=args.batch_size, shuffle=True)
-    test_loader = DataLoader(test_set, batch_size=args.batch_size, shuffle=False)
+    train_loader = DataLoader(train_set, batch_size=args.batch_size) # shuffle=True
+    test_loader = DataLoader(test_set, batch_size=args.batch_size) # shuffle=False
 
     # Select an appropriate tokenizer
     if args.dataset in ["wikitext2", "simple_wiki", "cbt"]:
@@ -255,7 +257,7 @@ if __name__ == '__main__':
     
     tokenizer.add_special_tokens({'pad_token': '[PAD]'})
 
-
+    # assert(0)
     # # Tokenize the dataset
     # def tokenize_function(examples):
     #     return tokenizer(examples["text"], padding="max_length", truncation=True, max_length=512)
