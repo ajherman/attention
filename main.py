@@ -241,7 +241,7 @@ if __name__ == '__main__':
     test_loader = DataLoader(test_set, batch_size=args.batch_size, shuffle=False)
 
     # Select an appropriate tokenizer
-    if args.dataset in ["wikitext-2", "simple_wiki", "cbt"]:
+    if args.dataset in ["wikitext2", "simple_wiki", "cbt"]:
         tokenizer = AutoTokenizer.from_pretrained("bert-base-uncased")
     elif args.dataset in ["ptb","wikitext103"]:
         tokenizer = AutoTokenizer.from_pretrained("gpt2")  # GPT-2 tokenizer works well with PTB
@@ -249,9 +249,12 @@ if __name__ == '__main__':
         tokenizer = AutoTokenizer.from_pretrained("roberta-base")
     elif args.dataset == "stories":
         tokenizer = AutoTokenizer.from_pretrained("georgeyw/TinyStories-tokenizer-5k")
-        tokenizer.add_special_tokens({'pad_token': '[PAD]'})
+        # tokenizer.add_special_tokens({'pad_token': '[PAD]'})
     elif args.dataset == "shakespeare":
         tokenizer = CharacterTokenizer(block_size=block_size+1)
+    
+    tokenizer.add_special_tokens({'pad_token': '[PAD]'})
+
 
     # # Tokenize the dataset
     # def tokenize_function(examples):

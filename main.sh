@@ -15,7 +15,7 @@ for dataset in {shakespeare,stories,wikitext103,wikitext2,simple_wiki,cbt,brown}
 do
 
 name="test_${dataset}"
-srun -N 1 -n 1 -c $cores -o $name.out --open-mode=append ./main_wrapper.sh --block-size 200 --eval-interval 50 --dataset $dataset --filepath $name.csv & 
+srun -N 1 -n 1 -c $cores -o $name.out --open-mode=append ./main_wrapper.sh --block-size 200 --eval-interval 50 --dataset $dataset --stream-data --filepath $name.csv & 
 
 done
 
