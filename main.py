@@ -210,13 +210,10 @@ if __name__ == '__main__':
     elif args.dataset == 'stories': # Working
         train_set = load_dataset("nRuaif/tinystories-gpt4",cache_dir=data_cache_dir,split='train',streaming=args.stream_data)
         test_set = load_dataset("nRuaif/tinystories-gpt4",cache_dir=data_cache_dir,split='test',streaming=args.stream_data)
-        # tokenizer = AutoTokenizer.from_pretrained("georgeyw/TinyStories-tokenizer-10k")
-        # tokenizer.add_special_tokens({'pad_token': '[PAD]'})
     elif args.dataset == 'wikitext103': # Working
         train_set = load_dataset("wikitext",'wikitext-103-v1',cache_dir=data_cache_dir,split='train',streaming=args.stream_data)
         test_set = load_dataset("wikitext",'wikitext-103-v1',cache_dir=data_cache_dir,split='test',streaming=args.stream_data)
     elif args.dataset == "wikitext2": # Working
-        # dataset = load_dataset("wikitext", "wikitext-2-v1")
         train_set = load_dataset("wikitext",'wikitext-2-v1',cache_dir=data_cache_dir,split='train',streaming=args.stream_data)
         test_set = load_dataset("wikitext",'wikitext-2-v1',cache_dir=data_cache_dir,split='test',streaming=args.stream_data)
     # elif args.dataset == "simple_wiki": # There is not test split, can't get working
@@ -228,17 +225,15 @@ if __name__ == '__main__':
     #     # train_set = load_dataset("wikipedia","20220301.en",trust_remote_code=True,cache_dir=data_cache_dir,split='train',streaming=args.stream_data)
     #     # test_set = load_dataset("wikipedia","20220301.en",trust_remote_code=True,cache_dir=data_cache_dir,split='train',streaming=args.stream_data)
     elif args.dataset == "cbt":
-        # dataset = load_dataset("cbt", "CN")
         train_set = load_dataset("cbt",'CN',cache_dir=data_cache_dir,split='train',streaming=args.stream_data)
         test_set = load_dataset("cbt",'CN',cache_dir=data_cache_dir,split='test',streaming=args.stream_data)
     elif args.dataset == "ptb":
-        # dataset = load_dataset("ptb_text_only")
         train_set = load_dataset("ptb_text_only",'penn_treebank',cache_dir=data_cache_dir,split='train',streaming=args.stream_data)
         test_set = load_dataset("ptb_text_only",'penn_treebank',cache_dir=data_cache_dir,split='test',streaming=args.stream_data)
  
     # Make dataloaders
-    train_loader = DataLoader(train_set, batch_size=args.batch_size) # shuffle=True
-    test_loader = DataLoader(test_set, batch_size=args.batch_size) # shuffle=False
+    train_loader = DataLoader(train_set, batch_size=args.batch_size,shuffle=True) # shuffle=True
+    test_loader = DataLoader(test_set, batch_size=args.batch_size,shuffle=False) # shuffle=False
 
     # Select an appropriate tokenizer
     if args.dataset in ["wikitext2", "simple_wiki", "cbt"]:
@@ -247,40 +242,17 @@ if __name__ == '__main__':
         tokenizer = AutoTokenizer.from_pretrained("gpt2")  # GPT-2 tokenizer works well with PTB
     elif args.dataset == "stories":
         tokenizer = AutoTokenizer.from_pretrained("georgeyw/TinyStories-tokenizer-5k")
+        # tokenizer = AutoTokenizer.from_pretrained("georgeyw/TinyStories-tokenizer-10k")
     elif args.dataset == "shakespeare":
         tokenizer = CharacterTokenizer(block_size=block_size+1)
     
     if args.dataset != "shakespeare":
         tokenizer.add_special_tokens({'pad_token': '[PAD]'})
 
-    #assert(0)
-    # # Tokenize the dataset
-    # def tokenize_function(examples):
-    #     return tokenizer(examples["text"], padding="max_length", truncation=True, max_length=512)
-
-    # tokenized_datasets = dataset.map(tokenize_function, batched=True)
-
-    # # Create a DataLoader
-    # def collate_fn(batch):
-    #     input_ids = [item["input_ids"] for item in batch]
-    #     input_ids = pad_sequence([torch.tensor(ids) for ids in input_ids], batch_first=True, padding_value=tokenizer.pad_token_id)
-    #     attention_mask = [item["attention_mask"] for item in batch]
-    #     attention_mask = pad_sequence([torch.tensor(mask) for mask in attention_mask], batch_first=True, padding_value=0)
-    #     return {"input_ids": input_ids, "attention_mask": attention_mask}
-
-    # dataloader = DataLoader(tokenized_datasets["train"], batch_size=32, collate_fn=collate_fn)
-
-    # # Example: Iterate over the dataloader
-    # for batch in dataloader:
-    #     print(batch)
-    #     break  # Remove this line to iterate over the entire dataloader
-
-    ##################################################################
     vocab_size=len(tokenizer)
     decode = tokenizer.decode
 
     filepath = args.filepath
-    # args_dict = vars(args)
     args_dict = {k: v for k, v in vars(args).items() if v is not None}
     args_dict['vocab_size'] = vocab_size
 
@@ -309,6 +281,7 @@ if __name__ == '__main__':
         for itr,batch in enumerate(train_loader):
             data = tokenizer(batch,padding="max_length",truncation=True,max_length=block_size,return_tensors="pt")    
             xb,yb = data[:,:-1],data[:,1:]
+       
             logits, loss = model(xb, yb)
             if itr % args.eval_interval == 0:
                 losses = estimate_loss(model)  # Calculate loss

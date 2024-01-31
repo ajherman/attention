@@ -11,7 +11,7 @@ cores=20
 
 ############################################################
 
-for dataset in {shakespeare,stories,wikitext103,wikitext2,cbt,ptb}
+for dataset in {wikitext2,}
 do
 
 name="test_${dataset}"
