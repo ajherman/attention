@@ -288,8 +288,8 @@ if __name__ == '__main__':
     # writer.close()
     # m.logits_only=False
 
+    # Train
     tic = time.time()
-    # TinyStories version that I am currently working on
     for itr,batch in enumerate(train_loader):
         if args.dataset not in ['shakespeare','ptb','cbt']:
             batch = batch['text']
@@ -299,9 +299,10 @@ if __name__ == '__main__':
         data = data.to(device)
         xb,yb = data[:, :-1], data[:, 1:]
 
-        if itr == 0:
+        if itr == 0: # Something weird is going on here. It is printing a bunch of [SEP]
             text = tokenizer.decode(xb[0])
-            print("Example from training set: ",text)
+            print("Example from training set: ", text)
+            print(xb[0])
 
         if itr % args.eval_interval == 0:
             elapsed, tic = time.time() - tic, time.time()
