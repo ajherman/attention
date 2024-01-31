@@ -230,7 +230,7 @@ if __name__ == '__main__':
         test_set = load_dataset("cbt",'CN',cache_dir=data_cache_dir,split='test',streaming=args.stream_data)
     elif args.dataset == "ptb":
         # dataset = load_dataset("ptb_text_only")
-        train_set = load_dataset("ptb_text_only",'penn_treebank',cache_dir=data_cache_dir,spit='train',streaming=args.stream_data)
+        train_set = load_dataset("ptb_text_only",'penn_treebank',cache_dir=data_cache_dir,split='train',streaming=args.stream_data)
         test_set = load_dataset("ptb_text_only",'penn_treebank',cache_dir=data_cache_dir,split='test',streaming=args.stream_data)
  
     # Make dataloaders
@@ -250,7 +250,8 @@ if __name__ == '__main__':
     elif args.dataset == "shakespeare":
         tokenizer = CharacterTokenizer(block_size=block_size+1)
     
-    tokenizer.add_special_tokens({'pad_token': '[PAD]'})
+    if args.dataset != "shakespeare":
+        tokenizer.add_special_tokens({'pad_token': '[PAD]'})
 
     assert(0)
     # # Tokenize the dataset
