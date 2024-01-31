@@ -207,24 +207,23 @@ if __name__ == '__main__':
         train_text = text[n//10:] 
         train_set = TextDataFromFile(text=train_text,block_size=block_size+1)
         test_set = TextDataFromFile(text=test_text,block_size=block_size+1)
-    elif args.dataset == 'stories':
+    elif args.dataset == 'stories': # Working
         train_set = load_dataset("nRuaif/tinystories-gpt4",cache_dir=data_cache_dir,split='train',streaming=args.stream_data)
         test_set = load_dataset("nRuaif/tinystories-gpt4",cache_dir=data_cache_dir,split='test',streaming=args.stream_data)
         # tokenizer = AutoTokenizer.from_pretrained("georgeyw/TinyStories-tokenizer-10k")
         # tokenizer.add_special_tokens({'pad_token': '[PAD]'})
-    elif args.dataset == 'wikitext103':
+    elif args.dataset == 'wikitext103': # Working
         train_set = load_dataset("wikitext",'wikitext-103-v1',cache_dir=data_cache_dir,split='train',streaming=args.stream_data)
         test_set = load_dataset("wikitext",'wikitext-103-v1',cache_dir=data_cache_dir,split='test',streaming=args.stream_data)
-    elif args.dataset == "wikitext2":
+    elif args.dataset == "wikitext2": # Working
         # dataset = load_dataset("wikitext", "wikitext-2-v1")
         train_set = load_dataset("wikitext",'wikitext-2-v1',cache_dir=data_cache_dir,split='train',streaming=args.stream_data)
         test_set = load_dataset("wikitext",'wikitext-2-v1',cache_dir=data_cache_dir,split='test',streaming=args.stream_data)
-    elif args.dataset == "simple_wiki":
+    elif args.dataset == "simple_wiki": # There is not test split...
         # train_set = load_dataset("wikipedia",'20200501.simple',cache_dir=data_cache_dir,split='train',streaming=args.stream_data)
         # test_set = load_dataset("wikipedia",'20200501.simple',cache_dir=data_cache_dir,split='test',streaming=args.stream_data)
-        train_set = load_dataset("wikipedia",'20220301.aa',cache_dir=data_cache_dir,split='train',streaming=args.stream_data)
-        test_set = load_dataset("wikipedia",'20220301.aa',cache_dir=data_cache_dir,split='test',streaming=args.stream_data)
-    
+        train_set = load_dataset("wikipedia","20220301.en",cache_dir=data_cache_dir,split='train',streaming=args.stream_data)
+        test_set = load_dataset("wikipedia","20220301.en",cache_dir=data_cache_dir,split='train',streaming=args.stream_data)
     elif args.dataset == "cbt":
         # dataset = load_dataset("cbt", "CN")
         train_set = load_dataset("cbt",'CN',cache_dir=data_cache_dir,split='train',streaming=args.stream_data)
@@ -257,7 +256,7 @@ if __name__ == '__main__':
     
     tokenizer.add_special_tokens({'pad_token': '[PAD]'})
 
-    # assert(0)
+    assert(0)
     # # Tokenize the dataset
     # def tokenize_function(examples):
     #     return tokenizer(examples["text"], padding="max_length", truncation=True, max_length=512)
