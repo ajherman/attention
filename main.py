@@ -232,8 +232,8 @@ if __name__ == '__main__':
         test_set = load_dataset("ptb_text_only",'penn_treebank',cache_dir=data_cache_dir,split='test',streaming=args.stream_data)
  
     # Make dataloaders
-    train_loader = DataLoader(train_set, batch_size=args.batch_size,shuffle=True) # shuffle=True
-    test_loader = DataLoader(test_set, batch_size=args.batch_size,shuffle=False) # shuffle=False
+    train_loader = DataLoader(train_set, batch_size=args.batch_size) # shuffle=True
+    test_loader = DataLoader(test_set, batch_size=args.batch_size) # shuffle=False
 
     # Select an appropriate tokenizer
     if args.dataset in ["wikitext2", "simple_wiki", "cbt"]:
@@ -248,6 +248,10 @@ if __name__ == '__main__':
     
     if args.dataset != "shakespeare":
         tokenizer.add_special_tokens({'pad_token': '[PAD]'})
+    
+    # print(tokenizer.pad_token_id) # 0
+    # print(tokenizer.eos_token_id) # None
+    # assert(0)
 
     vocab_size=len(tokenizer)
     decode = tokenizer.decode
@@ -276,12 +280,13 @@ if __name__ == '__main__':
     # writer.close()
     # m.logits_only=False
 
-    if args.dataset in ['shakespeare','ptb','cbt']:
+    # Diffs: Index batch with 'text', move to device, 
+
+    if False: #args.dataset in ['shakespeare','ptb','cbt']:
         # Train
         for itr,batch in enumerate(train_loader):
-            data = tokenizer(batch,padding="max_length",truncation=True,max_length=block_size,return_tensors="pt")    
+            data = tokenizer(batch,padding="max_length",truncation=True,max_length=block_size+1,return_tensors="pt")    
             xb,yb = data[:,:-1],data[:,1:]
-       
             logits, loss = model(xb, yb)
             if itr % args.eval_interval == 0:
                 losses = estimate_loss(model)  # Calculate loss
@@ -302,10 +307,17 @@ if __name__ == '__main__':
         tic = time.time()
         # TinyStories version that I am currently working on
         for itr,batch in enumerate(train_loader):
-            data = tokenizer(batch['text'],padding="max_length",truncation=True,max_length=block_size+1,return_tensors="pt")        
+            if args.dataset in ['shakespeare','ptb','cbt']:
+                batch = batch['text']
+            data = tokenizer(batch,padding="max_length",truncation=True,max_length=block_size+1,return_tensors="pt")        
             data = data['input_ids']
             data = data.to(device)
             xb,yb = data[:, :-1], data[:, 1:]
+
+            if itr == 0:
+                text = tokenizer.decode(xb[0])
+                print(text)
+
             if itr % args.eval_interval == 0:
                 elapsed, tic = time.time() - tic, time.time()
                 print(f"step {itr}: {elapsed:.2f} seconds")
@@ -314,7 +326,7 @@ if __name__ == '__main__':
                     writer = csv.writer(csvfile)
                     writer.writerow([losses[split] for split in ['train','test']])
                 idx = torch.zeros((1, args.block_size), device=device, dtype=torch.long)
-                idx = m.generate(idx, 500,beta=2.0)
+                idx = m.generate(idx, 500) # Set beta = 2?
                 print("\nSample: \n", decode(list(idx[0])[args.block_size:]), '\n\n')
                 print(f"step {itr}: train loss {losses['train']:.4f}, val loss {losses['test']:.4f}")
                 torch.save(m, 'transformer_' + str(version) + '.pt')

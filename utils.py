@@ -297,6 +297,7 @@ class Transformer(nn.Module): # Defaults here should be from Karpathy's tutorial
         self.lm_head = nn.Linear(dm,vocab_size)
         self.logits_only=False
         self.apply(self._init_weights)
+
     def _init_weights(self, module):
         if isinstance(module, nn.Linear):
             torch.nn.init.normal_(module.weight, mean=0.0, std=0.02)
@@ -304,24 +305,41 @@ class Transformer(nn.Module): # Defaults here should be from Karpathy's tutorial
                 torch.nn.init.zeros_(module.bias)
         elif isinstance(module, nn.Embedding):
             torch.nn.init.normal_(module.weight, mean=0.0, std=0.02)
-    def forward(self,idx,targets=None):
-        B,T = idx.shape # batch size, context length
-        token_embed=self.token_embedding_table(idx)
-        pos_embed=self.position_embedding_table(torch.arange(T,device=device))
-        x = token_embed+pos_embed
-        x=self.blocks(x)
-        x=self.ln(x)
-        logits=self.lm_head(x)
+
+    def forward(self, idx, targets=None):
+        B, T = idx.shape  # batch size, context length
+        token_embed = self.token_embedding_table(idx)
+        pos_embed = self.position_embedding_table(torch.arange(T, device=device))
+        x = token_embed + pos_embed
+        x = self.blocks(x)
+        x = self.ln(x)
+        logits = self.lm_head(x)
+        
         if targets is None:
-            loss=None
+            loss = None
         else:
-            flat_logits=logits.view(-1,self.vocab_size)
-            flat_targets=targets.contiguous().view(-1)
-            loss=F.cross_entropy(flat_logits,flat_targets)
+            flat_logits = logits.view(-1, self.vocab_size)
+            flat_targets = targets.contiguous().view(-1)
+            
+            if 0: 
+                # Create a mask to ignore PAD tokens
+                pad_token_id = 0
+                mask = (flat_targets != pad_token_id).float()
+                print(mask.shape)
+                assert(0)
+                # Apply the mask to logits and targets
+                masked_logits = flat_logits[mask]
+                masked_targets = flat_targets[mask]
+                
+                loss = F.cross_entropy(masked_logits, masked_targets,reduction='none')
+                loss = loss*mask.view(-1)
+            else:
+                loss=F.cross_entropy(flat_logits,flat_targets)
+
         if self.logits_only:
             return logits
         else:
-            return logits,loss
+            return logits, loss
     def generate(self,idx,max_new_tokens,beta=1.0):
         for _ in range(max_new_tokens):
             context_idx=idx[:,-self.block_size:]
