@@ -54,7 +54,7 @@ if 0: #dataset == 'shakespeare':
         model.train()
         return out
     
-elif dataset == 'stories':
+elif 1 or dataset == 'stories':
     @torch.no_grad()
     def estimate_loss(model):
         out = {}
@@ -66,7 +66,7 @@ elif dataset == 'stories':
                 break
             if args.dataset not in ['shakespeare','ptb','cbt']:
                 batch = batch['text']
-            data = tokenizer(batch['text'],padding="max_length",truncation=True,max_length=block_size+1,return_tensors="pt")        
+            data = tokenizer(batch,padding="max_length",truncation=True,max_length=block_size+1,return_tensors="pt")        
             if args.dataset not in ['shakespeare','ptb','cbt']:
                 data = data['input_ids']
             # data = data['input_ids']
@@ -84,7 +84,7 @@ elif dataset == 'stories':
                 break
             if args.dataset not in ['shakespeare','ptb','cbt']:
                 batch = batch['text']
-            data = tokenizer(batch['text'],padding="max_length",truncation=True,max_length=block_size+1,return_tensors="pt")        
+            data = tokenizer(batch,padding="max_length",truncation=True,max_length=block_size+1,return_tensors="pt")        
             if args.dataset not in ['shakespeare','ptb','cbt']:
                 data = data['input_ids']
             # data = data['input_ids']
@@ -335,7 +335,7 @@ if __name__ == '__main__':
                     writer = csv.writer(csvfile)
                     writer.writerow([losses[split] for split in ['train','test']])
                 idx = torch.zeros((1, args.block_size), device=device, dtype=torch.long)
-                idx = m.generate(idx, 500) # Set beta = 2?
+                idx = m.generate(idx, 200) # Set beta = 2?
                 print("\nSample: \n", decode(list(idx[0])[args.block_size:]), '\n\n')
                 print(f"step {itr}: train loss {losses['train']:.4f}, val loss {losses['test']:.4f}")
                 torch.save(m, 'transformer_' + str(version) + '.pt')
