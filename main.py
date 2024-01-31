@@ -304,7 +304,7 @@ if __name__ == '__main__':
     # writer.close()
     # m.logits_only=False
 
-    if args.dataset == 'shakespeare':
+    if args.dataset in ['shakespeare','ptb','cbt']:
         # Train
         for itr,batch in enumerate(train_loader):
             data = tokenizer(batch,padding="max_length",truncation=True,max_length=block_size,return_tensors="pt")    
