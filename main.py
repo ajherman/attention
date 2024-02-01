@@ -229,6 +229,7 @@ if __name__ == '__main__':
             # idx = m.generate(idx, 200) # Set beta = 2?
             idx = m.generate(idx, 200,prompt_len=n) # Set beta = 2?
             print("\nSample: \n", decode(list(idx[0])[args.block_size:]), '\n\n')
+            assert(0)
             print(f"step {itr}: train loss {losses['train']:.4f}, val loss {losses['test']:.4f}")
             torch.save(m, 'transformer_' + str(version) + '.pt')
         logits, loss = model(xb, yb)
