@@ -166,9 +166,6 @@ if __name__ == '__main__':
     if args.dataset != "shakespeare":
         tokenizer.add_special_tokens({'pad_token': '[PAD]'})
     
-    # print(tokenizer.pad_token_id) # 0
-    # print(tokenizer.eos_token_id) # None
-    # assert(0)
 
     vocab_size=len(tokenizer)
     decode = tokenizer.decode
