@@ -149,7 +149,7 @@ if __name__ == '__main__':
 
     # Select an appropriate tokenizer
     if args.dataset in ["simple_wiki", "cbt"]:
-        tokenizer = AutoTokenizer.from_pretrained("bert-mini")
+        tokenizer = AutoTokenizer.from_pretrained("distilbert-base-uncased")  # DistilBERT tokenizer works well with CBT
     elif args.dataset in ["ptb","wikitext2","wikitext103"]:
         tokenizer = AutoTokenizer.from_pretrained("gpt2")  # GPT-2 tokenizer works well with PTB
     elif args.dataset == "stories":
