@@ -15,7 +15,7 @@ from transformers import GPT2Tokenizer, GPT2Model, AutoTokenizer
 import time
 import numpy as np
 
-data_cache_dir = "~/datasets" #"/ram/tmp"
+data_cache_dir = "/ram/tmp" # "~/datasets" #
 # dataset = 'stories' # This still needs to be set manually
 
 # Set seed
