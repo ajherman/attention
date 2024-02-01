@@ -212,7 +212,7 @@ if __name__ == '__main__':
                 text = tokenizer.decode(xb[i])
                 print("Example from training set: ", text)
                 print(xb[i])
-            assert(0)
+            #assert(0)
         if itr % args.eval_interval == 0:
             elapsed, tic = time.time() - tic, time.time()
             print(f"step {itr}: {elapsed:.2f} seconds")
