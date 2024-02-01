@@ -337,10 +337,11 @@ class Transformer(nn.Module): # Defaults here should be from Karpathy's tutorial
         prompt_len = len(prompt[0])
         idx[:, -prompt_len:] = prompt
         # for _ in range(max_new_tokens-prompt_len):
-        #     context_idx=idx[:,-self.block_size:]
-        #     logits,_=self(context_idx)
-        #     last_logits=logits[:,-1,:] # Only care about next word prediction
-        #     probs=F.softmax(beta*last_logits,dim=-1)
-        #     idx_next=torch.multinomial(probs,num_samples=1)
-        #     idx=torch.cat((idx,idx_next),dim=1)
+        for _ in range(5):
+            context_idx=idx[:,-self.block_size:]
+            logits,_=self(context_idx)
+            last_logits=logits[:,-1,:] # Only care about next word prediction
+            probs=F.softmax(beta*last_logits,dim=-1)
+            idx_next=torch.multinomial(probs,num_samples=1)
+            idx=torch.cat((idx,idx_next),dim=1)
         return idx
