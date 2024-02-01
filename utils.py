@@ -336,8 +336,8 @@ class Transformer(nn.Module): # Defaults here should be from Karpathy's tutorial
         tokens = torch.zeros((1, self.block_size), device=device, dtype=torch.long)
         prompt_len = len(prompt[0])
         tokens[:, -prompt_len:] = prompt
-        # for _ in range(max_new_tokens-prompt_len):
-        for _ in range(5):
+        for _ in range(max_new_tokens-prompt_len):
+        # for _ in range(5):
             context_tokens=tokens[:,-self.block_size:]
             logits,_=self(context_tokens)
             last_logits=logits[:,-1,:] # Only care about next word prediction
