@@ -166,7 +166,8 @@ if __name__ == '__main__':
     if args.dataset != "shakespeare":
         tokenizer.add_special_tokens({'pad_token': '[PAD]'})
     
-
+    cls_token_id = tokenizer.cls_token_id
+    # assert(0)
     vocab_size=len(tokenizer)
     decode = tokenizer.decode
 
@@ -179,7 +180,7 @@ if __name__ == '__main__':
         model = torch.load('transformer_' + str(version) + '.pt')
     else:
         # model = Transformer(**args_dict)
-        model = Transformer(vocab_size=vocab_size,dm=args.dm,dk=args.dk,dv=args.dv,block_size=args.block_size,h=args.h,N=args.N,final_norm=args.final_norm,norm_type=args.norm_type, post_norm=args.post_norm, rectify=args.rectify,dropout=args.dropout,block_architecture=args.block_architecture,attention_type=args.attention_type)
+        model = Transformer(vocab_size=vocab_size,dm=args.dm,dk=args.dk,dv=args.dv,block_size=args.block_size,h=args.h,N=args.N,final_norm=args.final_norm,norm_type=args.norm_type, post_norm=args.post_norm, rectify=args.rectify,dropout=args.dropout,block_architecture=args.block_architecture,attention_type=args.attention_type,cls_token_id=cls_token_id)
  
 
     print(sum(p.numel() for p in model.parameters())/1e6, 'M parameters')
@@ -202,7 +203,7 @@ if __name__ == '__main__':
         data = tokenizer(batch,padding="max_length",truncation=True,max_length=block_size+1,return_tensors="pt")        
         if args.dataset not in ['shakespeare','ptb','cbt']:
             data = data['input_ids']
-        print(data)
+        # print(data)
         #assert(0)
         data = data.to(device)
         xb,yb = data[:, :-1], data[:, 1:]
@@ -221,6 +222,7 @@ if __name__ == '__main__':
                 writer = csv.writer(csvfile)
                 writer.writerow([losses[split] for split in ['train','test']])
             idx = torch.zeros((1, args.block_size), device=device, dtype=torch.long)
+            idx[0,-1] = cls_token_id # Just added
             idx = m.generate(idx, 200) # Set beta = 2?
             print("\nSample: \n", decode(list(idx[0])[args.block_size:]), '\n\n')
             print(f"step {itr}: train loss {losses['train']:.4f}, val loss {losses['test']:.4f}")

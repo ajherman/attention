@@ -253,7 +253,7 @@ class Block(nn.Module):
 ###############################################################################################
 # My alternate class using RMS instead of layer norm
 class Transformer(nn.Module): # Defaults here should be from Karpathy's tutorial
-    def __init__(self,dm=384,dk=64,dv=64,vocab_size=0,block_size=256,h=2,N=6,dropout=0.2,final_norm='rms',norm_type='layer', post_norm=1, rectify=0,attention_type='sdp',block_architecture='series',pad_token_id=0):
+    def __init__(self,dm=384,dk=64,dv=64,vocab_size=0,block_size=256,h=2,N=6,dropout=0.2,final_norm='rms',norm_type='layer', post_norm=1, rectify=0,attention_type='sdp',block_architecture='series',pad_token_id=0,cls_token_id=0):
         super().__init__()
 
         # Print parameters
@@ -276,6 +276,7 @@ class Transformer(nn.Module): # Defaults here should be from Karpathy's tutorial
         self.final_norm = final_norm
         self.block_size=block_size
         self.pad_token_id=pad_token_id
+        self.cls_token_id=cls_token_id
         
         self.token_embedding_table = nn.Embedding(vocab_size,dm)
         self.position_embedding_table = nn.Embedding(block_size,dm)
@@ -329,6 +330,7 @@ class Transformer(nn.Module): # Defaults here should be from Karpathy's tutorial
             return logits
         else:
             return logits, loss
+        
     def generate(self,idx,max_new_tokens,beta=1.0):
         for _ in range(max_new_tokens):
             context_idx=idx[:,-self.block_size:]
@@ -338,15 +340,3 @@ class Transformer(nn.Module): # Defaults here should be from Karpathy's tutorial
             idx_next=torch.multinomial(probs,num_samples=1)
             idx=torch.cat((idx,idx_next),dim=1)
         return idx
-
-# @torch.no_grad()
-# def estimate_loss(model):
-#     out = {}
-#     model.eval()
-#     losses=torch.zeros(eval_iters)
-#     for k in range(eval_iters):
-#         xb,yb = get_batch('test')
-#         logits,loss = model(xb,yb)
-#         losses[k] = loss.item()
-#     model.train()
-#     return torch.mean(losses)
