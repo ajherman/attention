@@ -333,15 +333,15 @@ class Transformer(nn.Module): # Defaults here should be from Karpathy's tutorial
             return logits, loss
         
     def generate(self,prompt,max_new_tokens,beta=1.0,prompt_len=0): # testing!
-        idx = torch.zeros((1, self.block_size), device=device, dtype=torch.long)
+        tokens = torch.zeros((1, self.block_size), device=device, dtype=torch.long)
         prompt_len = len(prompt[0])
-        idx[:, -prompt_len:] = prompt
+        tokens[:, -prompt_len:] = prompt
         # for _ in range(max_new_tokens-prompt_len):
         for _ in range(5):
-            context_idx=idx[:,-self.block_size:]
-            logits,_=self(context_idx)
+            context_tokens=tokens[:,-self.block_size:]
+            logits,_=self(context_tokens)
             last_logits=logits[:,-1,:] # Only care about next word prediction
             probs=F.softmax(beta*last_logits,dim=-1)
-            idx_next=torch.multinomial(probs,num_samples=1)
-            idx=torch.cat((idx,idx_next),dim=1)
-        return idx
+            next_token=torch.multinomial(probs,num_samples=1)
+            tokens=torch.cat((tokens,next_token),dim=1)
+        return tokens
