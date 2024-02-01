@@ -167,6 +167,7 @@ if __name__ == '__main__':
 
     vocab_size=len(tokenizer)
     decode = tokenizer.decode
+    encode = tokenizer.encode
 
     filepath = args.filepath
     args_dict = {k: v for k, v in vars(args).items() if v is not None}
@@ -200,8 +201,7 @@ if __name__ == '__main__':
         data = tokenizer(batch,padding="max_length",truncation=True,max_length=block_size+1,return_tensors="pt")        
         if args.dataset not in ['shakespeare','ptb','cbt']:
             data = data['input_ids']
-        # print(data)
-        #assert(0)
+   
         data = data.to(device)
         xb,yb = data[:, :-1], data[:, 1:]
 
@@ -222,14 +222,16 @@ if __name__ == '__main__':
             # Generate sample
             # cls_token_id = tokenizer.cls_token_id
             prompt = "The meaning of life is"
-            prompt = tokenizer.encode(prompt, return_tensors="pt").to(device)
+            prompt = encode(prompt, return_tensors="pt").to(device)
+            print("\nSample: \n", decode(list(prompt[0])[args.block_size:]), '\n\n')
+            assert(0)
             n = len(prompt[0])
             idx = torch.zeros((1, args.block_size), device=device, dtype=torch.long)
             idx[0,-n:] = prompt #cls_token_id # Just added
             # idx = m.generate(idx, 200) # Set beta = 2?
             idx = m.generate(idx, 200,prompt_len=n) # Set beta = 2?
             print("\nSample: \n", decode(list(idx[0])[args.block_size:]), '\n\n')
-            assert(0)
+            # assert(0)
             print(f"step {itr}: train loss {losses['train']:.4f}, val loss {losses['test']:.4f}")
             torch.save(m, 'transformer_' + str(version) + '.pt')
         logits, loss = model(xb, yb)
