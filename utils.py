@@ -332,11 +332,11 @@ class Transformer(nn.Module): # Defaults here should be from Karpathy's tutorial
         else:
             return logits, loss
         
-    def generate(self,prompt,max_new_tokens,beta=1.0,prompt_len=0): # testing!
+    def generate(self,prompt,max_new_tokens,beta=1.0): # testing!
         tokens = torch.zeros((1, self.block_size), device=device, dtype=torch.long)
         prompt_len = len(prompt[0])
         tokens[:, -prompt_len:] = prompt
-        for _ in range(max_new_tokens-prompt_len):
+        for _ in range(max_new_tokens):
         # for _ in range(5):
             context_tokens=tokens[:,-self.block_size:]
             logits,_=self(context_tokens)
@@ -344,4 +344,5 @@ class Transformer(nn.Module): # Defaults here should be from Karpathy's tutorial
             probs=F.softmax(beta*last_logits,dim=-1)
             next_token=torch.multinomial(probs,num_samples=1)
             tokens=torch.cat((tokens,next_token),dim=1)
+        tokens = tokens[:, -(prompt_len+max_new_tokens):]
         return tokens
