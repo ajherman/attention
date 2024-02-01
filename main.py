@@ -136,12 +136,12 @@ if __name__ == '__main__':
         full_set = load_dataset("wikipedia","20220301.simple",cache_dir=data_cache_dir,split='train',streaming=args.stream_data)
         train_set = full_set.skip(10000).shuffle(10000)
         test_set = full_set.take(10000)
-    # elif args.dataset == "cbt":
-    #     train_set = load_dataset("cbt",'CN',cache_dir=data_cache_dir,split='train',streaming=args.stream_data)
-    #     test_set = load_dataset("cbt",'CN',cache_dir=data_cache_dir,split='test',streaming=args.stream_data)
-    # elif args.dataset == "ptb":
-    #     train_set = load_dataset("ptb_text_only",'penn_treebank',cache_dir=data_cache_dir,split='train',streaming=args.stream_data)
-    #     test_set = load_dataset("ptb_text_only",'penn_treebank',cache_dir=data_cache_dir,split='test',streaming=args.stream_data)
+    elif args.dataset == "cbt":
+        train_set = load_dataset("cbt",'CN',cache_dir=data_cache_dir,split='train',streaming=args.stream_data)
+        test_set = load_dataset("cbt",'CN',cache_dir=data_cache_dir,split='test',streaming=args.stream_data)
+    elif args.dataset == "ptb":
+        train_set = load_dataset("ptb_text_only",'penn_treebank',cache_dir=data_cache_dir,split='train',streaming=args.stream_data)
+        test_set = load_dataset("ptb_text_only",'penn_treebank',cache_dir=data_cache_dir,split='test',streaming=args.stream_data)
  
     # Make dataloaders
     train_loader = DataLoader(train_set, batch_size=args.batch_size) # shuffle=True

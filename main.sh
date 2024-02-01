@@ -11,7 +11,7 @@ cores=20
 
 ############################################################
 
-for dataset in {simple_wiki,}
+for dataset in {cbt,ptb}
 do
 
 name="test_${dataset}"
