@@ -119,7 +119,6 @@ if __name__ == '__main__':
 
         # Split up text
         n = len(text)
-        print("total length of text is ", n)
         test_text = text[:n//10]
         train_text = text[n//10:] 
         train_set = TextDataFromFile(text=train_text,block_size=block_size+1)
@@ -178,7 +177,7 @@ if __name__ == '__main__':
         model = torch.load('transformer_' + str(version) + '.pt')
     else:
         # model = Transformer(**args_dict)
-        model = Transformer(vocab_size=vocab_size,dm=args.dm,dk=args.dk,dv=args.dv,block_size=args.block_size,h=args.h,N=args.N,final_norm=args.final_norm,norm_type=args.norm_type, post_norm=args.post_norm, rectify=args.rectify,dropout=args.dropout,block_architecture=args.block_architecture,attention_type=args.attention_type,cls_token_id=cls_token_id)
+        model = Transformer(vocab_size=vocab_size,dm=args.dm,dk=args.dk,dv=args.dv,block_size=args.block_size,h=args.h,N=args.N,final_norm=args.final_norm,norm_type=args.norm_type, post_norm=args.post_norm, rectify=args.rectify,dropout=args.dropout,block_architecture=args.block_architecture,attention_type=args.attention_type,pad_token_id=tokenizer.pad_token_id)
  
 
     print(sum(p.numel() for p in model.parameters())/1e6, 'M parameters')
@@ -239,5 +238,4 @@ if __name__ == '__main__':
     torch.save(m,'transformer_'+str(args.version)+'.pt')
     idx=torch.zeros((1,block_size),device=device,dtype=torch.long)
     idx=m.generate(idx,5000)
-    # print(idx)
-    # print(decode(list(idx[0])[args.block_size:]))
+  
