@@ -148,9 +148,9 @@ if __name__ == '__main__':
     test_loader = DataLoader(test_set, batch_size=args.batch_size) # shuffle=False
 
     # Select an appropriate tokenizer
-    if args.dataset in ["wikitext2", "simple_wiki", "cbt"]:
-        tokenizer = AutoTokenizer.from_pretrained("bert-base-uncased")
-    elif args.dataset in ["ptb","wikitext103"]:
+    if args.dataset in ["simple_wiki", "cbt"]:
+        tokenizer = AutoTokenizer.from_pretrained("bert-mini")
+    elif args.dataset in ["ptb","wikitext2","wikitext103"]:
         tokenizer = AutoTokenizer.from_pretrained("gpt2")  # GPT-2 tokenizer works well with PTB
     elif args.dataset == "stories":
         tokenizer = AutoTokenizer.from_pretrained("georgeyw/TinyStories-tokenizer-5k")
