@@ -5,3 +5,4 @@
 *.raw
 *.out
 datasets/
+__pycache__/
