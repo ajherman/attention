@@ -206,15 +206,15 @@ if __name__ == '__main__':
         if args.dataset not in ['shakespeare','ptb','cbt']:
             data = data['input_ids']
         print(data)
-        assert(0)
+        #assert(0)
         data = data.to(device)
         xb,yb = data[:, :-1], data[:, 1:]
 
         if itr == 0: # Something weird is going on here. It is printing a bunch of [SEP]
-            text = tokenizer.decode(xb[0])
+            text = tokenizer.decode(xb[2])
             print("Example from training set: ", text)
-            print(xb[0])
-
+            print(xb[2])
+            assert(0)
         if itr % args.eval_interval == 0:
             elapsed, tic = time.time() - tic, time.time()
             print(f"step {itr}: {elapsed:.2f} seconds")
