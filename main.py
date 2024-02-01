@@ -205,12 +205,8 @@ if __name__ == '__main__':
         data = data.to(device)
         xb,yb = data[:, :-1], data[:, 1:]
 
-        # if itr == 0: # Something weird is going on here. It is printing a bunch of [SEP]
-        #     for i in range(3):
-        #         text = tokenizer.decode(xb[i])
-        #         print("Example from training set: ", text)
-        #         print(xb[i])
-            # assert(0)
+        # print("Example from training set: ", decode(xb[0]) # Print example from training set
+
         if itr % args.eval_interval == 0:
             elapsed, tic = time.time() - tic, time.time()
             print(f"step {itr}: {elapsed:.2f} seconds")
@@ -221,22 +217,10 @@ if __name__ == '__main__':
 
             # Generate sample
             # cls_token_id = tokenizer.cls_token_id
-            prompt = "The meaning of life is"
-
+            prompt = "Once upon a time"
             prompt = encode(prompt, return_tensors="pt").to(device)
-            # n = len(prompt[0])
-            # print(prompt.shape)
-            # print(n)
-            # idx = torch.zeros((1, args.block_size), device=device, dtype=torch.long)
-            # idx[:,-n:] = prompt #cls_token_id # Just added
-            
-            idx = m.generate(prompt, 200) # Set beta = 2?
+            idx = m.generate(prompt, 150) # Set beta = 2?
             print("\nSample: \n", decode(idx[0]), '\n\n')
-            assert(0)
-            # idx = m.generate(idx, 200) # Set beta = 2?
-            idx = m.generate(idx, 200,prompt_len=n) # Set beta = 2?
-            print("\nSample: \n", decode(list(idx[0])[args.block_size:]), '\n\n')
-            # assert(0)
             print(f"step {itr}: train loss {losses['train']:.4f}, val loss {losses['test']:.4f}")
             torch.save(m, 'transformer_' + str(version) + '.pt')
         logits, loss = model(xb, yb)

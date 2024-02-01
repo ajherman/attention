@@ -337,7 +337,6 @@ class Transformer(nn.Module): # Defaults here should be from Karpathy's tutorial
         prompt_len = len(prompt[0])
         tokens[:, -prompt_len:] = prompt
         for _ in range(max_new_tokens):
-        # for _ in range(5):
             context_tokens=tokens[:,-self.block_size:]
             logits,_=self(context_tokens)
             last_logits=logits[:,-1,:] # Only care about next word prediction
