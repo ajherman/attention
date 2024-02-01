@@ -226,7 +226,7 @@ if __name__ == '__main__':
             n = len(prompt[0])
             idx = torch.zeros((1, args.block_size), device=device, dtype=torch.long)
             idx[0,-n:] = prompt #cls_token_id # Just added
-            #idx = m.generate(idx, 200) # Set beta = 2?
+            # idx = m.generate(idx, 200) # Set beta = 2?
             idx = m.generate(idx, 200,prompt_len=n) # Set beta = 2?
             print("\nSample: \n", decode(list(idx[0])[args.block_size:]), '\n\n')
             print(f"step {itr}: train loss {losses['train']:.4f}, val loss {losses['test']:.4f}")
