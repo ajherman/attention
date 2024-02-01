@@ -165,9 +165,7 @@ if __name__ == '__main__':
     
     if args.dataset != "shakespeare":
         tokenizer.add_special_tokens({'pad_token': '[PAD]'})
-    
-    cls_token_id = tokenizer.cls_token_id
-    # assert(0)
+
     vocab_size=len(tokenizer)
     decode = tokenizer.decode
 
@@ -209,11 +207,11 @@ if __name__ == '__main__':
         xb,yb = data[:, :-1], data[:, 1:]
 
         if itr == 0: # Something weird is going on here. It is printing a bunch of [SEP]
-            for i in range(6):
+            for i in range(3):
                 text = tokenizer.decode(xb[i])
                 print("Example from training set: ", text)
                 print(xb[i])
-            #assert(0)
+            assert(0)
         if itr % args.eval_interval == 0:
             elapsed, tic = time.time() - tic, time.time()
             print(f"step {itr}: {elapsed:.2f} seconds")
@@ -221,8 +219,14 @@ if __name__ == '__main__':
             with open(filepath, 'a', newline='') as csvfile:
                 writer = csv.writer(csvfile)
                 writer.writerow([losses[split] for split in ['train','test']])
+
+            # Generate sample
+            cls_token_id = tokenizer.cls_token_id
+            prompt = "The meaning of life is"
+            prompt = tokenizer.encode(prompt, return_tensors="pt").to(device)
+            n = len(prompt[0])
             idx = torch.zeros((1, args.block_size), device=device, dtype=torch.long)
-            idx[0,-1] = cls_token_id # Just added
+            idx[0,-n] = prompt #cls_token_id # Just added
             idx = m.generate(idx, 200) # Set beta = 2?
             print("\nSample: \n", decode(list(idx[0])[args.block_size:]), '\n\n')
             print(f"step {itr}: train loss {losses['train']:.4f}, val loss {losses['test']:.4f}")
