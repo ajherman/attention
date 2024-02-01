@@ -223,7 +223,7 @@ if __name__ == '__main__':
             # cls_token_id = tokenizer.cls_token_id
             prompt = "The meaning of life is"
             prompt = encode(prompt, return_tensors="pt").to(device)
-            print("\nSample: \n", decode(list(prompt[0])[args.block_size:]), '\n\n')
+            print("\nSample: \n", decode(prompt), '\n\n')
             assert(0)
             n = len(prompt[0])
             idx = torch.zeros((1, args.block_size), device=device, dtype=torch.long)
