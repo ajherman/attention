@@ -11,13 +11,13 @@ cores=20
 
 ############################################################
 
-for dataset in {stories,}
+for dataset in {simple_wiki,}
 do
 
 name="test_${dataset}"
-srun -N 1 -n 1 -c $cores -o $name.out --open-mode=append ./main_wrapper.sh --block-size 200 --eval-interval 50 --dataset $dataset --stream-data --filepath $name.csv & 
+# srun -N 1 -n 1 -c $cores -o $name.out --open-mode=append ./main_wrapper.sh --block-size 200 --eval-interval 50 --dataset $dataset --stream-data --filepath $name.csv & 
 
-#python main.py --batch-size 2 --block-size 200 --eval-interval 50 --dataset $dataset --filepath $name.csv > $name.out 2>&1 
+python main.py --batch-size 2 --block-size 200 --eval-interval 50 --dataset $dataset --stream-data --filepath $name.csv > $name.out 2>&1 
 
 done
 
