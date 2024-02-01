@@ -332,8 +332,8 @@ class Transformer(nn.Module): # Defaults here should be from Karpathy's tutorial
         else:
             return logits, loss
         
-    def generate(self,idx,max_new_tokens,beta=1.0):
-        for _ in range(max_new_tokens):
+    def generate(self,idx,max_new_tokens,beta=1.0,prompt_len=0):
+        for _ in range(max_new_tokens-prompt_len):
             context_idx=idx[:,-self.block_size:]
             logits,_=self(context_idx)
             last_logits=logits[:,-1,:] # Only care about next word prediction
