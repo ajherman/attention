@@ -205,11 +205,11 @@ if __name__ == '__main__':
         data = data.to(device)
         xb,yb = data[:, :-1], data[:, 1:]
 
-        if itr == 0: # Something weird is going on here. It is printing a bunch of [SEP]
-            for i in range(3):
-                text = tokenizer.decode(xb[i])
-                print("Example from training set: ", text)
-                print(xb[i])
+        # if itr == 0: # Something weird is going on here. It is printing a bunch of [SEP]
+        #     for i in range(3):
+        #         text = tokenizer.decode(xb[i])
+        #         print("Example from training set: ", text)
+        #         print(xb[i])
             # assert(0)
         if itr % args.eval_interval == 0:
             elapsed, tic = time.time() - tic, time.time()
@@ -227,9 +227,7 @@ if __name__ == '__main__':
             idx = torch.zeros((1, args.block_size), device=device, dtype=torch.long)
             idx[0,-n:] = prompt #cls_token_id # Just added
             #idx = m.generate(idx, 200) # Set beta = 2?
-
             idx = m.generate(idx, 200,prompt_len=n) # Set beta = 2?
-#>>>>>>> 570ca8da64e66df11ad3b84c8603228fdab6ba50
             print("\nSample: \n", decode(list(idx[0])[args.block_size:]), '\n\n')
             print(f"step {itr}: train loss {losses['train']:.4f}, val loss {losses['test']:.4f}")
             torch.save(m, 'transformer_' + str(version) + '.pt')
