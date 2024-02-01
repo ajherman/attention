@@ -208,9 +208,10 @@ if __name__ == '__main__':
         xb,yb = data[:, :-1], data[:, 1:]
 
         if itr == 0: # Something weird is going on here. It is printing a bunch of [SEP]
-            text = tokenizer.decode(xb[2])
-            print("Example from training set: ", text)
-            print(xb[2])
+            for i in range(6):
+                text = tokenizer.decode(xb[i])
+                print("Example from training set: ", text)
+                print(xb[i])
             assert(0)
         if itr % args.eval_interval == 0:
             elapsed, tic = time.time() - tic, time.time()
