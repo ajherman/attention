@@ -276,7 +276,7 @@ class Transformer(nn.Module): # Defaults here should be from Karpathy's tutorial
         self.final_norm = final_norm
         self.block_size=block_size
         self.pad_token_id=pad_token_id
-        self.cls_token_id=cls_token_id
+        # self.cls_token_id=cls_token_id
         
         self.token_embedding_table = nn.Embedding(vocab_size,dm)
         self.position_embedding_table = nn.Embedding(block_size,dm)
@@ -317,7 +317,8 @@ class Transformer(nn.Module): # Defaults here should be from Karpathy's tutorial
             flat_logits = logits.view(-1, self.vocab_size)
             flat_targets = targets.contiguous().view(-1)
             
-            if 1: 
+            masking=True
+            if masking: 
                 # Create a mask to ignore PAD tokens
                 mask = (flat_targets != self.pad_token_id)
                 masked_logits = flat_logits[mask]
