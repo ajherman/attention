@@ -332,10 +332,10 @@ class Transformer(nn.Module): # Defaults here should be from Karpathy's tutorial
         else:
             return logits, loss
         
-    def generate(self,idx,max_new_tokens,beta=1.0,prompt_len=0): # testing!
-        # idx = torch.zeros((1, self.block_size), device=device, dtype=torch.long)
-        # prompt_len = min(idx.shape(0), self.block_size)
-        # idx[0, :prompt_len] = idx
+    def generate(self,prompt,max_new_tokens,beta=1.0,prompt_len=0): # testing!
+        idx = torch.zeros((1, self.block_size), device=device, dtype=torch.long)
+        prompt_len = len(prompt[0])
+        idx[:, -prompt_len:] = prompt
         # for _ in range(max_new_tokens-prompt_len):
         #     context_idx=idx[:,-self.block_size:]
         #     logits,_=self(context_idx)

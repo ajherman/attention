@@ -222,12 +222,15 @@ if __name__ == '__main__':
             # Generate sample
             # cls_token_id = tokenizer.cls_token_id
             prompt = "The meaning of life is"
+
             prompt = encode(prompt, return_tensors="pt").to(device)
-            n = len(prompt[0])
-            print(prompt.shape)
-            print(n)
-            idx = torch.zeros((1, args.block_size), device=device, dtype=torch.long)
-            idx[:,-n:] = prompt #cls_token_id # Just added
+            # n = len(prompt[0])
+            # print(prompt.shape)
+            # print(n)
+            # idx = torch.zeros((1, args.block_size), device=device, dtype=torch.long)
+            # idx[:,-n:] = prompt #cls_token_id # Just added
+            
+            idx = m.generate(prompt, 200) # Set beta = 2?
             print("\nSample: \n", decode(idx[0]), '\n\n')
             assert(0)
             # idx = m.generate(idx, 200) # Set beta = 2?
