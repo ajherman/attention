@@ -45,7 +45,7 @@ norm_type=layer
 rectify=0
 block_architecture=series
 version=0
-for n_fixed_keys in {0,}
+for n_fixed_keys in {0,8,16}
 do
 
 name="test_fixed_keys_${n_fixed_keys}"
