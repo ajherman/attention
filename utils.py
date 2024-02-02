@@ -114,12 +114,10 @@ class SelfAttentionHead(nn.Module):
         self.tril=torch.tril(torch.ones((block_size,block_size+n_fixed_keys),device=device))
         self.dropout = nn.Dropout(dropout) # New
 
-        # Experimental
-        self.fixed_k = torch.randn(n_fixed_keys, dk, requires_grad=True)
-        self.fixed_k = nn.Parameter(self.fixed_k, requires_grad=True)
-        self.fixed_v = torch.randn(n_fixed_keys, dv, requires_grad=True)
-        self.fixed_v = nn.Parameter(self.fixed_v, requires_grad=True)
-        
+        # Initialize fixed keys and values
+        self.fixed_k = nn.Parameter(torch.randn(n_fixed_keys, dk, requires_grad=True))
+        self.fixed_v = nn.Parameter(torch.zeros(n_fixed_keys, dv, requires_grad=True))
+
     def forward(self,x):
         B,T,C=x.shape 
         k=self.W_k(x)
