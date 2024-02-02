@@ -180,7 +180,7 @@ if __name__ == '__main__':
         model = torch.load('transformer_' + str(version) + '.pt')
     else:
         # model = Transformer(**args_dict)
-        model = Transformer(vocab_size=vocab_size,dm=args.dm,dk=args.dk,dv=args.dv,block_size=args.block_size,h=args.h,N=args.N,final_norm=args.final_norm,norm_type=args.norm_type, post_norm=args.post_norm, rectify=args.rectify,dropout=args.dropout,block_architecture=args.block_architecture,attention_type=args.attention_type,pad_token_id=tokenizer.pad_token_id,n_fixed_keys=args.n_fixed_keys,device=device)
+        model = Transformer(vocab_size=vocab_size,dm=args.dm,dk=args.dk,dv=args.dv,block_size=args.block_size,h=args.h,N=args.N,final_norm=args.final_norm,norm_type=args.norm_type, post_norm=args.post_norm, rectify=args.rectify,dropout=args.dropout,block_architecture=args.block_architecture,attention_type=args.attention_type,pad_token_id=tokenizer.pad_token_id,n_fixed_keys=args.n_fixed_keys)
  
 
     print(sum(p.numel() for p in model.parameters())/1e6, 'M parameters')
