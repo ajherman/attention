@@ -18,7 +18,7 @@ cores=20
 
 # # srun -N 1 -n 1 -c $cores -o $name.out --open-mode=append ./main_wrapper.sh --block-size 200 --eval-interval 50 --dataset $dataset --stream-data --filepath $name.csv & 
 
-# python main.py --batch-size 2 --block-size 200 --eval-interval 50 --dataset $dataset --dm 256 --dk 64 --dv 64 --h 4 --N 3 --filepath $name.csv > $name.out 2>&1 
+# python main.py --batch-size 2 --block-size 200 --eval-interval 50 --dataset $dataset --dm 256 --dk 64 --dv 64 --h 4 --N 3 --n-fixed-keys 0 --filepath $name.csv > $name.out 2>&1 
 
 # done
 
