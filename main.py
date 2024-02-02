@@ -15,7 +15,7 @@ from transformers import GPT2Tokenizer, GPT2Model, AutoTokenizer
 import time
 import numpy as np
 
-data_cache_dir = "/ram/tmp" # "~/datasets" #
+data_cache_dir = "~/datasets" # "/ram/tmp" #
 # dataset = 'stories' # This still needs to be set manually
 
 # Set seed
@@ -88,6 +88,7 @@ if __name__ == '__main__':
     parser.add_argument('--dropout', type=float, default=0.2, help='Specify the dropout')
     parser.add_argument('--attention-type', type=str, default='sdp', help='Type of attention to use ("sdp" for scaled dot product, "other" for other types)')
     parser.add_argument('--block-architecture', type=str, default='series', help='Type of block architecture to use ("series" for series of blocks, "parallel" for parallel blocks)')
+    parser.add_argument('--n-fixed-keys', type=int, default=0, help='Number of fixed keys to use (0 for none)')
 
     parser.add_argument('--lr', type=float, default=1e-3, help='Specify the learning rate')
     parser.add_argument('--device', type=str, default=device, help='Specify the device')
@@ -110,7 +111,7 @@ if __name__ == '__main__':
 
         if not os.path.exists(file_path):
             response = requests.get(url)
-            with open(file_path, 'w') as file:
+            with open(file_path, 'w+') as file:
                 file.write(response.text)
 
         # Read in text file
@@ -136,12 +137,13 @@ if __name__ == '__main__':
         full_set = load_dataset("wikipedia","20220301.simple",cache_dir=data_cache_dir,split='train',streaming=args.stream_data)
         train_set = full_set.skip(10000).shuffle(10000)
         test_set = full_set.take(10000)
-    elif args.dataset == "cbt":
-        train_set = load_dataset("cbt",'CN',cache_dir=data_cache_dir,split='train',streaming=args.stream_data)
-        test_set = load_dataset("cbt",'CN',cache_dir=data_cache_dir,split='test',streaming=args.stream_data)
-    elif args.dataset == "ptb":
-        train_set = load_dataset("ptb_text_only",'penn_treebank',cache_dir=data_cache_dir,split='train',streaming=args.stream_data)
-        test_set = load_dataset("ptb_text_only",'penn_treebank',cache_dir=data_cache_dir,split='test',streaming=args.stream_data)
+    # # These datasets need to be preprocessed differently
+    # elif args.dataset == "cbt":
+    #     train_set = load_dataset("cbt",'CN',cache_dir=data_cache_dir,split='train',streaming=args.stream_data)
+    #     test_set = load_dataset("cbt",'CN',cache_dir=data_cache_dir,split='test',streaming=args.stream_data)
+    # elif args.dataset == "ptb":
+    #     train_set = load_dataset("ptb_text_only",'penn_treebank',cache_dir=data_cache_dir,split='train',streaming=args.stream_data)
+    #     test_set = load_dataset("ptb_text_only",'penn_treebank',cache_dir=data_cache_dir,split='test',streaming=args.stream_data)
  
     # Make dataloaders
     train_loader = DataLoader(train_set, batch_size=args.batch_size) # shuffle=True
@@ -158,12 +160,16 @@ if __name__ == '__main__':
     elif args.dataset == "shakespeare":
         tokenizer = CharacterTokenizer(block_size=block_size+1)
     
-    if args.dataset != "shakespeare":
+    if args.dataset == "shakespeare":
+        tokenizer.pad_token_id = -1 # Just use a value that isn't already used
+    else:
         tokenizer.add_special_tokens({'pad_token': '[PAD]'})
+
 
     vocab_size=len(tokenizer)
     decode = tokenizer.decode
-    encode = tokenizer.encode
+    encode = lambda x: tokenizer.encode(x, return_tensors="pt")
+    # encode = tokenizer.encode
 
     filepath = args.filepath
     args_dict = {k: v for k, v in vars(args).items() if v is not None}
@@ -174,7 +180,7 @@ if __name__ == '__main__':
         model = torch.load('transformer_' + str(version) + '.pt')
     else:
         # model = Transformer(**args_dict)
-        model = Transformer(vocab_size=vocab_size,dm=args.dm,dk=args.dk,dv=args.dv,block_size=args.block_size,h=args.h,N=args.N,final_norm=args.final_norm,norm_type=args.norm_type, post_norm=args.post_norm, rectify=args.rectify,dropout=args.dropout,block_architecture=args.block_architecture,attention_type=args.attention_type,pad_token_id=tokenizer.pad_token_id)
+        model = Transformer(vocab_size=vocab_size,dm=args.dm,dk=args.dk,dv=args.dv,block_size=args.block_size,h=args.h,N=args.N,final_norm=args.final_norm,norm_type=args.norm_type, post_norm=args.post_norm, rectify=args.rectify,dropout=args.dropout,block_architecture=args.block_architecture,attention_type=args.attention_type,pad_token_id=tokenizer.pad_token_id,n_fixed_keys=args.n_fixed_keys,device=device)
  
 
     print(sum(p.numel() for p in model.parameters())/1e6, 'M parameters')
@@ -214,7 +220,8 @@ if __name__ == '__main__':
             # Generate sample
             # cls_token_id = tokenizer.cls_token_id
             prompt = "Once upon a time"
-            prompt = encode(prompt, return_tensors="pt").to(device)
+            prompt = encode(prompt).to(device)
+            # prompt = tokenizer.encode(prompt, return_tensors="pt").to(device)
             idx = m.generate(prompt, 150) # Set beta = 2?
             print("\nSample: \n", decode(idx[0]), '\n\n')
             print(f"step {itr}: train loss {losses['train']:.4f}, val loss {losses['test']:.4f}")

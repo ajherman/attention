@@ -100,8 +100,10 @@ class RMSNorm(nn.Module):
         return x
 
 class SelfAttentionHead(nn.Module):
-    def __init__(self,dm,dk,dv,dropout=0.2,rectify=0,sim='sdp',block_size=256):
+    def __init__(self,dm,dk,dv,dropout=0.2,rectify=0,sim='sdp',block_size=256,n_fixed_keys=0):
         super().__init__()
+        self.n_fixed_keys = n_fixed_keys
+
         if rectify:
             self.W_k = nn.Sequential(nn.Linear(dm,dk,bias=False),nn.ReLU())
             self.W_q = nn.Sequential(nn.Linear(dm,dk,bias=False),nn.ReLU())
@@ -109,31 +111,31 @@ class SelfAttentionHead(nn.Module):
             self.W_k = nn.Linear(dm,dk,bias=False)
             self.W_q = nn.Linear(dm,dk,bias=False)
         self.W_v = nn.Linear(dm,dv,bias=False)
-        self.tril=torch.tril(torch.ones((block_size,block_size),device=device))
+        self.tril=torch.tril(torch.ones((block_size,block_size+n_fixed_keys),device=device))
         self.dropout = nn.Dropout(dropout) # New
 
-        # n_fixed_keys = 10
-        # self.fixed_k = torch.randn(dk, n_fixed_keys, requires_grad=True)
-        # self.fixed_k = nn.Parameter(self.fixed_k, requires_grad=True)
-
-        # self.fixed_v = torch.randn(dk, n_fixed_keys, requires_grad=True)
-        # self.fixed_v = nn.Parameter(self.fixed_v, requires_grad=True)
+        # Experimental
+        self.fixed_k = torch.randn(n_fixed_keys, dk, requires_grad=True)
+        self.fixed_k = nn.Parameter(self.fixed_k, requires_grad=True)
+        self.fixed_v = torch.randn(n_fixed_keys, dv, requires_grad=True)
+        self.fixed_v = nn.Parameter(self.fixed_v, requires_grad=True)
         
     def forward(self,x):
-        B,T,C=x.shape # New
+        B,T,C=x.shape 
         k=self.W_k(x)
         q=self.W_q(x)
         v=self.W_v(x)
 
-        # Not sure if this works yet, and may need to adjust next segment as well
-        # # Concatenate self.fixed_k with k along the batch dimension
-        # fixed_k = self.fixed_k.unsqueeze(0).expand(B, -1, -1)
-        # k = torch.cat([k, fixed_k], dim=1)
+        # Concatenate self.fixed_k with k along the batch dimension
+        fixed_k = self.fixed_k.unsqueeze(0).expand(B, -1, -1)
+        fixed_v = self.fixed_v.unsqueeze(0).expand(B, -1, -1)
+        k = torch.cat([fixed_k, k], dim=1)
+        v = torch.cat([fixed_v, v], dim=1)
 
         wei = q@k.transpose(-2,-1)*k.shape[-1]**-0.5
-        wei=wei.masked_fill(self.tril[:T,:T]==0,float('-inf')) # New
+        wei=wei.masked_fill(self.tril[:T,:T+self.n_fixed_keys]==0,float('-inf')) # Why do we need this T?
         wei=torch.softmax(wei,dim=-1)
-        wei=self.dropout(wei) # New
+        wei=self.dropout(wei) # Do we want this?
         out=wei@v
         return out
     
@@ -184,15 +186,15 @@ class SelfAttentionHead3(nn.Module):
         out=wei@v
         return out
 class MultiHeadAttention(nn.Module):
-    def __init__(self,dm,dk,dv,h,dropout=0.2,attention_type='sdp',rectify=0,block_size=256):
+    def __init__(self,dm,dk,dv,h,dropout=0.2,attention_type='sdp',rectify=0,block_size=256,n_fixed_keys=0):
         super().__init__()
         
         if attention_type=='sdp':
-            self.heads = nn.ModuleList([SelfAttentionHead(dm,dk,dv,rectify=rectify,block_size=block_size) for i in range(h)])
+            self.heads = nn.ModuleList([SelfAttentionHead(dm,dk,dv,rectify=rectify,block_size=block_size,n_fixed_keys=n_fixed_keys) for i in range(h)])
         elif attention_type=='log':
-            self.heads = nn.ModuleList([SelfAttentionHead2(dm,dk,dv,block_size=block_size) for i in range(h)])    
+            self.heads = nn.ModuleList([SelfAttentionHead2(dm,dk,dv,block_size=block_size,n_fixed_keys=n_fixed_keys) for i in range(h)])    
         elif attention_type=='mine':
-            self.heads = nn.ModuleList([SelfAttentionHead3(dm,dk,dv,block_size=block_size) for i in range(h)])
+            self.heads = nn.ModuleList([SelfAttentionHead3(dm,dk,dv,block_size=block_size,n_fixed_keys=n_fixed_keys) for i in range(h)])
  
     def forward(self,x):
         out = torch.cat([head(x) for head in self.heads],dim=-1)
@@ -213,10 +215,10 @@ class FeedForward(nn.Module):
 ####################################################################################################
 
 class Block(nn.Module):
-    def __init__(self, dm, dk, dv, h, block_size=256, norm_type='layer', post_norm=1, rectify=0, attention_type='sdp',dropout_rate=0.2,block_architecture='series'):
+    def __init__(self, dm, dk, dv, h, block_size=256, norm_type='layer', post_norm=1, rectify=0, attention_type='sdp',dropout_rate=0.2,block_architecture='series',n_fixed_keys=0):
         super().__init__()
 
-        self.mha = MultiHeadAttention(dm, dk, dv, h,rectify=rectify,attention_type=attention_type)
+        self.mha = MultiHeadAttention(dm, dk, dv, h,rectify=rectify,attention_type=attention_type,n_fixed_keys=n_fixed_keys)
         self.ffn = FeedForward(input_size=dm,hidden_size=4*dm,output_size=dm) # Original version
         self.post_norm = post_norm
         self.block_architecture = block_architecture
@@ -253,7 +255,7 @@ class Block(nn.Module):
 ###############################################################################################
 # My alternate class using RMS instead of layer norm
 class Transformer(nn.Module): # Defaults here should be from Karpathy's tutorial
-    def __init__(self,dm=384,dk=64,dv=64,vocab_size=0,block_size=256,h=2,N=6,dropout=0.2,final_norm='rms',norm_type='layer', post_norm=1, rectify=0,attention_type='sdp',block_architecture='series',pad_token_id=0):
+    def __init__(self,dm=384,dk=64,dv=64,vocab_size=0,block_size=256,h=2,N=6,dropout=0.2,final_norm='rms',norm_type='layer', post_norm=1, rectify=0,attention_type='sdp',block_architecture='series',pad_token_id=0,n_fixed_keys=0):
         super().__init__()
 
         # Print parameters
@@ -281,7 +283,7 @@ class Transformer(nn.Module): # Defaults here should be from Karpathy's tutorial
         self.token_embedding_table = nn.Embedding(vocab_size,dm)
         self.position_embedding_table = nn.Embedding(block_size,dm)
 
-        self.blocks = nn.Sequential(*[Block(dm,dk,dv,h,block_size=block_size,rectify=rectify,norm_type=norm_type, post_norm=post_norm, block_architecture=block_architecture) for _ in range(N)])
+        self.blocks = nn.Sequential(*[Block(dm,dk,dv,h,block_size=block_size,rectify=rectify,norm_type=norm_type, post_norm=post_norm, block_architecture=block_architecture,n_fixed_keys=n_fixed_keys) for _ in range(N)])
 
         if final_norm == 'layer':
             self.ln = nn.LayerNorm(dm)
