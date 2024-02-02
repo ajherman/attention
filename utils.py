@@ -129,8 +129,9 @@ class SelfAttentionHead(nn.Module):
         # Concatenate self.fixed_k with k along the batch dimension
         fixed_k = self.fixed_k.unsqueeze(0).expand(B, -1, -1)
         fixed_v = self.fixed_v.unsqueeze(0).expand(B, -1, -1)
-        k = torch.cat([fixed_k, k], dim=1)
-        v = torch.cat([fixed_v, v], dim=1)
+        if self.n_fixed_keys > 0:
+            k = torch.cat([fixed_k, k], dim=1)
+            v = torch.cat([fixed_v, v], dim=1)
 
         wei = q@k.transpose(-2,-1)*k.shape[-1]**-0.5
         wei=wei.masked_fill(self.tril[:T,:T+self.n_fixed_keys]==0,float('-inf')) # Why do we need this T?
