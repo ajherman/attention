@@ -3,7 +3,7 @@ import argparse
 from torchvision import datasets, transforms
 import torch.nn as nn
 import torch.optim as optim
-from utils import *
+from transformers.utils import *
 
 # Define the neural network architecture
 

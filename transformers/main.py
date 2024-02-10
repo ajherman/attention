@@ -6,7 +6,7 @@ import requests
 import os
 import csv
 import argparse
-from utils import *
+from transformers.utils import *
 import transformers
 from datasets import load_dataset
 #from torch.utils.tensorboard import SummaryWriter
