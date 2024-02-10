@@ -100,7 +100,7 @@ class RMSNorm(nn.Module):
         return x
 
 class SelfAttentionHead(nn.Module):
-    def __init__(self,dm,dk,dv,dropout=0.2,rectify=0,sim='sdp',block_size=256,n_fixed_keys=0):
+    def __init__(self,dm,dk,dv,dropout=0.2,rectify=0,block_size=256,n_fixed_keys=0):
         super().__init__()
         self.n_fixed_keys = n_fixed_keys
 

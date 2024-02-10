@@ -5,7 +5,7 @@ from torchvision import datasets, transforms
 import torch.nn as nn
 import torch.optim as optim
 from torch.utils.data import TensorDataset, DataLoader
-from utils import *
+from transformers.utils import *
 import numpy as np
 import matplotlib.pyplot as plt
 
