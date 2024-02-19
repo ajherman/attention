@@ -130,7 +130,8 @@ if __name__ == '__main__':
  
     print(sum(p.numel() for p in model.parameters())/1e6, 'M parameters')
     criterion = nn.CrossEntropyLoss()
-    m=model.to(device)
+    # m=model.to(device)
+    model = model.to(device)
     optimizer = torch.optim.AdamW(model.parameters(), lr=args.lr)
     
     # # Visualize model
