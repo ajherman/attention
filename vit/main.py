@@ -146,7 +146,7 @@ if __name__ == '__main__':
         for itr, (x, y) in enumerate(train_loader):
             x.to(device)
             y.to(device)
-            logits = model(x)
+            logits = m(x)
             loss = criterion(logits, y)
             loss.backward()
             optimizer.step()
@@ -161,18 +161,18 @@ if __name__ == '__main__':
                 print(f'Epoch {epoch}, Batch Loss: {loss.item()}, Accuracy: {accuracy}')
 
         # Test
-        model.eval()
+        m.eval()
         with torch.no_grad():
             correct = 0
             total = 0
             for x, y in test_loader:
-                logits = model(x)
+                logits = m(x)
                 predicted = torch.argmax(logits, dim=1)
                 correct += (predicted == y).sum().item()
                 total += y.size(0)
             print(f'Test Accuracy: {correct / total}')
-        torch.save(model,'transformer_'+str(args.version)+'.pt')
-        model.train()    
+        torch.save(m,'transformer_'+str(args.version)+'.pt')
+        m.train()    
 
 
   
