@@ -189,7 +189,7 @@ class ViT(nn.Module): # Defaults here should be from Karpathy's tutorial
 
         # Add positional embeddings
         pos_embed = self.position_embedding_table(torch.arange(self.n_patches+1, device=device))
-        x = torch.cat([torch.zeros(B,1,self.dm),embed],dim=1) + pos_embed
+        x = torch.cat([torch.zeros((B,1,self.dm),device=device),embed],dim=1) + pos_embed
 
         # Transformer
         x = self.blocks(x)

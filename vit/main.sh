@@ -11,4 +11,4 @@ cores=20
 
 name=results
 
-srun -N 1 -n 1 -c $cores -o $name.out --open-mode=append ./main_wrapper.sh & 
+srun -N 1 -n 1 -c $cores -o $name.out --open-mode=append ./main_wrapper.sh --patch-size 4 --dm 256 --h 8 --N 4 --lr 0.01 & 
