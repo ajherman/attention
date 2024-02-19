@@ -116,8 +116,8 @@ if __name__ == '__main__':
         train_dataset = CIFAR10(root='~/datasets', train=True, download=True, transform=ToTensor())
         test_dataset = CIFAR10(root='~/datasets', train=False, download=True, transform=ToTensor())
 
-        train_loader = DataLoader(train_dataset, batch_size=64, shuffle=True, device=device)
-        test_loader = DataLoader(test_dataset, batch_size=64, shuffle=False, device=device)
+        train_loader = DataLoader(train_dataset, batch_size=64, shuffle=True)
+        test_loader = DataLoader(test_dataset, batch_size=64, shuffle=False)
 
     filepath = args.filepath
     args_dict = {k: v for k, v in vars(args).items() if v is not None}

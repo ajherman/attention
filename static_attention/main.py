@@ -30,9 +30,9 @@ elif dataset == "CIFAR10":
 if dataset == "MNIST":
     model = StaticTransformer(dm=input_size, dk=112, dv=112, N=1000, heads=7, layers=1, n_classes=10)
 elif dataset == "CIFAR10":
-    model = StaticTransformer(dm=input_size, dk=3*128, dv=3*128, N=1000, heads=8, layers=2, n_classes=10)
+    model = StaticTransformer(dm=input_size, dk=3*128, dv=3*128, N=1000, heads=8, layers=1, n_classes=10)
 # Define optimizer
-optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
+optimizer = torch.optim.SGD(model.parameters(), lr=0.005)
 
 # Train
 for epoch in range(10):
