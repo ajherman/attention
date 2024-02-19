@@ -346,3 +346,5 @@ class Transformer(nn.Module): # Defaults here should be from Karpathy's tutorial
             tokens=torch.cat((tokens,next_token),dim=1)
         tokens = tokens[:, -(prompt_len+max_new_tokens):]
         return tokens
+    
+
