@@ -144,6 +144,8 @@ if __name__ == '__main__':
     # Train ViT model on CIFAR10
     for epoch in range(10):
         for itr, (x, y) in enumerate(train_loader):
+            x.to(device)
+            y.to(device)
             logits = model(x)
             loss = criterion(logits, y)
             loss.backward()
