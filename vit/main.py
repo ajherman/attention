@@ -131,7 +131,7 @@ if __name__ == '__main__':
     print(sum(p.numel() for p in model.parameters())/1e6, 'M parameters')
     criterion = nn.CrossEntropyLoss()
     m=model.to(device)
-    optimizer = torch.optim.AdamW(model.parameters(), lr=args.lr)
+    optimizer = torch.optim.AdamW(m.parameters(), lr=args.lr)
     
     # # Visualize model
     # m.logits_only=True
@@ -144,8 +144,8 @@ if __name__ == '__main__':
     # Train ViT model on CIFAR10
     for epoch in range(10):
         for itr, (x, y) in enumerate(train_loader):
-            x=x.to(device)
-            y=y.to(device)
+            x.to(device)
+            y.to(device)
             logits = m(x)
             loss = criterion(logits, y)
             loss.backward()
@@ -166,9 +166,6 @@ if __name__ == '__main__':
             correct = 0
             total = 0
             for x, y in test_loader:
-                x = x.to(device)
-                y=y.to(device)
-
                 logits = m(x)
                 predicted = torch.argmax(logits, dim=1)
                 correct += (predicted == y).sum().item()
