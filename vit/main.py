@@ -131,7 +131,7 @@ if __name__ == '__main__':
     print(sum(p.numel() for p in model.parameters())/1e6, 'M parameters')
     criterion = nn.CrossEntropyLoss()
     m=model.to(device)
-    optimizer = torch.optim.AdamW(m.parameters(), lr=args.lr)
+    optimizer = torch.optim.AdamW(model.parameters(), lr=args.lr)
     
     # # Visualize model
     # m.logits_only=True
@@ -146,7 +146,7 @@ if __name__ == '__main__':
         for itr, (x, y) in enumerate(train_loader):
             x.to(device)
             y.to(device)
-            logits = m(x)
+            logits = model(x)
             loss = criterion(logits, y)
             loss.backward()
             optimizer.step()
@@ -161,18 +161,18 @@ if __name__ == '__main__':
                 print(f'Epoch {epoch}, Batch Loss: {loss.item()}, Accuracy: {accuracy}')
 
         # Test
-        m.eval()
+        model.eval()
         with torch.no_grad():
             correct = 0
             total = 0
             for x, y in test_loader:
-                logits = m(x)
+                logits = model(x)
                 predicted = torch.argmax(logits, dim=1)
                 correct += (predicted == y).sum().item()
                 total += y.size(0)
             print(f'Test Accuracy: {correct / total}')
-        torch.save(m,'transformer_'+str(args.version)+'.pt')
-        m.train()    
+        torch.save(model,'transformer_'+str(args.version)+'.pt')
+        model.train()    
 
 
   
