@@ -152,7 +152,7 @@ class ViT(nn.Module): # Defaults here should be from Karpathy's tutorial
         print("block architecture = ",block_architecture)
 
         self.final_norm = final_norm
-        self.pad_token_id=pad_token_id
+        # self.pad_token_id=pad_token_id
         
         # self.token_embedding_table = nn.Embedding(vocab_size,dm)
         self.get_patches = nn.Unfold(self.patch_size, stride=self.patch_size)
