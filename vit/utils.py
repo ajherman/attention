@@ -132,6 +132,8 @@ class ViT(nn.Module): # Defaults here should be from Karpathy's tutorial
         self.patch_size = patch_size
         self.n_patches = (image_size // patch_size)**2
         self.dm=dm
+        dk = dm//h
+        dv = dm//h
         assert(self.dm == dk*h)
         # Print parameters
         print("image size: ", (image_size, image_size,3))
@@ -147,13 +149,10 @@ class ViT(nn.Module): # Defaults here should be from Karpathy's tutorial
         print("norm type = ",norm_type)
         print("post norm = ",post_norm)
         print("rectify = ",rectify)
-        # print("attention type = ",attention_type)
         print("block architecture = ",block_architecture)
 
-        # self.vocab_size=vocab_size
         self.final_norm = final_norm
         self.pad_token_id=pad_token_id
-        # self.cls_token_id=cls_token_id
         
         # self.token_embedding_table = nn.Embedding(vocab_size,dm)
         self.get_patches = nn.Unfold(self.patch_size, stride=self.patch_size)
@@ -182,43 +181,19 @@ class ViT(nn.Module): # Defaults here should be from Karpathy's tutorial
             torch.nn.init.normal_(module.weight, mean=0.0, std=0.02)
 
     def forward(self, image, targets=None):
-        # B, T = image.shape  # batch size, context length
-        # token_embed = self.token_embedding_table(idx)
         B = image.shape[0]
 
         # Reshape image into patches
-        # patch_size = 8
-        # n_patches = (image.shape[1] // patch_size) * (image.shape[2] // patch_size)
         patches = self.get_patches(image).transpose(1, 2)
         embed = self.patch_embedding(patches)
-        # print(patches.shape)
-        # assert(0)
-        # Flatten patches and convert to tensor
 
+        # Add positional embeddings
         pos_embed = self.position_embedding_table(torch.arange(self.n_patches+1, device=device))
         x = torch.cat([torch.zeros(B,1,self.dm),embed],dim=1) + pos_embed
+
+        # Transformer
         x = self.blocks(x)
         x = self.ln(x)
         logits = self.lm_head(x[:,0,:].view(B,-1))
         return logits
-        # if targets is None:
-        #     loss = None
-        # else:
-        #     flat_logits = logits.view(-1, self.vocab_size)
-        #     flat_targets = targets.contiguous().view(-1)
-            
-        #     masking=True
-        #     if masking: 
-        #         # Create a mask to ignore PAD tokens
-        #         mask = (flat_targets != self.pad_token_id)
-        #         masked_logits = flat_logits[mask]
-        #         masked_targets = flat_targets[mask]                
-        #         loss = F.cross_entropy(masked_logits, masked_targets)
-        #     else:
-        #         loss=F.cross_entropy(flat_logits,flat_targets)
-
-        # if self.logits_only:
-        #     return logits
-        # else:
-        #     return logits, loss
-
+   

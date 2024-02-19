@@ -144,12 +144,8 @@ if __name__ == '__main__':
     # Train ViT model on CIFAR10
     for epoch in range(10):
         for itr, (x, y) in enumerate(train_loader):
-            # x = x.view(-1, input_size)
             logits = model(x)
             loss = criterion(logits, y)
-            # logits = model.loss(y_pred, y)
-            # print(logits.shape)
-            # assert(0)
             loss.backward()
             optimizer.step()
             optimizer.zero_grad()
@@ -159,21 +155,22 @@ if __name__ == '__main__':
                 accuracy = correct / y.size(0)
 
             # Print loss and accuracy after each batch
-            if itr % 50 == 0:
+            if itr % 100 == 0:
                 print(f'Epoch {epoch}, Batch Loss: {loss.item()}, Accuracy: {accuracy}')
 
-    #     # Test
-    #     correct = 0
-    #     total = 0
-    #     with torch.no_grad():
-    #         for x,y in test_loader:
-    #             x=x.view(-1, input_size)
-    #             y_pred = model(x)
-    #             _, predicted = torch.max(y_pred, 1)
-    #             total += y.size(0)
-    #             correct += (predicted == y).sum().item()
-        
+        # Test
+        model.eval()
+        with torch.no_grad():
+            correct = 0
+            total = 0
+            for x, y in test_loader:
+                logits = model(x)
+                predicted = torch.argmax(logits, dim=1)
+                correct += (predicted == y).sum().item()
+                total += y.size(0)
+            print(f'Test Accuracy: {correct / total}')
+        torch.save(model,'transformer_'+str(args.version)+'.pt')
+        model.train()    
 
-    # torch.save(m,'transformer_'+str(args.version)+'.pt')
 
   
