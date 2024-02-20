@@ -77,7 +77,9 @@ class FeedForward(nn.Module):
         super().__init__()
         self.ffn = nn.Sequential(
         nn.Linear(input_size,hidden_size),
-        nn.ReLU(),
+        # nn.ReLU(),
+        nn.GELU(),
+        nn.Dropout(dropout),
         nn.Linear(hidden_size,output_size),
         nn.Dropout(dropout))
     def forward(self,x):
@@ -90,7 +92,9 @@ class Block(nn.Module):
     def __init__(self, dm, dk, dv, h, block_size=256, norm_type='layer', post_norm=1, rectify=0,dropout_rate=0.2,block_architecture='series',n_fixed_keys=0):
         super().__init__()
 
-        self.mha = MultiHeadAttention(dm, dk, dv, h,rectify=rectify,n_fixed_keys=n_fixed_keys)
+        # self.mha = MultiHeadAttention(dm, dk, dv, h,rectify=rectify,n_fixed_keys=n_fixed_keys)
+        self.mha = nn.MultiheadAttention(dm, h, dropout=dropout_rate) # Original version
+
         self.ffn = FeedForward(input_size=dm,hidden_size=4*dm,output_size=dm) # Original version
         self.post_norm = post_norm
         self.block_architecture = block_architecture
