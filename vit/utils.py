@@ -120,7 +120,7 @@ class Block(nn.Module):
                 # x = x + self.dropout(self.W_o(self.mha(self.ln1(x))))
                 # x = x + self.ffn(self.ln2(x))
                 y = self.ln1(x)
-                x = x + self.dropout(self.mha(y,y,y))
+                x = x + self.dropout(self.mha(y,y,y)[0])
                 x = x + self.ffn(self.ln2(x))
 
         elif self.block_architecture == 'parallel':
