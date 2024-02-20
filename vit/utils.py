@@ -92,6 +92,7 @@ class Block(nn.Module):
     def __init__(self, dm, dk, dv, h, block_size=256, norm_type='layer', post_norm=1, rectify=0,dropout_rate=0.2,block_architecture='series',n_fixed_keys=0):
         super().__init__()
 
+        # Trying pytorch version
         # self.mha = MultiHeadAttention(dm, dk, dv, h,rectify=rectify,n_fixed_keys=n_fixed_keys)
         self.mha = nn.MultiheadAttention(dm, h, dropout=dropout_rate) # Original version
 
@@ -115,7 +116,11 @@ class Block(nn.Module):
                 x = self.ln1(x + self.dropout(self.W_o(self.mha(x))))
                 x = self.ln2(x + self.ffn(x))
             else:
-                x = x + self.dropout(self.W_o(self.mha(self.ln1(x))))
+                # Trying pytorch version of mha
+                # x = x + self.dropout(self.W_o(self.mha(self.ln1(x))))
+                # x = x + self.ffn(self.ln2(x))
+                y = self.ln1(x)
+                x = x + self.dropout(self.mha(y,y,y))
                 x = x + self.ffn(self.ln2(x))
 
         elif self.block_architecture == 'parallel':
