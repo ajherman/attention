@@ -35,7 +35,6 @@ class SelfAttentionHead(nn.Module):
             self.W_k = nn.Linear(dm,dk,bias=False)
             self.W_q = nn.Linear(dm,dk,bias=False)
         self.W_v = nn.Linear(dm,dv,bias=False)
-        # self.tril=torch.tril(torch.ones((block_size,block_size+n_fixed_keys),device=device))
         self.dropout = nn.Dropout(dropout) # New
 
         # Initialize fixed keys and values
@@ -56,7 +55,6 @@ class SelfAttentionHead(nn.Module):
             v = torch.cat([fixed_v, v], dim=1)
 
         wei = q@k.transpose(-2,-1)*k.shape[-1]**-0.5
-        # wei=wei.masked_fill(self.tril[:T,:T+self.n_fixed_keys]==0,float('-inf')) # Why do we need this T?
         wei=torch.softmax(wei,dim=-1)
         wei=self.dropout(wei) # Do we want this?
         out=wei@v
@@ -93,8 +91,8 @@ class Block(nn.Module):
         super().__init__()
 
         # Trying pytorch version
-        # self.mha = MultiHeadAttention(dm, dk, dv, h,rectify=rectify,n_fixed_keys=n_fixed_keys)
-        self.mha = nn.MultiheadAttention(dm, h, dropout=dropout_rate) # Original version
+        self.mha = MultiHeadAttention(dm, dk, dv, h,rectify=rectify,n_fixed_keys=n_fixed_keys)
+        # self.mha = nn.MultiheadAttention(dm, h, dropout=dropout_rate) # Original version
 
         self.ffn = FeedForward(input_size=dm,hidden_size=4*dm,output_size=dm) # Original version
         self.post_norm = post_norm
@@ -117,11 +115,11 @@ class Block(nn.Module):
                 x = self.ln2(x + self.ffn(x))
             else:
                 # Trying pytorch version of mha
-                # x = x + self.dropout(self.W_o(self.mha(self.ln1(x))))
-                # x = x + self.ffn(self.ln2(x))
-                y = self.ln1(x)
-                x = x + self.dropout(self.mha(y,y,y)[0])
+                x = x + self.dropout(self.W_o(self.mha(self.ln1(x))))
                 x = x + self.ffn(self.ln2(x))
+                # y = self.ln1(x)
+                # x = x + self.dropout(self.mha(y,y,y)[0])
+                # x = x + self.ffn(self.ln2(x))
 
         elif self.block_architecture == 'parallel':
             if self.post_norm:
