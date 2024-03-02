@@ -181,7 +181,7 @@ if __name__ == '__main__':
                 correct += (predicted == y).sum().item()
                 total += y.size(0)
             print(f'Test Accuracy: {correct / total}')
-        torch.save(model,'transformer_'+str(args.version)+'.pt')
+        #torch.save(model,'transformer_'+str(args.version)+'.pt')
         model.train()    
 
 
